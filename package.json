@@ -1,0 +1,65 @@
+{
+    "name": "ui",
+    "version": "1.0.0",
+    "private": true,
+    "devDependencies": {
+        "@semantic-ui-react/css-patch": "1.0.0",
+        "@testing-library/jest-dom": "5.16.1",
+        "@testing-library/react": "12.1.2",
+        "@testing-library/user-event": "13.5.0",
+        "alice-semantic-css": "git+https://github.com/alicenet/alice-semantic-css.git",
+        "copy-to-clipboard": "3.3.2",
+        "ethers": "5.5.3",
+        "react": "17.0.2",
+        "react-cookie": "4.1.1",
+        "react-dom": "17.0.2",
+        "react-redux": "7.2.6",
+        "react-router-dom": "6.2.1",
+        "react-scripts": "5.0.0",
+        "react-toastify": "9.0.8",
+        "redux-thunk": "2.4.1",
+        "sass": "1.54.5",
+        "semantic-ui-css": "2.4.1",
+        "semantic-ui-react": "2.0.4",
+        "web-vitals": "2.1.3",
+        "autoprefixer": "10.4.2",
+        "postcss": "8.4.5",
+        "tailwindcss": "3.0.15"
+    },
+    "resolutions": {
+        "nth-check": "2.0.1",
+        "postcss": "8.4.5"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "scripts": {
+        "preinstall": "([ ! -f package-lock.json ] && npm install --package-lock-only --ignore-scripts --no-audit); npx npm-force-resolutions",
+        "postinstall": "semantic-ui-css-patch",
+        "start-migrate": "yarn --cwd alca-migrate start",
+        "build-migrate": "yarn --cwd alca-migrate netlify-build",
+        "start-stake": "yarn --cwd alca-staking start",
+        "build-stake": "yarn --cwd alca-staking netlify-build",
+        "start-lock": "yarn --cwd alca-lock start",
+        "build-lock": "yarn --cwd alca-lock netlify-build"
+    },
+    "description": "Common alicenet/ui dependencies",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/alicenet/ui.git"
+    },
+    "author": "",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/alicenet/ui/issues"
+    },
+    "homepage": "https://github.com/alicenet/ui#readme",
+    "workspaces": [
+        "alca-migrate-ui",
+        "alca-staking-ui",
+        "alca-lockup-ui"
+    ]
+}
