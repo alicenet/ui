@@ -105,7 +105,7 @@ export function Lockup() {
                     <Header>
                         {lockedPosition.lockedAlca && hash ? 'Lockup Successful!' : 'Lockup Staked Positions'}
                         <Header.Subheader className="mt-3">
-                            {(!lockedPosition.lockedAlca) 
+                            {(['0.0', 0].includes(lockedPosition.lockedAlca)) 
                             ? (`You currently have a staked position of ${stakedPosition.stakedAlca} ALCA, a lockup will be a period of 6 months with 5X multiplayer (TBD)`) 
                             : (`You have Locked-up ${lockedPosition.lockedAlca} ALCA for 6 months 5X multiplayer (TBD)`)}
                         </Header.Subheader>
