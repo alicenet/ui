@@ -74,7 +74,7 @@ export function UnlockEarly() {
                             <Header as="h1" className="mb-0">{lockedAlca} ALCA Staked Locked</Header>
                             <p>
                                 You can unlock your position at anytime, however to receive the complete lockup bonus rewards 
-                                it must not be unlocked until {`${unlockDate} ${unlockDate === 1 ? 'block' : 'blocks'}`} 
+                                it must not be unlocked until <strong>{`${unlockDate} ${unlockDate === 1 ? 'block' : 'blocks'}`}</strong>
                             </p>
                         </div>
                     </div>
