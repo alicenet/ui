@@ -120,7 +120,7 @@ export const updateBalances = tokenType => {
         }
 
         if (ethBalance.error || madBal.error || madAllowance.error || alcaBal.error ) {
-            console.error("Contract error, are you on the correct network?");
+            console.error("Contract error, check if you are on the correct network or your Factory Address is valid.");
             return;
         }
 
