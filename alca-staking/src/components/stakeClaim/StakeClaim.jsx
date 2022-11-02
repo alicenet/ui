@@ -4,6 +4,7 @@ import { Grid, Header, Button, Icon, Message } from "semantic-ui-react";
 import { APPLICATION_ACTIONS } from "redux/actions";
 import ethAdapter from "eth/ethAdapter";
 import utils from "utils";
+import { formatNumberToLocale } from "utils/locale";
 
 const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://etherscan.io/tx/";
 
@@ -31,7 +32,7 @@ export function StakeClaim() {
             const tx = await ethAdapter.collectAllProfits(tokenId);
             if (tx.error) throw tx.error;
             const rec = tx.hash && await tx.wait();
-            
+
             if(rec.transactionHash) {
                 setClaimedEthAmount(ethRewards);
                 setClaimedAlcaAmount(alcaRewards);
@@ -54,7 +55,7 @@ export function StakeClaim() {
             <Grid.Column width={16}>
                 <Header>Claim Rewards
                     <Header.Subheader>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                         incididunt ut labore et dolore magna aliqua.
                     </Header.Subheader>
                 </Header>
@@ -62,7 +63,7 @@ export function StakeClaim() {
 
             <Grid.Column width={16}>
                 <div>
-                    <Header as="h2">{ethRewards} ETH / {alcaRewards} ALCA</Header>
+                    <Header as="h2">{formatNumberToLocale(ethRewards)} ETH / {formatNumberToLocale(alcaRewards)} ALCA</Header>
                     <p>Rewards will be sent automatically to your wallet</p>
                 </div>
 
@@ -85,7 +86,7 @@ export function StakeClaim() {
             <Grid.Column width={16}>
                 <Header>Reward Claim Completed
                     <Header.Subheader>
-                        <strong>You have successfully claimed a reward of {claimedEthAmount} ETH / {claimedAlcaAmount} ALCA</strong>{' '} 
+                        <strong>You have successfully claimed a reward of {formatNumberToLocale(claimedEthAmount)} ETH / {formatNumberToLocale(claimedAlcaAmount)} ALCA</strong>{' '}
                         Rewards will be sent automatically to your wallet
                     </Header.Subheader>
                 </Header>

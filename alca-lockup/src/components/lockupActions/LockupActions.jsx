@@ -4,6 +4,7 @@ import { Grid, Menu, Segment, Header } from "semantic-ui-react";
 import { LOCKUP_PERIOD_STATUS } from 'redux/constants';
 import { Lockup, UnlockEarly, LockupWelcome, LockupClaim, Unlock } from "components";
 import { classNames } from "utils/generic";
+import { formatNumberToLocale } from "utils/locale";
 
 export function LockupActions() {
     const {  web3Connected, lockedPosition, stakedPosition, ethReward, alcaReward } = useSelector(state => ({
@@ -88,7 +89,7 @@ export function LockupActions() {
                                         </Header>
 
                                         <div className="text-xs">
-                                            {`${lockedPosition.lockedAlca || 0}
+                                            {`${formatNumberToLocale(lockedPosition.lockedAlca)}
                                                 ALCA`}
                                         </div>
                                     </>}
@@ -113,7 +114,7 @@ export function LockupActions() {
                                             </Header>
 
                                             <div className="text-xs">
-                                                {ethReward || 0} ETH / {alcaReward || 0} ALCA
+                                                {formatNumberToLocale(ethReward)} ETH / {formatNumberToLocale(alcaReward)} ALCA
                                             </div>
                                         </>
                                     }
