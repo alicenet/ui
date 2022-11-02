@@ -8,6 +8,7 @@ import { TOKEN_TYPES } from "redux/constants";
 import { LOCK_APP_URL } from "utils/constants";
 import { useCookies } from "react-cookie";
 import { sha256 } from "ethers/lib/utils";
+import { formatNumberToLocale } from "utils/locale";
 
 const DECIMALS = 18;
 const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://etherscan.io/tx/";
@@ -100,7 +101,7 @@ export function StakeStake() {
             setStakeAmt('');
             setStatus({
                 error: false,
-                message: `You have successfully staked ${stakeAmt} ALCA`
+                message: `You have successfully staked ${formatNumberToLocale(stakeAmt)} ALCA`
             });
         }
     }

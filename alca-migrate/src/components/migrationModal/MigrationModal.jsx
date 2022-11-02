@@ -6,6 +6,7 @@ import * as ACTIONS from 'redux/actions/application';
 import { TOKEN_TYPES } from "redux/constants";
 import { ethers } from "ethers";
 import { waitFor } from "utils/generic";
+import { formatNumberToLocale } from "utils/locale";
 
 export function MigrationModal({ migrationAmount, isOpen, successAction, closeModal }) {
 
@@ -159,7 +160,7 @@ export function MigrationModal({ migrationAmount, isOpen, successAction, closeMo
                         hidden={!success && !error && !waiting}
                     />
                 </div>
-                <div>Migrate {Number(migrationAmount).toLocaleString(false, { maximumFractionDigits: 4 })} MAD {"=>"} {Number(alcaExchangeRate).toLocaleString(false, { maximumFractionDigits: 4 })} ALCA</div>
+                <div>Migrate {formatNumberToLocale(migrationAmount)} MAD {"=>"} {formatNumberToLocale(alcaExchangeRate)} ALCA</div>
             </Modal.Header>
 
             <Modal.Content>
