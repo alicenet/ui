@@ -6,27 +6,35 @@
         "@commitlint/cli": "^17.2.0",
         "@commitlint/config-conventional": "^17.2.0",
         "@commitlint/format": "^17.0.0",
+        "@emotion/react": "^11.10.4",
+        "@emotion/styled": "^11.10.4",
+        "@mui/icons-material": "^5.10.9",
+        "@mui/material": "^5.10.9",
         "@semantic-ui-react/css-patch": "1.0.0",
         "@testing-library/jest-dom": "5.16.1",
         "@testing-library/react": "12.1.2",
         "@testing-library/user-event": "13.5.0",
         "alice-semantic-css": "git+https://github.com/alicenet/alice-semantic-css.git",
         "autoprefixer": "10.4.2",
+        "better-docs": "2.7.1",
         "copy-to-clipboard": "3.3.2",
-        "eslint": "^8.26.0",
         "eslint-plugin-react": "^7.31.10",
+        "eslint": "^8.26.0",
+        "eth-adapter": "github:ACatThatPrograms/eth-adapter",
         "ethers": "5.5.3",
         "husky": "^8.0.0",
         "lint-staged": "^13.0.3",
-        "postcss": "8.4.5",
         "prettier": "^2.7.1",
-        "react": "17.0.2",
+        "react-app-rewired": "^2.2.1",
         "react-cookie": "4.1.1",
         "react-dom": "17.0.2",
         "react-redux": "7.2.6",
         "react-router-dom": "6.2.1",
         "react-scripts": "5.0.0",
         "react-toastify": "9.0.8",
+        "react": "17.0.2",
+        "redux-class-watcher": "github:ACatThatPrograms/redux-class-watcher",
+        "redux-devtools-extension": "2.13.9",
         "redux-thunk": "2.4.1",
         "sass": "1.54.5",
         "semantic-ui-css": "2.4.1",
@@ -45,6 +53,7 @@
         ]
     },
     "scripts": {
+        "prepare": "husky install",
         "preinstall": "([ ! -f package-lock.json ] && npm install --package-lock-only --ignore-scripts --no-audit); npx npm-force-resolutions",
         "postinstall": "semantic-ui-css-patch",
         "start-migrate": "yarn --cwd alca-migrate start",
@@ -53,14 +62,14 @@
         "build-stake": "yarn --cwd alca-staking netlify-build",
         "start-lock": "yarn --cwd alca-lockup start",
         "build-lock": "yarn --cwd alca-lockup netlify-build",
-        "prepare": "husky install"
+        "start-boiler": "yarn --cwd ui-boilerplate start"
     },
     "description": "Common alicenet/ui dependencies",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/alicenet/ui.git"
     },
-    "author": "",
+    "author": "alice",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/alicenet/ui/issues"
@@ -69,6 +78,7 @@
     "workspaces": [
         "alca-migrate-ui",
         "alca-staking-ui",
-        "alca-lockup-ui"
+        "alca-lockup-ui",
+        "ui-boilerplate"
     ]
 }
