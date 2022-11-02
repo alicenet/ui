@@ -3,11 +3,12 @@ import ethAdapter from "eth/ethAdapter";
 import { ethers } from "ethers";
 import { useDispatch, useSelector } from "react-redux";
 import { APPLICATION_ACTIONS } from "redux/actions";
-import { Grid, Header, Input, Button, Dimmer, Loader, Message, Modal } from "semantic-ui-react";
+import { Grid, Header, Input, Button, Dimmer, Loader, Message, Modal, Icon } from "semantic-ui-react";
 import { TOKEN_TYPES } from "redux/constants";
 import { LOCK_APP_URL } from "utils/constants";
 import { useCookies } from "react-cookie";
 import { sha256 } from "ethers/lib/utils";
+import utils from "utils";
 
 const DECIMALS = 18;
 const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://etherscan.io/tx/";
@@ -176,7 +177,15 @@ export function StakeStake() {
                 </div>
 
                 <Header.Subheader>
-                    You can check the transaction hash below {hash}
+                    <p>You can check the transaction hash below</p>
+                    <p>
+                        {hash}
+                        <Icon
+                            name="copy"
+                            className="cursor-pointer"
+                            onClick={() => utils.string.copyText(hash)}
+                        />
+                    </p>
                 </Header.Subheader>
             </Header>
         )
