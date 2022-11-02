@@ -159,7 +159,7 @@ export function MigrationModal({ migrationAmount, isOpen, successAction, closeMo
                         hidden={!success && !error && !waiting}
                     />
                 </div>
-                <div>Migrate {migrationAmount} MAD {"=>"} {alcaExchangeRate} ALCA</div>
+                <div>Migrate {Number(migrationAmount).toLocaleString(false, { maximumFractionDigits: 4 })} MAD {"=>"} {Number(alcaExchangeRate).toLocaleString(false, { maximumFractionDigits: 4 })} ALCA</div>
             </Modal.Header>
 
             <Modal.Content>

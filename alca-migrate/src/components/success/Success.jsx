@@ -43,7 +43,7 @@ export function Success() {
                         Thank you for migrating to ALCA
                     </div>
                     <div className="font-bold">
-                        You have migrated {migrationAmount} MAD to {Number(alcaExchangeRate).toLocaleString(false, { maximumFractionDigits: 4 })} ALCA
+                        You have migrated {Number(migrationAmount).toLocaleString(false, { maximumFractionDigits: 4 })} MAD to {Number(alcaExchangeRate).toLocaleString(false, { maximumFractionDigits: 4 })} ALCA
                     </div>
                 </div>
             </div>
