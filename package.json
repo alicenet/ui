@@ -63,7 +63,8 @@
         "build-stake": "yarn --cwd alca-staking netlify-build",
         "start-lock": "yarn --cwd alca-lockup start",
         "build-lock": "yarn --cwd alca-lockup netlify-build",
-        "start-boiler": "yarn --cwd ui-boilerplate start"
+        "start-boiler": "yarn --cwd ui-boilerplate start",
+        "build-boiler": "yarn --cwd ui-boilerplate build"
     },
     "description": "Common alicenet/ui dependencies",
     "repository": {
