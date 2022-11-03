@@ -1,13 +1,9 @@
-import React from "react";
-import { Menu, Header as SHeader } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "components";
-import { DarkThemeContext } from "contexts";
 import { LINKS } from "utils/constants";
 
 export function Header() {
-    const { isDark, toggle } = React.useContext(DarkThemeContext);
-
     const location = useLocation();
 
     const goExtLink = (target) => {

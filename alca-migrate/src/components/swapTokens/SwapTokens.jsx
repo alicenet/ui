@@ -1,6 +1,6 @@
-import { Button, Container, Header, Icon, Input, Message, Segment } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { tabPanes } from "utils/constants";
 import { TabPanesContext } from "contexts";
 import * as ACTIONS from "redux/actions/application";
@@ -80,7 +80,7 @@ export function SwapTokens() {
                     inputValue={migrateAmount}
                     inputOnChange={(e) => updateMigrateAmt(e.target.value)}
                     inputDisabled={!web3Connected}
-                    inputBtnOnClick={(e) => updateMigrateAmt(madBalance)}
+                    inputBtnOnClick={() => updateMigrateAmt(madBalance)}
                     inputSubText={`Migrate ${formatNumberToLocale(migrateAmount)} MAD to ${formatNumberToLocale(alcaExchangeRate)} ALCA`}
                     buttonOnClick={openMigrationModal}
                     buttonDisabled={!web3Connected || migrateAmount < 1 || !alcaExchangeRate}

@@ -1,6 +1,6 @@
+import { useContext, useState } from "react";
 import { Button, Container, Header, Input, Message } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useContext, useState } from "react";
 import ethAdapter from "eth/ethAdapter";
 import config from "utils";
 import { TabPanesContext } from "contexts";

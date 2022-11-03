@@ -1,5 +1,5 @@
+import { useContext } from "react";
 import { Button, Container, Icon } from "semantic-ui-react";
-import React, { useContext } from "react";
 import { tabPanes } from "utils/constants";
 import { TabPanesContext } from "contexts";
 import { useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { MigrationPanel } from "components/migrationPanel/MigrationPanel";
 import { formatNumberToLocale } from "utils/locale";
 
 export function Success() {
-    const { activeTabPane, setActiveTabPane } = useContext(TabPanesContext);
+    const { setActiveTabPane } = useContext(TabPanesContext);
 
     const goExtLink = (target) => {
         let finalTarget = target;

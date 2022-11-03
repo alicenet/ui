@@ -1,12 +1,9 @@
-import React from "react";
 import { Menu } from "semantic-ui-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Logo } from "components";
 import { LINKS } from "utils/constants";
 
 export function Header() {
-    const location = useLocation();
-
     return (
         <Menu borderless className="top-0 left-0 bg-white w-full h-24 rounded-none sticky">
             <Menu.Item className="items-center">

@@ -4,8 +4,6 @@ import { Header, Grid, Checkbox, Segment, Button } from "semantic-ui-react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { APPLICATION_ACTIONS } from "redux/actions";
-import { useNavigate } from "react-router";
-import { setAgreeCookieTrue } from "redux/actions/application";
 
 export function StakeWelcome({ stepForward }) {
     const [agreeCookie, setAgreeCookie] = useCookies(["agreed"]);
@@ -139,13 +137,13 @@ export function StakeWelcome({ stepForward }) {
                         <div className="">
                             <Checkbox
                                 {...segmentDisabled}
-                                onChange={(e, data) => updateCheckState("finalCheck", data.checked)}
+                                onChange={(_e, data) => updateCheckState("finalCheck", data.checked)}
                                 label="I have read and agreed to all of the above terms and conditions"
                                 checked={checkState.finalCheck}
                             />
                         </div>
                     </div>
-                    <div attribute className="flex justify-end">
+                    <div className="flex justify-end">
                         <Button disabled={!checkState.finalCheck || !allCheck} size="huge" content="Continue" onClick={agreeAndContinue} />
                     </div>
                 </div>
