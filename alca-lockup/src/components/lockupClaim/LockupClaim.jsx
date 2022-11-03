@@ -72,7 +72,7 @@ export function LockupClaim() {
                             <Header as="h1" className="mb-0">{formatNumberToLocale(lockedAlca)} ALCA Staked Locked</Header>
                             <p>
                                 You can claim your rewards at anytime, however early claiming will have a {penalty}% penalty of earned rewards,
-                                users will get the {remainingRewards}% of their rewards and their original staked position's ALCA.
+                                users will get the {remainingRewards}% of their rewards and their original staked position&apos;s ALCA.
                             </p>
                         </div>
                     </div>
@@ -158,7 +158,7 @@ export function LockupClaim() {
                 <Message warning>
                     <Message.Header>You are about to claim rewards for this locked position and lose potential rewards</Message.Header>
                     <p>The early exit will have a {penalty}% penalty for earned rewards, users will get the {remainingRewards}%<br />
-                        of their rewards and their original staked position's ALCA.</p>
+                        of their rewards and their original staked position&apos;s ALCA.</p>
                 </Message>
             )}
 
