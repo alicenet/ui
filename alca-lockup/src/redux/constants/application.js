@@ -23,7 +23,7 @@ export const APPLICATION_ACTION_TYPES = {
 export const ACTION_TYPES = {
     SWAP: "SWAP",
     DEPOSIT: "DEPOSIT",
-}
+};
 
 /**
  * @typedef {String} TokenType - Supported token types for balances
@@ -32,8 +32,8 @@ export const TOKEN_TYPES = {
     ALL: "ALL",
     ALCA: "ALCA",
     ALCB: "ALCB",
-    ETHEREUM: "ETHEREUM"
-}
+    ETHEREUM: "ETHEREUM",
+};
 
 /**
  * @typedef {String} LockupPeriodStatus - Supported token types for balances
@@ -41,5 +41,5 @@ export const TOKEN_TYPES = {
 export const LOCKUP_PERIOD_STATUS = {
     START: "START",
     LOCKED: "LOCKED",
-    END: "END"
-}
+    END: "END",
+};

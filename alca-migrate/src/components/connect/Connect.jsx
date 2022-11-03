@@ -6,11 +6,10 @@ import { useSelector } from "react-redux";
 import ethAdapter from "eth/ethAdapter";
 
 export function Connect() {
-
     const { generic, constants } = config;
     const [error, setError] = useState("");
     const { setActiveTabPane } = useContext(TabPanesContext);
-    const { web3Connected } = useSelector(state => ({
+    const { web3Connected } = useSelector((state) => ({
         web3Connected: state.application.web3Connected,
     }));
 
@@ -27,51 +26,32 @@ export function Connect() {
     };
 
     return (
-
         <>
-
             <Container className="flex flex-col justify-around items-center p-4 min-h-[240px]">
-
                 <div className="text-sm text-center">
-                    {web3Connected ? (<></>) : 
-                    <div>
+                    {web3Connected ? (
+                        <></>
+                    ) : (
                         <div>
-                            Press the button below to connect your web3 wallet
+                            <div>Press the button below to connect your web3 wallet</div>
+                            <Button className="m-0 mt-8" secondary color="black" onClick={connect} content="Connect Wallet" />
                         </div>
-                        <Button
-                            className="m-0 mt-8"
-                            secondary
-                            color="black"
-                            onClick={connect}
-                            content="Connect Wallet"
-                        />
-                    </div>
-
-                    }
+                    )}
                 </div>
-
             </Container>
 
             <div className="absolute left-0 top-[100%]">
-                <Message
-                    size="mini"
-                    error={!!error}
-                    content={error}
-                    className="mt-4"
-                    hidden={!error}
-                />
+                <Message size="mini" error={!!error} content={error} className="mt-4" hidden={!error} />
             </div>
 
             <div className="absolute mt-4 right-0 top-[100%]">
                 <Button
                     primary
                     content="Continue"
-                    className={generic.classNames("m-0", { 'hidden': !web3Connected })}
+                    className={generic.classNames("m-0", { hidden: !web3Connected })}
                     onClick={() => setActiveTabPane(constants.tabPanes.MIGRATE)}
                 />
             </div>
-
         </>
-
     );
 }

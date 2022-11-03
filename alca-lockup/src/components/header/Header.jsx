@@ -5,7 +5,6 @@ import { Logo } from "components";
 import { LINKS } from "utils/constants";
 
 export function Header() {
-
     const location = useLocation();
 
     return (
@@ -16,31 +15,17 @@ export function Header() {
                 </Link>
             </Menu.Item>
 
-            <Menu.Item position="right" className="items-center" >
+            <Menu.Item position="right" className="items-center">
+                <Menu.Item className="cursor-pointer ml-4" onClick={() => (window.location.href = LINKS.MIGRATION)} content="ALCA Migration" />
 
-                <Menu.Item
-                    className="cursor-pointer ml-4"
-                    onClick={() => window.location.href = LINKS.MIGRATION}
-                    content="ALCA Migration"
-                />
-                
                 <Menu.Item as={Link} active={true} to="/">
                     ALCA Lockup
                 </Menu.Item>
-
             </Menu.Item>
 
             <Menu.Menu position="right" className="hidden md:flex">
-                <Menu.Item
-                    className="cursor-pointer"
-                    onClick={() => window.open(LINKS.GITHUB, '_blank').focus()}
-                    content="Github"
-                />
-                <Menu.Item
-                    className="cursor-pointer"
-                    onClick={() => window.open(LINKS.WHITEPAPER, '_blank').focus()}
-                    content="Whitepaper"
-                />
+                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.GITHUB, "_blank").focus()} content="Github" />
+                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.WHITEPAPER, "_blank").focus()} content="Whitepaper" />
                 {/* <Menu.Item
                     className="cursor-pointer"
                     onClick={() => window.open(LINKS.COMMUNITY, '_blank').focus()}
@@ -62,7 +47,6 @@ export function Header() {
                     >{isDark ? '🌜' : '🌞'}</label>
                 </div>
             </div> */}
-
         </Menu>
-    )
+    );
 }

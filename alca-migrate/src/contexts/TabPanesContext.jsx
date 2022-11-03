@@ -9,18 +9,18 @@ export const TabPanesContext = createContext(null);
  * @returns - Wrapped component with the respective context provider
  */
 export const TabPanesProvider = (props) => {
-
     const [activeTabPane, setActiveTabPane] = useState(tabPanes.INTRO.index);
 
-    const handleSetActiveTabPane = tabPane => setActiveTabPane(tabPane.index);
+    const handleSetActiveTabPane = (tabPane) => setActiveTabPane(tabPane.index);
 
     return (
-        <TabPanesContext.Provider value={{
-            activeTabPane,
-            setActiveTabPane: handleSetActiveTabPane,
-        }}>
+        <TabPanesContext.Provider
+            value={{
+                activeTabPane,
+                setActiveTabPane: handleSetActiveTabPane,
+            }}
+        >
             {props.children}
         </TabPanesContext.Provider>
     );
-
-}
+};

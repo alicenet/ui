@@ -9,4 +9,4 @@ export const invertObjectKeyValues = (obj) => {
         invertedObj[obj[o]] = o;
     }
     return invertedObj;
-}
+};
