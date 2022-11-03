@@ -239,7 +239,7 @@ export function StakeStake() {
             <>
                 <Header>Stake your ALCA
                     <Header.Subheader>
-                        {alcaBalance} available for staking
+                        {formatNumberToLocale(alcaBalance)} available for staking
                     </Header.Subheader>
                 </Header>
 
