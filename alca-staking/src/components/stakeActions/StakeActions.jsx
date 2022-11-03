@@ -1,13 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Grid, Menu, Segment, Header } from "semantic-ui-react";
-import { Connect, StakeClaim, StakeStake, StakeUnstake, StakeWelcome } from "components";
+import { StakeClaim, StakeStake, StakeUnstake, StakeWelcome } from "components";
 import { classNames } from "utils/generic";
 import { formatNumberToLocale } from "utils/locale";
 
 export function StakeActions() {
-    const { hasReadTerms, alcaBalance, web3Connected, stakedAlca, ethRewards, alcaRewards } = useSelector((state) => ({
-        hasReadTerms: state.application.hasReadTerms,
+    const { alcaBalance, web3Connected, stakedAlca, ethRewards, alcaRewards } = useSelector((state) => ({
         alcaBalance: state.application.balances.alca,
         web3Connected: state.application.web3Connected,
         stakedAlca: state.application.stakedPosition.stakedAlca,
@@ -67,7 +66,7 @@ export function StakeActions() {
                                     disabled={Boolean(stakedAlca || !web3Connected)}
                                     active={activeItem === "stake"}
                                     onClick={(e) => handleItemClick(e, { name: "stake" })}
-                                    onKeyPress={(e) => !Boolean(stakedAlca || !web3Connected) && handleItemClick(e, { name: "stake" })}
+                                    onKeyPress={(e) => !(stakedAlca || !web3Connected) && handleItemClick(e, { name: "stake" })}
                                     tabIndex="1"
                                     className={activeMenuClass("stake")}
                                 />
@@ -82,7 +81,7 @@ export function StakeActions() {
                                     disabled={Boolean(!stakedAlca)}
                                     active={activeItem === "unstake"}
                                     onClick={(e) => handleItemClick(e, { name: "unstake" })}
-                                    onKeyPress={(e) => !Boolean(!stakedAlca) && handleItemClick(e, { name: "unstake" })}
+                                    onKeyPress={(e) => !!stakedAlca && handleItemClick(e, { name: "unstake" })}
                                     tabIndex="2"
                                     className={activeMenuClass("unstake")}
                                 />
@@ -110,7 +109,7 @@ export function StakeActions() {
                                     active={activeItem === "claim"}
                                     onClick={(e) => handleItemClick(e, { name: "claim" })}
                                     onKeyPress={(e) =>
-                                        !Boolean(([0, "0.0"].includes(ethRewards) && [0, "0.0"].includes(alcaRewards)) || !stakedAlca) &&
+                                        !(([0, "0.0"].includes(ethRewards) && [0, "0.0"].includes(alcaRewards)) || !stakedAlca) &&
                                         handleItemClick(e, { name: "claim" })
                                     }
                                     tabIndex="3"

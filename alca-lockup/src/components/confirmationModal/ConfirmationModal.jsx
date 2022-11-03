@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal, Button } from "semantic-ui-react";
 
 export function ConfirmationModal({ children, title = "", actionLabel = "confirm", onAccept, ...props }) {

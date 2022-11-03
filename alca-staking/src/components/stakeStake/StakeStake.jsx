@@ -271,7 +271,7 @@ export function StakeStake() {
         return (
             <div>
                 Visited{" "}
-                <a className="underline" href={LOCK_APP_URL} target="_blank">
+                <a className="underline" href={LOCK_APP_URL} target="_blank" rel="noreferrer">
                     the Lock App
                 </a>{" "}
                 for more details.
