@@ -5,6 +5,7 @@ import ethAdapter from "eth/ethAdapter";
 import { Grid, Header, Button, Icon, Message } from "semantic-ui-react";
 import utils from "utils";
 import { TOKEN_TYPES } from "redux/constants";
+import { formatNumberToLocale } from "utils/locale";
 
 const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://etherscan.io/tx/";
 
@@ -14,7 +15,7 @@ export function StakeUnstake() {
     const [success, setSuccessStatus] = React.useState(false);
     const [status, setStatus] = React.useState({});
     const [txHash, setTxHash] = React.useState('');
-    const [untakedAmount, setUnstakedAmount] = React.useState('');
+    const [unstakedAmount, setUnstakedAmount] = React.useState('');
     const [claimedEthRewards, setClaimedEthRewards] = React.useState('');
     const [claimedAlcaRewards, setClaimedAlcaRewards] = React.useState('');
 
@@ -65,8 +66,8 @@ export function StakeUnstake() {
 
             <Grid.Column width={16}>
                 <div>
-                    <Header as="h2">{stakedAlca} ALCA</Header>
-                    <Header as="h3">Rewards to Claim: {ethRewards} ETH / {alcaRewards} ALCA</Header>
+                    <Header as="h2">{formatNumberToLocale(stakedAlca)} ALCA</Header>
+                    <Header as="h3">Rewards to Claim: {formatNumberToLocale(ethRewards)} ETH / {formatNumberToLocale(alcaRewards)} ALCA</Header>
                     <p>Rewards will be sent automatically to your wallet</p>
                 </div>
 
@@ -89,7 +90,7 @@ export function StakeUnstake() {
             <Grid.Column width={16}>
                 <Header>Unstake completed
                     <Header.Subheader>
-                        <strong>You have successfully unstaked {untakedAmount} ALCA</strong> and claimed a{' '} 
+                        <strong>You have successfully unstaked {unstakedAmount} ALCA</strong> and claimed a{' '}
                         <strong>reward of {claimedEthRewards} ETH / {claimedAlcaRewards} ALCA</strong> to your wallet
                     </Header.Subheader>
                 </Header>

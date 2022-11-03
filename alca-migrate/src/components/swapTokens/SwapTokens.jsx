@@ -6,6 +6,7 @@ import { TabPanesContext } from "contexts";
 import * as ACTIONS from "redux/actions/application";
 import { ethers } from "ethers";
 import { MigrationPanel, MigrationModal } from "components";
+import { formatNumberToLocale } from "utils/locale";
 
 export function SwapTokens() {
 
@@ -64,16 +65,16 @@ export function SwapTokens() {
                 </div>
 
                 <MigrationPanel preTextHeader="Before Migration" postTextHeader="After Migration" quadrants={[
-                    { title: "Current MAD Balance", value: Number(madBalance).toLocaleString(false, { maximumFractionDigits: 4 }), valueName: "MAD" },
-                    { title: "Current ALCA Balance", value: Number(alcaBalance).toLocaleString(false, { maximumFractionDigits: 4 }), valueName: "ALCA" },
-                    { title: "Future MAD Balance", value: (Number(madBalance) - Number(migrateAmount ? migrateAmount : 0)).toLocaleString(false, {maximumFractionDigits: 4}), valueName: "MAD" },
-                    { title: "Future ALCA Balance", value: (Number(alcaBalance) + Number(migrateAmount ? alcaExchangeRate : 0)).toLocaleString(false, {maximumFractionDigits: 4}), valueName: "ALCA" }
+                    { title: "Current MAD Balance", value: formatNumberToLocale(madBalance), valueName: "MAD" },
+                    { title: "Current ALCA Balance", value: formatNumberToLocale(alcaBalance), valueName: "ALCA" },
+                    { title: "Future MAD Balance", value: formatNumberToLocale((Number(madBalance) - Number(migrateAmount ? migrateAmount : 0))), valueName: "MAD" },
+                    { title: "Future ALCA Balance", value: formatNumberToLocale((Number(alcaBalance) + Number(migrateAmount ? alcaExchangeRate : 0))), valueName: "ALCA" }
                 ]}
                     inputValue={migrateAmount}
                     inputOnChange={(e) => updateMigrateAmt(e.target.value)}
                     inputDisabled={!web3Connected}
                     inputBtnOnClick={(e) => updateMigrateAmt(madBalance)}
-                    inputSubText={`Migrate ${Number(migrateAmount).toLocaleString(false, {maximumFractionDigits: 4})} MAD to ${Number(alcaExchangeRate).toLocaleString(false, {maximumFractionDigits: 4})} ALCA`}
+                    inputSubText={`Migrate ${formatNumberToLocale(migrateAmount)} MAD to ${formatNumberToLocale(alcaExchangeRate)} ALCA`}
                     buttonOnClick={openMigrationModal}
                     buttonDisabled={!web3Connected || migrateAmount < 1 || !alcaExchangeRate}
                 />
