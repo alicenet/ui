@@ -1,2 +1,2 @@
-export * from './DarkThemeContext';
-export * from './TabPanesContext';
+export * from "./DarkThemeContext";
+export * from "./TabPanesContext";

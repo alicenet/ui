@@ -29,3 +29,9 @@ yarn-error.log*
 /src/config/abis.js
 /src/config/bytecodes.js
 /src/config/contract_names.js
+
+# Linting
+.eslintcache
+
+# No NPM lock file
+package-lock.json

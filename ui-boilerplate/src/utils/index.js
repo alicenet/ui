@@ -1,7 +1,7 @@
-import * as string from './string';
+import * as string from "./string";
 
 const utils = {
     string: string,
-}
+};
 
 export default utils;

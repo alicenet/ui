@@ -1,10 +1,9 @@
-import 'ethers';
-import { ethers } from 'ethers';
-import config from 'config/_config';
-import store from 'redux/store/store';
-import { APPLICATION_ACTIONS } from 'redux/actions';
-import { TOKEN_TYPES } from 'redux/constants';
-import { CONTRACT_ADDRESSES } from 'config/contracts';
+import "ethers";
+import { ethers } from "ethers";
+import config from "config/_config";
+import store from "redux/store/store";
+import { APPLICATION_ACTIONS } from "redux/actions";
+import { TOKEN_TYPES } from "redux/constants";
 
 /**
  * Callback to run after establishing web3connection state pass or fail
@@ -12,21 +11,20 @@ import { CONTRACT_ADDRESSES } from 'config/contracts';
  * @param { Object } err - Will be null if no error, or else contain the error
  */
 class EthAdapter {
-
     ////////////////////////////////////////////////////////
     /* Private Methods -- Scroll down for public methods */
     //////////////////////////////////////////////////////
     constructor() {
-        this.accounts = []; // Web3 Accounts List 
+        this.accounts = []; // Web3 Accounts List
         this.provider = null; // Web3 Provider -- Populated on successful _connectToWeb3Wallet()
         this.signer = null; // Web3 Signer -- Populated on successful _connectToWeb3Wallet()
         this.contracts = config.CONTRACTS; // Contracts from config
         this._setupWeb3Listeners();
         this.timeBetweenBalancePolls = 7500;
-        
+
         // Setup RPC provider
         this.provider = new ethers.providers.JsonRpcProvider(config.RPC.URL);
-        
+
         console.debug("EthAdapter Init: ", this);
     }
 
@@ -36,10 +34,10 @@ class EthAdapter {
     async _balanceLoop() {
         let accts = await this.provider.send("eth_requestAccounts", []); // Request accounts
         if (accts.length === 0) {
-            console.log("balfail")
+            console.log("balfail");
             return;
         }
-        console.log("BALANCE")
+        console.log("BALANCE");
         this.updateBalances();
         setTimeout(this._balanceLoop.bind(this), this.timeBetweenBalancePolls);
     }
@@ -49,18 +47,18 @@ class EthAdapter {
      */
     async _setupWeb3Listeners() {
         if (window.ethereum) {
-            window.ethereum.on("networkChanged", networkId => {
+            window.ethereum.on("networkChanged", (networkId) => {
                 store.dispatch(APPLICATION_ACTIONS.updateNetwork(networkId));
                 this.updateBalances();
-            })
-            window.ethereum.on("accountsChanged", async accounts => {
+            });
+            window.ethereum.on("accountsChanged", async (accounts) => {
                 this.accounts = accounts;
                 let address = await this._getAddressByIndex(0);
                 store.dispatch(APPLICATION_ACTIONS.setConnectedAddress(address));
                 this.updateBalances();
-            })
+            });
         } else {
-            console.warn("No web3 detected.") // TODO: Add fallback
+            console.warn("No web3 detected."); // TODO: Add fallback
         }
     }
 
@@ -102,12 +100,13 @@ class EthAdapter {
      * @returns { web3.eth.Contract }
      */
     _getDeterministicContractAddress(contractName) {
-        return `0x${this.web3.utils.sha3(`0x${[
-            'ff',
-            config.factoryContractAddress,
-            config.CONTRACT_SALTS[contractName],
-            this.web3.utils.sha3(config.CONTRACT_BYTECODE[contractName])
-        ].map(x => x.replace(/0x/, '')).join('')}`).slice(-40)}`.toLowerCase();
+        return `0x${this.web3.utils
+            .sha3(
+                `0x${["ff", config.factoryContractAddress, config.CONTRACT_SALTS[contractName], this.web3.utils.sha3(config.CONTRACT_BYTECODE[contractName])]
+                    .map((x) => x.replace(/0x/, ""))
+                    .join("")}`
+            )
+            .slice(-40)}`.toLowerCase();
     }
 
     /**
@@ -154,7 +153,9 @@ class EthAdapter {
      */
     _requireSigner(contractName) {
         if (!this.signer) {
-            this._throw("Requesting contract instance for contract '" + contractName + "' but EthAdapter has not been provided a signer. Verify a signer has been set.");
+            this._throw(
+                "Requesting contract instance for contract '" + contractName + "' but EthAdapter has not been provided a signer. Verify a signer has been set."
+            );
         }
     }
 
@@ -199,20 +200,23 @@ class EthAdapter {
     }
 
     async _lookupContractName(cName) {
-        let contractAddress = await this._tryCall("Factory", "lookup", [ethers.utils.formatBytes32String(cName)]);
-        return contractAddress;
+        return this._try(async () => {
+            let contractAddress = await this._tryCall("Factory", "lookup", [ethers.utils.formatBytes32String(cName)]);
+            return contractAddress;
+        });
     }
 
     async _getContractAddresses() {
         for (let contract in this.contracts) {
-            if (contract === "Factory" || contract === "MadToken") { continue } // Don't overwrite factory address or legacy MadToken address
+            if (contract === "Factory" || contract === "MadToken") {
+                continue;
+            } // Don't overwrite factory address or legacy MadToken address
             let address = await this._lookupContractName(contract);
             this.contracts[contract].address = address;
             console.log(contract, address);
         }
         console.log("Contract addresses populated from lookup()", this.contracts);
     }
-
 
     /////////////////////
     /* Public Methods  */
@@ -235,7 +239,7 @@ class EthAdapter {
             store.dispatch(APPLICATION_ACTIONS.setConnectedAddress(connectedAddress));
 
             // Get contract addresses from FACTORY lookup()
-            await this._getContractAddresses()
+            await this._getContractAddresses();
 
             cb(null, connectedAddress);
             // Setup balance listener
@@ -271,9 +275,9 @@ class EthAdapter {
      */
     async getEthereumBalance(accountIndex = 0) {
         return this._try(async () => {
-            let balance = await this.provider.getBalance(this._getAddressByIndex(accountIndex))
+            let balance = await this.provider.getBalance(this._getAddressByIndex(accountIndex));
             return ethers.utils.formatEther(balance);
-        })
+        });
     }
 
     /**
@@ -295,7 +299,7 @@ class EthAdapter {
      */
     async getMadTokenBalance(accountIndex = 0) {
         return this._try(async () => {
-            let balance = await this._tryCall("MadToken", "balanceOf", [await this._getAddressByIndex(accountIndex)])
+            let balance = await this._tryCall("MadToken", "balanceOf", [await this._getAddressByIndex(accountIndex)]);
             return ethers.utils.formatEther(balance); // MadToken is an 18 Decimal balance like ETH, format it
         });
     }
@@ -326,7 +330,7 @@ class EthAdapter {
     async requestNetworkChange(networkId) {
         let hexChainId = "0x" + parseInt(networkId).toString(16);
         await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
+            method: "wallet_switchEthereumChain",
             params: [{ chainId: hexChainId }],
         });
         this.updateBalances();
@@ -341,21 +345,24 @@ class EthAdapter {
         return await this._try(async () => {
             let tx = await this._trySend("MadToken", "approve", [this.contracts["AToken"].address, ethers.utils.parseEther(unformattedAmount)]);
             return tx;
-        })
+        });
     }
 
     async sendStakingAllowanceRequest() {
         return await this._try(async () => {
-            let tx = await this._trySend("AToken", "approve", [this.contracts["AToken"].address, ethers.BigNumber.from("0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")])
+            let tx = await this._trySend("AToken", "approve", [
+                this.contracts["AToken"].address,
+                ethers.BigNumber.from("0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"),
+            ]);
             return tx;
-        })
+        });
     }
 
     async openStakingPosition(amount) {
         return await this._try(async () => {
-            let tx = await this._trySend("PublicStaking", "mint", [ethers.utils.parseEther(amount)])
+            let tx = await this._trySend("PublicStaking", "mint", [ethers.utils.parseEther(amount)]);
             return tx;
-        })
+        });
     }
 
     /**
@@ -365,8 +372,8 @@ class EthAdapter {
      */
     async sendMigrateRequest(unformattedAmount) {
         return await this._try(async () => {
-            let tx = await this._trySend("AToken", "migrate", [ethers.utils.parseEther(unformattedAmount)])
-            return tx
+            let tx = await this._trySend("AToken", "migrate", [ethers.utils.parseEther(unformattedAmount)]);
+            return tx;
         });
     }
 
@@ -388,7 +395,7 @@ class EthAdapter {
     async signBytes(message) {
         this._requireSigner();
         const msgBytes = ethers.utils.arrayify(message);
-        return await this.signer.signMessage(msgBytes)
+        return await this.signer.signMessage(msgBytes);
     }
 
     /**
@@ -397,7 +404,6 @@ class EthAdapter {
     async updateBalances() {
         store.dispatch(APPLICATION_ACTIONS.updateBalances(TOKEN_TYPES.ALL));
     }
-
 }
 
 let ethAdapter = new EthAdapter();
