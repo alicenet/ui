@@ -1,5 +1,3 @@
 export function PageThree() {
-    return (
-        <h1>PageThree</h1>
-    )
+    return <h1>PageThree</h1>;
 }

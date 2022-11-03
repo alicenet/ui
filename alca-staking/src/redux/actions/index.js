@@ -1,1 +1,1 @@
-export * as APPLICATION_ACTIONS from './application';
+export * as APPLICATION_ACTIONS from "./application";

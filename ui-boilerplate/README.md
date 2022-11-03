@@ -1,16 +1,14 @@
-
 ## Base Web3 Application Boilerplate
 
 This is a boilerplate for fleshing out web3 applications with the following goals in mind:
 
-  
-- Security through locking package files to known versions that pass known npm audit issues
+-   Security through locking package files to known versions that pass known npm audit issues
 
-- Reducing vulnerability in the dependency layer of 'web3' library by utilizing 'ethers.js'
+-   Reducing vulnerability in the dependency layer of 'web3' library by utilizing 'ethers.js'
 
-- Provide a quick to build with UI framework by using semantic-ui-react and tailwindcss
+-   Provide a quick to build with UI framework by using semantic-ui-react and tailwindcss
 
-- Provide an ethAdapter class in eth/ for easily setting up smart contract interaction
+-   Provide an ethAdapter class in eth/ for easily setting up smart contract interaction
 
 ## Quick Start ( NO CREATE2 deterministic address generation support )
 
@@ -26,15 +24,15 @@ All necessary files will be generated on npm start for ES6 Exports
 
 `import ethAdapter, { CONTRACT_NAMES } from 'eth/ethAdapter'`
 
-Once the ethAdapter instance is available use: 
+Once the ethAdapter instance is available use:
 
 ###### Read Only:
 
-`let res = await ethAdapter.tryCall(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )` 
+`let res = await ethAdapter.tryCall(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )`
 
 ###### Write Capable:
 
-`let res = await ethAdapter.trySend(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )` 
+`let res = await ethAdapter.trySend(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )`
 
 # TBD => Clean up detailed docs
 
@@ -42,11 +40,11 @@ Once the ethAdapter instance is available use:
 
 ##### It's as easy as 3 steps:
 
-- Configure contracts as defined in Configuring Contracts Below
+-   Configure contracts as defined in Configuring Contracts Below
 
-- `npm i`
+-   `npm i`
 
-- `npm start`
+-   `npm start`
 
 ## Configuring Contracts
 
@@ -68,7 +66,7 @@ At minimum it should contain the following environment variables per contract na
 
 ###### <OPTIONAL> if using CREATE2 and nocall deterministic address feature ( See "Adding bytecode" below ):
 
-Also include: 
+Also include:
 
 `REACT_APP__FACTORY_CONTRACT_ADDRESS:<FACTORY_CONTRACT_ADDRESS>`
 
@@ -78,19 +76,19 @@ And for each contract salt to be used respectively:
 
 #### Adding Artifacts ( ABI Extraction )
 
-The Artifacts should be added to the project root folder* 'artifacts' as follows: 
+The Artifacts should be added to the project root folder\* 'artifacts' as follows:
 
 `./artifacts/<CONTRACT_NAME>.json`
 
-###### *Note this is the project root not src/
+###### \*Note this is the project root not src/
 
-These can be direct imports from the artifacts output of your compiler they just need to have *abi* as an Object key somewhere in the object*. 
+These can be direct imports from the artifacts output of your compiler they just need to have _abi_ as an Object key somewhere in the object\*.
 
-**DO NOT* supply an object with multiple ABI keys anywhere in the object, the transpile will most likely fail. 
+\*_DO NOT_ supply an object with multiple ABI keys anywhere in the object, the transpile will most likely fail.
 
 ###### See the example STORAGE files in `./artifacts` for an idea.
 
-Once Artifacts have been added, the following script needs to be run to compile the contract ABIs into parsed .js file code. 
+Once Artifacts have been added, the following script needs to be run to compile the contract ABIs into parsed .js file code.
 This is done due to restrictions on ES6 File Imports, as we cannot import multiple files without 'fs' which is not available in React runtime/build sequence.
 
 Run: `npm run transpile-abi run`
@@ -103,15 +101,15 @@ Though it can be beneficial to run it manually if you are making adjustments to 
 
 #### OPTIONAL: Adding Bytecode ( Supporting CREATE2 Deterministic Addresses )
 
-_create2 deterministic addresses are also supported, however the factory address,, and both the bytecode, and salt *per contract* must be noted for contracts to determine the addresses.
+\_create2 deterministic addresses are also supported, however the factory address,, and both the bytecode, and salt _per contract_ must be noted for contracts to determine the addresses.
 
 The benefit of this method is that no polling needs to be done to obtain information about complex contract sets, and can be determined before an ethereum wallet is even connected.
 
-The Bytecode should be added to the project root folder* 'bytecode' as follows: 
+The Bytecode should be added to the project root folder\* 'bytecode' as follows:
 
 `./bytecode/<CONTRACT_NAME>.json` where the bytecode is within the 'object' key of the json data.
 
-###### *Note this is the project root not src/
+###### \*Note this is the project root not src/
 
 ** Please note that if both an address and bytecode are added, an error will throw if the deterministic address does not match the supplied address. **
 
@@ -135,12 +133,12 @@ A contract method can be called by importing ethAdapter via:
 
 `import ethAdapter, { CONTRACT_NAMES } from 'eth/ethAdapter'`
 
-Once the ethAdapter instance is available use: 
+Once the ethAdapter instance is available use:
 
 ###### Read Only:
 
-`let res = await ethAdapter.tryCall(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )` 
+`let res = await ethAdapter.tryCall(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )`
 
 ###### Write Capable:
 
-`let res = await ethAdapter.trySend(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )` 
+`let res = await ethAdapter.trySend(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )`

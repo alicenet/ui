@@ -5,19 +5,18 @@ import { Logo } from "components";
 import { LINKS } from "utils/constants";
 
 export function Header() {
-
     const location = useLocation();
 
     const goExtLink = (target) => {
         let finalTarget = target;
-        if (document.location.href.indexOf('staging') !== -1 || document.location.href.indexOf("localhost") !== -1) {
-            let tarSplit = target.split('://');
+        if (document.location.href.indexOf("staging") !== -1 || document.location.href.indexOf("localhost") !== -1) {
+            let tarSplit = target.split("://");
             let alcSplit = tarSplit[1].split(".alice.net");
             let alcTarget = alcSplit[0];
             finalTarget = "https://" + alcTarget + ".staging.alice.net";
         }
-        window.open(finalTarget, '_blank').focus()
-    }
+        window.open(finalTarget, "_blank").focus();
+    };
 
     return (
         <Menu borderless className="top-0 left-0 bg-white w-full h-24 rounded-none sticky">
@@ -27,13 +26,13 @@ export function Header() {
                 </Link>
             </Menu.Item>
 
-            <Menu.Item position="right" className="items-center" >
-
-                <Menu.Item position="right" className="items-center space-x-6" >
-
-                    <Menu.Item 
+            <Menu.Item position="right" className="items-center">
+                <Menu.Item position="right" className="items-center space-x-6">
+                    <Menu.Item
                         className="cursor-pointer"
-                        onClick={() => { goExtLink("https://migrate.alice.net") }}
+                        onClick={() => {
+                            goExtLink("https://migrate.alice.net");
+                        }}
                         content="Migrate"
                     />
 
@@ -46,22 +45,12 @@ export function Header() {
                         onClick={() => goExtLink("https://lock.alice.net")}
                         content="Lock"
                     /> */}
-
                 </Menu.Item>
-
             </Menu.Item>
 
             <Menu.Menu position="right" className="hidden md:flex">
-                <Menu.Item
-                    className="cursor-pointer"
-                    onClick={() => window.open(LINKS.GITHUB, '_blank').focus()}
-                    content="Github"
-                />
-                <Menu.Item
-                    className="cursor-pointer"
-                    onClick={() => window.open(LINKS.WHITEPAPER, '_blank').focus()}
-                    content="Whitepaper"
-                />
+                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.GITHUB, "_blank").focus()} content="Github" />
+                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.WHITEPAPER, "_blank").focus()} content="Whitepaper" />
                 {/* <Menu.Item
                     className="cursor-pointer"
                     onClick={() => window.open(LINKS.COMMUNITY, '_blank').focus()}
@@ -83,7 +72,6 @@ export function Header() {
                     >{isDark ? '🌜' : '🌞'}</label>
                 </div>
             </div> */}
-
         </Menu>
-    )
+    );
 }

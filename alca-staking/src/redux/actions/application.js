@@ -1,17 +1,17 @@
-import config from 'config/_config';
-import ethAdapter from 'eth/ethAdapter';
-import { APPLICATION_ACTION_TYPES, TOKEN_TYPES } from 'redux/constants';
-import { toast } from 'react-toastify';
+import config from "config/_config";
+import ethAdapter from "eth/ethAdapter";
+import { APPLICATION_ACTION_TYPES, TOKEN_TYPES } from "redux/constants";
+import { toast } from "react-toastify";
 
 /**
  * Set UI state for if a web3Wallet is connected
  * @param {Boolean} isConnected - Is the web3 wallet connected?
  * @returns
  */
-export const setWeb3Connected = isConnected => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.SET_WEB3_CONNECTED, payload: isConnected })
-    }
+export const setWeb3Connected = (isConnected) => {
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_WEB3_CONNECTED, payload: isConnected });
+    };
 };
 
 /**
@@ -19,10 +19,10 @@ export const setWeb3Connected = isConnected => {
  * @param {Boolean} busyState - Boolean if web3 is currently attempting to connect
  * @returns
  */
-export const setWeb3Connecting = busyState => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.SET_WEB3_CONNECTING, payload: busyState })
-    }
+export const setWeb3Connecting = (busyState) => {
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_WEB3_CONNECTING, payload: busyState });
+    };
 };
 
 /**
@@ -30,11 +30,11 @@ export const setWeb3Connecting = busyState => {
  * @param { String } address - Address to set to state
  * @returns
  */
-export const setConnectedAddress = address => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.SET_CONNECTED_ADDRESS, payload: address })
-    }
-}
+export const setConnectedAddress = (address) => {
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_CONNECTED_ADDRESS, payload: address });
+    };
+};
 
 /**
  * Updates current network state by ID -- Will determine name relative to ID
@@ -54,10 +54,10 @@ export const updateNetwork = (networkId) => {
     } catch (ex) {
         console.warn("Unable to determine network name:", ex);
     }
-    return dispatch => {
+    return (dispatch) => {
         dispatch({ type: APPLICATION_ACTION_TYPES.UPDATE_NETWORK, payload: { name: networkName, id: networkId } });
-    }
-}
+    };
+};
 
 /**
  * Set balance by accepted tokenType
@@ -66,9 +66,9 @@ export const updateNetwork = (networkId) => {
  * @returns
  */
 export const setBalance = (balance, tokenType) => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.SET_BALANCES, payload: { balance: balance, token: tokenType } })
-    }
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_BALANCES, payload: { balance: balance, token: tokenType } });
+    };
 };
 
 /**
@@ -77,9 +77,9 @@ export const setBalance = (balance, tokenType) => {
  * @returns
  */
 export const toggleTxPendingStatus = (action) => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.TOGGLE_TX_PENDING_STATUS, payload: action })
-    }
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.TOGGLE_TX_PENDING_STATUS, payload: action });
+    };
 };
 
 /**
@@ -87,7 +87,7 @@ export const toggleTxPendingStatus = (action) => {
  * @param {TokenType} tokenType
  * @returns {Promise}
  */
-export const updateBalances = tokenType => {
+export const updateBalances = (tokenType) => {
     return async function (dispatch, getState) {
         let state = getState();
         let ethBalance = state.application.balances.ethereum;
@@ -105,19 +105,19 @@ export const updateBalances = tokenType => {
         let publicStakingAllowance = await ethAdapter.getPublicStakingAllowance();
 
         if (ethBalance.error) {
-            toast("Error fetching ETH balance.", { type: "error", position: "bottom-center", autoClose: 1000 })
+            toast("Error fetching ETH balance.", { type: "error", position: "bottom-center", autoClose: 1000 });
         }
 
         if (alcaBal.error || publicStakingAllowance.error) {
-            toast("Error fetching ALCA balance.", { type: "error", position: "bottom-center", autoClose: 1000 })
+            toast("Error fetching ALCA balance.", { type: "error", position: "bottom-center", autoClose: 1000 });
         }
 
         if (ethBalance.error || alcaBal.error || publicStakingAllowance.error) {
             console.error("Contract error, check if you are on the correct network or your Factory Address is valid.");
-            return; 
+            return;
         }
 
-        if(stakedPosition) {
+        if (stakedPosition) {
             dispatch({
                 type: APPLICATION_ACTION_TYPES.SET_STAKED_POSITION,
                 payload: {
@@ -125,54 +125,53 @@ export const updateBalances = tokenType => {
                     tokenId: stakedPosition.tokenId,
                     ethRewards: stakedPosition.ethRewards,
                     alcaRewards: stakedPosition.alcaRewards,
-                }
+                },
             });
         }
-        
+
         dispatch({
             type: APPLICATION_ACTION_TYPES.SET_BALANCES,
             payload: {
                 ethereum: ethBalance,
                 alca: alcaBal || 0, // Fallback to 0 if token doesn't exist on network
-            }
+            },
         });
         dispatch({
             type: APPLICATION_ACTION_TYPES.SET_ALLOWANCES,
             payload: {
-                alcaStakeAllowance: publicStakingAllowance || "0"
-            }
+                alcaStakeAllowance: publicStakingAllowance || "0",
+            },
         });
-
-    }
+    };
 };
 
 export const checkAgreeCookieState = (agreeCookie) => {
     return async function (dispatch) {
-        if (agreeCookie.agreed === 'true') {
+        if (agreeCookie.agreed === "true") {
             dispatch({
                 type: APPLICATION_ACTION_TYPES.UPDATE_HAS_READ_TERMS,
-                payload: true
-            })
+                payload: true,
+            });
         } else {
             dispatch({
                 type: APPLICATION_ACTION_TYPES.UPDATE_HAS_READ_TERMS,
-                payload: false
-            })
+                payload: false,
+            });
         }
-    }
-}
+    };
+};
 
 export const setAgreeStateTrue = () => {
     return async function (dispatch) {
         dispatch({ type: APPLICATION_ACTION_TYPES.UPDATE_HAS_READ_TERMS, payload: true });
-    }
-}
+    };
+};
 
 export const updateApprovalHash = (txHash) => {
     return async function (dispatch) {
         dispatch({
             type: APPLICATION_ACTION_TYPES.SET_APPROVAL_HASH,
-            payload: txHash
-        })
-    }
-}
+            payload: txHash,
+        });
+    };
+};

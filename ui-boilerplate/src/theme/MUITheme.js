@@ -1,12 +1,12 @@
 import { createTheme } from "@mui/material";
 
 const CustomColors = {
-    "copperCrayola": "#ea9167",
-    "darkPurple": "#24031",
-    "midnightBlue": "#1d0a66",
-    "midnight": "#7e176b",
-    "thistle": "#e3c8e2"
-}
+    copperCrayola: "#ea9167",
+    darkPurple: "#24031",
+    midnightBlue: "#1d0a66",
+    midnight: "#7e176b",
+    thistle: "#e3c8e2",
+};
 
 export const theme = createTheme({
     status: {
@@ -17,7 +17,7 @@ export const theme = createTheme({
             main: CustomColors.midnightBlue,
         },
         secondary: {
-            main: CustomColors.copperCrayola
-        }
-    }
+            main: CustomColors.copperCrayola,
+        },
+    },
 });

@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 // App Entry
-import App from './App';
+import App from "./App";
 // Style
-import './style/index.css';
+import "./style/index.css";
 
 /* Redux Store */
 import store from "redux/store/store.js";
@@ -15,5 +15,5 @@ ReactDOM.render(
             <App />
         </Provider>
     </React.StrictMode>,
-    document.getElementById('root')
+    document.getElementById("root")
 );
