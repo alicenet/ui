@@ -2,6 +2,7 @@ import { Input, Icon, Header } from "semantic-ui-react";
 import React from "react";
 import ethAdapter from "eth/ethAdapter";
 import { ethers } from "ethers";
+import { formatNumberToLocale } from "utils/locale";
 
 export function AlcaCalculator() {
 
@@ -12,7 +13,7 @@ export function AlcaCalculator() {
 
         const updateExcAmount = async (amt) => {
             let exchAmount = await ethAdapter.getMadTokenToALCAExchangeRate(ethers.utils.parseEther(amt))
-            setExcAmount(Number(exchAmount).toLocaleString(false, {maximumFractionDigits: 4}) + " ALCA");
+            setExcAmount(formatNumberToLocale(exchAmount) + " ALCA");
         }
 
         let amt = e.target.value;

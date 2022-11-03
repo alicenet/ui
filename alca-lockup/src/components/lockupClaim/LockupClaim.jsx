@@ -6,6 +6,7 @@ import { TOKEN_TYPES, LOCKUP_PERIOD_STATUS } from "redux/constants";
 import { Grid, Header, Button, Icon, Message, Segment } from "semantic-ui-react";
 import utils from "utils";
 import { ConfirmationModal } from "components";
+import { formatNumberToLocale } from "utils/locale";
 
 const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://etherscan.io/tx/";
 
@@ -51,9 +52,9 @@ export function LockupClaim() {
             }
         } catch (exception) {
             setWaiting(false);
-            setStatus({ 
-                error: true, 
-                message: exception.toString() || "There was a problem with your request, please verify or try again later" 
+            setStatus({
+                error: true,
+                message: exception.toString() || "There was a problem with your request, please verify or try again later"
             });
         }
     }
@@ -66,11 +67,11 @@ export function LockupClaim() {
                         <div className="flex justify-center items-center mr-3 p-6 h-20 bg-neutral-300">
                             <Icon size="large" name="lock" className="mr-0" />
                         </div>
-                    
+
                         <div>
-                            <Header as="h1" className="mb-0">{lockedAlca} ALCA Staked Locked</Header>
+                            <Header as="h1" className="mb-0">{formatNumberToLocale(lockedAlca)} ALCA Staked Locked</Header>
                             <p>
-                                You can claim your rewards at anytime, however early claiming will have a {penalty}% penalty of earned rewards, 
+                                You can claim your rewards at anytime, however early claiming will have a {penalty}% penalty of earned rewards,
                                 users will get the {remainingRewards}% of their rewards and their original staked position's ALCA.
                             </p>
                         </div>
@@ -79,11 +80,11 @@ export function LockupClaim() {
                     <Segment className="flex justify-between items-center rounded-2xl bg-neutral-50 border-neutral-200">
                         <div>
                             <Header as="h4">Locked rewards as of today</Header>
-                            
-                            <div className="font-bold space-x-2">
-                                <Icon name="ethereum"/>{ethReward} ETH 
 
-                                <Icon name="cog"/>{alcaReward} ALCA
+                            <div className="font-bold space-x-2">
+                                <Icon name="ethereum"/>{formatNumberToLocale(ethReward)} ETH
+
+                                <Icon name="cog"/>{formatNumberToLocale(alcaReward)} ALCA
                             </div>
                         </div>
 
@@ -93,7 +94,7 @@ export function LockupClaim() {
                             disabled={['0.0', 0].includes(ethReward) && ['0.0', 0].includes(alcaReward)}
                             onClick={() => toggleConfirmModal(true)}
                             content={"Claim rewards"}
-                        />      
+                        />
                     </Segment>
                 </>
             )}
@@ -104,11 +105,11 @@ export function LockupClaim() {
         <Grid.Column width={16}>
             <div className="mb-10">
                 <Header as="h3">Claimed Rewards</Header>
-                
-                <div className="font-bold space-x-2">
-                    <Icon name="ethereum"/>{claimedEth} ETH 
 
-                    <Icon name="cog"/>{claimedAlca} ALCA
+                <div className="font-bold space-x-2">
+                    <Icon name="ethereum"/>{formatNumberToLocale(claimedEth)} ETH
+
+                    <Icon name="cog"/>{formatNumberToLocale(claimedAlca)} ALCA
                 </div>
             </div>
 
@@ -137,8 +138,8 @@ export function LockupClaim() {
             <Header>
                 {hash ? 'Rewards Claimed Successfully!' : 'Claim Lockup Rewards'}
                 <Header.Subheader className="mt-3">
-                    {hash 
-                        ? (`You have claimed your lockup rewards`) 
+                    {hash
+                        ? (`You have claimed your lockup rewards`)
                         : (`Lockup rewards can be claimed without unlocking your position.`)}
                 </Header.Subheader>
             </Header>
@@ -146,7 +147,7 @@ export function LockupClaim() {
     )
 
     const confirmation = () => (
-        <ConfirmationModal 
+        <ConfirmationModal
             title="Claim Reward"
             open={openConfirmation}
             onClose={() => toggleConfirmModal(false)}
@@ -164,9 +165,9 @@ export function LockupClaim() {
             <p>You are about to claim the following rewards. These funds will be sent to your wallet.</p>
 
             <div className="font-bold space-x-2">
-                <Icon name="ethereum"/>{ethReward} ETH 
+                <Icon name="ethereum"/>{formatNumberToLocale(ethReward)} ETH
 
-                <Icon name="cog"/>{alcaReward} ALCA
+                <Icon name="cog"/>{formatNumberToLocale(alcaReward)} ALCA
             </div>
         </ConfirmationModal>
     )

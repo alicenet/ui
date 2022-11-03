@@ -4,6 +4,7 @@ import { tabPanes } from "utils/constants";
 import { TabPanesContext } from "contexts";
 import { useSelector } from "react-redux";
 import { MigrationPanel } from "components/migrationPanel/MigrationPanel";
+import { formatNumberToLocale } from "utils/locale";
 
 export function Success() {
 
@@ -43,17 +44,17 @@ export function Success() {
                         Thank you for migrating to ALCA
                     </div>
                     <div className="font-bold">
-                        You have migrated {migrationAmount} MAD to {Number(alcaExchangeRate).toLocaleString(false, { maximumFractionDigits: 4 })} ALCA
+                        You have migrated {formatNumberToLocale(migrationAmount)} MAD to {formatNumberToLocale(alcaExchangeRate)} ALCA
                     </div>
                 </div>
             </div>
 
             <div className="flex justify-between  mt-8">
                 <MigrationPanel preTextHeader="Previous Balance" postTextHeader="Current Balance" quadrants={[
-                    { title: "MAD Balance", value: Number(prevMadBal).toLocaleString(false, { maximumFractionDigits: 4 }), valueName: "MAD" },
-                    { title: "ALCA Balance", value: Number(prevAlcaBal).toLocaleString(false, { maximumFractionDigits: 4 }), valueName: "ALCA" },
-                    { title: "MAD Balance", value: Number(madBalance).toLocaleString(false, { maximumFractionDigits: 4 }), valueName: "MAD" },
-                    { title: "ALCA Balance", value: Number(alcaBalance).toLocaleString(false, { maximumFractionDigits: 4 }), valueName: "ALCA" }
+                    { title: "MAD Balance", value: formatNumberToLocale(prevMadBal), valueName: "MAD" },
+                    { title: "ALCA Balance", value: formatNumberToLocale(prevAlcaBal), valueName: "ALCA" },
+                    { title: "MAD Balance", value: formatNumberToLocale(madBalance), valueName: "MAD" },
+                    { title: "ALCA Balance", value: formatNumberToLocale(alcaBalance), valueName: "ALCA" }
                 ]} hideButton hideInput disableLeft />
             </div>
 

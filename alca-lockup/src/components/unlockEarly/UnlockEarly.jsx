@@ -6,6 +6,7 @@ import { APPLICATION_ACTION_TYPES, TOKEN_TYPES } from "redux/constants";
 import { Grid, Header,  Button, Icon, Message, Segment } from "semantic-ui-react";
 import utils from "utils";
 import { ConfirmationModal } from "components";
+import { formatNumberToLocale } from "utils/locale";
 
 const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://etherscan.io/tx/";
 
@@ -22,7 +23,7 @@ export function UnlockEarly() {
     }))
 
     const dispatch = useDispatch();
-    
+
     const [status, setStatus] = React.useState({});
     const [openConfirmation, toggleConfirmModal] = React.useState(false);
     const [waiting, setWaiting] = React.useState(false);
@@ -54,9 +55,9 @@ export function UnlockEarly() {
             }
         } catch (exception) {
             setWaiting(false);
-            setStatus({ 
-                error: true, 
-                message: exception.toString() || "There was a problem with your request, please verify or try again later" 
+            setStatus({
+                error: true,
+                message: exception.toString() || "There was a problem with your request, please verify or try again later"
             });
         }
     }
@@ -69,9 +70,9 @@ export function UnlockEarly() {
                         <div className="flex justify-center items-center mr-3 p-6 h-20 bg-neutral-300">
                             <Icon size="large" name="lock" className="mr-0" />
                         </div>
-                    
+
                         <div>
-                            <Header as="h1" className="mb-0">{lockedAlca} ALCA Staked Locked</Header>
+                            <Header as="h1" className="mb-0">{formatNumberToLocale(lockedAlca)} ALCA Staked Locked</Header>
                             <p>
                                 You can unlock your position at anytime, however to receive the complete lockup bonus rewards 
                                 it must not be unlocked until <strong>{`${unlockDate} ${unlockDate === 1 ? 'block' : 'blocks'}`}</strong>
@@ -82,11 +83,11 @@ export function UnlockEarly() {
                     <Segment className="flex justify-between items-center rounded-2xl bg-neutral-50 border-neutral-200">
                         <div>
                             <Header as="h4">Locked rewards as today</Header>
-                            
-                            <div className="font-bold space-x-2">
-                                <Icon name="ethereum"/>{ethReward} ETH 
 
-                                <Icon name="cog"/>{alcaReward} ALCA
+                            <div className="font-bold space-x-2">
+                                <Icon name="ethereum"/>{formatNumberToLocale(ethReward)} ETH
+
+                                <Icon name="cog"/>{formatNumberToLocale(alcaReward)} ALCA
                             </div>
                         </div>
 
@@ -95,7 +96,7 @@ export function UnlockEarly() {
                             loading={waiting}
                             onClick={() => toggleConfirmModal(true)}
                             content={"Unlock position & rewards"}
-                        />      
+                        />
                     </Segment>
                 </>
             )}
@@ -106,11 +107,11 @@ export function UnlockEarly() {
         <Grid.Column width={16}>
             <div className="mb-10">
                 <Header as="h3">Claimed Rewards</Header>
-                
-                <div className="font-bold space-x-2">
-                    <Icon name="ethereum"/>{claimedEth} ETH 
 
-                    <Icon name="cog"/>{claimedAlca} ALCA
+                <div className="font-bold space-x-2">
+                    <Icon name="ethereum"/>{formatNumberToLocale(claimedEth)} ETH
+
+                    <Icon name="cog"/>{formatNumberToLocale(claimedAlca)} ALCA
                 </div>
             </div>
 
@@ -142,22 +143,22 @@ export function UnlockEarly() {
                 <Header>
                     {hash ? 'Unlocked Successful!' : 'Current lockup position'}
                     <Header.Subheader className="mt-3">
-                        {!hash 
+                        {!hash
                         ? (`The early exit will have a ${penalty}% penalty of earned rewards, users will get the ${remainingRewards}% of their rewards and their original staked position's ALCA.`)
-                        : (`Your position ${unlockedPosition} ALCA has been unlocked`)}
+                        : (`Your position ${formatNumberToLocale(unlockedPosition)} ALCA has been unlocked`)}
                     </Header.Subheader>
                 </Header>
 
-                <Grid className="mt-3"> 
-                    <div 
-                        className="cursor-pointer text-sm underline" 
+                <Grid className="mt-3">
+                    <div
+                        className="cursor-pointer text-sm underline"
                         onClick={() => window.open(`${process.env.REACT_APP__ABOUT_EXTRA_ALCA_LOCKUP_URL}`, '_blank').focus()}
                     >
                         About extra ALCA lockup rewards
                     </div>
 
-                    <div 
-                        className="cursor-pointer text-sm underline" 
+                    <div
+                        className="cursor-pointer text-sm underline"
                         onClick={() => window.open(`${process.env.REACT_APP__ABOUT_ETH_LOCKUP_URL}`, '_blank').focus()}
                     >
                         About ETH % lockup rewards
@@ -168,7 +169,7 @@ export function UnlockEarly() {
     )
 
     const confirmation = () => (
-        <ConfirmationModal 
+        <ConfirmationModal
             title="Unlock this position"
             open={openConfirmation}
             onClose={() => toggleConfirmModal(false)}
@@ -176,19 +177,19 @@ export function UnlockEarly() {
             onAccept={() => unlockPosition()}
         >
             <Message warning>
-                <Message.Header>You are about to unlock this {lockedAlca} ALCA position and lose potential rewards</Message.Header>
+                <Message.Header>You are about to unlock this {formatNumberToLocale(lockedAlca)} ALCA position and lose potential rewards</Message.Header>
                 <p>The early exit will have a {penalty}% penalty for earned rewards, users will get the {remainingRewards}%<br />
                     of their rewards and their original staked position's ALCA.</p>
             </Message>
 
-            <p>You are about to unlock this {lockedAlca} ALCA before the lock-up period this means.... (TBD)</p>
+            <p>You are about to unlock this {formatNumberToLocale(lockedAlca)} ALCA before the lock-up period this means.... (TBD)</p>
 
             <Header as="h3">Locked rewards as of today</Header>
-            
-            <div className="font-bold space-x-2">
-                <Icon name="ethereum"/>{ethReward} ETH 
 
-                <Icon name="cog"/>{alcaReward} ALCA
+            <div className="font-bold space-x-2">
+                <Icon name="ethereum"/>{formatNumberToLocale(ethReward)} ETH
+
+                <Icon name="cog"/>{formatNumberToLocale(alcaReward)} ALCA
             </div>
         </ConfirmationModal>
     )
