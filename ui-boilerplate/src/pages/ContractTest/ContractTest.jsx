@@ -10,6 +10,8 @@ export function ContractTest() {
     const theme = useTheme();
     const CONTRACT_FXS = ethAdapter.contractMethods;
 
+    console.log(CONTRACT_FXS);
+
     // Track all contract method states individually
     const [inputStates, setInputStates] = React.useState({});
     const [responseStates, setResponseStates] = React.useState({});
