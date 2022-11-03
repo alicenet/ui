@@ -90,8 +90,8 @@ export function StakeUnstake() {
             <Grid.Column width={16}>
                 <Header>Unstake completed
                     <Header.Subheader>
-                        <strong>You have successfully unstaked {unstakedAmount} ALCA</strong> and claimed a{' '}
-                        <strong>reward of {claimedEthRewards} ETH / {claimedAlcaRewards} ALCA</strong> to your wallet
+                        <strong>You have successfully unstaked {formatNumberToLocale(unstakedAmount)} ALCA</strong> and claimed a{' '}
+                        <strong>reward of {formatNumberToLocale(claimedEthRewards)} ETH / {formatNumberToLocale(claimedAlcaRewards)} ALCA</strong> to your wallet
                     </Header.Subheader>
                 </Header>
             </Grid.Column>
