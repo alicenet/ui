@@ -74,11 +74,5 @@
     "bugs": {
         "url": "https://github.com/alicenet/ui/issues"
     },
-    "homepage": "https://github.com/alicenet/ui#readme",
-    "workspaces": [
-        "alca-migrate-ui",
-        "alca-staking-ui",
-        "alca-lockup-ui",
-        "ui-boilerplate"
-    ]
+    "homepage": "https://github.com/alicenet/ui#readme"
 }
