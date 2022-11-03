@@ -1,15 +1,15 @@
-import 'ethers';
-import { ethers } from 'ethers';
-import config from 'config/_config';
-import store from 'redux/store/store';
-import { APPLICATION_ACTIONS } from 'redux/actions';
-import { TOKEN_TYPES, LOCKUP_PERIOD_STATUS } from 'redux/constants';
-import utils from 'utils';
+import "ethers";
+import { ethers } from "ethers";
+import config from "config/_config";
+import store from "redux/store/store";
+import { APPLICATION_ACTIONS } from "redux/actions";
+import { TOKEN_TYPES, LOCKUP_PERIOD_STATUS } from "redux/constants";
+import utils from "utils";
 
-/** 
+/**
  * Re exported for easy importing
- * 
-*/
+ *
+ */
 export const CONTRACT_NAMES = config.CONTRACT_NAMES;
 
 /**
@@ -18,22 +18,21 @@ export const CONTRACT_NAMES = config.CONTRACT_NAMES;
  * @param { Object } err - Will be null if no error, or else contain the error
  */
 class EthAdapter {
-
     ////////////////////////////////////////////////////////
     /* Private Methods -- Scroll down for public methods */
     //////////////////////////////////////////////////////
     constructor() {
-        this.accounts = []; // Web3 Accounts List 
+        this.accounts = []; // Web3 Accounts List
         this.provider = null; // Web3 Provider -- Populated on successful _connectToWeb3Wallet()
         this.signer = null; // Web3 Signer -- Populated on successful _connectToWeb3Wallet()
         this.contracts = config.CONTRACTS; // Contracts from config
         this._setupWeb3Listeners();
         this.addressesFromFactory = {};
         this.timeBetweenBalancePolls = 7500;
-        
+
         // Setup RPC provider
         this.provider = new ethers.providers.JsonRpcProvider(config.RPC.URL);
-        
+
         console.debug("EthAdapter Init: ", this);
     }
 
@@ -42,9 +41,9 @@ class EthAdapter {
      */
     async _balanceLoop() {
         // Request accounts
-        const accts = await this.provider.send("eth_requestAccounts", []); 
+        const accts = await this.provider.send("eth_requestAccounts", []);
         if (accts.length === 0) {
-            console.log("balfail")
+            console.log("balfail");
             return;
         }
 
@@ -57,18 +56,18 @@ class EthAdapter {
      */
     async _setupWeb3Listeners() {
         if (window.ethereum) {
-            window.ethereum.on("networkChanged", networkId => {
+            window.ethereum.on("networkChanged", (networkId) => {
                 store.dispatch(APPLICATION_ACTIONS.updateNetwork(networkId));
                 this.updateBalances();
-            })
-            window.ethereum.on("accountsChanged", async accounts => {
+            });
+            window.ethereum.on("accountsChanged", async (accounts) => {
                 this.accounts = accounts;
                 let address = await this._getAddressByIndex(0);
                 store.dispatch(APPLICATION_ACTIONS.setConnectedAddress(address));
                 this.updateBalances();
-            })
+            });
         } else {
-            console.warn("No web3 detected.") // TODO: Add fallback
+            console.warn("No web3 detected."); // TODO: Add fallback
         }
     }
 
@@ -88,7 +87,11 @@ class EthAdapter {
         this._requireContractExists(contractName);
         this._requireContractAddress(contractName);
         this._requireContractAbi(contractName);
-        return new ethers.Contract(this.addressesFromFactory[contractName] || this.contracts[contractName].address, this.contracts[contractName].abi, this.provider);
+        return new ethers.Contract(
+            this.addressesFromFactory[contractName] || this.contracts[contractName].address,
+            this.contracts[contractName].abi,
+            this.provider
+        );
     }
 
     /**
@@ -100,7 +103,11 @@ class EthAdapter {
         this._requireContractAddress(contractName);
         this._requireContractAbi(contractName);
         this._requireSigner(contractName);
-        return new ethers.Contract(this.addressesFromFactory[contractName] || this.contracts[contractName].address, this.contracts[contractName].abi, this.signer);
+        return new ethers.Contract(
+            this.addressesFromFactory[contractName] || this.contracts[contractName].address,
+            this.contracts[contractName].abi,
+            this.signer
+        );
     }
 
     /**
@@ -109,12 +116,13 @@ class EthAdapter {
      * @returns { web3.eth.Contract }
      */
     _getDeterministicContractAddress(contractName) {
-        return `0x${this.web3.utils.sha3(`0x${[
-            'ff',
-            config.factoryContractAddress,
-            config.CONTRACT_SALTS[contractName],
-            this.web3.utils.sha3(config.CONTRACT_BYTECODE[contractName])
-        ].map(x => x.replace(/0x/, '')).join('')}`).slice(-40)}`.toLowerCase();
+        return `0x${this.web3.utils
+            .sha3(
+                `0x${["ff", config.factoryContractAddress, config.CONTRACT_SALTS[contractName], this.web3.utils.sha3(config.CONTRACT_BYTECODE[contractName])]
+                    .map((x) => x.replace(/0x/, ""))
+                    .join("")}`
+            )
+            .slice(-40)}`.toLowerCase();
     }
 
     /**
@@ -150,7 +158,9 @@ class EthAdapter {
      * @param { String } contractName
      */
     _requireContractAddress(contractName) {
-        if (this.addressesFromFactory[contractName]) { return }
+        if (this.addressesFromFactory[contractName]) {
+            return;
+        }
         if (!this.contracts[contractName].address) {
             this._throw("Requesting contract instance for contract '" + contractName + "' with nonexistant address. Verify address has been set.");
         }
@@ -162,7 +172,9 @@ class EthAdapter {
      */
     _requireSigner(contractName) {
         if (!this.signer) {
-            this._throw("Requesting contract instance for contract '" + contractName + "' but EthAdapter has not been provided a signer. Verify a signer has been set.");
+            this._throw(
+                "Requesting contract instance for contract '" + contractName + "' but EthAdapter has not been provided a signer. Verify a signer has been set."
+            );
         }
     }
 
@@ -206,12 +218,13 @@ class EthAdapter {
         return await this._getSignerContractInstance(contractName)[methodName](...params);
     }
 
-    // TODO Rework contract names to the expected Salt 
+    // TODO Rework contract names to the expected Salt
     async _lookupContractName(cName) {
-        const contractAddress = await this._tryCall(CONTRACT_NAMES.Factory, "lookup", [ethers.utils.formatBytes32String(cName)]);
-        return contractAddress;
+        return this._try(async () => {
+            const contractAddress = await this._tryCall(CONTRACT_NAMES.Factory, "lookup", [ethers.utils.formatBytes32String(cName)]);
+            return contractAddress;
+        });
     }
-
 
     /////////////////////
     /* Public Methods  */
@@ -231,20 +244,22 @@ class EthAdapter {
             let connectedAddress = await this._getAddressByIndex(0);
             store.dispatch(APPLICATION_ACTIONS.updateNetwork(String(parseInt(window.ethereum.chainId, 16))));
             store.dispatch(APPLICATION_ACTIONS.setConnectedAddress(connectedAddress));
-            
+
             // Lookup Contract Addresses
             for (let contract in this.contracts) {
-                if (contract === "Factory") { continue }
+                if (contract === "Factory") {
+                    continue;
+                }
                 let address = await this._lookupContractName(contract);
                 this.addressesFromFactory[contract] = address;
             }
 
             // Setup balance listener
             await this._balanceLoop();
-            
+
             cb(null, connectedAddress);
             store.dispatch(APPLICATION_ACTIONS.setWeb3Connected(true));
-            
+
             return;
         } catch (ex) {
             console.error(ex);
@@ -273,10 +288,10 @@ class EthAdapter {
      * Request a network change to the active web wallet in window.ethereum
      * @param { String } networkId - Network ID as a string -- Not Hexadecimal
      */
-     async requestNetworkChange(networkId) {
+    async requestNetworkChange(networkId) {
         const hexChainId = "0x" + parseInt(networkId).toString(16);
         await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
+            method: "wallet_switchEthereumChain",
             params: [{ chainId: hexChainId }],
         });
         this.updateBalances();
@@ -289,9 +304,9 @@ class EthAdapter {
      */
     async getEthereumBalance(accountIndex = 0) {
         return this._try(async () => {
-            let balance = await this.provider.getBalance(this._getAddressByIndex(accountIndex))
+            let balance = await this.provider.getBalance(this._getAddressByIndex(accountIndex));
             return ethers.utils.formatEther(balance);
-        })
+        });
     }
 
     /**
@@ -308,7 +323,7 @@ class EthAdapter {
 
     /**
      * Get staked ALCA
-     * @param { Number } accountIndex - Account index to 
+     * @param { Number } accountIndex - Account index to
      * @returns { Object } - Lowest staked amount
      */
     async getStakedAlca(accountIndex = 0) {
@@ -322,14 +337,14 @@ class EthAdapter {
             return {
                 ...stakedAlca,
                 stakedAlca: stakedAlca.shares ? ethers.utils.formatEther(stakedAlca.shares) : 0,
-                ethRewards: stakedAlca.ethRewards || 0, 
-                alcaRewards: stakedAlca.alcaRewards || 0
+                ethRewards: stakedAlca.ethRewards || 0,
+                alcaRewards: stakedAlca.alcaRewards || 0,
             };
         });
     }
-    
+
     /**
-     * Get all token id for a given address 
+     * Get all token id for a given address
      * @param { String } address - Owner address
      * @returns { Array<Number> }
      */
@@ -340,17 +355,16 @@ class EthAdapter {
 
         while (fetching) {
             try {
-                const tokenId = await this._tryCall(
-                    CONTRACT_NAMES.PublicStaking, 
-                    "tokenOfOwnerByIndex", 
-                    [address, index]
-                );
-                if (tokenId) tokenIds.push(tokenId); index++;
-            } catch (error) { fetching = false; }
+                const tokenId = await this._tryCall(CONTRACT_NAMES.PublicStaking, "tokenOfOwnerByIndex", [address, index]);
+                if (tokenId) tokenIds.push(tokenId);
+                index++;
+            } catch (error) {
+                fetching = false;
+            }
         }
         return tokenIds;
     }
-    
+
     /**
      * Get metadata for each token
      * @param { Array<Number> } tokenIds - array of token ids
@@ -364,7 +378,7 @@ class EthAdapter {
         for (let id of tokenIds) {
             const metadata = await this._tryCall(CONTRACT_NAMES.PublicStaking, "tokenURI", [id]);
             const { attributes } = parseTokenMetaData(metadata);
-            const shares = findTokenAttributeByName(attributes, 'Shares');
+            const shares = findTokenAttributeByName(attributes, "Shares");
             const ethRewards = await this.estimateEthCollection(id);
             const alcaRewards = await this.estimateTokenCollection(id);
             meta.push({ tokenId: id, shares: shares.value, ethRewards, alcaRewards });
@@ -377,40 +391,40 @@ class EthAdapter {
      * @param { Number } tokenId
      * @returns { String }
      */
-     async estimateEthCollection(tokenId) {
+    async estimateEthCollection(tokenId) {
         return await this._try(async () => {
             const payout = await this._trySend(CONTRACT_NAMES.PublicStaking, "estimateEthCollection", [tokenId]);
             return ethers.utils.formatEther(payout);
-        })
+        });
     }
-    
+
     /**
      * Get ALCA rewards for a given token
-     * @param { Number } tokenId 
+     * @param { Number } tokenId
      * @returns { String }
      */
     async estimateTokenCollection(tokenId) {
         return await this._try(async () => {
             const payout = await this._trySend(CONTRACT_NAMES.PublicStaking, "estimateTokenCollection", [tokenId]);
             return ethers.utils.formatEther(payout);
-        })
+        });
     }
 
     /**
-     * Safe transfer  
+     * Safe transfer
      * @param tokenID nft id held by lockup
      * @returns { Object }
      */
-     async lockupStakedPosition(tokenID) {
+    async lockupStakedPosition(tokenID) {
         return await this._try(async () => {
             const address = await this._getAddressByIndex(0);
             const tx = await this._trySend(CONTRACT_NAMES.PublicStaking, "safeTransferFrom(address,address,uint256)", [
-                address, 
-                this.addressesFromFactory.Lockup, 
-                tokenID
+                address,
+                this.addressesFromFactory.Lockup,
+                tokenID,
             ]);
             return tx;
-        })
+        });
     }
 
     /**
@@ -418,30 +432,30 @@ class EthAdapter {
      * @param { Number } accountIndex - Account index of this.accounts[i]
      * @returns { Object }
      */
-     async getLockedPosition(accountIndex = 0) {
+    async getLockedPosition(accountIndex = 0) {
         return await this._try(async () => {
             const address = await this._getAddressByIndex(accountIndex);
             const tokenId = await this._trySend(CONTRACT_NAMES.Lockup, "tokenOf", [address]);
             const { payoutEth = 0, payoutToken = 0 } = tokenId > 0 ? await this.estimateProfits(tokenId) : {};
-            const { shares = 0 } = tokenId > 0 ? await this._trySend(CONTRACT_NAMES.PublicStaking, "getPosition", [tokenId]) : 0 ;
+            const { shares = 0 } = tokenId > 0 ? await this._trySend(CONTRACT_NAMES.PublicStaking, "getPosition", [tokenId]) : 0;
             const end = await this.getLockupEnd();
             const blockNumber = await this.provider.getBlockNumber();
             const SCALING_FACTOR = await this._tryCall(CONTRACT_NAMES.Lockup, "SCALING_FACTOR");
             const FRACTION_RESERVED = await this._tryCall(CONTRACT_NAMES.Lockup, "FRACTION_RESERVED");
             const penalty = ethers.BigNumber.from(FRACTION_RESERVED).mul(100).div(SCALING_FACTOR);
-            const remainingRewards = 100 - penalty
+            const remainingRewards = 100 - penalty;
 
-            return { 
+            return {
                 lockedAlca: ethers.utils.formatEther(shares),
-                payoutEth: ethers.utils.formatEther(payoutEth), 
+                payoutEth: ethers.utils.formatEther(payoutEth),
                 payoutToken: ethers.utils.formatEther(payoutToken),
                 tokenId,
-                lockupPeriod: (ethers.BigNumber.from(end).gt(blockNumber)) ? LOCKUP_PERIOD_STATUS.LOCKED : LOCKUP_PERIOD_STATUS.END,
+                lockupPeriod: ethers.BigNumber.from(end).gt(blockNumber) ? LOCKUP_PERIOD_STATUS.LOCKED : LOCKUP_PERIOD_STATUS.END,
                 penalty: penalty.toString(),
                 blockUntilUnlock: ethers.BigNumber.from(end).sub(blockNumber).toString(),
                 remainingRewards,
-            }; 
-        })
+            };
+        });
     }
 
     /**
@@ -454,7 +468,7 @@ class EthAdapter {
             const address = await this._getAddressByIndex(0);
             const tx = await this._trySend(CONTRACT_NAMES.Lockup, "unlock", [address, tokenID]);
             return tx;
-        })
+        });
     }
 
     /**
@@ -466,7 +480,7 @@ class EthAdapter {
         return await this._try(async () => {
             const tx = await this._trySend(CONTRACT_NAMES.Lockup, "unlockEarly", [ethers.utils.parseEther(exitValue), false]);
             return tx;
-        })
+        });
     }
 
     /**
@@ -474,67 +488,67 @@ class EthAdapter {
      * @param { Number } tokenId
      * @returns { Object }
      */
-     async estimateProfits(tokenId) {
+    async estimateProfits(tokenId) {
         return await this._try(async () => {
             const payoutTx = await this._trySend(CONTRACT_NAMES.Lockup, "estimateProfits", [tokenId]);
             return payoutTx;
-        })
+        });
     }
-    
+
     /**
      * Get ALCA rewards for a given token in lockup
-     * @param { Number } tokenId 
+     * @param { Number } tokenId
      * @returns { Object }
      */
     async estimateFinalBonusProfits(tokenId) {
         return await this._try(async () => {
             const payoutTx = await this._trySend(CONTRACT_NAMES.Lockup, "estimateFinalBonusWithProfits", [tokenId]);
             return payoutTx;
-        })
+        });
     }
 
     /**
      * Claim all rewards for both ETH and ALCA from lockup
      * @returns { Object }
      */
-     async collectAllProfits() {
+    async collectAllProfits() {
         return await this._try(async () => {
             const payoutTx = await this._trySend(CONTRACT_NAMES.Lockup, "collectAllProfits");
             return payoutTx;
-        })
+        });
     }
 
     /**
      * Aggregate all profits
      * @returns { Object }
      */
-     async aggregateProfits() {
+    async aggregateProfits() {
         return await this._try(async () => {
             const payoutTx = await this._trySend(CONTRACT_NAMES.Lockup, "aggregateProfits");
             return payoutTx;
-        })
+        });
     }
 
     /**
      * Get first block number in the lockup period
      * @returns { Number }
      */
-     async getLockupStart() {
+    async getLockupStart() {
         return await this._try(async () => {
             const block = await this._trySend(CONTRACT_NAMES.Lockup, "getLockupStartBlock");
             return block;
-        })
+        });
     }
 
     /**
      * Get end block number in the lockup period
      * @returns { Object }
      */
-     async getLockupEnd() {
+    async getLockupEnd() {
         return await this._try(async () => {
             const block = await this._trySend(CONTRACT_NAMES.Lockup, "getLockupEndBlock");
             return block;
-        })
+        });
     }
 
     /**
@@ -555,7 +569,7 @@ class EthAdapter {
     async signBytes(message) {
         this._requireSigner();
         const msgBytes = ethers.utils.arrayify(message);
-        return await this.signer.signMessage(msgBytes)
+        return await this.signer.signMessage(msgBytes);
     }
 
     /**

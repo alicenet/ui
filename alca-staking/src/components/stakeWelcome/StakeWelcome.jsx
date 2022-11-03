@@ -6,14 +6,13 @@ import { APPLICATION_ACTIONS } from "redux/actions";
 import { Connect } from "components/connect/Connect";
 
 export function StakeWelcome({ stepForward }) {
-
-    const [agreeCookie, setAgreeCookie] = useCookies(['agreed']);
+    const [agreeCookie, setAgreeCookie] = useCookies(["agreed"]);
     const dispatch = useDispatch();
 
-    const { web3Connected, hasReadTerms } = useSelector(s => ({
+    const { web3Connected, hasReadTerms } = useSelector((s) => ({
         web3Connected: s.application.web3Connected,
-        hasReadTerms: s.application.hasReadTerms
-    }))
+        hasReadTerms: s.application.hasReadTerms,
+    }));
 
     const [checkState, setCheckState] = React.useState({
         stake1: false,
@@ -23,7 +22,7 @@ export function StakeWelcome({ stepForward }) {
         unstake2: false,
         unstake3: false,
         finalCheck: false,
-    })
+    });
 
     // Push forward if user cookie has been set or is set
     React.useEffect(() => {
@@ -31,30 +30,29 @@ export function StakeWelcome({ stepForward }) {
             stepForward();
         }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [hasReadTerms, web3Connected])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [hasReadTerms, web3Connected]);
 
-    // Check for cookie if exists, dispatch update, 
+    // Check for cookie if exists, dispatch update,
     React.useEffect(() => {
         dispatch(APPLICATION_ACTIONS.checkAgreeCookieState(agreeCookie));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
 
     const agreeAndContinue = () => {
         setAgreeCookie("agreed", true);
-        dispatch(APPLICATION_ACTIONS.setAgreeStateTrue())
-    }
+        dispatch(APPLICATION_ACTIONS.setAgreeStateTrue());
+    };
 
     const updateCheckState = (checkType, bool) => {
-        setCheckState(s => ({ ...s, [checkType]: bool }))
-    }
+        setCheckState((s) => ({ ...s, [checkType]: bool }));
+    };
 
     const stakeAll = agreeCookie?.agreed || (checkState.stake1 && checkState.stake2 && checkState.stake3);
     const unstakeAll = checkState.unstake1 && checkState.unstake2 && checkState.unstake3;
     const allCheck = stakeAll && unstakeAll;
 
     const StakingAgreement = () => {
-
         const segmentDisabled = { disabled: Boolean(stakeAll) };
 
         return (
@@ -62,63 +60,91 @@ export function StakeWelcome({ stepForward }) {
                 <div>
                     <Header>Staking Terms</Header>
                     <div>
-                        <Checkbox {...segmentDisabled} checked={Boolean(agreeCookie?.agreed || checkState.stake1)} onChange={(e, data) => updateCheckState("stake1", data.checked)}
-                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu" />
+                        <Checkbox
+                            {...segmentDisabled}
+                            checked={Boolean(agreeCookie?.agreed || checkState.stake1)}
+                            onChange={(e, data) => updateCheckState("stake1", data.checked)}
+                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu"
+                        />
                     </div>
                     <div className="mt-8">
-                        <Checkbox {...segmentDisabled} checked={Boolean(agreeCookie?.agreed || checkState.stake2)} onChange={(e, data) => updateCheckState("stake2", data.checked)}
-                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu" />
+                        <Checkbox
+                            {...segmentDisabled}
+                            checked={Boolean(agreeCookie?.agreed || checkState.stake2)}
+                            onChange={(e, data) => updateCheckState("stake2", data.checked)}
+                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu"
+                        />
                     </div>
                     <div className="mt-8">
-                        <Checkbox {...segmentDisabled} checked={Boolean(agreeCookie?.agreed || checkState.stake3)} onChange={(e, data) => updateCheckState("stake3", data.checked)}
-                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu" />
+                        <Checkbox
+                            {...segmentDisabled}
+                            checked={Boolean(agreeCookie?.agreed || checkState.stake3)}
+                            onChange={(e, data) => updateCheckState("stake3", data.checked)}
+                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu"
+                        />
                     </div>
                 </div>
                 <div>
                     <Checkbox checked={Boolean(stakeAll)} label={stakeAll ? "Thanks!" : "Check all above boxes to continue"} />
                 </div>
-            </Segment>)
-    }
-
+            </Segment>
+        );
+    };
 
     const UnstakingAgreement = () => {
-        const segmentDisabled = { disabled: Boolean(agreeCookie?.agreed || !stakeAll || unstakeAll) }
+        const segmentDisabled = { disabled: Boolean(agreeCookie?.agreed || !stakeAll || unstakeAll) };
         return (
             <Segment {...segmentDisabled} className="flex flex-col justify-between h-full">
-
                 <div>
                     <Header>Unstaking Terms</Header>
                     <div>
-                        <Checkbox {...segmentDisabled} checked={Boolean(agreeCookie?.agreed || checkState.unstake1)} onChange={(e, data) => updateCheckState("unstake1", data.checked)}
-                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu" />
+                        <Checkbox
+                            {...segmentDisabled}
+                            checked={Boolean(agreeCookie?.agreed || checkState.unstake1)}
+                            onChange={(e, data) => updateCheckState("unstake1", data.checked)}
+                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu"
+                        />
                     </div>
                     <div className="mt-8">
-                        <Checkbox {...segmentDisabled} checked={Boolean(agreeCookie?.agreed || checkState.unstake2)} onChange={(e, data) => updateCheckState("unstake2", data.checked)}
-                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu" />
+                        <Checkbox
+                            {...segmentDisabled}
+                            checked={Boolean(agreeCookie?.agreed || checkState.unstake2)}
+                            onChange={(e, data) => updateCheckState("unstake2", data.checked)}
+                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu"
+                        />
                     </div>
                     <div className="mt-8">
-                        <Checkbox {...segmentDisabled} checked={Boolean(agreeCookie?.agreed || checkState.unstake3)} onChange={(e, data) => updateCheckState("unstake3", data.checked)}
-                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu" />
+                        <Checkbox
+                            {...segmentDisabled}
+                            checked={Boolean(agreeCookie?.agreed || checkState.unstake3)}
+                            onChange={(e, data) => updateCheckState("unstake3", data.checked)}
+                            label="laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget nullam non nisi est sit amet facilisis magna etiam tempor orci eu"
+                        />
                     </div>
                 </div>
 
                 <div>
-                    <Checkbox {...segmentDisabled} checked={Boolean(agreeCookie?.agreed || unstakeAll)} label={unstakeAll ? "Thanks!" : "Check all above boxes to continue"} />
+                    <Checkbox
+                        {...segmentDisabled}
+                        checked={Boolean(agreeCookie?.agreed || unstakeAll)}
+                        label={unstakeAll ? "Thanks!" : "Check all above boxes to continue"}
+                    />
                 </div>
-
             </Segment>
-        )
-    }
+        );
+    };
 
     const FinalAgreement = () => {
         const segmentDisabled = { disabled: Boolean(agreeCookie?.agreed || !stakeAll || !unstakeAll) };
         return (
             <Segment {...segmentDisabled}>
                 <Header>Summary</Header>
-                <div className="flex justify-between items-center" >
+                <div className="flex justify-between items-center">
                     <div>
                         <div>
-                            <Checkbox {...segmentDisabled} onChange={(e, data) => updateCheckState("finalCheck", data.checked)}
+                            <Checkbox
+                                {...segmentDisabled}
+                                onChange={(e, data) => updateCheckState("finalCheck", data.checked)}
                                 label="I have read and agreed to all of the above terms and conditions"
                                 checked={Boolean(agreeCookie?.agreed || checkState.finalCheck)}
                             />
@@ -128,13 +154,13 @@ export function StakeWelcome({ stepForward }) {
                         <Button disabled={Boolean(!checkState.finalCheck || !allCheck)} size="huge" content="Continue" onClick={agreeAndContinue} />
                     </div>
                 </div>
-            </Segment>)
-    }
+            </Segment>
+        );
+    };
 
     return (
         <Grid padded>
-
-            <Connect/>
+            <Connect />
 
             {/* <Grid.Row className="min-h-[420px]">
 
@@ -153,8 +179,6 @@ export function StakeWelcome({ stepForward }) {
                     <FinalAgreement />
                 </Grid.Column>
             </Grid.Row> */}
-
         </Grid>
-    )
-
+    );
 }

@@ -10,29 +10,35 @@ import { classNames } from "utils/generic";
 
 const TabPane = ({ name, component, className, activeTabPane, tabPaneIndex }) => {
     return {
-        menuItem: <Menu.Item key={name} className={classNames("hover:cursor-default pointer-events-none", )} content={name} active={activeTabPane === tabPaneIndex} disabled={tabPaneIndex < activeTabPane}/>,
-        render: () =>
-            <Tab.Pane className={className}>
-                {component()}
-            </Tab.Pane>
+        menuItem: (
+            <Menu.Item
+                key={name}
+                className={classNames("hover:cursor-default pointer-events-none")}
+                content={name}
+                active={activeTabPane === tabPaneIndex}
+                disabled={tabPaneIndex < activeTabPane}
+            />
+        ),
+        render: () => <Tab.Pane className={className}>{component()}</Tab.Pane>,
     };
-}
+};
 
 export function SwapActions() {
-
     const { constants } = config;
     const { activeTabPane, setActiveTabPane } = useContext(TabPanesContext);
-    const { web3Connected, address } = useSelector(state => ({
+    const { web3Connected, address } = useSelector((state) => ({
         address: state.application.connectedAddress,
-        web3Connected: state.application.web3Connected
+        web3Connected: state.application.web3Connected,
     }));
 
-    const panes = Object.keys(constants.tabPanes).map(tabPane => TabPane({
-        name: constants.tabPanes[tabPane].name,
-        component: constants.tabPanes[tabPane].component,
-        tabPaneIndex: constants.tabPanes[tabPane].index,
-        activeTabPane: activeTabPane
-    }));
+    const panes = Object.keys(constants.tabPanes).map((tabPane) =>
+        TabPane({
+            name: constants.tabPanes[tabPane].name,
+            component: constants.tabPanes[tabPane].component,
+            tabPaneIndex: constants.tabPanes[tabPane].index,
+            activeTabPane: activeTabPane,
+        })
+    );
 
     const disconnect = () => {
         ethAdapter.disconnectWeb3Wallet((err) => {
@@ -61,12 +67,7 @@ export function SwapActions() {
                     />
                 )}
             </div>
-            <Tab
-                activeIndex={activeTabPane}
-                menu={{ secondary: true, className: "" }}
-                panes={panes}
-            />
+            <Tab activeIndex={activeTabPane} menu={{ secondary: true, className: "" }} panes={panes} />
         </Container>
     );
-
 }

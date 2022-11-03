@@ -1,10 +1,10 @@
 /**
- * 
- * @param {Object} obj - Object to parse 
+ *
+ * @param {Object} obj - Object to parse
  * @param {String} keyname - Keyname to search for
- * @returns 
+ * @returns
  */
-module.exports._recurseForObjectKey = function(obj, keyname) {
+module.exports._recurseForObjectKey = function (obj, keyname) {
     let foundKeyVals = {};
     const recurse = (obj) => {
         for (let key of Object.keys(obj)) {
@@ -19,7 +19,7 @@ module.exports._recurseForObjectKey = function(obj, keyname) {
                 continue;
             }
         }
-    }
-    recurse(obj)
+    };
+    recurse(obj);
     return foundKeyVals;
-}
+};
