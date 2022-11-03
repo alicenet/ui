@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Grid, Menu, Segment, Header } from "semantic-ui-react";
 import { Connect, StakeClaim, StakeStake, StakeUnstake, StakeWelcome } from "components";
 import { classNames } from "utils/generic";
+import { formatNumberToLocale } from "utils/locale";
 
 export function StakeActions() {
 
@@ -59,7 +60,7 @@ export function StakeActions() {
                                     content={<>
                                         <Header className={classNames({ "opacity-40":  stakedAlca || !web3Connected })}>Stake</Header>
                                         <div className="text-xs">
-                                            {Number(alcaBalance).toLocaleString(false, { maximumFractionDigits: 7 })} ALCA Available
+                                            {formatNumberToLocale(alcaBalance, 7)} ALCA Available
                                         </div>
                                     </>}
                                     disabled={Boolean( stakedAlca || !web3Connected)}
@@ -75,7 +76,7 @@ export function StakeActions() {
                                         <Header className={classNames({ "opacity-40": !stakedAlca > 0 })}>Unstake</Header>
                                         <div className="text-xs">
                                             {stakedAlca > 0
-                                                ? `${Number(stakedAlca).toLocaleString(false, {maximumFractionDigits: 7})} ALCA`
+                                                ? `${formatNumberToLocale(stakedAlca, 7)} ALCA`
                                                 : "No ALCA staked"}
                                         </div>
                                     </>}
@@ -96,10 +97,10 @@ export function StakeActions() {
                                         </Header>
 
                                         <div className="text-xs">
-                                            {ethRewards > 0 ? `${Number(ethRewards).toLocaleString(false, {maximumFractionDigits: 7})} ETH to claim` : "No ETH to claim"}
+                                            {ethRewards > 0 ? `${formatNumberToLocale(ethRewards, 7)} ETH to claim` : "No ETH to claim"}
                                         </div>
                                         <div className="text-xs">
-                                            {alcaRewards > 0 ? `${Number(alcaRewards).toLocaleString(false, {maximumFractionDigits: 7})} ALCA to claim` : "No ALCA to claim"}
+                                            {alcaRewards > 0 ? `${formatNumberToLocale(alcaRewards, 7)} ALCA to claim` : "No ALCA to claim"}
                                         </div>
                                     </>}
                                     disabled={Boolean( ([0, "0.0"].includes(ethRewards) && [0, "0.0"].includes(alcaRewards)) || !stakedAlca)}

@@ -6,6 +6,7 @@ import { TOKEN_TYPES, LOCKUP_PERIOD_STATUS } from "redux/constants";
 import { Grid, Header, Button, Icon, Message } from "semantic-ui-react";
 import utils from "utils";
 import { ConfirmationModal } from "components";
+import { formatNumberToLocale } from "utils/locale";
 
 const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://etherscan.io/tx/";
 
@@ -43,9 +44,9 @@ export function Lockup() {
                 await dispatch(APPLICATION_ACTIONS.updateBalances(TOKEN_TYPES.ALL));
             }
         } catch (exception) {
-            setStatus({ 
-                error: true, 
-                message: exception.toString() || "There was a problem with your request, please verify or try again later" 
+            setStatus({
+                error: true,
+                message: exception.toString() || "There was a problem with your request, please verify or try again later"
             });
             setWaiting(false);
         }
@@ -56,7 +57,7 @@ export function Lockup() {
             {((!lockedPosition.lockedAlca || !hash) || status.error) && (
                 <>
                     <div>
-                        <Header as="h2">{stakedPosition.stakedAlca} ALCA Staked</Header>
+                        <Header as="h2">{formatNumberToLocale(stakedPosition.stakedAlca)} ALCA Staked</Header>
                     </div>
 
                     <div>
@@ -67,7 +68,7 @@ export function Lockup() {
                             onClick={() => toggleConfirmModal(true)}
                             disabled={stakedPosition.stakedAlca === 0 || lockupPeriodEnded}
                             loading={waiting}
-                        />      
+                        />
                     </div>
                 </>
             )}
@@ -97,7 +98,7 @@ export function Lockup() {
             )}
         </Grid.Column>
     )
-    
+
     const lockupHeader = () => (
         <>
             <Grid.Column width={16} className="mb-10">
@@ -110,17 +111,17 @@ export function Lockup() {
                             : (`You have Locked-up ${lockedPosition.lockedAlca} ALCA for 6 months 5X multiplayer (TBD)`)}
                         </Header.Subheader>
                     </Header>
-                    
-                    <Grid className="mt-3"> 
-                        <div 
-                            className="cursor-pointer text-sm underline" 
+
+                    <Grid className="mt-3">
+                        <div
+                            className="cursor-pointer text-sm underline"
                             onClick={() => window.open(`${process.env.REACT_APP__ABOUT_EXTRA_ALCA_LOCKUP_URL}`, '_blank').focus()}
                         >
                             About extra ALCA lockup rewards
                         </div>
 
-                        <div 
-                            className="cursor-pointer text-sm underline" 
+                        <div
+                            className="cursor-pointer text-sm underline"
                             onClick={() => window.open(`${process.env.REACT_APP__ABOUT_ETH_LOCKUP_URL}`, '_blank').focus()}
                         >
                             About ETH % lockup rewards
@@ -132,14 +133,14 @@ export function Lockup() {
     )
 
     const confirmation = () => (
-        <ConfirmationModal 
+        <ConfirmationModal
             title="Lockup this staked position"
             open={openConfirmation}
             onClose={() => toggleConfirmModal(false)}
             actionLabel="Lockup Position"
             onAccept={() => lockupPosition()}
         >
-            <p>You are about to Lock-up <strong>{stakedPosition.stakedAlca}</strong> ALCA for 6 months with a 5X multiplayer (TBD)</p>
+            <p>You are about to Lock-up <strong>{formatNumberToLocale(stakedPosition.stakedAlca)}</strong> ALCA for 6 months with a 5X multiplayer (TBD)</p>
         </ConfirmationModal>
     )
 
