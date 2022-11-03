@@ -7,7 +7,7 @@
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": false,
-    
+
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": true,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,

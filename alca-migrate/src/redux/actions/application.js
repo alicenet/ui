@@ -1,17 +1,17 @@
-import config from 'config/_config';
-import ethAdapter from 'eth/ethAdapter';
-import { APPLICATION_ACTION_TYPES, TOKEN_TYPES } from 'redux/constants';
-import { toast } from 'react-toastify';
+import config from "config/_config";
+import ethAdapter from "eth/ethAdapter";
+import { APPLICATION_ACTION_TYPES, TOKEN_TYPES } from "redux/constants";
+import { toast } from "react-toastify";
 
 /**
  * Set UI state for if a web3Wallet is connected
  * @param {Boolean} isConnected - Is the web3 wallet connected?
  * @returns
  */
-export const setWeb3Connected = isConnected => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.SET_WEB3_CONNECTED, payload: isConnected })
-    }
+export const setWeb3Connected = (isConnected) => {
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_WEB3_CONNECTED, payload: isConnected });
+    };
 };
 
 /**
@@ -19,10 +19,10 @@ export const setWeb3Connected = isConnected => {
  * @param {Boolean} busyState - Boolean if web3 is currently attempting to connect
  * @returns
  */
-export const setWeb3Connecting = busyState => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.SET_WEB3_CONNECTING, payload: busyState })
-    }
+export const setWeb3Connecting = (busyState) => {
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_WEB3_CONNECTING, payload: busyState });
+    };
 };
 
 /**
@@ -30,11 +30,11 @@ export const setWeb3Connecting = busyState => {
  * @param { String } address - Address to set to state
  * @returns
  */
-export const setConnectedAddress = address => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.SET_CONNECTED_ADDRESS, payload: address })
-    }
-}
+export const setConnectedAddress = (address) => {
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_CONNECTED_ADDRESS, payload: address });
+    };
+};
 
 /**
  * Updates current network state by ID -- Will determine name relative to ID
@@ -54,10 +54,10 @@ export const updateNetwork = (networkId) => {
     } catch (ex) {
         console.warn("Unable to determine network name:", ex);
     }
-    return dispatch => {
+    return (dispatch) => {
         dispatch({ type: APPLICATION_ACTION_TYPES.UPDATE_NETWORK, payload: { name: networkName, id: networkId } });
-    }
-}
+    };
+};
 
 /**
  * Set balance by accepted tokenType
@@ -66,9 +66,9 @@ export const updateNetwork = (networkId) => {
  * @returns
  */
 export const setBalance = (balance, tokenType) => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.SET_BALANCES, payload: { balance: balance, token: tokenType } })
-    }
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_BALANCES, payload: { balance: balance, token: tokenType } });
+    };
 };
 
 /**
@@ -77,9 +77,9 @@ export const setBalance = (balance, tokenType) => {
  * @returns
  */
 export const toggleTxPendingStatus = (action) => {
-    return dispatch => {
-        dispatch({ type: APPLICATION_ACTION_TYPES.TOGGLE_TX_PENDING_STATUS, payload: action })
-    }
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.TOGGLE_TX_PENDING_STATUS, payload: action });
+    };
 };
 
 /**
@@ -87,7 +87,7 @@ export const toggleTxPendingStatus = (action) => {
  * @param {TokenType} tokenType
  * @returns
  */
-export const updateBalances = tokenType => {
+export const updateBalances = (tokenType) => {
     return async function (dispatch, getState) {
         let state = getState();
         let ethBalance = state.application.balances.ethereum;
@@ -107,19 +107,19 @@ export const updateBalances = tokenType => {
         }
 
         if (ethBalance.error) {
-            toast("Error fetching ETH balance.", { type: "error", position: "bottom-center", autoClose: 1000 })
+            toast("Error fetching ETH balance.", { type: "error", position: "bottom-center", autoClose: 1000 });
         }
 
         if (madBal.error || madAllowance.error) {
-            console.log(madBal.error, madAllowance.error)
-            toast("Error fetching MAD balance.", { type: "error", position: "bottom-center", autoClose: 1000 })
+            console.log(madBal.error, madAllowance.error);
+            toast("Error fetching MAD balance.", { type: "error", position: "bottom-center", autoClose: 1000 });
         }
 
-        if (alcaBal.error ) {
-            toast("Error fetching ALCA balance.", { type: "error", position: "bottom-center", autoClose: 1000 })
+        if (alcaBal.error) {
+            toast("Error fetching ALCA balance.", { type: "error", position: "bottom-center", autoClose: 1000 });
         }
 
-        if (ethBalance.error || madBal.error || madAllowance.error || alcaBal.error ) {
+        if (ethBalance.error || madBal.error || madAllowance.error || alcaBal.error) {
             console.error("Contract error, check if you are on the correct network or your Factory Address is valid.");
             return;
         }
@@ -129,73 +129,72 @@ export const updateBalances = tokenType => {
             payload: {
                 ethereum: ethBalance,
                 mad: madBal || 0, // Fallback to 0 if token doesn't exist on network
-                alca: alcaBal || 0 // Fallback to 0 if token doesn't exist on network
-            }
+                alca: alcaBal || 0, // Fallback to 0 if token doesn't exist on network
+            },
         });
         dispatch({
             type: APPLICATION_ACTION_TYPES.SET_ALLOWANCES,
             payload: {
                 mad: madAllowance ? madAllowance : "0", // Fallback to 0 if token doesn't exist on network
-                alcaStakeAllowance: "0"
-            }
+                alcaStakeAllowance: "0",
+            },
         });
-
-    }
+    };
 };
 
 export const updateExchangeRate = (madTokenAmt) => {
     return async function (dispatch) {
         let exchangeRate = await ethAdapter.getMadTokenToALCAExchangeRate(madTokenAmt);
         if (exchangeRate.error) {
-            toast("Error fetching ALCA exchange rate.", { type: "error", position: "bottom-center", autoClose: 1000 })
+            toast("Error fetching ALCA exchange rate.", { type: "error", position: "bottom-center", autoClose: 1000 });
             return;
         }
         dispatch({
             type: APPLICATION_ACTION_TYPES.UPDATE_EXCHANGE_RATE,
-            payload: exchangeRate
-        })
-    }
-}
+            payload: exchangeRate,
+        });
+    };
+};
 
 export const checkAgreeCookieState = (agreeCookie) => {
     return async function (dispatch) {
-        if (agreeCookie.agreed === 'true') {
+        if (agreeCookie.agreed === "true") {
             dispatch({
                 type: APPLICATION_ACTION_TYPES.UPDATE_HAS_READ_TERMS,
-                payload: true
-            })
+                payload: true,
+            });
         } else {
             dispatch({
                 type: APPLICATION_ACTION_TYPES.UPDATE_HAS_READ_TERMS,
-                payload: false
-            })
+                payload: false,
+            });
         }
-    }
-}
+    };
+};
 
 export const setAgreeStateTrue = () => {
     return async function (dispatch) {
         dispatch({ type: APPLICATION_ACTION_TYPES.UPDATE_HAS_READ_TERMS, payload: true });
-    }
-}
+    };
+};
 
 export const updateApprovalHash = (txHash) => {
     return async function (dispatch) {
         dispatch({
             type: APPLICATION_ACTION_TYPES.SET_APPROVAL_HASH,
-            payload: txHash
-        })
-    }
-}
+            payload: txHash,
+        });
+    };
+};
 
 export const updateMigrationHash = (txHash) => {
     return async function (dispatch) {
         dispatch({
             type: APPLICATION_ACTION_TYPES.SET_MIGRATION_HASH,
-            payload: txHash
-        })
-    }
-}
+            payload: txHash,
+        });
+    };
+};
 
 export const updateStartingBalances = (sMad, sAlca) => {
     return async function (dispatch, getState) {
@@ -203,16 +202,17 @@ export const updateStartingBalances = (sMad, sAlca) => {
         let startingMad = state.application.startingBalances.mad;
         let startingAlca = state.application.startingBalances.alca;
         dispatch({
-            type: APPLICATION_ACTION_TYPES.UPDATE_STARTING_BALANCES, payload: {
+            type: APPLICATION_ACTION_TYPES.UPDATE_STARTING_BALANCES,
+            payload: {
                 mad: sMad || startingMad,
-                alca: sAlca || startingAlca
-            }
-        })
-    }
-}
+                alca: sAlca || startingAlca,
+            },
+        });
+    };
+};
 
 export const updateMigrationAmount = (migrationAmount) => {
     return async function (dispatch) {
         dispatch({ type: APPLICATION_ACTION_TYPES.UPDATE_MIGRATION_AMOUNT, payload: migrationAmount });
-    }
-}
+    };
+};
