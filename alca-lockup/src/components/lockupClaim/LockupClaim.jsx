@@ -162,7 +162,7 @@ export function LockupClaim() {
                 </Message>
             )}
 
-            <p>You are about to claim the following rewards. These funds will be send to your wallet.</p>
+            <p>You are about to claim the following rewards. These funds will be sent to your wallet.</p>
 
             <div className="font-bold space-x-2">
                 <Icon name="ethereum"/>{formatNumberToLocale(ethReward)} ETH
