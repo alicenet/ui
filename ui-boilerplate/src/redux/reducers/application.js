@@ -9,19 +9,17 @@ const initialApplicationState = {
 
 export default function applicationReducer(state = initialApplicationState, action) {
     switch (action.type) {
-
         case APPLICATION_ACTION_TYPES.SET_DEBUG_MODE:
             return Object.assign({}, state, {
-                debugMode: action.payload
+                debugMode: action.payload,
             });
 
         case APPLICATION_ACTION_TYPES.SET_ACTIVE_PAGE:
             return Object.assign({}, state, {
-                activePage: action.payload
+                activePage: action.payload,
             });
 
         default:
             return state;
-
     }
-};
+}

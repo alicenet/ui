@@ -15,76 +15,76 @@ import { PageOne, PageTwo, PageThree, ContractTest } from "pages";
 import { configuration } from "config/_config";
 
 export default function App() {
-  const dispatch = useDispatch();
-  const { currentPage, setPage, reduxState } = useSelector((s) => ({
-    currentPage: s.application.activePage,
-    setPage: (page) => dispatch(APPLICATION_ACTIONS.setActivePage(page)),
-    reduxState: s,
-  }));
+    const dispatch = useDispatch();
+    const { currentPage, setPage, reduxState } = useSelector((s) => ({
+        currentPage: s.application.activePage,
+        setPage: (page) => dispatch(APPLICATION_ACTIONS.setActivePage(page)),
+        reduxState: s,
+    }));
 
-  // Apply site-wide configs
-  React.useEffect(() => {
-    console.log(`MUI THEME:`, theme);
-    document.title = configuration.site.title;
-  }, []);
+    // Apply site-wide configs
+    React.useEffect(() => {
+        console.log(`MUI THEME:`, theme);
+        document.title = configuration.site.title;
+    }, []);
 
-  // Setup Debug Print State Key
-  React.useEffect(() => {
-    const printOnD = (e) => {
-      if (e.key === "d") {
-        console.log(reduxState);
-      }
+    // Setup Debug Print State Key
+    React.useEffect(() => {
+        const printOnD = (e) => {
+            if (e.key === "d") {
+                console.log(reduxState);
+            }
+        };
+        document.addEventListener("keydown", printOnD);
+        return () => document.removeEventListener("keydown", printOnD);
+
+        //test
+    });
+
+    /* Page Configuration */
+    const pages = [
+        {
+            name: "PAGE_ONE",
+            display: "Page 1",
+            render: PageOne,
+        },
+        {
+            name: "PAGE_TWO",
+            display: "Page 2",
+            render: PageTwo,
+        },
+        {
+            name: "PAGE_THREE",
+            display: "Page 3",
+            render: PageThree,
+        },
+        {
+            name: "CONTRACT_TEST",
+            display: "Contract Test",
+            render: ContractTest,
+        },
+    ];
+
+    const navigate = (page) => {
+        setPage(page);
     };
-    document.addEventListener("keydown", printOnD);
-    return () => document.removeEventListener("keydown", printOnD);
 
-    //test
-  });
+    const renderPage = () => {
+        for (let page of pages) {
+            if (currentPage === page.name) {
+                return <page.render />;
+            }
+        }
+        return <Home />;
+    };
 
-  /* Page Configuration */
-  const pages = [
-    {
-      name: "PAGE_ONE",
-      display: "Page 1",
-      render: PageOne,
-    },
-    {
-      name: "PAGE_TWO",
-      display: "Page 2",
-      render: PageTwo,
-    },
-    {
-      name: "PAGE_THREE",
-      display: "Page 3",
-      render: PageThree,
-    },
-    {
-      name: "CONTRACT_TEST",
-      display: "Contract Test",
-      render: ContractTest,
-    },
-  ];
-
-  const navigate = (page) => {
-    setPage(page);
-  };
-
-  const renderPage = () => {
-    for (let page of pages) {
-      if (currentPage === page.name) {
-        return <page.render />;
-      }
-    }
-    return <Home />;
-  };
-
-  return (
-    <ThemeProvider theme={theme}>
-      <NavigationBar pages={pages} navigate={navigate} />
-      <Container maxWidth="lg">{renderPage()}</Container>
-      <Box sx={{ my: 4 }}>
-        <Copyright />
-      </Box>
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider theme={theme}>
+            <NavigationBar pages={pages} navigate={navigate} />
+            <Container maxWidth="lg">{renderPage()}</Container>
+            <Box sx={{ my: 4 }}>
+                <Copyright />
+            </Box>
+        </ThemeProvider>
+    );
 }

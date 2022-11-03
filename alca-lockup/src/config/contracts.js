@@ -1,5 +1,5 @@
-import abis from './abis';
-import contract_names from './contract_names';
+import abis from "./abis";
+import contract_names from "./contract_names";
 
 // ENUM KV for contract names and addresses, used to identify contracts throughout the application
 export const CONTRACT_NAMES = contract_names;
@@ -9,7 +9,7 @@ export const CONTRACT_ABIS = {};
 // Simplified access to all contract data
 export const CONTRACTS = {};
 
-export const RPC = {URL: ""};
+export const RPC = { URL: "" };
 
 // Extract names from process.env
 for (let environmentKey of Object.keys(process.env)) {
@@ -23,16 +23,24 @@ for (let environmentKey of Object.keys(process.env)) {
             name: contractName,
             address: process.env[environmentKey],
             abi: JSON.parse(abis[contractName]),
-        }
+        };
     }
 }
 
 // Extract RPC
 switch (process.env.REACT_APP__ENV) {
-    case "LOCAL": RPC.URL = process.env.REACT_APP__ETHEREUM_ENDPOINT_LOCAL; break;
-    case "STAGING": RPC.URL = process.env.REACT_APP__ETHEREUM_ENDPOINT_STAGING; break;
-    case "PRODUCTION": RPC.URL = process.env.REACT_APP__ETHEREUM_ENDPOINT_PRODUCTION; break;
-    default: RPC.URL = process.env.REACT_APP__ETHEREUM_ENDPOINT_STAGING; break; 
+    case "LOCAL":
+        RPC.URL = process.env.REACT_APP__ETHEREUM_ENDPOINT_LOCAL;
+        break;
+    case "STAGING":
+        RPC.URL = process.env.REACT_APP__ETHEREUM_ENDPOINT_STAGING;
+        break;
+    case "PRODUCTION":
+        RPC.URL = process.env.REACT_APP__ETHEREUM_ENDPOINT_PRODUCTION;
+        break;
+    default:
+        RPC.URL = process.env.REACT_APP__ETHEREUM_ENDPOINT_STAGING;
+        break;
 }
 
 console.debug("Parsed contract information .env", CONTRACTS);

@@ -9,11 +9,9 @@ export function splitStringWithEllipsis(str, lengthOnSides = 3) {
     if (typeof str !== "string") {
         return "";
     }
-    return str.slice(0, 2 + lengthOnSides)
-        + "..."
-        + str.slice(str.length - lengthOnSides, str.length);
+    return str.slice(0, 2 + lengthOnSides) + "..." + str.slice(str.length - lengthOnSides, str.length);
 }
 
 export const copyText = (text) => {
-  copy(text, { format: 'text/plain' });
-}
+    copy(text, { format: "text/plain" });
+};

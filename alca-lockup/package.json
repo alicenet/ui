@@ -1,27 +1,27 @@
 {
-  "name": "alca-lockup-ui",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "start": "node scripts/buildOnStart.js startRun; react-scripts start",
-    "build": "react-scripts build",
-    "netlify-build": "node scripts/buildOnStart.js startRun; react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "transpile-abi": "node scripts/buildAbiAndContractNameFiles.js run",
-    "transpile-bytecode": "node scripts/buildBytecodeFiles.js run",
-    "transpile-all": "node scripts/buildOnStart.js startRun"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "alca-lockup-ui",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "node scripts/buildOnStart.js startRun; react-scripts start",
+        "build": "react-scripts build",
+        "netlify-build": "node scripts/buildOnStart.js startRun; react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "transpile-abi": "node scripts/buildAbiAndContractNameFiles.js run",
+        "transpile-bytecode": "node scripts/buildBytecodeFiles.js run",
+        "transpile-all": "node scripts/buildOnStart.js startRun"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }
