@@ -2,7 +2,7 @@ name: Auto Assign to Project(s)
 
 on:
   issues:
-    types: [opened, reopened]
+    types: [opened]
 env:
   MY_GITHUB_TOKEN: ${{ secrets.ISSUE_ADDER_PAT }}
 jobs:
@@ -14,4 +14,4 @@ jobs:
       uses: srggrs/assign-one-project-github-action@1.2.1
       if: github.event.action == 'opened'
       with:
-        project: 'https://github.com/orgs/alicenet/projects/3'
+        project: 'https://github.com/orgs/alicenet/projects/5'
