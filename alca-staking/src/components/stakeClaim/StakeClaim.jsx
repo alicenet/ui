@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid, Header, Button, Icon, Message } from "semantic-ui-react";
 import { APPLICATION_ACTIONS } from "redux/actions";
+import { TOKEN_TYPES } from "redux/constants";
 import ethAdapter from "eth/ethAdapter";
 import utils from "utils";
 import { formatNumberToLocale } from "utils/locale";
@@ -34,10 +35,10 @@ export function StakeClaim() {
             const rec = tx.hash && (await tx.wait());
 
             if (rec.transactionHash) {
+                await dispatch(APPLICATION_ACTIONS.updateBalances(TOKEN_TYPES.ALL));
                 setClaimedEthAmount(ethRewards);
                 setClaimedAlcaAmount(alcaRewards);
                 setTxHash(rec.transactionHash);
-                await dispatch(APPLICATION_ACTIONS.updateBalances());
                 setWaiting(false);
                 setSuccessStatus(true);
             }
