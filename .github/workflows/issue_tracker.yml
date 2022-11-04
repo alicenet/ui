@@ -1,15 +1,17 @@
-name: Add issues to alpha team project board
+name: Auto Assign to Project(s)
+
 on:
   issues:
-    types:
-      - opened
-
+    types: [opened]
+env:
+  GITHUB_TOKEN: ${{ secrets.ISSUE_ADDER_PAT }}
 jobs:
-  add-to-project:
-    name: Add issue to project
+  assign_one_project:
     runs-on: ubuntu-latest
+    name: Assign to One Project
     steps:
-      - uses: actions/add-to-project@v0.3.0
-        with:
-          project-url: https://github.com/orgs/alicenet/projects/3
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Assign new issues to project-board
+      uses: srggrs/assign-one-project-github-action@1.2.1
+      if: github.event.action == 'opened'
+      with:
+        project: 'https://github.com/orgs/alicenet/projects/3'
