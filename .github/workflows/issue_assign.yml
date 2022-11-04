@@ -1,19 +1,15 @@
-name: Assigned Issues Are In Progress
+name: Move assigned pull requests into To do
 
 on:
-  issue:
+  pull_request:
     types: [assigned]
 
 jobs:
-  move-to-in-progress:
+  automate-project-columns:
     runs-on: ubuntu-latest
-    name: Move to In Progress Column
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-	    - name: Move to In Progress
-	      uses: kin/gh-action-move-issue-to-column@1.0
-		      with:
-		      access-token: "#{{ secrets.ISSUE_ADDER_PAT }}"
-		      project-name: "Alpha"
-		      target-column: "In Progress"
+      - uses: alex-page/github-project-automation-plus@v0.8.1
+        with:
+          project: Alpha
+          column: In Progress
+          repo-token: ${{ secrets.ISSUE_ADDER_PAT }}
