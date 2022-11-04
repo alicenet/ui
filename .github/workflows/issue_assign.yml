@@ -1,14 +1,19 @@
-name: Move assigned card
+name: Assigned Issues Are In Progress
+
 on:
-  issues:
-    types:
-      - assigned
+  issue:
+    types: [assigned]
+
 jobs:
-  move-assigned-card:
+  move-to-in-progress:
     runs-on: ubuntu-latest
+    name: Move to In Progress Column
     steps:
-      - uses: alex-page/github-project-automation-plus@1f8873e97e3c8f58161a323b7c568c1f623a1c4d
-        with:
-          project: Alpha
-          column: In Progress
-          repo-token: ${{ secrets.ISSUE_ADDER_PAT }}
+      - name: Checkout
+        uses: actions/checkout@v2
+	    - name: Move to In Progress
+	      uses: kin/gh-action-move-issue-to-column@1.0
+		      with:
+		      access-token: "#{{ secrets.ISSUE_ADDER_PAT }}"
+		      project-name: "Alpha"
+		      target-column: "In Progress"
