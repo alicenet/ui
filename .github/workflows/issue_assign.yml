@@ -18,6 +18,7 @@ jobs:
       - name: "Call pm task"
         uses: ACatThatPrograms/pm-actions@main
         with:
+          project_url: https://github.com/orgs/alicenet/projects/5/
           project_name: Alpha
           new_column_name: Backlog
           assign_column_name: In Progress
