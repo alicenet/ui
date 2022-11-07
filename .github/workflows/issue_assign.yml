@@ -15,7 +15,7 @@ jobs:
       - run: echo Hello!
       
       - name: "Call pm task"
-      - uses: ACatThatPrograms/pm-actions@main
+        uses: ACatThatPrograms/pm-actions@main
         with:
           project_name: Alpha
           new_column_name: Backlog
