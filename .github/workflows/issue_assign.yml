@@ -1,27 +1,21 @@
-name: Move assigned pull requests into To do
+name: Auto Assign to Project(s)
 
 on:
   issues:
-    types: [opened, reopened, assigned, unassigned, closed]
-  pull_request:
-    branches: [staging]
+    types: [opened]
+  issue_comment:
+    types: [created]
+env:
+  GITHUB_TOKEN: ${{ secrets.ISSUE_ADDER_PAT }}
 
 jobs:
-  project_management:
+  assign_one_project:
     runs-on: ubuntu-latest
+    name: Assign to One Project
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Run hello
-        run: echo Hello!
-      
-      - name: "Call pm task"
-        uses: ACatThatPrograms/pm-actions@main
-        with:
-          project_url: https://github.com/orgs/alicenet/projects/5/
-          project_name: Alpha
-          new_column_name: Backlog
-          assign_column_name: In Progress
-          review_column_name: In Review
-          closed_column_name: Done
-          repo_token: ${{ secrets.ISSUE_ADDER_PAT }}
+    - name: Assign new issues to Alpha Team Project Board
+      uses: srggrs/assign-one-project-github-action@1.2.1
+      if: github.event.action == 'opened'
+      with:
+        project: 'https://github.com/srggrs/assign-one-project-github-action/projects/2'
+        column_name: "Backlog"
