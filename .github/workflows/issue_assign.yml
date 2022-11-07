@@ -7,7 +7,7 @@ on:
     branches: [staging]
 
 jobs:
-  build:
+  project_management:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,4 +23,4 @@ jobs:
           assign_column_name: In Progress
           review_column_name: In Review
           closed_column_name: Done
-          repo-token: ${{ secrets.ISSUE_ADDER_PAT }}
+          repo_token: ${{ secrets.ISSUE_ADDER_PAT }}
