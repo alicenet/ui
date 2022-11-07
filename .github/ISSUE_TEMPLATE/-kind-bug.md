@@ -1,8 +1,8 @@
 ---
 name: "@kind/bug"
 about: An issue regarding an error or issue with the codebase
-title: ''
-labels: ''
+title: "@kind/bug - [SUMMARY]"
+labels: kind/bug
 assignees: ''
 
 ---

@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a user or engineer story?** : USER || ENGINEER
+**Is your feature request related to a user or engineer story?** : User || Engineer
 
 **What story does this feature enable?**
 As a <user/engineer> I should be able to see ...(ex: hello world print when I run myBash.sh)
