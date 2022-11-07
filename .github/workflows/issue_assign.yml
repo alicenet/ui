@@ -1,21 +1,16 @@
-name: Auto Assign to Project(s)
+name: Adds all issues that don't include the 'bug' or 'needs-triage' labels to project board
 
 on:
   issues:
-    types: [opened]
-  issue_comment:
-    types: [created]
-env:
-  MY_GITHUB_TOKEN: ${{ secrets.ISSUE_ADDER_PAT }}
+    types:
+      - opened
 
 jobs:
-  assign_to_alpha:
+  add-to-project:
+    name: Add issue to project
     runs-on: ubuntu-latest
-    name: Push issue to Alpha Project Board
     steps:
-    - name: Assign new issues to Alpha Team Project Board
-      uses: srggrs/assign-one-project-github-action@1.2.1
-      if: github.event.action == 'opened'
-      with:
-        project: 'https://github.com/orgs/alicenet/projects/7'
-        column_name: "Backlog"
+      - uses: actions/add-to-project@v0.3.0
+        with:
+          project-url: https://github.com/orgs/alicenet/projects/7
+          github-token: ${{ secrets.ISSUE_ADDER_PAT }}
