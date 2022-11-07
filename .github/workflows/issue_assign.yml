@@ -9,13 +9,13 @@ env:
   GITHUB_TOKEN: ${{ secrets.ISSUE_ADDER_PAT }}
 
 jobs:
-  assign_one_project:
+  assign_to_alpha:
     runs-on: ubuntu-latest
-    name: Assign to One Project
+    name: Push issue to Alpha Project Board
     steps:
     - name: Assign new issues to Alpha Team Project Board
       uses: srggrs/assign-one-project-github-action@1.2.1
       if: github.event.action == 'opened'
       with:
-        project: 'https://github.com/srggrs/assign-one-project-github-action/projects/2'
+        project: 'https://github.com/orgs/alicenet/projects/7'
         column_name: "Backlog"
