@@ -2,14 +2,24 @@ name: Move assigned pull requests into To do
 
 on:
   issues:
-    types: [assigned]
+    types: [opened, reopened, assigned, unassigned, closed]
+  pull_request:
+    branches: [staging]
 
 jobs:
-  automate-project-columns:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: alex-page/github-project-automation-plus@v0.8.1
+      - uses: actions/checkout@v2
+      - name: Run hello
+      - run: echo Hello!
+      
+      - name: "Call pm task"
+      - uses: ACatThatPrograms/pm-actions@main
         with:
-          project: Alpha
-          column: In Progress
+          project_name: Alpha
+          new_column_name: Backlog
+          assign_column_name: In Progress
+          review_column_name: In Review
+          closed_column_name: Done
           repo-token: ${{ secrets.ISSUE_ADDER_PAT }}
