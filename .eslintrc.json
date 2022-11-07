@@ -12,7 +12,8 @@
     },
     "plugins": ["react"],
     "rules": {
-        "no-unused-vars": "error"
+        "no-unused-vars": "error",
+        "react/prop-types": "off"
     },
     "ignorePatterns": ["test/**/*.js", "tests/**/*.js"]
 }
