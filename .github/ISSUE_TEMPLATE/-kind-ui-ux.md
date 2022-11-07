@@ -1,7 +1,7 @@
 ---
 name: "@kind/ui-ux"
 about: A UI/UX task -- Non engineering related
-title: UI/UX - [ SUMMARY ]
+title: "@kind/ui-ux - [ SUMMARY ]"
 labels: ui/ux
 assignees: ''
 
