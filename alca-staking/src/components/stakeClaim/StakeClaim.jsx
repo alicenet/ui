@@ -12,7 +12,8 @@ const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://ethers
 export function StakeClaim() {
     const dispatch = useDispatch();
 
-    const { tokenId, ethRewards, alcaRewards } = useSelector((state) => ({
+    const { tokenId, ethRewards, alcaRewards, stakedAlca } = useSelector((state) => ({
+        stakedAlca: state.application.stakedPosition.stakedAlca,
         tokenId: state.application.stakedPosition.tokenId,
         ethRewards: state.application.stakedPosition.ethRewards,
         alcaRewards: state.application.stakedPosition.alcaRewards,
@@ -71,7 +72,7 @@ export function StakeClaim() {
                 </div>
 
                 <div>
-                    <Button className="mt-4" color="black" content={"Claim Rewards"} onClick={collectRewards} disabled={false} loading={waiting} />
+                    <Button className="mt-4" secondary content={"Claim Rewards"} onClick={collectRewards} disabled={false} loading={waiting} />
                 </div>
             </Grid.Column>
         </>
@@ -115,6 +116,13 @@ export function StakeClaim() {
 
     return (
         <Grid padded>
+            {Boolean(stakedAlca) && (
+                <div className="font-bold text-sm absolute left-[24px] -top-[54px] p-3 bg-blue-50 text-blue-500 border-r-blue-400 rounded">
+                    <Icon name="warning sign" className="mr-4" />
+                    {stakedAlca} ALCA already staked!
+                </div>
+            )}
+
             {success ? renderClaimedRewardSuccessfully() : renderClaimReward()}
 
             {status.error && (
