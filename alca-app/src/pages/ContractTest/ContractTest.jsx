@@ -133,7 +133,7 @@ export function ContractTest() {
                                 <Box sx={{ mr: 2 }}>Execute</Box>
                                 {loadingStates?.[contractFxKey]?.[contractMethodKey]?.[methodName] && <CircularProgress size={14} />}
                             </Button>
-                            <Typography color={!!responseObj?.error ? "red" : "green"} variant="body2" sx={{ mt: 2, mb: 0, height: "24px" }}>
+                            <Typography color={responseObj?.error ? "red" : "green"} variant="body2" sx={{ mt: 2, mb: 0, height: "24px" }}>
                                 {JSON.stringify(responseObj?.message)}
                             </Typography>
                         </Grid2>
