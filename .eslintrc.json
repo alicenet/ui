@@ -4,13 +4,15 @@
         "es2021": true,
         "node": true
     },
-    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime"],
+    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime", "react-app", "react-app/jest"],
     "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "plugins": ["react"],
-    "rules": {},
+    "rules": {
+        "no-unused-vars": "error"
+    },
     "ignorePatterns": ["test/**/*.js", "tests/**/*.js"]
 }
