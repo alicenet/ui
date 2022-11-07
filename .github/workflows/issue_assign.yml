@@ -6,7 +6,7 @@ on:
   issue_comment:
     types: [created]
 env:
-  GITHUB_TOKEN: ${{ secrets.ISSUE_ADDER_PAT }}
+  MY_GITHUB_TOKEN: ${{ secrets.ISSUE_ADDER_PAT }}
 
 jobs:
   assign_to_alpha:
