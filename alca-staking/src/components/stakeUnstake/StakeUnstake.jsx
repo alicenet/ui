@@ -86,9 +86,9 @@ export function StakeUnstake() {
                 <Header>
                     Unstake completed
                     <Header.Subheader>
-                        <strong>You have successfully unstaked {unstakedAmount} ALCA</strong> and claimed a{" "}
+                        <strong>You have successfully unstaked {formatNumberToLocale(unstakedAmount)} ALCA</strong> and claimed a{" "}
                         <strong>
-                            reward of {claimedEthRewards} ETH / {claimedAlcaRewards} ALCA
+                            reward of {formatNumberToLocale(claimedEthRewards)} ETH / {formatNumberToLocale(claimedAlcaRewards)} ALCA
                         </strong>{" "}
                         to your wallet
                     </Header.Subheader>

@@ -226,7 +226,7 @@ export function StakeStake() {
             <>
                 <Header>
                     Stake your ALCA
-                    <Header.Subheader>{alcaBalance} available for staking</Header.Subheader>
+                    <Header.Subheader>{formatNumberToLocale(alcaBalance)} available for staking</Header.Subheader>
                 </Header>
 
                 <div className="text-xs font-bold">You will need to sign two transactions to stake your ALCA</div>
