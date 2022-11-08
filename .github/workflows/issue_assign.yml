@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Move to In Progress
-        uses: kin/gh-action-move-issue-to-column@1.0
+        uses: kin/gh-action-move-issues-to-column@3837410c959b15a734858d0e1d3a8d05a4b1a212
         with:
           access-token: "#{{ secrets.ISSUE_ADDER_PAT }}"
           project-name: "Alpha Team Board"
