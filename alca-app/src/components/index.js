@@ -1,2 +1,2 @@
 export * from "./Copyright";
-export * from "./NavigationBar";
+export * from "./Header";
