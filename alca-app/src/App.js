@@ -1,25 +1,19 @@
 import React from "react";
-import { Container, Box, Grid, TextField, Button, Stepper, Step, StepLabel, Typography, Divider, InputAdornment, Switch, ButtonGroup } from "@mui/material";
-import { NavigationBar } from "./components";
+import { Container, Box, Grid, TextField, Button, Stepper, Step, StepLabel, Typography, Divider, InputAdornment, Switch } from "@mui/material";
+import { Header } from "./components";
 import { ChevronRight, Loop, Download } from "@mui/icons-material";
 
 // Pages
-import { Home } from "./pages";
-import { useDispatch, useSelector } from "react-redux";
-import { APPLICATION_ACTIONS } from "redux/actions";
+import { useSelector } from "react-redux";
 import { ThemeProvider } from "@mui/system";
 
 import { theme } from "theme/MUITheme";
 
 // Page imports
-import { PageOne, PageTwo, PageThree, ContractTest } from "pages";
 import { configuration } from "config/_config";
 
 export default function App() {
-    const dispatch = useDispatch();
-    const { currentPage, setPage, reduxState } = useSelector((s) => ({
-        currentPage: s.application.activePage,
-        setPage: (page) => dispatch(APPLICATION_ACTIONS.setActivePage(page)),
+    const { reduxState } = useSelector((s) => ({
         reduxState: s,
     }));
 
@@ -42,47 +36,10 @@ export default function App() {
         //test
     });
 
-    /* Page Configuration */
-    const pages = [
-        {
-            name: "PAGE_ONE",
-            display: "Page 1",
-            render: PageOne,
-        },
-        {
-            name: "PAGE_TWO",
-            display: "Page 2",
-            render: PageTwo,
-        },
-        {
-            name: "PAGE_THREE",
-            display: "Page 3",
-            render: PageThree,
-        },
-        {
-            name: "CONTRACT_TEST",
-            display: "Contract Test",
-            render: ContractTest,
-        },
-    ];
-
-    const navigate = (page) => {
-        setPage(page);
-    };
-
-    const renderPage = () => {
-        for (let page of pages) {
-            if (currentPage === page.name) {
-                return <page.render />;
-            }
-        }
-        return <Home />;
-    };
-
     return (
         <ThemeProvider theme={theme}>
             <Container maxWidth="lg" sx={[{ mt: 10 }]}>
-                <NavigationBar pages={pages} navigate={navigate} />
+                <Header />
 
                 <Stepper activeStep={2} sx={[{ mt: 4 }]}>
                     <Step key={"Migration"}>

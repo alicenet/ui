@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { APPLICATION_ACTIONS } from "redux/actions";
 import { Grid, Header, Input, Button } from "semantic-ui-react";
 import { classNames } from "utils/generic";
+import { formatNumberToLocale } from "utils/locale";
 
 export function StakeStake() {
     const { alcaBalance, alcaStakeAllowance } = useSelector((s) => ({
@@ -44,7 +45,7 @@ export function StakeStake() {
             <Grid.Column width={16}>
                 <Header>
                     Stake your ALCA
-                    <Header.Subheader>{alcaBalance} available for staking</Header.Subheader>
+                    <Header.Subheader>{formatNumberToLocale(alcaBalance)} available for staking</Header.Subheader>
                 </Header>
             </Grid.Column>
 

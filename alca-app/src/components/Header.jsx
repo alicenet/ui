@@ -1,26 +1,12 @@
 import React from "react";
-import { AppBar, Typography, MenuItem, Grid, Toolbar } from "@mui/material";
+import { AppBar, Typography, MenuItem, Toolbar } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useTheme } from "@emotion/react";
 import { ConnectWeb3Button } from "./ConnectWeb3Button";
-import { configuration } from "config/_config";
 import ethAdapter from "eth-adapter";
 
-export function NavigationBar({ navigate, pages }) {
+export function Header() {
     useSelector((s) => s.ethAdapter); // Hook into reducer updates so equalize works properly against ethAdapter
     const { web3Connected } = { web3Connected: ethAdapter.connected };
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const { currentPage } = useSelector((state) => ({ currentPage: state.application.activePage }));
-
-    const theme = useTheme();
-
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
 
     return (
         <AppBar enableColorOnDark position="static">
@@ -34,7 +20,7 @@ export function NavigationBar({ navigate, pages }) {
                     </Typography>
                 </Typography>
 
-                <MenuItem key={"wallet"} onClick={handleCloseNavMenu} sx={{ pointerEvents: web3Connected ? "none" : "all" }}>
+                <MenuItem key={"wallet"} sx={{ pointerEvents: web3Connected ? "none" : "all" }}>
                     <ConnectWeb3Button />
                 </MenuItem>
             </Toolbar>

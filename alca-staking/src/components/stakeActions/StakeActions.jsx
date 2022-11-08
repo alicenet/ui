@@ -60,7 +60,7 @@ export function StakeActions() {
                                     content={
                                         <>
                                             <Header className={classNames({ "opacity-40": stakedAlca || !web3Connected })}>Stake</Header>
-                                            <div className="text-xs">{formatNumberToLocale(alcaBalance, 7)} ALCA Available</div>
+                                            <div className="text-xs">{formatNumberToLocale(alcaBalance, 4)} ALCA Available</div>
                                         </>
                                     }
                                     disabled={Boolean(stakedAlca || !web3Connected)}
@@ -75,7 +75,7 @@ export function StakeActions() {
                                     content={
                                         <>
                                             <Header className={classNames({ "opacity-40": !stakedAlca > 0 })}>Unstake</Header>
-                                            <div className="text-xs">{stakedAlca > 0 ? `${formatNumberToLocale(stakedAlca, 7)} ALCA` : "No ALCA staked"}</div>
+                                            <div className="text-xs">{stakedAlca > 0 ? `${formatNumberToLocale(stakedAlca, 4)} ALCA` : "No ALCA staked"}</div>
                                         </>
                                     }
                                     disabled={Boolean(!stakedAlca)}

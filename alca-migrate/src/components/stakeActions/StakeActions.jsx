@@ -7,6 +7,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Grid, Menu, Segment, Header } from "semantic-ui-react";
 import { classNames } from "utils/generic";
+import { formatNumberToLocale } from "utils/locale";
 
 export function StakeActions() {
     const { hasReadTerms, alcaBalance, web3Connected, stakedAlca, ethRewards, alcaRewards } = useSelector((state) => ({
@@ -64,7 +65,7 @@ export function StakeActions() {
                                     content={
                                         <>
                                             <Header className={classNames({ "opacity-40": !hasReadTerms })}>Stake</Header>
-                                            <div className="text-xs">{alcaBalance} ALCA Available</div>
+                                            <div className="text-xs">{formatNumberToLocale(alcaBalance)} ALCA Available</div>
                                         </>
                                     }
                                     disabled={!hasReadTerms}
