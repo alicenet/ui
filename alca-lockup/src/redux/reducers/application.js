@@ -28,7 +28,7 @@ const initialApplicationState = {
         alcaReward: 0,
         ethReward: 0,
         unlockDate: 0,
-        lockupPeriod: LOCKUP_PERIOD_STATUS.START,
+        lockupPeriod: LOCKUP_PERIOD_STATUS.PRELOCK,
         penalty: 0,
         remainingRewards: 0,
     },

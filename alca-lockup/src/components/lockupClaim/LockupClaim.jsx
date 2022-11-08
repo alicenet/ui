@@ -29,7 +29,7 @@ export function LockupClaim() {
     const [claimedEth, setClaimedEth] = React.useState(0);
     const [claimedAlca, setClaimedAlca] = React.useState(0);
     const [hash, setHash] = React.useState("");
-    const lockupPeriodEnded = lockupPeriod === LOCKUP_PERIOD_STATUS.END;
+    const lockupPeriodEnded = lockupPeriod === LOCKUP_PERIOD_STATUS.ENDED;
 
     const claimRewards = async () => {
         try {

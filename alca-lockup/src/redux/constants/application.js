@@ -39,7 +39,7 @@ export const TOKEN_TYPES = {
  * @typedef {String} LockupPeriodStatus - Supported token types for balances
  */
 export const LOCKUP_PERIOD_STATUS = {
-    START: "START",
-    LOCKED: "LOCKED",
-    END: "END",
+    STARTED: "STARTED",
+    PRELOCK: "PRELOCK",
+    ENDED: "ENDED",
 };

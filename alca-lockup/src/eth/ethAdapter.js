@@ -438,6 +438,7 @@ class EthAdapter {
             const tokenId = await this._trySend(CONTRACT_NAMES.Lockup, "tokenOf", [address]);
             const { payoutEth = 0, payoutToken = 0 } = tokenId > 0 ? await this.estimateProfits(tokenId) : {};
             const { shares = 0 } = tokenId > 0 ? await this._trySend(CONTRACT_NAMES.PublicStaking, "getPosition", [tokenId]) : 0;
+            const start = await this.getLockupStart();
             const end = await this.getLockupEnd();
             const blockNumber = await this.provider.getBlockNumber();
             const SCALING_FACTOR = await this._tryCall(CONTRACT_NAMES.Lockup, "SCALING_FACTOR");
@@ -450,7 +451,7 @@ class EthAdapter {
                 payoutEth: ethers.utils.formatEther(payoutEth),
                 payoutToken: ethers.utils.formatEther(payoutToken),
                 tokenId,
-                lockupPeriod: ethers.BigNumber.from(end).gt(blockNumber) ? LOCKUP_PERIOD_STATUS.LOCKED : LOCKUP_PERIOD_STATUS.END,
+                lockupPeriod: ethers.BigNumber.from(start).gt(blockNumber) ? LOCKUP_PERIOD_STATUS.PRELOCK : LOCKUP_PERIOD_STATUS.ENDED,
                 penalty: penalty.toString(),
                 blockUntilUnlock: ethers.BigNumber.from(end).sub(blockNumber).toString(),
                 remainingRewards,

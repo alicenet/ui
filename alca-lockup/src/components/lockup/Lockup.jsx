@@ -23,7 +23,7 @@ export function Lockup() {
     const [status, setStatus] = React.useState({});
     const [openConfirmation, toggleConfirmModal] = React.useState(false);
     const [hash, setHash] = React.useState("");
-    const lockupPeriodEnded = lockedPosition.lockupPeriod === LOCKUP_PERIOD_STATUS.END;
+    const lockupPeriodEnded = lockedPosition.lockupPeriod === LOCKUP_PERIOD_STATUS.ENDED;
 
     const lockupPosition = async () => {
         try {
@@ -150,7 +150,7 @@ export function Lockup() {
                 {lockupPeriodEnded && (
                     <Grid.Column width={16}>
                         <Message warning>
-                            <p>{"Lockup is not available outside the lockup period"}</p>
+                            <p>{"Lockup is not available outside the prelock period"}</p>
                         </Message>
                     </Grid.Column>
                 )}
