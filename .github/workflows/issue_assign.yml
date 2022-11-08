@@ -1,8 +1,9 @@
 name: Assigned Issues Are In Progress
 
 on:
-  issue:
-    types: [assigned]
+  issues:
+    types:
+      - assigned
 
 jobs:
   move-to-in-progress:
