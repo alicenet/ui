@@ -431,9 +431,8 @@ class EthAdapter {
             const penalty = ethers.BigNumber.from(FRACTION_RESERVED).mul(100).div(SCALING_FACTOR);
             const remainingRewards = 100 - penalty;
             const lockupTimestamp = ethers.BigNumber.from(end).sub(start).toString() * ETHEREUM_BLOCK_INTERVAL;
-            const startDate = new Date();
             const endDate = new Date(new Date().getTime() + lockupTimestamp * 1000);
-            const months = utils.date.getDiffInMonths(startDate, endDate);
+            const months = utils.date.getDiffInMonths(new Date(), endDate);
 
             return {
                 lockedAlca: ethers.utils.formatEther(shares),
