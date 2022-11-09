@@ -138,6 +138,7 @@ export const updateBalances = (tokenType) => {
                     ethReward: lockedPosition.payoutEth,
                     alcaReward: lockedPosition.payoutToken,
                     lockupPeriod: lockedPosition.lockupPeriod,
+                    lockupPeriodInMonths: lockedPosition.lockupPeriodInMonths,
                     penalty: lockedPosition.penalty,
                     remainingRewards: lockedPosition.remainingRewards,
                     unlockDate: lockedPosition.blockUntilUnlock,

@@ -93,22 +93,6 @@ class EthAdapter {
         return new ethers.Contract(this.contracts[contractName].address, this.contracts[contractName].abi, this.signer);
     }
 
-    // TODO: FINISH DETERMINISTIC CONFIG SETUP
-    /**
-     * Get deterministic create2 contract address by contract name
-     * @param { ContractName } contractName - One of the available contract name strings from config
-     * @returns { web3.eth.Contract }
-     */
-    _getDeterministicContractAddress(contractName) {
-        return `0x${this.web3.utils
-            .sha3(
-                `0x${["ff", config.factoryContractAddress, config.CONTRACT_SALTS[contractName], this.web3.utils.sha3(config.CONTRACT_BYTECODE[contractName])]
-                    .map((x) => x.replace(/0x/, ""))
-                    .join("")}`
-            )
-            .slice(-40)}`.toLowerCase();
-    }
-
     /**
      * Throw exceptions
      * @param { String } msg

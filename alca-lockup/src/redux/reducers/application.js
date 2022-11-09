@@ -29,6 +29,7 @@ const initialApplicationState = {
         ethReward: 0,
         unlockDate: 0,
         lockupPeriod: LOCKUP_PERIOD_STATUS.PRELOCK,
+        lockupPeriodInMonths: 0,
         penalty: 0,
         remainingRewards: 0,
     },

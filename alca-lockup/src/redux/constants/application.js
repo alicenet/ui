@@ -43,3 +43,8 @@ export const LOCKUP_PERIOD_STATUS = {
     PRELOCK: "PRELOCK",
     ENDED: "ENDED",
 };
+
+/**
+ * @typedef {Number} EthereumBlockInterval - Ethereum block interval
+ */
+export const ETHEREUM_BLOCK_INTERVAL = 13.5;
