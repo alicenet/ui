@@ -1,6 +1,10 @@
 import { createTheme } from "@mui/material";
+import { theme as aliceTheme } from "alice-mui-provider";
+
+console.log({ aliceTheme });
 
 const CustomColors = {
+    background: "#1E1E1E",
     copperCrayola: "#ea9167",
     darkPurple: "#24031",
     midnightBlue: "#1d0a66",
@@ -9,15 +13,9 @@ const CustomColors = {
 };
 
 export const theme = createTheme({
-    status: {
-        danger: "red",
-    },
+    ...aliceTheme,
     palette: {
-        primary: {
-            main: CustomColors.midnightBlue,
-        },
-        secondary: {
-            main: CustomColors.copperCrayola,
-        },
+        ...aliceTheme.palette,
+        background: { default: CustomColors.background },
     },
 });

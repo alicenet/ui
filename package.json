@@ -15,6 +15,7 @@
         "@testing-library/react": "12.1.2",
         "@testing-library/user-event": "13.5.0",
         "alice-semantic-css": "git+https://github.com/alicenet/alice-semantic-css.git",
+        "alice-mui-provider": "git+https://github.com/alicenet/alice-mui-provider.git",
         "autoprefixer": "10.4.2",
         "better-docs": "2.7.1",
         "copy-to-clipboard": "3.3.2",
