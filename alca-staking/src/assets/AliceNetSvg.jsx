@@ -1,5 +1,3 @@
-import React from "react";
-
 export function AliceNetIcon() {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="360" height="50" fill="none" viewBox="0 0 462 79">

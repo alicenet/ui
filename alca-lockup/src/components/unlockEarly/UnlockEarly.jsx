@@ -174,11 +174,11 @@ export function UnlockEarly() {
                 <Message.Header>You are about to unlock this {formatNumberToLocale(lockedAlca)} ALCA position and lose potential rewards</Message.Header>
                 <p>
                     The early exit will have a {penalty}% penalty for earned rewards, users will get the {remainingRewards}%<br />
-                    of their rewards and their original staked position's ALCA.
+                    of their rewards and their original staked position&apos;s ALCA.
                 </p>
             </Message>
 
-            <p>You are about to unlock this {formatNumberToLocale(lockedAlca)} ALCA before the lock-up period this means.... (TBD)</p>
+            <p>You are about to unlock this {formatNumberToLocale(lockedAlca)} ALCA before the lockup period this means.... (TBD)</p>
 
             <Header as="h3">Locked rewards as of today</Header>
 

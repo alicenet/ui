@@ -24,16 +24,20 @@ export function StakeStake() {
         setWaiting(true);
         let tx = await ethAdapter.sendStakingAllowanceRequest();
         let rec = await tx.wait();
-        setWaiting(false);
-        dispatch(APPLICATION_ACTIONS.updateBalances());
+        if (rec.transactionHash) {
+            setWaiting(false);
+            dispatch(APPLICATION_ACTIONS.updateBalances());
+        }
     };
 
     const stake = async () => {
         setWaiting(true);
         let tx = await ethAdapter.openStakingPosition(stakeAmt);
         let rec = await tx.wait();
-        setWaiting(false);
-        dispatch(APPLICATION_ACTIONS.updateBalances());
+        if (rec.transactionHash) {
+            setWaiting(false);
+            dispatch(APPLICATION_ACTIONS.updateBalances());
+        }
     };
 
     return (

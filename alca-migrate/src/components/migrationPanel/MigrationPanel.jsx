@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { classNames } from "utils/generic";
 import { Header, Segment, Input, Button, Icon } from "semantic-ui-react";
 
@@ -40,7 +39,7 @@ export function MigrationPanel({
             throw "MigrationStatus requires prop 'quadrants' to be an array of length 4 containing appropriate prop objects. See inline comments.";
         }
 
-        const StatusQuadrant = ({ title, sub, value, valueName, isTop }) => {
+        const StatusQuadrant = ({ title, value, valueName, isTop }) => {
             return (
                 <div
                     className={classNames("py-3 w-[85%]", {
@@ -58,7 +57,7 @@ export function MigrationPanel({
         const parsedQuadrants = (() => {
             const quadSet = new Array(4);
             for (let i = 0; i < quadrants.length; i++) {
-                quadSet[i] = !!quadrants[i] ? <StatusQuadrant {...quadrants[i]} isTop={i === 0 || i === 2} /> : <div></div>;
+                quadSet[i] = quadrants[i] ? <StatusQuadrant {...quadrants[i]} isTop={i === 0 || i === 2} /> : <div></div>;
             }
             return [
                 [quadSet[0], quadSet[1]],
@@ -96,7 +95,7 @@ export function MigrationPanel({
             <div className="relative justify-center items-center flex flex-row ">
                 {getCols()}
                 <div className="centerabsarrow z-20 drop-shadow-sm  p-3 flex justify-center items-center bg-white">
-                    <Icon name="arrow circle right" className="bg-red-100" className="relative bottom-[1px] left-[1px] text-[#235979]" />
+                    <Icon name="arrow circle right" className="bg-red-100 relative bottom-[1px] left-[1px] text-[#235979]" />
                 </div>
             </div>
         );

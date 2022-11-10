@@ -1,5 +1,5 @@
+import { useContext } from "react";
 import { Button, Container, Icon, Menu, Popup, Tab } from "semantic-ui-react";
-import React, { useContext } from "react";
 import { TabPanesContext } from "contexts";
 import config from "utils";
 import { useSelector } from "react-redux";

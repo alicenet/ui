@@ -1,9 +1,8 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import { Segment, Label, Loader } from "semantic-ui-react";
+import { Segment, Loader } from "semantic-ui-react";
 import { formatNumberToLocale } from "utils/locale";
 
-export function BalanceStatus({ row }) {
+export function BalanceStatus() {
     const { balances, loading } = useSelector((state) => ({
         loading: state.application.balancesLoading,
         balances: state.application.balances,

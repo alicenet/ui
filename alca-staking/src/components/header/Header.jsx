@@ -1,4 +1,3 @@
-import React from "react";
 import { Menu } from "semantic-ui-react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "components";

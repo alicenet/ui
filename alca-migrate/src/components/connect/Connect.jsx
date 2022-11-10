@@ -1,5 +1,5 @@
 import { Button, Container, Message } from "semantic-ui-react";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import config from "utils";
 import { TabPanesContext } from "contexts";
 import { useSelector } from "react-redux";

@@ -1,4 +1,3 @@
-import { React } from "react";
 import { Header, Container, Button, Segment } from "semantic-ui-react";
 import { useContext } from "react";
 import { TabPanesContext } from "contexts/TabPanesContext";
@@ -34,7 +33,7 @@ export function Introduction() {
                 You will be asked the amount of MAD to migrate as well as requested to sign two transactions with your web3 wallet:
                 <br /> <br />
                 - The first transaction is to allow the ALCA contract to move your tokens
-                <br />- The second transaction will migrate your tokens from MAD => ALCA
+                <br />- The second transaction will migrate your tokens from MAD =&gt; ALCA
             </Container>
 
             <Header content="4 - Success" as="h4" />

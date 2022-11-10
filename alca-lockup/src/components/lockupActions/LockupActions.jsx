@@ -16,7 +16,7 @@ export function LockupActions() {
     }));
 
     const [activeItem, setActiveItem] = React.useState("welcome");
-    const lockupPeriodEnded = lockedPosition.lockupPeriod === LOCKUP_PERIOD_STATUS.END;
+    const lockupPeriodEnded = lockedPosition.lockupPeriod === LOCKUP_PERIOD_STATUS.ENDED;
 
     const handleItemClick = (e, { name }) => {
         setActiveItem(name);

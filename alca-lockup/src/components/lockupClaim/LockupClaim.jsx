@@ -29,7 +29,7 @@ export function LockupClaim() {
     const [claimedEth, setClaimedEth] = React.useState(0);
     const [claimedAlca, setClaimedAlca] = React.useState(0);
     const [hash, setHash] = React.useState("");
-    const lockupPeriodEnded = lockupPeriod === LOCKUP_PERIOD_STATUS.END;
+    const lockupPeriodEnded = lockupPeriod === LOCKUP_PERIOD_STATUS.ENDED;
 
     const claimRewards = async () => {
         try {
@@ -74,7 +74,7 @@ export function LockupClaim() {
                             </Header>
                             <p>
                                 You can claim your rewards at anytime, however early claiming will have a {penalty}% penalty of earned rewards, users will get
-                                the {remainingRewards}% of their rewards and their original staked position's ALCA.
+                                the {remainingRewards}% of their rewards and their original staked position&apos;s ALCA.
                             </p>
                         </div>
                     </div>
@@ -152,7 +152,7 @@ export function LockupClaim() {
                     <Message.Header>You are about to claim rewards for this locked position and lose potential rewards</Message.Header>
                     <p>
                         The early exit will have a {penalty}% penalty for earned rewards, users will get the {remainingRewards}%<br />
-                        of their rewards and their original staked position's ALCA.
+                        of their rewards and their original staked position&apos;s ALCA.
                     </p>
                 </Message>
             )}

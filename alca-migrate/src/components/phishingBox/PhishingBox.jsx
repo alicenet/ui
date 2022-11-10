@@ -1,4 +1,4 @@
-import { Button, Checkbox, Container, Header, Icon, Image, List, Popup } from "semantic-ui-react";
+import { Button, Container, Header, Icon, Image, List, Popup } from "semantic-ui-react";
 import React, { useContext, useState } from "react";
 import config from "utils";
 import { TabPanesContext } from "contexts";
@@ -22,7 +22,7 @@ const CheckIcon = ({ isChecked, toggleCheck }) => {
     );
 };
 
-const LinkedListItem = ({ text, link, isChecked, toggleCheck, className }) => {
+const LinkedListItem = ({ text, link, isChecked, toggleCheck }) => {
     return (
         <div className="flex items-center justify-between">
             <div
@@ -76,7 +76,7 @@ export function PhishingBox() {
                 missingCheck = true;
             }
         });
-        return !!missingCheck ? false : true;
+        return missingCheck ? false : true;
     })();
 
     const toggleCheck = (checkNum) => {
