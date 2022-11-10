@@ -1,7 +1,8 @@
 /**
- * Splits a string with an ellipses, leaving designated length on both sides
- * @param {string} str - String to split
- * @param {int} lengthOnSides - How many characters to leave on sides of the ellipses
+ * Get the difference between two dates
+ * @param { Date } startdate - Initial date
+ * @param { Date } endDate - End of period
+ * @returns { Number } months
  */
 export function getDiffInMonths(startdate, endDate) {
     let months = (endDate.getFullYear() - startdate.getFullYear()) * 12;
