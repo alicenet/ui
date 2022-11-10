@@ -1,6 +1,6 @@
 export const PAGES = [
     {
-        to: "/transactions",
+        to: "/",
         display: "Transactions",
     },
     {

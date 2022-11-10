@@ -12,10 +12,10 @@ import Debug from "components/Debug";
 export default function App() {
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route path="/">
-                <Route path="transactions" element={<Transactions />} />
+            <>
+                <Route path="/" element={<Transactions />} />
                 <Route path="positions" element={<Positions />} />
-            </Route>
+            </>
         )
     );
 
