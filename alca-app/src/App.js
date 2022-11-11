@@ -4,7 +4,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import { ThemeProvider } from "@mui/system";
 
 import { theme } from "theme/MUITheme";
-import { Container } from "@mui/material";
+import { Container, CssBaseline } from "@mui/material";
 
 import { Transactions, Positions } from "pages";
 import Debug from "components/Debug";
@@ -21,6 +21,8 @@ export default function App() {
 
     return (
         <ThemeProvider theme={theme}>
+            <CssBaseline enableColorScheme />
+
             <Container maxWidth="lg" sx={[{ mt: 10 }]}>
                 <Debug />
                 <RouterProvider router={router} />

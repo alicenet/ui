@@ -34,7 +34,7 @@ export function Transactions() {
                     <Typography variant="h6" component="h1" mb={1} sx={[{ display: "flex", alignItems: "center" }]}>
                         <Download fontSize="small" /> MAD Migration
                     </Typography>
-                    <Box bgcolor={"#eee"} p={2}>
+                    <Box p={2}>
                         <Typography sx={[{ fontSize: "14px" }]}>Current MAD Balance</Typography>
                         <Typography variant="h5">2,000 MAD</Typography>
 
@@ -63,7 +63,7 @@ export function Transactions() {
                         <Loop fontSize="small" /> Staking & Lockup ALCA
                     </Typography>
 
-                    <Box bgcolor={"#eee"} sx={[{ padding: 2 }]}>
+                    <Box sx={[{ padding: 2 }]}>
                         <Typography sx={[{ fontSize: "14px" }]}>Future ALCA balance</Typography>
                         <Typography variant="h5">0 ALCA</Typography>
 

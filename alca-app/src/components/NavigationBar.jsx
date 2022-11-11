@@ -76,7 +76,7 @@ export function NavigationBar() {
                             sx={{
                                 mx: configuration.site.webView.headerLinkSpacing,
                                 my: configuration.site.webView.headerHeight,
-                                color: page.to === location.pathname ? theme.palette.secondary.main : theme.palette.common.black,
+                                color: page.to === location.pathname ? theme.palette.secondary.main : theme.palette.secondary.dark,
                                 display: "block",
                                 fontWeight: 900,
                                 borderBottom: 2,
