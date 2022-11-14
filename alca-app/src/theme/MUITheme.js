@@ -39,12 +39,18 @@ const CustomPaletteColors = {
     dropGray: {
         main: "#EEEEEE",
     },
-    background: {
-        default: "#11151C",
-    },
 };
 
 export const theme = createTheme({
     ...aliceTheme,
     palette: CustomPaletteColors,
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: `
+                body {
+                    background: radial-gradient(81.56% 81.56% at 50% 95.8%, #0D1A31 0%, #11151C 100%);
+                }
+            `,
+        },
+    },
 });
