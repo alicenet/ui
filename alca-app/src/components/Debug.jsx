@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { theme } from "theme/MUITheme";
 import { configuration } from "config/_config";
 
-export default function Debug() {
+export function Debug() {
     const { reduxState } = useSelector((s) => ({
         reduxState: s,
     }));
