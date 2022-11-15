@@ -1,5 +1,5 @@
 import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch } from "@mui/material";
-import { ChevronRight } from "@mui/icons-material";
+import { ChevronRight, InfoOutlined } from "@mui/icons-material";
 import { Header } from "components";
 import { NavigationBar } from "components/NavigationBar";
 
@@ -20,7 +20,18 @@ export function Transactions() {
                 <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
                     <Box sx={{ ...activeBox, p: 2 }}>
                         <Typography variant="body1" component="h1">
-                            <Box component="span" sx={{ bgcolor: "rgba(17, 21, 28, 0.87)", color: "secondary.main", p: 0.5, mr: 1 }}>
+                            <Box
+                                component="span"
+                                sx={{
+                                    bgcolor: "rgba(17, 21, 28, 0.87)",
+                                    color: "secondary.main",
+                                    borderRadius: "2px",
+                                    px: 1,
+                                    py: 0.5,
+                                    mr: 1,
+                                    fontWeight: "bold",
+                                }}
+                            >
                                 1
                             </Box>
                             Migration MAD to ALCA
@@ -53,7 +64,7 @@ export function Transactions() {
                         </Box>
 
                         <Typography variant="body1">
-                            you Will recieve <strong>0 ALCA</strong>
+                            you will recieve <strong>0 ALCA</strong>
                         </Typography>
                     </Box>
                 </Grid>
@@ -61,7 +72,18 @@ export function Transactions() {
                 <Grid item xs={8} sx={{ display: "flex", flexDirection: "column" }}>
                     <Box sx={{ p: 2 }}>
                         <Typography variant="body1" component="h1">
-                            <Box component="span" sx={{ bgcolor: "rgba(255, 255, 255, 0.7)", color: "rgba(17, 21, 28, 0.87)", p: 0.5, mr: 1 }}>
+                            <Box
+                                component="span"
+                                sx={{
+                                    bgcolor: "rgba(255, 255, 255, 0.7)",
+                                    color: "rgba(17, 21, 28, 0.87)",
+                                    borderRadius: "2px",
+                                    px: 1,
+                                    py: 0.5,
+                                    mr: 1,
+                                    fontWeight: "bold",
+                                }}
+                            >
                                 2
                             </Box>
                             Staking & Lockup ALCA
@@ -87,19 +109,31 @@ export function Transactions() {
                         <Grid sx={[{ alignItems: "center", mt: 2 }]}>
                             <Grid container item spacing={1}>
                                 <Grid item xs={4}>
-                                    <Typography sx={{ px: 2 }}>Amount</Typography>
+                                    <Typography sx={{ px: 2, display: "flex", alignItems: "center" }}>
+                                        Amount
+                                        <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    </Typography>
                                 </Grid>
 
                                 <Grid item xs>
-                                    <Typography>Reward Type</Typography>
+                                    <Typography sx={{ display: "flex", alignItems: "center" }}>
+                                        Reward Type
+                                        <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    </Typography>
                                 </Grid>
 
                                 <Grid item xs>
-                                    <Typography>Interest</Typography>
+                                    <Typography sx={{ display: "flex", alignItems: "center" }}>
+                                        Interest
+                                        <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    </Typography>
                                 </Grid>
 
                                 <Grid item xs>
-                                    <Typography>Lockup Time</Typography>
+                                    <Typography sx={{ display: "flex", alignItems: "center" }}>
+                                        Lockup Time
+                                        <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    </Typography>
                                 </Grid>
                             </Grid>
 
