@@ -22,6 +22,7 @@ export function ConnectWeb3Button() {
                 sx={{ fontWeight: 800, color: theme.palette.secondary.secondary }}
                 onClick={() =>
                     ethAdapter.connectToWeb3Wallet(() => {
+                        console.log("hit");
                         balances.updateBalances(ethAdapter);
                     })
                 }
