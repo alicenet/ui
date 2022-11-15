@@ -1,0 +1,2 @@
+## Factory Contract needed to get all contract information -- Contract config is updated from the BalanceContext from alice-common-ui
+REACT_APP_FACTORY_CONTRACT_ADDRESS="0x77D7c620E3d913AA78a71acffA006fc1Ae178b66"

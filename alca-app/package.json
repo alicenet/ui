@@ -1,10 +1,10 @@
 {
-    "name": "web3-app-boilerplate",
+    "name": "alca-app",
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "start": "ethpst && react-scripts start",
-        "build": "ethpst && react-scripts build",
+        "start": "GENERATE_SOURCEMAP=false react-scripts start",
+        "build": "GENERATE_SOURCEMAP=false react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

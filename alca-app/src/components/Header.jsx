@@ -3,7 +3,6 @@ import { AppBar, Typography, MenuItem, Toolbar } from "@mui/material";
 import { useSelector } from "react-redux";
 import { ConnectWeb3Button } from "./ConnectWeb3Button";
 import ethAdapter from "eth-adapter";
-
 export function Header() {
     useSelector((s) => s.ethAdapter); // Hook into reducer updates so equalize works properly against ethAdapter
     const { web3Connected } = { web3Connected: ethAdapter.connected };
