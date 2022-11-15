@@ -1,53 +1,56 @@
 import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch } from "@mui/material";
+import { useTheme } from "@emotion/react";
 import { ChevronRight, InfoOutlined } from "@mui/icons-material";
 import { Header } from "components";
 import { NavigationBar } from "components/NavigationBar";
 
-const activeBoxStyles = {
-    background: "linear-gradient(180deg, #FFABD4 18.53%, #CE6D99 167.76%)",
-    color: "secondary.contrastText",
-    borderRadius: "4px",
-};
-
-const titleLabelStyles = {
-    borderRadius: "2px",
-    px: 1,
-    py: 0.5,
-    mr: 1,
-    fontWeight: "bold",
-};
-
-const activeTitleLabelColor = { bgcolor: "rgba(17, 21, 28, 0.87)", color: "secondary.main" };
-
-const defaultTitleLabelColor = { bgcolor: "rgba(255, 255, 255, 0.7)", color: "rgba(17, 21, 28, 0.87)" };
-
-const migrationBoxStyles = {
-    // Move this background to config/theme
-    background: "linear-gradient(180deg, rgba(165, 198, 255, 0.14) 0%, rgba(165, 198, 255, 0.14) 100%), #11151C",
-    borderRadius: "4px",
-    boxShadow: 10, // When active
-    flex: 1,
-};
-
-const stakingAndLockupStyles = {
-    // Move this background to config/theme
-    background: "linear-gradient(180deg, rgba(165, 198, 255, 0.05) 0%, rgba(165, 198, 255, 0.05) 100%), #11151C",
-    borderRadius: "4px",
-    padding: 2,
-    flex: 1,
-};
-
-const createStakingStyles = {
-    background: "linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C",
-    alignItems: "center",
-    py: 1,
-};
-
-const fadeOutTextStyle = { fontSize: "14px", color: "rgba(255, 255, 255, 0.7)" };
-
-const fadeOutText2Style = { color: "rgba(255, 255, 255, 0.5)" };
-
 export function Transactions() {
+    const theme = useTheme();
+
+    const activeBoxStyles = {
+        background: `linear-gradient(180deg, ${theme.palette.secondary.startGradient} 18.53%, ${theme.palette.secondary.endGradient} 167.76%)`,
+        color: "secondary.contrastText",
+        borderRadius: "4px",
+    };
+
+    const titleLabelStyles = {
+        borderRadius: "2px",
+        px: 1,
+        py: 0.5,
+        mr: 1,
+        fontWeight: "bold",
+    };
+
+    const activeTitleLabelColor = { bgcolor: "dark.main", color: "secondary.main" };
+
+    const defaultTitleLabelColor = { bgcolor: "secondary.darkText", color: "dark.main" };
+
+    const migrationBoxStyles = {
+        background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
+        borderRadius: "4px",
+        boxShadow: 10, // active box
+        flex: 1,
+    };
+
+    const stakingAndLockupStyles = {
+        background: `linear-gradient(180deg, ${theme.palette.dark.elevation1} 0%, ${theme.palette.dark.elevation1} 100%), ${theme.palette.dark.main}`,
+        borderRadius: "4px",
+        p: 2,
+        flex: 1,
+    };
+
+    const createStakingStyles = {
+        background: `linear-gradient(180deg, ${theme.palette.dark.elevation3} 0%, ${theme.palette.light.elevation3} 100%, ${theme.palette.dark.elevation1} 100%), ${theme.palette.dark.main}`,
+        alignItems: "center",
+        py: 1,
+        mt: 2,
+        mb: 4,
+    };
+
+    const fadeOutTextStyle = { fontSize: "14px", color: "secondary.darkText" };
+
+    const fadeOutText2Style = { color: "secondary.darkTextDisabled" };
+
     return (
         <>
             <Header />

@@ -10,34 +10,19 @@ const CustomPaletteColors = {
     secondary: {
         main: "#FFABD1",
         dark: "#B27792",
-    },
-    headerBlack: {
-        main: "#171717",
+        startGradient: "#FFABD4",
+        endGradient: "#CE6D99",
+        darkText: "rgba(255, 255, 255, 0.7)",
+        darkTextDisabled: "rgba(255, 255, 255, 0.5)",
     },
     dark: {
-        main: "#212121",
-        light: "#0000000A",
+        main: "#11151C",
+        elevation1: "rgba(165, 198, 255, 0.05)",
+        elevation3: "rgba(165, 198, 255, 0.08)",
+        elevation12: "rgba(165, 198, 255, 0.14)",
     },
-    darkGray: {
-        main: "#2D2D2D",
-    },
-    rowBlack: {
-        main: "#343333",
-    },
-    tableBlack: {
-        main: "#444444",
-    },
-    buttonBlack: {
-        main: "#494949",
-    },
-    lightGray: {
-        main: "#A7A6A6",
-    },
-    clearGray: {
-        main: "#DEDEDE",
-    },
-    dropGray: {
-        main: "#EEEEEE",
+    light: {
+        elevation3: "rgba(255, 255, 255, 0.08)",
     },
 };
 
