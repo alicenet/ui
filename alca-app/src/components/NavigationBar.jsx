@@ -32,14 +32,11 @@ export function NavigationBar() {
     };
 
     const handleClick = (event) => {
-        console.log("ok");
         setNetworkMenuAnchor(event.currentTarget);
     };
     const handleClose = () => {
         setNetworkMenuAnchor(null);
     };
-
-    console.log(networkMenuAnchor);
 
     return (
         <Container maxWidth="lg">
