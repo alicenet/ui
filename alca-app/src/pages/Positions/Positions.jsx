@@ -112,7 +112,7 @@ export function Positions() {
         <>
             <NavigationBar />
 
-            <Container maxWidth="md">
+            <Container maxWidth="lg">
                 <TabContext value={currentTab}>
                     <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                         <TabList onChange={handleTabChange} textColor="secondary" indicatorColor="secondary">
