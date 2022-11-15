@@ -3,13 +3,51 @@ import { ChevronRight, InfoOutlined } from "@mui/icons-material";
 import { Header } from "components";
 import { NavigationBar } from "components/NavigationBar";
 
-export function Transactions() {
-    const activeBox = {
-        background: "linear-gradient(180deg, #FFABD4 18.53%, #CE6D99 167.76%)",
-        color: "secondary.contrastText",
-        borderRadius: "4px",
-    };
+const activeBoxStyles = {
+    background: "linear-gradient(180deg, #FFABD4 18.53%, #CE6D99 167.76%)",
+    color: "secondary.contrastText",
+    borderRadius: "4px",
+};
 
+const titleLabelStyles = {
+    borderRadius: "2px",
+    px: 1,
+    py: 0.5,
+    mr: 1,
+    fontWeight: "bold",
+};
+
+const activeTitleLabelColor = { bgcolor: "rgba(17, 21, 28, 0.87)", color: "secondary.main" };
+
+const defaultTitleLabelColor = { bgcolor: "rgba(255, 255, 255, 0.7)", color: "rgba(17, 21, 28, 0.87)" };
+
+const migrationBoxStyles = {
+    // Move this background to config/theme
+    background: "linear-gradient(180deg, rgba(165, 198, 255, 0.14) 0%, rgba(165, 198, 255, 0.14) 100%), #11151C",
+    borderRadius: "4px",
+    boxShadow: 10, // When active
+    flex: 1,
+};
+
+const stakingAndLockupStyles = {
+    // Move this background to config/theme
+    background: "linear-gradient(180deg, rgba(165, 198, 255, 0.05) 0%, rgba(165, 198, 255, 0.05) 100%), #11151C",
+    borderRadius: "4px",
+    padding: 2,
+    flex: 1,
+};
+
+const createStakingStyles = {
+    background: "linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C",
+    alignItems: "center",
+    py: 1,
+};
+
+const fadeOutTextStyle = { fontSize: "14px", color: "rgba(255, 255, 255, 0.7)" };
+
+const fadeOutText2Style = { color: "rgba(255, 255, 255, 0.5)" };
+
+export function Transactions() {
     return (
         <>
             <Header />
@@ -18,42 +56,22 @@ export function Transactions() {
 
             <Grid container sx={{ mt: 4 }}>
                 <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
-                    <Box sx={{ ...activeBox, p: 2 }}>
+                    <Box sx={{ ...activeBoxStyles, p: 2 }}>
                         <Typography variant="body1" component="h1">
-                            <Box
-                                component="span"
-                                sx={{
-                                    bgcolor: "rgba(17, 21, 28, 0.87)",
-                                    color: "secondary.main",
-                                    borderRadius: "2px",
-                                    px: 1,
-                                    py: 0.5,
-                                    mr: 1,
-                                    fontWeight: "bold",
-                                }}
-                            >
+                            <Box component="span" sx={[titleLabelStyles, activeTitleLabelColor]}>
                                 1
                             </Box>
                             Migration MAD to ALCA
                         </Typography>
                     </Box>
 
-                    <Box
-                        p={2}
-                        sx={{
-                            // Move this background to config/theme
-                            background: "linear-gradient(180deg, rgba(165, 198, 255, 0.14) 0%, rgba(165, 198, 255, 0.14) 100%), #11151C",
-                            borderRadius: "4px",
-                            boxShadow: 10, // When active
-                            flex: 1,
-                        }}
-                    >
-                        <Typography sx={{ fontSize: "14px", color: "rgba(255, 255, 255, 0.7);" }}>Current MAD Balance</Typography>
+                    <Box p={2} sx={[migrationBoxStyles]}>
+                        <Typography sx={[fadeOutTextStyle]}>Current MAD Balance</Typography>
                         <Typography variant="h5">2,000 MAD</Typography>
 
                         <Divider sx={{ my: 2 }} />
 
-                        <Typography sx={{ fontSize: "14px", color: "rgba(255, 255, 255, 0.7);" }}>Exchange rate from MAD to ALCA</Typography>
+                        <Typography sx={[fadeOutTextStyle]}>Exchange rate from MAD to ALCA</Typography>
                         <Typography variant="body1">1 MAD Token ≈ 1.56 ALCA Token</Typography>
 
                         <Box sx={[{ display: "flex", alignItems: "center", columnGap: 1, mt: 3, mb: 1 }]}>
@@ -72,33 +90,14 @@ export function Transactions() {
                 <Grid item xs={8} sx={{ display: "flex", flexDirection: "column" }}>
                     <Box sx={{ p: 2 }}>
                         <Typography variant="body1" component="h1">
-                            <Box
-                                component="span"
-                                sx={{
-                                    bgcolor: "rgba(255, 255, 255, 0.7)",
-                                    color: "rgba(17, 21, 28, 0.87)",
-                                    borderRadius: "2px",
-                                    px: 1,
-                                    py: 0.5,
-                                    mr: 1,
-                                    fontWeight: "bold",
-                                }}
-                            >
+                            <Box component="span" sx={[titleLabelStyles, defaultTitleLabelColor]}>
                                 2
                             </Box>
                             Staking & Lockup ALCA
                         </Typography>
                     </Box>
 
-                    <Box
-                        sx={{
-                            // Move this background to config/theme
-                            background: "linear-gradient(180deg, rgba(165, 198, 255, 0.05) 0%, rgba(165, 198, 255, 0.05) 100%), #11151C",
-                            borderRadius: "4px",
-                            padding: 2,
-                            flex: 1,
-                        }}
-                    >
+                    <Box sx={[stakingAndLockupStyles]}>
                         <Typography sx={[{ fontSize: "14px" }]}>Future ALCA balance</Typography>
                         <Typography variant="h5">0 ALCA</Typography>
 
@@ -137,18 +136,7 @@ export function Transactions() {
                                 </Grid>
                             </Grid>
 
-                            <Grid
-                                container
-                                item
-                                sx={[
-                                    {
-                                        background:
-                                            "linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C",
-                                        alignItems: "center",
-                                        py: 1,
-                                    },
-                                ]}
-                            >
+                            <Grid container item sx={[createStakingStyles]}>
                                 <Grid item xs={4} sx={{ px: 2 }}>
                                     <TextField
                                         id=""
@@ -162,11 +150,11 @@ export function Transactions() {
                                 </Grid>
 
                                 <Grid item xs>
-                                    <Typography sx={{ color: "rgba(255, 255, 255, 0.5);" }}>ETH & ALCA</Typography>
+                                    <Typography sx={[fadeOutText2Style]}>ETH & ALCA</Typography>
                                 </Grid>
 
                                 <Grid item xs>
-                                    <Typography sx={{ color: "rgba(255, 255, 255, 0.5);" }}>10%</Typography>
+                                    <Typography sx={[fadeOutText2Style]}>10%</Typography>
                                 </Grid>
 
                                 <Grid item xs>
