@@ -1,6 +1,6 @@
 /** @module rdux_store */
 
-import ethAdapter from "eth-adapter/adapter/ethAdapter";
+import ethAdapter from "eth-adapter";
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
