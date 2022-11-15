@@ -20,6 +20,9 @@ export function Transactions() {
                 <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
                     <Box sx={{ ...activeBox, p: 2 }}>
                         <Typography variant="body1" component="h1">
+                            <Box component="span" sx={{ bgcolor: "rgba(17, 21, 28, 0.87)", color: "secondary.main", p: 0.5, mr: 1 }}>
+                                1
+                            </Box>
                             Migration MAD to ALCA
                         </Typography>
                     </Box>
@@ -31,6 +34,7 @@ export function Transactions() {
                             background: "linear-gradient(180deg, rgba(165, 198, 255, 0.14) 0%, rgba(165, 198, 255, 0.14) 100%), #11151C",
                             borderRadius: "4px",
                             boxShadow: 10, // When active
+                            flex: 1,
                         }}
                     >
                         <Typography sx={{ fontSize: "14px", color: "rgba(255, 255, 255, 0.7);" }}>Current MAD Balance</Typography>
@@ -57,6 +61,9 @@ export function Transactions() {
                 <Grid item xs={8} sx={{ display: "flex", flexDirection: "column" }}>
                     <Box sx={{ p: 2 }}>
                         <Typography variant="body1" component="h1">
+                            <Box component="span" sx={{ bgcolor: "rgba(255, 255, 255, 0.7)", color: "rgba(17, 21, 28, 0.87)", p: 0.5, mr: 1 }}>
+                                2
+                            </Box>
                             Staking & Lockup ALCA
                         </Typography>
                     </Box>
@@ -77,60 +84,59 @@ export function Transactions() {
 
                         <Typography sx={[{ fontSize: "14px" }]}>CREATE STAKING</Typography>
 
-                        <Grid container sx={[{ alignItems: "center", mt: 2 }]}>
-                            <Grid container spacing={2}>
-                                <Grid container item spacing={1}>
-                                    <Grid item xs={3}>
-                                        <div>Amount</div>
-                                    </Grid>
-
-                                    <Grid item xs={3}>
-                                        <div>Reward Type</div>
-                                    </Grid>
-
-                                    <Grid item xs={3}>
-                                        <div>Interest</div>
-                                    </Grid>
-
-                                    <Grid item xs={3}>
-                                        <div>Lockup Time</div>
-                                    </Grid>
+                        <Grid sx={[{ alignItems: "center", mt: 2 }]}>
+                            <Grid container item spacing={1}>
+                                <Grid item xs={4}>
+                                    <Typography sx={{ px: 2 }}>Amount</Typography>
                                 </Grid>
 
-                                <Grid
-                                    container
-                                    item
-                                    sx={[
-                                        {
-                                            background:
-                                                "linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C",
-                                            alignItems: "center",
-                                        },
-                                    ]}
-                                >
-                                    <Grid item xs={3}>
-                                        <TextField
-                                            id=""
-                                            value={0}
-                                            onChange={() => {}}
-                                            size="small"
-                                            InputProps={{
-                                                endAdornment: <InputAdornment position="end">ALCA</InputAdornment>,
-                                            }}
-                                        />
-                                    </Grid>
+                                <Grid item xs>
+                                    <Typography>Reward Type</Typography>
+                                </Grid>
 
-                                    <Grid item xs={3}>
-                                        <div>ETH & ALCA</div>
-                                    </Grid>
+                                <Grid item xs>
+                                    <Typography>Interest</Typography>
+                                </Grid>
 
-                                    <Grid item xs={3}>
-                                        <div>10%</div>
-                                    </Grid>
+                                <Grid item xs>
+                                    <Typography>Lockup Time</Typography>
+                                </Grid>
+                            </Grid>
 
-                                    <Grid item xs={3}>
-                                        <Switch disabled />
-                                    </Grid>
+                            <Grid
+                                container
+                                item
+                                sx={[
+                                    {
+                                        background:
+                                            "linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C",
+                                        alignItems: "center",
+                                        py: 1,
+                                    },
+                                ]}
+                            >
+                                <Grid item xs={4} sx={{ px: 2 }}>
+                                    <TextField
+                                        id=""
+                                        value={0}
+                                        onChange={() => {}}
+                                        size="small"
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end">ALCA</InputAdornment>,
+                                        }}
+                                    />
+                                </Grid>
+
+                                <Grid item xs>
+                                    <Typography sx={{ color: "rgba(255, 255, 255, 0.5);" }}>ETH & ALCA</Typography>
+                                </Grid>
+
+                                <Grid item xs>
+                                    <Typography sx={{ color: "rgba(255, 255, 255, 0.5);" }}>10%</Typography>
+                                </Grid>
+
+                                <Grid item xs>
+                                    <Switch disabled />
                                 </Grid>
                             </Grid>
                         </Grid>
