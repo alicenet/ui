@@ -164,7 +164,8 @@ export function MigrationModal({ migrationAmount, isOpen, successAction, closeMo
                     />
                 </div>
                 <div>
-                    Migrate {formatNumberToLocale(migrationAmount)} MAD {"=>"} {formatNumberToLocale(alcaExchangeRate)} ALCA
+                    Migrate {formatNumberToLocale(migrationAmount)} MAD {"=>"} {formatNumberToLocale(alcaExchangeRate)}{" "}
+                    ALCA
                 </div>
             </Modal.Header>
 
@@ -184,7 +185,12 @@ export function MigrationModal({ migrationAmount, isOpen, successAction, closeMo
                         loading={waiting === WAIT_TYPES.ALLOWANCE}
                         content={
                             <div>
-                                Step 1 - Allow <Icon name={migrationStep == 2 || migrationSuccess ? "check" : "square outline outline-none"} />
+                                Step 1 - Allow{" "}
+                                <Icon
+                                    name={
+                                        migrationStep == 2 || migrationSuccess ? "check" : "square outline outline-none"
+                                    }
+                                />
                             </div>
                         }
                     />
@@ -196,7 +202,8 @@ export function MigrationModal({ migrationAmount, isOpen, successAction, closeMo
                         className="ml-4"
                         content={
                             <div>
-                                Step 2 - Migrate <Icon name={migrationSuccess ? "check" : "square outline outline-none"} />
+                                Step 2 - Migrate{" "}
+                                <Icon name={migrationSuccess ? "check" : "square outline outline-none"} />
                             </div>
                         }
                         loading={waiting === WAIT_TYPES.MIGRATION}
@@ -204,7 +211,13 @@ export function MigrationModal({ migrationAmount, isOpen, successAction, closeMo
                     />
                 </div>
 
-                <Button secondary disabled={!migrationSuccess} content="View Summary" color={migrationSuccess ? "green" : "gray"} onClick={successAction} />
+                <Button
+                    secondary
+                    disabled={!migrationSuccess}
+                    content="View Summary"
+                    color={migrationSuccess ? "green" : "gray"}
+                    onClick={successAction}
+                />
             </Modal.Actions>
         </Modal>
     );

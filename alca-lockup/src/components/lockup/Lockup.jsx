@@ -24,7 +24,9 @@ export function Lockup() {
     const [openConfirmation, toggleConfirmModal] = React.useState(false);
     const [hash, setHash] = React.useState("");
     const lockupPeriodEnded = lockedPosition.lockupPeriod === LOCKUP_PERIOD_STATUS.ENDED;
-    const lockupInMonths = `${lockedPosition.lockupPeriodInMonths} ${lockedPosition.lockupPeriodInMonths <= 1 ? "month" : "months"}`;
+    const lockupInMonths = `${lockedPosition.lockupPeriodInMonths} ${
+        lockedPosition.lockupPeriodInMonths <= 1 ? "month" : "months"
+    }`;
 
     const lockupPosition = async () => {
         try {
@@ -46,7 +48,8 @@ export function Lockup() {
         } catch (exception) {
             setStatus({
                 error: true,
-                message: exception.toString() || "There was a problem with your request, please verify or try again later",
+                message:
+                    exception.toString() || "There was a problem with your request, please verify or try again later",
             });
             setWaiting(false);
         }
@@ -111,14 +114,18 @@ export function Lockup() {
                     <Grid className="mt-3">
                         <div
                             className="cursor-pointer text-sm underline"
-                            onClick={() => window.open(`${process.env.REACT_APP__ABOUT_EXTRA_ALCA_LOCKUP_URL}`, "_blank").focus()}
+                            onClick={() =>
+                                window.open(`${process.env.REACT_APP__ABOUT_EXTRA_ALCA_LOCKUP_URL}`, "_blank").focus()
+                            }
                         >
                             About extra ALCA lockup rewards
                         </div>
 
                         <div
                             className="cursor-pointer text-sm underline"
-                            onClick={() => window.open(`${process.env.REACT_APP__ABOUT_ETH_LOCKUP_URL}`, "_blank").focus()}
+                            onClick={() =>
+                                window.open(`${process.env.REACT_APP__ABOUT_ETH_LOCKUP_URL}`, "_blank").focus()
+                            }
                         >
                             About ETH % lockup rewards
                         </div>
@@ -137,7 +144,8 @@ export function Lockup() {
             onAccept={() => lockupPosition()}
         >
             <p>
-                You are about to Lock-up <strong>{formatNumberToLocale(stakedPosition.stakedAlca)}</strong> ALCA for {lockupInMonths} with a 5X multiplier (TBD)
+                You are about to Lock-up <strong>{formatNumberToLocale(stakedPosition.stakedAlca)}</strong> ALCA for{" "}
+                {lockupInMonths} with a 5X multiplier (TBD)
             </p>
         </ConfirmationModal>
     );

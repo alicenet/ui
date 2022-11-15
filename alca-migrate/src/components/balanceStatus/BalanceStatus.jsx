@@ -11,7 +11,9 @@ export function BalanceStatus() {
     const BalanceLabel = ({ balanceType }) => (
         <div size className="flex flex-col justify-start items-start ml-2 mr-2 h-10 text-left">
             <div className="text-gray-500 text-xs font-bold">Current {balanceType.toUpperCase()} Balance</div>
-            <div className="text-gray-700 text-xl mt-1">{loading ? <Loader size="small" active /> : formatNumberToLocale(balances[balanceType])} </div>
+            <div className="text-gray-700 text-xl mt-1">
+                {loading ? <Loader size="small" active /> : formatNumberToLocale(balances[balanceType])}{" "}
+            </div>
         </div>
     );
 

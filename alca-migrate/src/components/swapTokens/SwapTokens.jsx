@@ -73,7 +73,9 @@ export function SwapTokens() {
                         },
                         {
                             title: "Future ALCA Balance",
-                            value: formatNumberToLocale(Number(alcaBalance) + Number(migrateAmount ? alcaExchangeRate : 0)),
+                            value: formatNumberToLocale(
+                                Number(alcaBalance) + Number(migrateAmount ? alcaExchangeRate : 0)
+                            ),
                             valueName: "ALCA",
                         },
                     ]}
@@ -81,13 +83,20 @@ export function SwapTokens() {
                     inputOnChange={(e) => updateMigrateAmt(e.target.value)}
                     inputDisabled={!web3Connected}
                     inputBtnOnClick={() => updateMigrateAmt(madBalance)}
-                    inputSubText={`Migrate ${formatNumberToLocale(migrateAmount)} MAD to ${formatNumberToLocale(alcaExchangeRate)} ALCA`}
+                    inputSubText={`Migrate ${formatNumberToLocale(migrateAmount)} MAD to ${formatNumberToLocale(
+                        alcaExchangeRate
+                    )} ALCA`}
                     buttonOnClick={openMigrationModal}
                     buttonDisabled={!web3Connected || migrateAmount < 1 || !alcaExchangeRate}
                 />
             </Container>
 
-            <MigrationModal isOpen={modalOpen} migrationAmount={migrateAmount} successAction={successAction} closeModal={() => setModalOpen(false)} />
+            <MigrationModal
+                isOpen={modalOpen}
+                migrationAmount={migrateAmount}
+                successAction={successAction}
+                closeModal={() => setModalOpen(false)}
+            />
         </>
     );
 }

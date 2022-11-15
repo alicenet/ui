@@ -17,20 +17,26 @@ export function Introduction() {
             <Container>
                 This application is used to migrate your current MAD tokens to ALCA tokens.
                 <br />
-                Please read each step carefully to understand the application flow and what transactions you will need to sign.
+                Please read each step carefully to understand the application flow and what transactions you will need
+                to sign.
                 <br /> <br />
                 After reading each step please press the button below to continue
             </Container>
 
             <Header content="1 - Security Notification" as="h4" />
-            <Container>You will be asked to verify information regarding application security to help prevent phishing.</Container>
+            <Container>
+                You will be asked to verify information regarding application security to help prevent phishing.
+            </Container>
 
             <Header content="2 - Connect" as="h4" />
-            <Container>To migrate tokens you will be asked to connect the wallet that has the MAD tokens you wish to migrate</Container>
+            <Container>
+                To migrate tokens you will be asked to connect the wallet that has the MAD tokens you wish to migrate
+            </Container>
 
             <Header content="3 - Migrate" as="h4" />
             <Container>
-                You will be asked the amount of MAD to migrate as well as requested to sign two transactions with your web3 wallet:
+                You will be asked the amount of MAD to migrate as well as requested to sign two transactions with your
+                web3 wallet:
                 <br /> <br />
                 - The first transaction is to allow the ALCA contract to move your tokens
                 <br />- The second transaction will migrate your tokens from MAD =&gt; ALCA

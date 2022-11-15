@@ -126,7 +126,8 @@ export function StakeStake() {
         } catch (exception) {
             setStatus({
                 error: true,
-                message: exception.toString() || "There was a problem with your request, please verify or try again later",
+                message:
+                    exception.toString() || "There was a problem with your request, please verify or try again later",
             });
             setWaiting(false);
         }
@@ -157,7 +158,8 @@ export function StakeStake() {
         } catch (exception) {
             setStatus({
                 error: true,
-                message: exception.toString() || "There was a problem with your request, please verify or try again later",
+                message:
+                    exception.toString() || "There was a problem with your request, please verify or try again later",
             });
             setCurrentContent("errorLocking");
             setWaiting(false);
@@ -200,7 +202,11 @@ export function StakeStake() {
             <div className="mt-4">
                 <div className="flex">
                     <div>
-                        <Button content={"View on Etherscan"} secondary onClick={() => window.open(`${ETHERSCAN_URL}${hash}`, "_blank").focus()} />
+                        <Button
+                            content={"View on Etherscan"}
+                            secondary
+                            onClick={() => window.open(`${ETHERSCAN_URL}${hash}`, "_blank").focus()}
+                        />
                     </div>
                     <div className="ml-4">{renderLockNftButton()}</div>
                 </div>
@@ -252,9 +258,20 @@ export function StakeStake() {
                     <Button
                         className="mt-4"
                         secondary
-                        content={!alcaStakeAllowance || !stakeAmt ? "Enter an amount" : allowanceMet ? "Stake ALCA" : `Stake ${stakeAmt} ALCA`}
+                        content={
+                            !alcaStakeAllowance || !stakeAmt
+                                ? "Enter an amount"
+                                : allowanceMet
+                                ? "Stake ALCA"
+                                : `Stake ${stakeAmt} ALCA`
+                        }
                         onClick={handleStaking}
-                        disabled={!stakeAmt || ethers.utils.parseUnits(stakeAmt || "0", DECIMALS).gt(ethers.utils.parseUnits(alcaBalance || "0", DECIMALS))}
+                        disabled={
+                            !stakeAmt ||
+                            ethers.utils
+                                .parseUnits(stakeAmt || "0", DECIMALS)
+                                .gt(ethers.utils.parseUnits(alcaBalance || "0", DECIMALS))
+                        }
                     />
 
                     <div className="cursor-pointer text-xs mt-4 underline" onClick={() => setAboutModalOpen(true)}>

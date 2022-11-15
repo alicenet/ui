@@ -1,14 +1,15 @@
 import React from "react";
+
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
+import { Transactions, Positions } from "pages";
+import { Debug } from "components";
 
 import { ThemeProvider } from "@mui/system";
-
-import { theme } from "theme/MUITheme";
 import { CssBaseline } from "@mui/material";
+import { theme } from "theme/MUITheme";
+import { BalanceContextProvider } from "alice-ui-common";
 
-import { Transactions, Positions } from "pages";
-import Debug from "components/Debug";
-
+import ethAdapter from "eth-adapter";
 export default function App() {
     const router = createBrowserRouter(
         createRoutesFromElements(
@@ -21,10 +22,11 @@ export default function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline enableColorScheme />
-
-            <Debug />
-            <RouterProvider router={router} />
+            <BalanceContextProvider ethAdapter={ethAdapter}>
+                <CssBaseline enableColorScheme />
+                <Debug />
+                <RouterProvider router={router} />
+            </BalanceContextProvider>
         </ThemeProvider>
     );
 }

@@ -1,4 +1,17 @@
-import { Box, Grid, TextField, Button, Stepper, Step, StepLabel, Typography, Divider, InputAdornment, Switch, Container } from "@mui/material";
+import {
+    Box,
+    Grid,
+    TextField,
+    Button,
+    Stepper,
+    Step,
+    StepLabel,
+    Typography,
+    Divider,
+    InputAdornment,
+    Switch,
+    Container,
+} from "@mui/material";
 import { ChevronRight, Loop, Download } from "@mui/icons-material";
 import { NavigationBar } from "components/NavigationBar";
 import { HeadingGroup } from "components/HeadingGroup";
@@ -50,7 +63,13 @@ export function Transactions() {
                                     },
                                 ]}
                             >
-                                <TextField id="" label="Migrate to ALCA" sx={[{ mt: 3 }]} value={0} onChange={() => {}} />
+                                <TextField
+                                    id=""
+                                    label="Migrate to ALCA"
+                                    sx={[{ mt: 3 }]}
+                                    value={0}
+                                    onChange={() => {}}
+                                />
                                 <Button variant="text">Migrate</Button>
                             </Box>
 

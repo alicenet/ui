@@ -90,8 +90,8 @@ export function PhishingBox() {
                     <Header>
                         Before proceeding with the migration please read the following tips
                         <Header.Subheader>
-                            Hover <Icon size="small" name="question circle" className="mr-0 ml-0 relative -top-.5" /> for additional information and check each
-                            box as you go
+                            Hover <Icon size="small" name="question circle" className="mr-0 ml-0 relative -top-.5" />{" "}
+                            for additional information and check each box as you go
                         </Header.Subheader>
                     </Header>
 
@@ -102,8 +102,8 @@ export function PhishingBox() {
                                     position="top left"
                                     content={
                                         <div className="text-xs w-[320px]">
-                                            Contracts should be verified on etherscan by comparing contract addresses to other published media by the contract
-                                            author(s)
+                                            Contracts should be verified on etherscan by comparing contract addresses to
+                                            other published media by the contract author(s)
                                         </div>
                                     }
                                     trigger={
@@ -118,7 +118,9 @@ export function PhishingBox() {
                             </List.Content>
 
                             <br />
-                            <Header.Subheader>Verify the contract is the expected contract address and is verified on etherscan</Header.Subheader>
+                            <Header.Subheader>
+                                Verify the contract is the expected contract address and is verified on etherscan
+                            </Header.Subheader>
                             <LinkedListItem
                                 text={`ALCA Contract Address (${AToken_CONTRACT_ADDRESS})`}
                                 link={`https://etherscan.io/address/${AToken_CONTRACT_ADDRESS}`}
@@ -127,7 +129,9 @@ export function PhishingBox() {
                             />
 
                             <br />
-                            <Header.Subheader>Verify the contract is the expected contract address and is verified on etherscan</Header.Subheader>
+                            <Header.Subheader>
+                                Verify the contract is the expected contract address and is verified on etherscan
+                            </Header.Subheader>
                             <LinkedListItem
                                 text={`MadToken Contract Address (${MadTokenContractAddress})`}
                                 link={`https://etherscan.io/address/${MadTokenContractAddress}`}
@@ -188,7 +192,9 @@ export function PhishingBox() {
                                     position="top left"
                                     content={
                                         <div>
-                                            <div className="text-xs w-[320px]">When interacting with contracts verify the contract address</div>
+                                            <div className="text-xs w-[320px]">
+                                                When interacting with contracts verify the contract address
+                                            </div>
                                             <Image src={ContractVerifyPng} rounded />
                                         </div>
                                     }
@@ -200,7 +206,8 @@ export function PhishingBox() {
                                                     <Icon name="question circle" size="small" className="ml-2" />
                                                 </div>
                                                 <Header.Subheader className="opacity-60">
-                                                    During transaction check the contract being called by your wallet is correct
+                                                    During transaction check the contract being called by your wallet is
+                                                    correct
                                                 </Header.Subheader>
                                             </Header>
                                         </div>
@@ -220,7 +227,12 @@ export function PhishingBox() {
                         >
                             - I have addressed the above security tips
                         </span>
-                        <Icon name={allChecked ? "check" : "x"} color={allChecked ? "green" : "red"} size="large" className="ml-6 m-0 h-full text-2xl" />
+                        <Icon
+                            name={allChecked ? "check" : "x"}
+                            color={allChecked ? "green" : "red"}
+                            size="large"
+                            className="ml-6 m-0 h-full text-2xl"
+                        />
                     </div>
                 </div>
             </Container>

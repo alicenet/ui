@@ -67,7 +67,13 @@ export function StakeStake() {
                 <div>
                     <Button
                         className="mt-4"
-                        content={!alcaStakeAllowance || !stakeAmt ? "Enter an amount" : allowanceMet ? "Stake ALCA" : "Allow ALCA*"}
+                        content={
+                            !alcaStakeAllowance || !stakeAmt
+                                ? "Enter an amount"
+                                : allowanceMet
+                                ? "Stake ALCA"
+                                : "Allow ALCA*"
+                        }
                         onClick={allowanceMet ? stake : approveStaking}
                         disabled={!stakeAmt}
                         loading={waiting}
@@ -75,8 +81,9 @@ export function StakeStake() {
                 </div>
 
                 <div className={classNames("text-xs mt-8", { hidden: allowanceMet })}>
-                    *Prior to your first staked position you will be asked to approve the Staking Contract a large amount of tokens. Wallets like metamask will
-                    allow you to change this amount, and you are more than welcome to, however additional approval transactions will cost more in gas.
+                    *Prior to your first staked position you will be asked to approve the Staking Contract a large
+                    amount of tokens. Wallets like metamask will allow you to change this amount, and you are more than
+                    welcome to, however additional approval transactions will cost more in gas.
                 </div>
             </Grid.Column>
         </Grid>

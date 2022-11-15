@@ -46,7 +46,8 @@ export function StakeClaim() {
         } catch (exception) {
             setStatus({
                 error: true,
-                message: exception.toString() || "There was a problem with your request, please verify or try again later",
+                message:
+                    exception.toString() || "There was a problem with your request, please verify or try again later",
             });
             setWaiting(false);
         }
@@ -58,7 +59,8 @@ export function StakeClaim() {
                 <Header>
                     Claim Rewards
                     <Header.Subheader>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua.
                     </Header.Subheader>
                 </Header>
             </Grid.Column>
@@ -72,7 +74,14 @@ export function StakeClaim() {
                 </div>
 
                 <div>
-                    <Button className="mt-4" secondary content={"Claim Rewards"} onClick={collectRewards} disabled={false} loading={waiting} />
+                    <Button
+                        className="mt-4"
+                        secondary
+                        content={"Claim Rewards"}
+                        onClick={collectRewards}
+                        disabled={false}
+                        loading={waiting}
+                    />
                 </div>
             </Grid.Column>
         </>
@@ -85,8 +94,8 @@ export function StakeClaim() {
                     Reward Claim Completed
                     <Header.Subheader>
                         <strong>
-                            You have successfully claimed a reward of {formatNumberToLocale(claimedEthAmount)} ETH / {formatNumberToLocale(claimedAlcaAmount)}{" "}
-                            ALCA
+                            You have successfully claimed a reward of {formatNumberToLocale(claimedEthAmount)} ETH /{" "}
+                            {formatNumberToLocale(claimedAlcaAmount)} ALCA
                         </strong>{" "}
                         Rewards will be sent automatically to your wallet
                     </Header.Subheader>
