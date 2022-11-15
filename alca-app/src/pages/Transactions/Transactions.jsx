@@ -42,7 +42,7 @@ export function Transactions() {
                         <Typography variant="body1">1 MAD Token ≈ 1.56 ALCA Token</Typography>
 
                         <Box sx={[{ display: "flex", alignItems: "center", columnGap: 1, mt: 3, mb: 1 }]}>
-                            <TextField id="" label="Migrate to ALCA" value={0} onChange={() => {}} />
+                            <TextField id="" label="Migrate to ALCA" size="small" value={0} onChange={() => {}} />
                             <Button variant="contained" color="secondary">
                                 All
                             </Button>
@@ -113,6 +113,7 @@ export function Transactions() {
                                             id=""
                                             value={0}
                                             onChange={() => {}}
+                                            size="small"
                                             InputProps={{
                                                 endAdornment: <InputAdornment position="end">ALCA</InputAdornment>,
                                             }}
