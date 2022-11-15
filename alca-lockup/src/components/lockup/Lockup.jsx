@@ -23,7 +23,10 @@ export function Lockup() {
     const [status, setStatus] = React.useState({});
     const [openConfirmation, toggleConfirmModal] = React.useState(false);
     const [hash, setHash] = React.useState("");
-    const lockupPeriodEnded = lockedPosition.lockupPeriod === LOCKUP_PERIOD_STATUS.END;
+    const lockupPeriodEnded = lockedPosition.lockupPeriod === LOCKUP_PERIOD_STATUS.ENDED;
+    const lockupInMonths = `${lockedPosition.lockupPeriodInMonths} ${
+        lockedPosition.lockupPeriodInMonths <= 1 ? "month" : "months"
+    }`;
 
     const lockupPosition = async () => {
         try {
@@ -45,7 +48,8 @@ export function Lockup() {
         } catch (exception) {
             setStatus({
                 error: true,
-                message: exception.toString() || "There was a problem with your request, please verify or try again later",
+                message:
+                    exception.toString() || "There was a problem with your request, please verify or try again later",
             });
             setWaiting(false);
         }
@@ -102,22 +106,26 @@ export function Lockup() {
                         {lockedPosition.lockedAlca && hash ? "Lockup Successful!" : "Lockup Staked Positions"}
                         <Header.Subheader className="mt-3">
                             {["0.0", 0].includes(lockedPosition.lockedAlca)
-                                ? `You currently have a staked position of ${stakedPosition.stakedAlca} ALCA, a lockup will be a period of 6 months with 5X multiplayer (TBD)`
-                                : `You have Locked-up ${lockedPosition.lockedAlca} ALCA for 6 months 5X multiplayer (TBD)`}
+                                ? `You currently have a staked position of ${stakedPosition.stakedAlca} ALCA, a lockup will be a period of ${lockupInMonths} with 5X multiplier (TBD)`
+                                : `You have Locked-up ${lockedPosition.lockedAlca} ALCA for ${lockupInMonths} 5X multiplier (TBD)`}
                         </Header.Subheader>
                     </Header>
 
                     <Grid className="mt-3">
                         <div
                             className="cursor-pointer text-sm underline"
-                            onClick={() => window.open(`${process.env.REACT_APP__ABOUT_EXTRA_ALCA_LOCKUP_URL}`, "_blank").focus()}
+                            onClick={() =>
+                                window.open(`${process.env.REACT_APP__ABOUT_EXTRA_ALCA_LOCKUP_URL}`, "_blank").focus()
+                            }
                         >
                             About extra ALCA lockup rewards
                         </div>
 
                         <div
                             className="cursor-pointer text-sm underline"
-                            onClick={() => window.open(`${process.env.REACT_APP__ABOUT_ETH_LOCKUP_URL}`, "_blank").focus()}
+                            onClick={() =>
+                                window.open(`${process.env.REACT_APP__ABOUT_ETH_LOCKUP_URL}`, "_blank").focus()
+                            }
                         >
                             About ETH % lockup rewards
                         </div>
@@ -136,7 +144,8 @@ export function Lockup() {
             onAccept={() => lockupPosition()}
         >
             <p>
-                You are about to Lock-up <strong>{formatNumberToLocale(stakedPosition.stakedAlca)}</strong> ALCA for 6 months with a 5X multiplayer (TBD)
+                You are about to Lock-up <strong>{formatNumberToLocale(stakedPosition.stakedAlca)}</strong> ALCA for{" "}
+                {lockupInMonths} with a 5X multiplier (TBD)
             </p>
         </ConfirmationModal>
     );
@@ -150,7 +159,7 @@ export function Lockup() {
                 {lockupPeriodEnded && (
                     <Grid.Column width={16}>
                         <Message warning>
-                            <p>{"Lockup is not available outside the lockup period"}</p>
+                            <p>{"Lockup is not available outside the prelock period"}</p>
                         </Message>
                     </Grid.Column>
                 )}

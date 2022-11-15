@@ -11,15 +11,17 @@ import { formatNumberToLocale } from "utils/locale";
 const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://etherscan.io/tx/";
 
 export function LockupClaim() {
-    const { lockedAlca, tokenId, ethReward, alcaReward, lockupPeriod, penalty, remainingRewards } = useSelector((state) => ({
-        lockedAlca: state.application.lockedPosition.lockedAlca,
-        tokenId: state.application.lockedPosition.tokenId,
-        ethReward: state.application.lockedPosition.ethReward,
-        alcaReward: state.application.lockedPosition.alcaReward,
-        lockupPeriod: state.application.lockedPosition.lockupPeriod,
-        penalty: state.application.lockedPosition.penalty,
-        remainingRewards: state.application.lockedPosition.remainingRewards,
-    }));
+    const { lockedAlca, tokenId, ethReward, alcaReward, lockupPeriod, penalty, remainingRewards } = useSelector(
+        (state) => ({
+            lockedAlca: state.application.lockedPosition.lockedAlca,
+            tokenId: state.application.lockedPosition.tokenId,
+            ethReward: state.application.lockedPosition.ethReward,
+            alcaReward: state.application.lockedPosition.alcaReward,
+            lockupPeriod: state.application.lockedPosition.lockupPeriod,
+            penalty: state.application.lockedPosition.penalty,
+            remainingRewards: state.application.lockedPosition.remainingRewards,
+        })
+    );
 
     const dispatch = useDispatch();
 
@@ -29,7 +31,7 @@ export function LockupClaim() {
     const [claimedEth, setClaimedEth] = React.useState(0);
     const [claimedAlca, setClaimedAlca] = React.useState(0);
     const [hash, setHash] = React.useState("");
-    const lockupPeriodEnded = lockupPeriod === LOCKUP_PERIOD_STATUS.END;
+    const lockupPeriodEnded = lockupPeriod === LOCKUP_PERIOD_STATUS.ENDED;
 
     const claimRewards = async () => {
         try {
@@ -54,7 +56,8 @@ export function LockupClaim() {
             setWaiting(false);
             setStatus({
                 error: true,
-                message: exception.toString() || "There was a problem with your request, please verify or try again later",
+                message:
+                    exception.toString() || "There was a problem with your request, please verify or try again later",
             });
         }
     };
@@ -73,8 +76,9 @@ export function LockupClaim() {
                                 {formatNumberToLocale(lockedAlca)} ALCA Staked Locked
                             </Header>
                             <p>
-                                You can claim your rewards at anytime, however early claiming will have a {penalty}% penalty of earned rewards, users will get
-                                the {remainingRewards}% of their rewards and their original staked position's ALCA.
+                                You can claim your rewards at anytime, however early claiming will have a {penalty}%
+                                penalty of earned rewards, users will get the {remainingRewards}% of their rewards and
+                                their original staked position&apos;s ALCA.
                             </p>
                         </div>
                     </div>
@@ -123,7 +127,12 @@ export function LockupClaim() {
             </Header.Subheader>
 
             {status?.message && !status?.error && (
-                <Button className="mt-4" content={"View on Etherscan"} color="black" onClick={() => window.open(`${ETHERSCAN_URL}${hash}`, "_blank").focus()} />
+                <Button
+                    className="mt-4"
+                    content={"View on Etherscan"}
+                    color="black"
+                    onClick={() => window.open(`${ETHERSCAN_URL}${hash}`, "_blank").focus()}
+                />
             )}
         </Grid.Column>
     );
@@ -133,7 +142,9 @@ export function LockupClaim() {
             <Header>
                 {hash ? "Rewards Claimed Successfully!" : "Claim Lockup Rewards"}
                 <Header.Subheader className="mt-3">
-                    {hash ? `You have claimed your lockup rewards` : `Lockup rewards can be claimed without unlocking your position.`}
+                    {hash
+                        ? `You have claimed your lockup rewards`
+                        : `Lockup rewards can be claimed without unlocking your position.`}
                 </Header.Subheader>
             </Header>
         </Grid.Column>
@@ -149,10 +160,13 @@ export function LockupClaim() {
         >
             {!lockupPeriodEnded && (
                 <Message warning>
-                    <Message.Header>You are about to claim rewards for this locked position and lose potential rewards</Message.Header>
+                    <Message.Header>
+                        You are about to claim rewards for this locked position and lose potential rewards
+                    </Message.Header>
                     <p>
-                        The early exit will have a {penalty}% penalty for earned rewards, users will get the {remainingRewards}%<br />
-                        of their rewards and their original staked position's ALCA.
+                        The early exit will have a {penalty}% penalty for earned rewards, users will get the{" "}
+                        {remainingRewards}%<br />
+                        of their rewards and their original staked position&apos;s ALCA.
                     </p>
                 </Message>
             )}

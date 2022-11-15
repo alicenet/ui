@@ -1,12 +1,9 @@
-import { Button, Container, Header, Message } from "semantic-ui-react";
+import { Button, Header, Message } from "semantic-ui-react";
 import React, { useState } from "react";
-import config from "utils";
 import { useSelector } from "react-redux";
 import ethAdapter from "eth/ethAdapter";
-import { useCookies } from "react-cookie";
 
 export function Connect() {
-    const { generic } = config;
     const [error, setError] = useState("");
     const { web3Connected, address } = useSelector((state) => ({
         address: state.application.connectedAddress,
@@ -14,8 +11,6 @@ export function Connect() {
     }));
 
     const [loading, setLoading] = React.useState(false);
-
-    const [agreeCookie] = useCookies(["agreed"]);
 
     const connect = async () => {
         setError("");
@@ -40,7 +35,13 @@ export function Connect() {
                         </div>
                     ) : (
                         <div>
-                            <Button className="" secondary onClick={connect} content="Connect Wallet" loading={loading} />
+                            <Button
+                                className=""
+                                secondary
+                                onClick={connect}
+                                content="Connect Wallet"
+                                loading={loading}
+                            />
                         </div>
                     )}
                 </div>

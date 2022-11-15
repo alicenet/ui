@@ -1,13 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Grid, Menu, Segment, Header } from "semantic-ui-react";
-import { Connect, StakeClaim, StakeStake, StakeUnstake, StakeWelcome } from "components";
+import { StakeClaim, StakeStake, StakeUnstake, StakeWelcome } from "components";
 import { classNames } from "utils/generic";
 import { formatNumberToLocale } from "utils/locale";
 
 export function StakeActions() {
-    const { hasReadTerms, alcaBalance, web3Connected, stakedAlca, ethRewards, alcaRewards } = useSelector((state) => ({
-        hasReadTerms: state.application.hasReadTerms,
+    const { alcaBalance, web3Connected, stakedAlca, ethRewards, alcaRewards } = useSelector((state) => ({
         alcaBalance: state.application.balances.alca,
         web3Connected: state.application.web3Connected,
         stakedAlca: state.application.stakedPosition.stakedAlca,
@@ -24,7 +23,11 @@ export function StakeActions() {
     const getActiveTab = () => {
         switch (activeItem) {
             case "welcome":
-                return <StakeWelcome stepForward={() => (stakedAlca > 0 ? setActiveItem("unstake") : setActiveItem("stake"))} />;
+                return (
+                    <StakeWelcome
+                        stepForward={() => (stakedAlca > 0 ? setActiveItem("unstake") : setActiveItem("stake"))}
+                    />
+                );
             case "stake":
                 return <StakeStake />;
             case "unstake":
@@ -60,14 +63,22 @@ export function StakeActions() {
                                 <Menu.Item
                                     content={
                                         <>
-                                            <Header className={classNames({ "opacity-40": stakedAlca || !web3Connected })}>Stake</Header>
-                                            <div className="text-xs">{formatNumberToLocale(alcaBalance, 4)} ALCA Available</div>
+                                            <Header
+                                                className={classNames({ "opacity-40": stakedAlca || !web3Connected })}
+                                            >
+                                                Stake
+                                            </Header>
+                                            <div className="text-xs">
+                                                {formatNumberToLocale(alcaBalance, 4)} ALCA Available
+                                            </div>
                                         </>
                                     }
                                     disabled={Boolean(stakedAlca || !web3Connected)}
                                     active={activeItem === "stake"}
                                     onClick={(e) => handleItemClick(e, { name: "stake" })}
-                                    onKeyPress={(e) => !Boolean(stakedAlca || !web3Connected) && handleItemClick(e, { name: "stake" })}
+                                    onKeyPress={(e) =>
+                                        !(stakedAlca || !web3Connected) && handleItemClick(e, { name: "stake" })
+                                    }
                                     tabIndex="1"
                                     className={activeMenuClass("stake")}
                                 />
@@ -75,14 +86,20 @@ export function StakeActions() {
                                 <Menu.Item
                                     content={
                                         <>
-                                            <Header className={classNames({ "opacity-40": !stakedAlca > 0 })}>Unstake</Header>
-                                            <div className="text-xs">{stakedAlca > 0 ? `${formatNumberToLocale(stakedAlca, 4)} ALCA` : "No ALCA staked"}</div>
+                                            <Header className={classNames({ "opacity-40": !stakedAlca > 0 })}>
+                                                Unstake
+                                            </Header>
+                                            <div className="text-xs">
+                                                {stakedAlca > 0
+                                                    ? `${formatNumberToLocale(stakedAlca, 4)} ALCA`
+                                                    : "No ALCA staked"}
+                                            </div>
                                         </>
                                     }
                                     disabled={Boolean(!stakedAlca)}
                                     active={activeItem === "unstake"}
                                     onClick={(e) => handleItemClick(e, { name: "unstake" })}
-                                    onKeyPress={(e) => !Boolean(!stakedAlca) && handleItemClick(e, { name: "unstake" })}
+                                    onKeyPress={(e) => !!stakedAlca && handleItemClick(e, { name: "unstake" })}
                                     tabIndex="2"
                                     className={activeMenuClass("unstake")}
                                 />
@@ -92,26 +109,38 @@ export function StakeActions() {
                                         <>
                                             <Header
                                                 className={classNames({
-                                                    "opacity-40": ([0, "0.0"].includes(ethRewards) && [0, "0.0"].includes(alcaRewards)) || !stakedAlca,
+                                                    "opacity-40":
+                                                        ([0, "0.0"].includes(ethRewards) &&
+                                                            [0, "0.0"].includes(alcaRewards)) ||
+                                                        !stakedAlca,
                                                 })}
                                             >
                                                 Rewards
                                             </Header>
 
                                             <div className="text-xs">
-                                                {ethRewards > 0 ? `${formatNumberToLocale(ethRewards, 7)} ETH to claim` : "No ETH to claim"}
+                                                {ethRewards > 0
+                                                    ? `${formatNumberToLocale(ethRewards, 7)} ETH to claim`
+                                                    : "No ETH to claim"}
                                             </div>
                                             <div className="text-xs">
-                                                {alcaRewards > 0 ? `${formatNumberToLocale(alcaRewards, 7)} ALCA to claim` : "No ALCA to claim"}
+                                                {alcaRewards > 0
+                                                    ? `${formatNumberToLocale(alcaRewards, 7)} ALCA to claim`
+                                                    : "No ALCA to claim"}
                                             </div>
                                         </>
                                     }
-                                    disabled={Boolean(([0, "0.0"].includes(ethRewards) && [0, "0.0"].includes(alcaRewards)) || !stakedAlca)}
+                                    disabled={Boolean(
+                                        ([0, "0.0"].includes(ethRewards) && [0, "0.0"].includes(alcaRewards)) ||
+                                            !stakedAlca
+                                    )}
                                     active={activeItem === "claim"}
                                     onClick={(e) => handleItemClick(e, { name: "claim" })}
                                     onKeyPress={(e) =>
-                                        !Boolean(([0, "0.0"].includes(ethRewards) && [0, "0.0"].includes(alcaRewards)) || !stakedAlca) &&
-                                        handleItemClick(e, { name: "claim" })
+                                        !(
+                                            ([0, "0.0"].includes(ethRewards) && [0, "0.0"].includes(alcaRewards)) ||
+                                            !stakedAlca
+                                        ) && handleItemClick(e, { name: "claim" })
                                     }
                                     tabIndex="3"
                                     className={activeMenuClass("claim")}

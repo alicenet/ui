@@ -3,13 +3,13 @@
     "version": "1.0.0",
     "private": true,
     "devDependencies": {
-        "@commitlint/cli": "^17.2.0",
-        "@commitlint/config-conventional": "^17.2.0",
-        "@commitlint/format": "^17.0.0",
-        "@emotion/react": "^11.10.4",
-        "@emotion/styled": "^11.10.4",
-        "@mui/icons-material": "^5.10.9",
-        "@mui/material": "^5.10.9",
+        "@commitlint/cli": "17.2.0",
+        "@commitlint/config-conventional": "17.2.0",
+        "@commitlint/format": "17.0.0",
+        "@emotion/react": "11.10.4",
+        "@emotion/styled": "11.10.4",
+        "@mui/icons-material": "5.10.9",
+        "@mui/material": "5.10.9",
         "@semantic-ui-react/css-patch": "1.0.0",
         "@testing-library/jest-dom": "5.16.1",
         "@testing-library/react": "12.1.2",
@@ -18,6 +18,7 @@
         "@types/react-dom": "^18.0.8",
         "alice-ui-common": "https://github.com/alicenet/ui-common",
         "alice-semantic-css": "git+https://github.com/alicenet/alice-semantic-css.git",
+        "alice-mui-provider": "git+https://github.com/alicenet/alice-mui-provider.git",
         "autoprefixer": "10.4.2",
         "better-docs": "2.7.1",
         "copy-to-clipboard": "3.3.2",
@@ -79,5 +80,11 @@
     "bugs": {
         "url": "https://github.com/alicenet/ui/issues"
     },
+    "workspaces": [
+        "alca-migrate-ui",
+        "alca-staking-ui",
+        "alca-lockup-ui",
+        "ui-boilerplate"
+    ],
     "homepage": "https://github.com/alicenet/ui#readme"
 }

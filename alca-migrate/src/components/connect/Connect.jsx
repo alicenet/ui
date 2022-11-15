@@ -1,5 +1,5 @@
 import { Button, Container, Message } from "semantic-ui-react";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import config from "utils";
 import { TabPanesContext } from "contexts";
 import { useSelector } from "react-redux";
@@ -34,7 +34,13 @@ export function Connect() {
                     ) : (
                         <div>
                             <div>Press the button below to connect your web3 wallet</div>
-                            <Button className="m-0 mt-8" secondary color="black" onClick={connect} content="Connect Wallet" />
+                            <Button
+                                className="m-0 mt-8"
+                                secondary
+                                color="black"
+                                onClick={connect}
+                                content="Connect Wallet"
+                            />
                         </div>
                     )}
                 </div>

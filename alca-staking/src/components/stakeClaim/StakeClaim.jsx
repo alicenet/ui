@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid, Header, Button, Icon, Message } from "semantic-ui-react";
 import { APPLICATION_ACTIONS } from "redux/actions";
+import { TOKEN_TYPES } from "redux/constants";
 import ethAdapter from "eth/ethAdapter";
 import utils from "utils";
 import { formatNumberToLocale } from "utils/locale";
@@ -11,7 +12,8 @@ const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://ethers
 export function StakeClaim() {
     const dispatch = useDispatch();
 
-    const { tokenId, ethRewards, alcaRewards } = useSelector((state) => ({
+    const { tokenId, ethRewards, alcaRewards, stakedAlca } = useSelector((state) => ({
+        stakedAlca: state.application.stakedPosition.stakedAlca,
         tokenId: state.application.stakedPosition.tokenId,
         ethRewards: state.application.stakedPosition.ethRewards,
         alcaRewards: state.application.stakedPosition.alcaRewards,
@@ -34,17 +36,18 @@ export function StakeClaim() {
             const rec = tx.hash && (await tx.wait());
 
             if (rec.transactionHash) {
+                await dispatch(APPLICATION_ACTIONS.updateBalances(TOKEN_TYPES.ALL));
                 setClaimedEthAmount(ethRewards);
                 setClaimedAlcaAmount(alcaRewards);
                 setTxHash(rec.transactionHash);
-                await dispatch(APPLICATION_ACTIONS.updateBalances());
                 setWaiting(false);
                 setSuccessStatus(true);
             }
         } catch (exception) {
             setStatus({
                 error: true,
-                message: exception.toString() || "There was a problem with your request, please verify or try again later",
+                message:
+                    exception.toString() || "There was a problem with your request, please verify or try again later",
             });
             setWaiting(false);
         }
@@ -56,7 +59,8 @@ export function StakeClaim() {
                 <Header>
                     Claim Rewards
                     <Header.Subheader>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua.
                     </Header.Subheader>
                 </Header>
             </Grid.Column>
@@ -70,7 +74,14 @@ export function StakeClaim() {
                 </div>
 
                 <div>
-                    <Button className="mt-4" color="black" content={"Claim Rewards"} onClick={collectRewards} disabled={false} loading={waiting} />
+                    <Button
+                        className="mt-4"
+                        secondary
+                        content={"Claim Rewards"}
+                        onClick={collectRewards}
+                        disabled={false}
+                        loading={waiting}
+                    />
                 </div>
             </Grid.Column>
         </>
@@ -83,8 +94,8 @@ export function StakeClaim() {
                     Reward Claim Completed
                     <Header.Subheader>
                         <strong>
-                            You have successfully claimed a reward of {formatNumberToLocale(claimedEthAmount)} ETH / {formatNumberToLocale(claimedAlcaAmount)}{" "}
-                            ALCA
+                            You have successfully claimed a reward of {formatNumberToLocale(claimedEthAmount)} ETH /{" "}
+                            {formatNumberToLocale(claimedAlcaAmount)} ALCA
                         </strong>{" "}
                         Rewards will be sent automatically to your wallet
                     </Header.Subheader>
@@ -114,6 +125,13 @@ export function StakeClaim() {
 
     return (
         <Grid padded>
+            {Boolean(stakedAlca) && (
+                <div className="font-bold text-sm absolute left-[24px] -top-[54px] p-3 bg-blue-50 text-blue-500 border-r-blue-400 rounded">
+                    <Icon name="warning sign" className="mr-4" />
+                    {stakedAlca} ALCA already staked!
+                </div>
+            )}
+
             {success ? renderClaimedRewardSuccessfully() : renderClaimReward()}
 
             {status.error && (

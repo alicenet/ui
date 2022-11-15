@@ -1,4 +1,3 @@
-import React from "react";
 import { Menu } from "semantic-ui-react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "components";
@@ -49,8 +48,16 @@ export function Header() {
             </Menu.Item>
 
             <Menu.Menu position="right" className="hidden md:flex">
-                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.GITHUB, "_blank").focus()} content="Github" />
-                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.WHITEPAPER, "_blank").focus()} content="Whitepaper" />
+                <Menu.Item
+                    className="cursor-pointer"
+                    onClick={() => window.open(LINKS.GITHUB, "_blank").focus()}
+                    content="Github"
+                />
+                <Menu.Item
+                    className="cursor-pointer"
+                    onClick={() => window.open(LINKS.WHITEPAPER, "_blank").focus()}
+                    content="Whitepaper"
+                />
                 {/* <Menu.Item
                     className="cursor-pointer"
                     onClick={() => window.open(LINKS.COMMUNITY, '_blank').focus()}

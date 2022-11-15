@@ -11,15 +11,17 @@ import { formatNumberToLocale } from "utils/locale";
 const ETHERSCAN_URL = process.env.REACT_APP__ETHERSCAN_TX_URL || "https://etherscan.io/tx/";
 
 export function UnlockEarly() {
-    const { lockedAlca, ethReward, alcaReward, unlockDate, penalty, remainingRewards, lockedPosition } = useSelector((state) => ({
-        lockedPosition: state.application.lockedPosition,
-        lockedAlca: state.application.lockedPosition.lockedAlca,
-        ethReward: state.application.lockedPosition.ethReward,
-        alcaReward: state.application.lockedPosition.alcaReward,
-        unlockDate: state.application.lockedPosition.unlockDate,
-        penalty: state.application.lockedPosition.penalty,
-        remainingRewards: state.application.lockedPosition.remainingRewards,
-    }));
+    const { lockedAlca, ethReward, alcaReward, unlockDate, penalty, remainingRewards, lockedPosition } = useSelector(
+        (state) => ({
+            lockedPosition: state.application.lockedPosition,
+            lockedAlca: state.application.lockedPosition.lockedAlca,
+            ethReward: state.application.lockedPosition.ethReward,
+            alcaReward: state.application.lockedPosition.alcaReward,
+            unlockDate: state.application.lockedPosition.unlockDate,
+            penalty: state.application.lockedPosition.penalty,
+            remainingRewards: state.application.lockedPosition.remainingRewards,
+        })
+    );
 
     const dispatch = useDispatch();
 
@@ -49,14 +51,18 @@ export function UnlockEarly() {
                 setUnlockedPosition(lockedAlca);
                 setClaimedEth(ethReward);
                 setClaimedAlca(alcaReward);
-                dispatch({ type: APPLICATION_ACTION_TYPES.SET_LOCKED_POSITION, payload: { ...lockedPosition, lockedAlca: 0 } });
+                dispatch({
+                    type: APPLICATION_ACTION_TYPES.SET_LOCKED_POSITION,
+                    payload: { ...lockedPosition, lockedAlca: 0 },
+                });
                 dispatch(APPLICATION_ACTIONS.updateBalances(TOKEN_TYPES.ALL));
             }
         } catch (exception) {
             setWaiting(false);
             setStatus({
                 error: true,
-                message: exception.toString() || "There was a problem with your request, please verify or try again later",
+                message:
+                    exception.toString() || "There was a problem with your request, please verify or try again later",
             });
         }
     };
@@ -75,7 +81,8 @@ export function UnlockEarly() {
                                 {formatNumberToLocale(lockedAlca)} ALCA Staked Locked
                             </Header>
                             <p>
-                                You can unlock your position at anytime, however to receive the complete lockup bonus rewards it must not be unlocked until{" "}
+                                You can unlock your position at anytime, however to receive the complete lockup bonus
+                                rewards it must not be unlocked until{" "}
                                 <strong>{`${unlockDate} ${unlockDate === 1 ? "block" : "blocks"}`}</strong>
                             </p>
                         </div>
@@ -93,7 +100,12 @@ export function UnlockEarly() {
                             </div>
                         </div>
 
-                        <Button color="pink" loading={waiting} onClick={() => toggleConfirmModal(true)} content={"Unlock position & rewards"} />
+                        <Button
+                            color="pink"
+                            loading={waiting}
+                            onClick={() => toggleConfirmModal(true)}
+                            content={"Unlock position & rewards"}
+                        />
                     </Segment>
                 </>
             )}
@@ -146,7 +158,9 @@ export function UnlockEarly() {
                 <Grid className="mt-3">
                     <div
                         className="cursor-pointer text-sm underline"
-                        onClick={() => window.open(`${process.env.REACT_APP__ABOUT_EXTRA_ALCA_LOCKUP_URL}`, "_blank").focus()}
+                        onClick={() =>
+                            window.open(`${process.env.REACT_APP__ABOUT_EXTRA_ALCA_LOCKUP_URL}`, "_blank").focus()
+                        }
                     >
                         About extra ALCA lockup rewards
                     </div>
@@ -171,14 +185,21 @@ export function UnlockEarly() {
             onAccept={() => unlockPosition()}
         >
             <Message warning>
-                <Message.Header>You are about to unlock this {formatNumberToLocale(lockedAlca)} ALCA position and lose potential rewards</Message.Header>
+                <Message.Header>
+                    You are about to unlock this {formatNumberToLocale(lockedAlca)} ALCA position and lose potential
+                    rewards
+                </Message.Header>
                 <p>
-                    The early exit will have a {penalty}% penalty for earned rewards, users will get the {remainingRewards}%<br />
-                    of their rewards and their original staked position's ALCA.
+                    The early exit will have a {penalty}% penalty for earned rewards, users will get the{" "}
+                    {remainingRewards}%<br />
+                    of their rewards and their original staked position&apos;s ALCA.
                 </p>
             </Message>
 
-            <p>You are about to unlock this {formatNumberToLocale(lockedAlca)} ALCA before the lock-up period this means.... (TBD)</p>
+            <p>
+                You are about to unlock this {formatNumberToLocale(lockedAlca)} ALCA before the lockup period this
+                means.... (TBD)
+            </p>
 
             <Header as="h3">Locked rewards as of today</Header>
 
