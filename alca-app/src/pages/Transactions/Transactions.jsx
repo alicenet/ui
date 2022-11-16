@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch, Container } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { ChevronRight, InfoOutlined } from "@mui/icons-material";
@@ -5,8 +6,9 @@ import { NavigationBar } from "components/NavigationBar";
 
 export function Transactions() {
     const theme = useTheme();
+    const [alca, setAlcaBalance] = useState(0);
 
-    const activeBoxStyles = {
+    const activeBoxTitleStyles = {
         background: `linear-gradient(180deg, ${theme.palette.secondary.startGradient} 18.53%, ${theme.palette.secondary.endGradient} 167.76%)`,
         color: "secondary.contrastText",
         borderRadius: "4px",
@@ -24,14 +26,15 @@ export function Transactions() {
 
     const defaultTitleLabelColor = { bgcolor: "secondary.darkText", color: "dark.main" };
 
-    const migrationBoxStyles = {
+    const activeBoxStyles = {
         background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
         borderRadius: "4px",
-        boxShadow: 10, // active box
+        boxShadow: 10,
+        p: 2,
         flex: 1,
     };
 
-    const stakingAndLockupStyles = {
+    const defaultBoxStyles = {
         background: `linear-gradient(180deg, ${theme.palette.dark.elevation1} 0%, ${theme.palette.dark.elevation1} 100%), ${theme.palette.dark.main}`,
         borderRadius: "4px",
         p: 2,
@@ -41,6 +44,7 @@ export function Transactions() {
     const createStakingStyles = {
         background: `linear-gradient(180deg, ${theme.palette.dark.elevation3} 0%, ${theme.palette.light.elevation3} 100%, ${theme.palette.dark.elevation1} 100%), ${theme.palette.dark.main}`,
         alignItems: "center",
+        borderRadius: "2px",
         py: 1,
         mt: 2,
         mb: 4,
@@ -57,16 +61,19 @@ export function Transactions() {
             <Container maxWidth="lg">
                 <Grid container sx={{ mt: 4 }}>
                     <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
-                        <Box sx={{ ...activeBoxStyles, p: 2 }}>
+                        <Box sx={[{ p: 2 }, alca <= 0 ? activeBoxTitleStyles : {}]}>
                             <Typography variant="body1" component="h1">
-                                <Box component="span" sx={[titleLabelStyles, activeTitleLabelColor]}>
+                                <Box
+                                    component="span"
+                                    sx={[titleLabelStyles, alca <= 0 ? activeTitleLabelColor : defaultTitleLabelColor]}
+                                >
                                     1
                                 </Box>
                                 Migration MAD to ALCA
                             </Typography>
                         </Box>
 
-                        <Box p={2} sx={[migrationBoxStyles]}>
+                        <Box p={2} sx={[alca <= 0 ? activeBoxStyles : defaultBoxStyles]}>
                             <Typography sx={[fadeOutTextStyle]}>Current MAD Balance</Typography>
                             <Typography variant="h5">2,000 MAD</Typography>
 
@@ -76,31 +83,40 @@ export function Transactions() {
                             <Typography variant="body1">1 MAD Token ≈ 1.56 ALCA Token</Typography>
 
                             <Box sx={[{ display: "flex", alignItems: "center", columnGap: 1, mt: 3, mb: 1 }]}>
-                                <TextField id="" label="Migrate to ALCA" size="small" value={0} onChange={() => {}} />
+                                <TextField
+                                    id=""
+                                    label="Migrate to ALCA"
+                                    size="small"
+                                    value={alca}
+                                    onChange={(event) => setAlcaBalance(event.target.value)}
+                                />
                                 <Button variant="contained" color="secondary">
                                     All
                                 </Button>
                             </Box>
 
                             <Typography variant="body1">
-                                you will recieve <strong>0 ALCA</strong>
+                                you will recieve <strong>{alca || 0} ALCA</strong>
                             </Typography>
                         </Box>
                     </Grid>
 
                     <Grid item xs={8} sx={{ display: "flex", flexDirection: "column" }}>
-                        <Box sx={{ p: 2 }}>
+                        <Box sx={[{ p: 2 }, alca > 0 ? activeBoxTitleStyles : {}]}>
                             <Typography variant="body1" component="h1">
-                                <Box component="span" sx={[titleLabelStyles, defaultTitleLabelColor]}>
+                                <Box
+                                    component="span"
+                                    sx={[titleLabelStyles, alca > 0 ? activeTitleLabelColor : defaultTitleLabelColor]}
+                                >
                                     2
                                 </Box>
                                 Staking & Lockup ALCA
                             </Typography>
                         </Box>
 
-                        <Box sx={[stakingAndLockupStyles]}>
+                        <Box sx={[alca > 0 ? activeBoxStyles : defaultBoxStyles]}>
                             <Typography sx={[{ fontSize: "14px" }]}>Future ALCA balance</Typography>
-                            <Typography variant="h5">0 ALCA</Typography>
+                            <Typography variant="h5">{alca || 0} ALCA</Typography>
 
                             <Divider sx={{ my: 2 }} />
 
@@ -168,10 +184,10 @@ export function Transactions() {
                 </Grid>
 
                 <Box sx={[{ mt: 2, display: "flex", justifyContent: "flex-end" }]}>
-                    <Button sx={[{ mr: 1 }]} variant="outlined" disabled>
+                    <Button sx={[{ mr: 1 }]} variant="outlined" disabled={!alca}>
                         Reset TX
                     </Button>
-                    <Button endIcon={<ChevronRight />} variant="contained" disabled>
+                    <Button endIcon={<ChevronRight />} variant="contained" disabled={!alca}>
                         Review TX
                     </Button>
                 </Box>
