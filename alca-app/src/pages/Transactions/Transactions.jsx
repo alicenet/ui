@@ -3,6 +3,7 @@ import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Swit
 import { useTheme } from "@emotion/react";
 import { ChevronRight, InfoOutlined } from "@mui/icons-material";
 import { NavigationBar } from "components/NavigationBar";
+import { SubNavigation } from "components/SubNavigation";
 
 export function Transactions() {
     const theme = useTheme();
@@ -59,6 +60,8 @@ export function Transactions() {
             <NavigationBar />
 
             <Container maxWidth="lg">
+                <SubNavigation />
+
                 <Grid container sx={{ mt: 4 }}>
                     <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
                         <Box sx={[{ p: 2 }, alca <= 0 ? activeBoxTitleStyles : {}]}>

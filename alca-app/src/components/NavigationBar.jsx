@@ -3,15 +3,13 @@ import { Box, Toolbar, IconButton, Link, Menu, MenuItem, Container, Button } fro
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@emotion/react";
 import { configuration } from "config/_config";
-import { NavLink, useLocation } from "react-router-dom";
-import { PAGES } from "pages/routes";
+import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ConnectWeb3Button } from "./ConnectWeb3Button";
 import ethAdapter from "eth-adapter";
 import { KeyboardArrowDown } from "@mui/icons-material";
 
 export function NavigationBar() {
-    const location = useLocation();
     const theme = useTheme();
 
     const [mobileMenuAnchor, setMobileMenuAnchor] = React.useState(null);
@@ -40,7 +38,7 @@ export function NavigationBar() {
 
     return (
         <Container maxWidth="lg">
-            <Toolbar disableGutters sx={{ marginBottom: 8 }}>
+            <Toolbar disableGutters>
                 <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                     <IconButton
                         size="large"
@@ -70,19 +68,32 @@ export function NavigationBar() {
                             display: { xs: "block", md: "none" },
                         }}
                     >
-                        {PAGES.map((page) => (
-                            <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                                <Link
-                                    to={page.to}
-                                    component={NavLink}
-                                    sx={{
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    {page.display}
-                                </Link>
-                            </MenuItem>
-                        ))}
+                        <Link
+                            to="/"
+                            component={NavLink}
+                            sx={{
+                                mx: configuration.site.webView.headerLinkSpacing,
+                                my: configuration.site.webView.headerHeight,
+                                display: "block",
+                                fontWeight: 900,
+                                textDecoration: 0,
+                            }}
+                        >
+                            About AliceNet
+                        </Link>
+                        <Link
+                            to="/"
+                            component={NavLink}
+                            sx={{
+                                mx: configuration.site.webView.headerLinkSpacing,
+                                my: configuration.site.webView.headerHeight,
+                                display: "block",
+                                fontWeight: 900,
+                                textDecoration: 0,
+                            }}
+                        >
+                            Block Explorer
+                        </Link>
                     </Menu>
                 </Box>
 
@@ -93,23 +104,32 @@ export function NavigationBar() {
                         alignItems: "center",
                     }}
                 >
-                    {PAGES.map((page) => (
-                        <Link
-                            key={page.to}
-                            to={page.to}
-                            component={NavLink}
-                            sx={{
-                                mx: configuration.site.webView.headerLinkSpacing,
-                                my: configuration.site.webView.headerHeight,
-                                color: page.to === location.pathname ? theme.palette.primary.main : "#fff",
-                                display: "block",
-                                fontWeight: 900,
-                                textDecoration: 0,
-                            }}
-                        >
-                            {page.display}
-                        </Link>
-                    ))}
+                    <Link
+                        to="/"
+                        component={NavLink}
+                        sx={{
+                            mx: configuration.site.webView.headerLinkSpacing,
+                            my: configuration.site.webView.headerHeight,
+                            display: "block",
+                            fontWeight: 900,
+                            textDecoration: 0,
+                        }}
+                    >
+                        About AliceNet
+                    </Link>
+                    <Link
+                        to="/"
+                        component={NavLink}
+                        sx={{
+                            mx: configuration.site.webView.headerLinkSpacing,
+                            my: configuration.site.webView.headerHeight,
+                            display: "block",
+                            fontWeight: 900,
+                            textDecoration: 0,
+                        }}
+                    >
+                        Block Explorer
+                    </Link>
                 </Box>
 
                 <Box>

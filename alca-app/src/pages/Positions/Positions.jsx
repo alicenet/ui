@@ -9,6 +9,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import { HeadingGroup } from "components/HeadingGroup";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
+import { SubNavigation } from "components/SubNavigation";
 
 export function Positions() {
     const theme = useTheme();
@@ -88,6 +89,33 @@ export function Positions() {
         },
     ];
 
+    const defaultTabClasses = {
+        borderRadius: 2,
+        paddingTop: 1,
+        paddingBottom: 1,
+    };
+
+    const currentClasses = {
+        bgcolor: theme.palette.secondary.main,
+        color: theme.palette.background.default,
+        letterSpacing: 1,
+    };
+
+    let stakingTabClasses = {
+        ...defaultTabClasses,
+    };
+
+    let positionTabClasses = {
+        ...defaultTabClasses,
+    };
+
+    if (currentTab === "1") {
+        stakingTabClasses = { ...currentClasses, ...stakingTabClasses };
+    }
+    if (currentTab === "2") {
+        positionTabClasses = { ...currentClasses, ...positionTabClasses };
+    }
+
     function StakedPositionLabel() {
         return (
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -95,10 +123,10 @@ export function Positions() {
                 <Box
                     sx={{
                         marginLeft: 1,
-                        fontSize: "11px",
-                        color: theme.palette.background.default,
+                        fontSize: "14px",
+                        color: "#fff",
                         padding: "1px 5px",
-                        bgcolor: theme.palette.secondary.main,
+                        bgcolor: "#0000007a",
                         borderRadius: 10,
                     }}
                 >
@@ -112,12 +140,18 @@ export function Positions() {
         <>
             <NavigationBar />
 
-            <Container maxWidth="lg">
+            <Container maxWidth="md">
+                <SubNavigation />
+
                 <TabContext value={currentTab}>
                     <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                        <TabList onChange={handleTabChange} textColor="secondary" indicatorColor="secondary">
-                            <Tab label={<StakedPositionLabel />} value="1" />
-                            <Tab label="Lockout Positions" value="2" />
+                        <TabList
+                            onChange={handleTabChange}
+                            textColor={theme.palette.background.default}
+                            indicatorColor={theme.palette.background.default}
+                        >
+                            <Tab label={<StakedPositionLabel />} value="1" sx={stakingTabClasses} />
+                            <Tab label="Lockout Positions" value="2" sx={positionTabClasses} />
                         </TabList>
                     </Box>
                     <TabPanel value="1" sx={{ padding: 0 }}>
