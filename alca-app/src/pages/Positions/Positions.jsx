@@ -1,4 +1,5 @@
 import { NavigationBar } from "components/NavigationBar";
+import { symbols } from "config/symbolConfiguration";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
@@ -72,18 +73,18 @@ export function Positions() {
 
     const rows = [
         {
-            amount: "10 ALCA",
+            amount: `10 ${symbols.ALCA}`,
             id: 1,
             stakedDate: "03/12/2022",
-            rewards: "100 ALCA / 10 ETH",
+            rewards: `100 ${symbols.ALCA} / 10 ${symbols.ETH}`,
             claimReward: "Claim",
             unstaked: "Unstake",
         },
         {
-            amount: "10 ALCA",
+            amount: `10 ${symbols.ALCA}`,
             id: 2,
             stakedDate: "03/12/2022",
-            rewards: "100 ALCA / 10 ETH",
+            rewards: `100 ${symbols.ALCA} / 10 ${symbols.ETH}`,
             claimReward: "Claim",
             unstaked: "Unstake",
         },
@@ -165,7 +166,10 @@ export function Positions() {
                             }}
                         >
                             <Box sx={{ marginBottom: 2 }}>
-                                <HeadingGroup title="Current ALCA Balance" subtitle="2,000 ALCA" />
+                                <HeadingGroup
+                                    title={`Current ${symbols.ALCA} Balance`}
+                                    subtitle={`2,000 ${symbols.ALCA}`}
+                                />
                             </Box>
 
                             <DataGrid
