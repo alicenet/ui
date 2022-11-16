@@ -15,6 +15,7 @@ import {
 import { ChevronRight, Loop, Download } from "@mui/icons-material";
 import { NavigationBar } from "components/NavigationBar";
 import { HeadingGroup } from "components/HeadingGroup";
+import { SubNavigation } from "components/SubNavigation";
 
 export function Transactions() {
     return (
@@ -22,6 +23,8 @@ export function Transactions() {
             <NavigationBar />
 
             <Container maxWidth="md">
+                <SubNavigation />
+
                 <Stepper activeStep={2} sx={[{ mt: 4 }]}>
                     <Step key={"Migration"}>
                         <StepLabel>
