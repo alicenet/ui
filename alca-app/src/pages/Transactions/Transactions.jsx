@@ -197,7 +197,7 @@ export function Transactions() {
                                     </Grid>
 
                                     <Grid item xs>
-                                        <Switch disabled />
+                                        <Switch disabled={!alca} color="secondary" />
                                     </Grid>
                                 </Grid>
                             </Grid>
