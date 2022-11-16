@@ -34,7 +34,13 @@ export function Connect() {
                     ) : (
                         <div>
                             <div>Press the button below to connect your web3 wallet</div>
-                            <Button className="m-0 mt-8" secondary color="black" onClick={connect} content="Connect Wallet" />
+                            <Button
+                                className="m-0 mt-8"
+                                secondary
+                                color="black"
+                                onClick={connect}
+                                content="Connect Wallet"
+                            />
                         </div>
                     )}
                 </div>

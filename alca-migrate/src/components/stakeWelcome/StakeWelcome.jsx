@@ -121,7 +121,11 @@ export function StakeWelcome({ stepForward }) {
                 </div>
 
                 <div>
-                    <Checkbox {...segmentDisabled} checked={unstakeAll} label={unstakeAll ? "Thanks!" : "Check all above boxes to continue"} />
+                    <Checkbox
+                        {...segmentDisabled}
+                        checked={unstakeAll}
+                        label={unstakeAll ? "Thanks!" : "Check all above boxes to continue"}
+                    />
                 </div>
             </Segment>
         );
@@ -144,7 +148,12 @@ export function StakeWelcome({ stepForward }) {
                         </div>
                     </div>
                     <div className="flex justify-end">
-                        <Button disabled={!checkState.finalCheck || !allCheck} size="huge" content="Continue" onClick={agreeAndContinue} />
+                        <Button
+                            disabled={!checkState.finalCheck || !allCheck}
+                            size="huge"
+                            content="Continue"
+                            onClick={agreeAndContinue}
+                        />
                     </div>
                 </div>
             </Segment>

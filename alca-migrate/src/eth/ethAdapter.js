@@ -78,7 +78,11 @@ class EthAdapter {
         this._requireContractExists(contractName);
         this._requireContractAddress(contractName);
         this._requireContractAbi(contractName);
-        return new ethers.Contract(this.contracts[contractName].address, this.contracts[contractName].abi, this.provider);
+        return new ethers.Contract(
+            this.contracts[contractName].address,
+            this.contracts[contractName].abi,
+            this.provider
+        );
     }
 
     /**
@@ -107,7 +111,11 @@ class EthAdapter {
      */
     _requireContractExists(contractName) {
         if (!this.contracts[contractName]) {
-            this._throw("Contract configuration for contract '" + contractName + "' nonexistent. Verify contract has been set in .env");
+            this._throw(
+                "Contract configuration for contract '" +
+                    contractName +
+                    "' nonexistent. Verify contract has been set in .env"
+            );
         }
     }
 
@@ -117,7 +125,11 @@ class EthAdapter {
      */
     _requireContractAbi(contractName) {
         if (!this.contracts[contractName].abi) {
-            this._throw("Requesting contract instance for contract '" + contractName + "' with nonexistent abi. Verify ABI has been set.");
+            this._throw(
+                "Requesting contract instance for contract '" +
+                    contractName +
+                    "' with nonexistent abi. Verify ABI has been set."
+            );
         }
     }
 
@@ -127,7 +139,11 @@ class EthAdapter {
      */
     _requireContractAddress(contractName) {
         if (!this.contracts[contractName].address) {
-            this._throw("Requesting contract instance for contract '" + contractName + "' with nonexistant address. Verify address has been set.");
+            this._throw(
+                "Requesting contract instance for contract '" +
+                    contractName +
+                    "' with nonexistant address. Verify address has been set."
+            );
         }
     }
 
@@ -138,7 +154,9 @@ class EthAdapter {
     _requireSigner(contractName) {
         if (!this.signer) {
             this._throw(
-                "Requesting contract instance for contract '" + contractName + "' but EthAdapter has not been provided a signer. Verify a signer has been set."
+                "Requesting contract instance for contract '" +
+                    contractName +
+                    "' but EthAdapter has not been provided a signer. Verify a signer has been set."
             );
         }
     }
@@ -295,7 +313,10 @@ class EthAdapter {
      */
     async getMadTokenAllowance(accountIndex = 0) {
         return this._try(async () => {
-            let allowance = await this._tryCall("MadToken", "allowance", [await this._getAddressByIndex(accountIndex), this.contracts["AToken"].address]);
+            let allowance = await this._tryCall("MadToken", "allowance", [
+                await this._getAddressByIndex(accountIndex),
+                this.contracts["AToken"].address,
+            ]);
             return allowance;
         });
     }
@@ -327,7 +348,10 @@ class EthAdapter {
      */
     async sendAllowanceRequest(unformattedAmount) {
         return await this._try(async () => {
-            let tx = await this._trySend("MadToken", "approve", [this.contracts["AToken"].address, ethers.utils.parseEther(unformattedAmount)]);
+            let tx = await this._trySend("MadToken", "approve", [
+                this.contracts["AToken"].address,
+                ethers.utils.parseEther(unformattedAmount),
+            ]);
             return tx;
         });
     }

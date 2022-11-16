@@ -8,4 +8,5 @@ export const LINKS = {
     MIGRATION: "https://migrate.staging.alice.net",
 };
 
-export const LOCK_APP_URL = process.env.REACT_APP__ENV === "PRODUCTION" ? "https://lock.alice.net" : "https://staging.lock.alice.net";
+export const LOCK_APP_URL =
+    process.env.REACT_APP__ENV === "PRODUCTION" ? "https://lock.alice.net" : "https://staging.lock.alice.net";

@@ -22,7 +22,14 @@ export function Connect() {
     return (
         <>
             <Container className="flex flex-col justify-around items-center p-4 min-h-[240px]">
-                <Button className="m-0 mt-8" secondary color="black" onClick={connect} content="Connect Wallet" loading={loading} />
+                <Button
+                    className="m-0 mt-8"
+                    secondary
+                    color="black"
+                    onClick={connect}
+                    content="Connect Wallet"
+                    loading={loading}
+                />
             </Container>
 
             <div className="absolute left-0 top-[100%]">

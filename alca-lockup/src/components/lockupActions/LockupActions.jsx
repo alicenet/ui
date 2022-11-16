@@ -25,7 +25,13 @@ export function LockupActions() {
     const getActiveTab = () => {
         switch (activeItem) {
             case "welcome":
-                return <LockupWelcome stepForward={() => (lockedPosition.lockedAlca > 0 ? setActiveItem("unlock") : setActiveItem("lockup"))} />;
+                return (
+                    <LockupWelcome
+                        stepForward={() =>
+                            lockedPosition.lockedAlca > 0 ? setActiveItem("unlock") : setActiveItem("lockup")
+                        }
+                    />
+                );
             case "lockup":
                 return <Lockup />;
             case "unlock":
@@ -60,13 +66,17 @@ export function LockupActions() {
                                         <>
                                             <Header
                                                 className={classNames({
-                                                    "opacity-40": !["0.0", 0].includes(lockedPosition.lockedAlca) || !web3Connected,
+                                                    "opacity-40":
+                                                        !["0.0", 0].includes(lockedPosition.lockedAlca) ||
+                                                        !web3Connected,
                                                     "text-base": true,
                                                     "mb-0": true,
                                                 })}
                                                 as="h3"
                                             >
-                                                {!lockupPeriodEnded ? "Position Available to Lockup" : "Currently Staked Position"}
+                                                {!lockupPeriodEnded
+                                                    ? "Position Available to Lockup"
+                                                    : "Currently Staked Position"}
                                             </Header>
                                             <div className="text-xs">
                                                 {`${stakedPosition.stakedAlca}
@@ -74,7 +84,9 @@ export function LockupActions() {
                                             </div>
                                         </>
                                     }
-                                    disabled={Boolean(!["0.0", 0].includes(lockedPosition.lockedAlca) || !web3Connected)}
+                                    disabled={Boolean(
+                                        !["0.0", 0].includes(lockedPosition.lockedAlca) || !web3Connected
+                                    )}
                                     active={activeItem === "lockup"}
                                     onClick={(e) => handleItemClick(e, { name: "lockup" })}
                                     className={activeMenuClass("lockup")}
@@ -85,7 +97,9 @@ export function LockupActions() {
                                         <>
                                             <Header
                                                 className={classNames({
-                                                    "opacity-40": ["0.0", 0].includes(lockedPosition.lockedAlca) || !web3Connected,
+                                                    "opacity-40":
+                                                        ["0.0", 0].includes(lockedPosition.lockedAlca) ||
+                                                        !web3Connected,
                                                     "text-base": true,
                                                     "mb-0": true,
                                                 })}
@@ -111,7 +125,10 @@ export function LockupActions() {
                                         <>
                                             <Header
                                                 className={classNames({
-                                                    "opacity-40": ["0.0", 0].includes(lockedPosition.lockedAlca) || lockupPeriodEnded || !web3Connected,
+                                                    "opacity-40":
+                                                        ["0.0", 0].includes(lockedPosition.lockedAlca) ||
+                                                        lockupPeriodEnded ||
+                                                        !web3Connected,
                                                     "text-base": true,
                                                     "mb-0": true,
                                                 })}
@@ -121,11 +138,16 @@ export function LockupActions() {
                                             </Header>
 
                                             <div className="text-xs">
-                                                {formatNumberToLocale(ethReward)} ETH / {formatNumberToLocale(alcaReward)} ALCA
+                                                {formatNumberToLocale(ethReward)} ETH /{" "}
+                                                {formatNumberToLocale(alcaReward)} ALCA
                                             </div>
                                         </>
                                     }
-                                    disabled={Boolean(["0.0", 0].includes(lockedPosition.lockedAlca) || lockupPeriodEnded || !web3Connected)}
+                                    disabled={Boolean(
+                                        ["0.0", 0].includes(lockedPosition.lockedAlca) ||
+                                            lockupPeriodEnded ||
+                                            !web3Connected
+                                    )}
                                     active={activeItem === "claim"}
                                     onClick={(e) => handleItemClick(e, { name: "claim" })}
                                     className={activeMenuClass("claim")}
@@ -134,7 +156,9 @@ export function LockupActions() {
                         </Grid.Column>
 
                         <Grid.Column stretched width={12} className="pl-0">
-                            <Segment className="border-l-0 shadow-none rounded-none flex w-full h-full flex-grow">{getActiveTab()}</Segment>
+                            <Segment className="border-l-0 shadow-none rounded-none flex w-full h-full flex-grow">
+                                {getActiveTab()}
+                            </Segment>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>

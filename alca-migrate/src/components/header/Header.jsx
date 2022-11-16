@@ -46,8 +46,16 @@ export function Header() {
             </Menu.Item>
 
             <Menu.Menu position="right" className="hidden md:flex">
-                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.GITHUB, "_blank").focus()} content="Github" />
-                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.WHITEPAPER, "_blank").focus()} content="Whitepaper" />
+                <Menu.Item
+                    className="cursor-pointer"
+                    onClick={() => window.open(LINKS.GITHUB, "_blank").focus()}
+                    content="Github"
+                />
+                <Menu.Item
+                    className="cursor-pointer"
+                    onClick={() => window.open(LINKS.WHITEPAPER, "_blank").focus()}
+                    content="Whitepaper"
+                />
                 {/* <Menu.Item
                     className="cursor-pointer"
                     onClick={() => window.open(LINKS.COMMUNITY, '_blank').focus()}

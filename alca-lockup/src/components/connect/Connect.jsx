@@ -35,7 +35,13 @@ export function Connect() {
                         </div>
                     ) : (
                         <div>
-                            <Button className="" secondary onClick={connect} content="Connect Wallet" loading={loading} />
+                            <Button
+                                className=""
+                                secondary
+                                onClick={connect}
+                                content="Connect Wallet"
+                                loading={loading}
+                            />
                         </div>
                     )}
                 </div>

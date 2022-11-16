@@ -89,7 +89,14 @@ export function AllowTokens() {
             </div>
 
             <div className="absolute left-0 top-[100%]">
-                <Message size="mini" content={success || error} success={success.length > 0} error={error} className="mt-4" hidden={!success && !error} />
+                <Message
+                    size="mini"
+                    content={success || error}
+                    success={success.length > 0}
+                    error={error}
+                    className="mt-4"
+                    hidden={!success && !error}
+                />
             </div>
 
             <div className="absolute right-0 top-[105%]">

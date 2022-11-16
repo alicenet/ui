@@ -13,7 +13,11 @@ export function Header() {
             </Menu.Item>
 
             <Menu.Item position="right" className="items-center">
-                <Menu.Item className="cursor-pointer ml-4" onClick={() => (window.location.href = LINKS.MIGRATION)} content="ALCA Migration" />
+                <Menu.Item
+                    className="cursor-pointer ml-4"
+                    onClick={() => (window.location.href = LINKS.MIGRATION)}
+                    content="ALCA Migration"
+                />
 
                 <Menu.Item as={Link} active={true} to="/">
                     ALCA Lockup
@@ -21,8 +25,16 @@ export function Header() {
             </Menu.Item>
 
             <Menu.Menu position="right" className="hidden md:flex">
-                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.GITHUB, "_blank").focus()} content="Github" />
-                <Menu.Item className="cursor-pointer" onClick={() => window.open(LINKS.WHITEPAPER, "_blank").focus()} content="Whitepaper" />
+                <Menu.Item
+                    className="cursor-pointer"
+                    onClick={() => window.open(LINKS.GITHUB, "_blank").focus()}
+                    content="Github"
+                />
+                <Menu.Item
+                    className="cursor-pointer"
+                    onClick={() => window.open(LINKS.WHITEPAPER, "_blank").focus()}
+                    content="Whitepaper"
+                />
                 {/* <Menu.Item
                     className="cursor-pointer"
                     onClick={() => window.open(LINKS.COMMUNITY, '_blank').focus()}
