@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { BalanceContext } from "alice-ui-common";
 import { symbols } from "config/symbolConfiguration";
+import { sx } from "utils/sx";
 
 import { useTheme } from "@emotion/react";
 import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch, Container } from "@mui/material";
@@ -68,7 +69,7 @@ export function Transactions() {
 
                 <Grid container sx={{ mt: 4 }}>
                     <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
-                        <Box sx={[{ p: 2 }, alca <= 0 ? activeBoxTitleStyles : {}]}>
+                        <Box sx={sx({ p: 2 }, { condition: alca <= 0, sx: activeBoxTitleStyles })}>
                             <Typography variant="body1" component="h1">
                                 <Box
                                     component="span"
