@@ -30,14 +30,8 @@ export function Transactions() {
     // Title Styles
     const activeLabelColorStyles = { bgcolor: "dark.main", color: "secondary.main" };
     const inactiveLabelColorStyles = { bgcolor: "secondary.darkText", color: "dark.main" };
-    const columnOneTitleSx = sx(inactiveLabelColorStyles, {
-        condition: alca <= 0,
-        sx: activeLabelColorStyles,
-    });
-    const columnTwoTitleSx = sx(inactiveLabelColorStyles, {
-        condition: alca > 0,
-        sx: activeLabelColorStyles,
-    });
+    const columnOneTitleSx = sx(inactiveLabelColorStyles, { condition: alca <= 0, sx: activeLabelColorStyles });
+    const columnTwoTitleSx = sx(inactiveLabelColorStyles, { condition: alca > 0, sx: activeLabelColorStyles });
 
     // Box Styles
     const activeBoxStyles = {
@@ -66,7 +60,7 @@ export function Transactions() {
     };
 
     // Common Styles
-    const activeFadeOutTextStyle = { fontSize: "14px", color: "secondary.darkText" };
+    const activeFadeOutTextStyle = { color: "secondary.darkText" };
     const inactiveFadeOutTextStyle = { color: "secondary.darkTextDisabled" };
     const columnOneFadeOutTxtSx = sx(inactiveFadeOutTextStyle, { condition: alca <= 0, sx: activeFadeOutTextStyle });
     const columnTwoFadeOutTxtSx = sx(inactiveFadeOutTextStyle, { condition: alca > 0, sx: activeFadeOutTextStyle });
