@@ -1,6 +1,7 @@
 /**
  * Compose Material SX
- * @param { Object } sx - The string to split with the ellipses
+ * @param { Object } sx - SX Arguments
+ * @returns { Object }
  */
 export function sx(...sx) {
     return sx.reduce((acc, curr) => {
