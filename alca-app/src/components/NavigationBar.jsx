@@ -108,10 +108,10 @@ export function NavigationBar() {
                         to="/"
                         component={NavLink}
                         sx={{
+                            color: theme.palette.secondary.darkText,
                             mx: configuration.site.webView.headerLinkSpacing,
                             my: configuration.site.webView.headerHeight,
                             display: "block",
-                            fontWeight: 900,
                             textDecoration: 0,
                         }}
                     >
@@ -121,10 +121,10 @@ export function NavigationBar() {
                         to="/"
                         component={NavLink}
                         sx={{
+                            color: theme.palette.secondary.darkText,
                             mx: configuration.site.webView.headerLinkSpacing,
                             my: configuration.site.webView.headerHeight,
                             display: "block",
-                            fontWeight: 900,
                             textDecoration: 0,
                         }}
                     >
