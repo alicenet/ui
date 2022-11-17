@@ -74,14 +74,14 @@ export function Transactions() {
 
                 <Grid container>
                     <Grid item xs={4} display="flex" flexDirection="column">
-                        <Box p={2} borderRadius="4px" sx={columnOneTitleBoxSx}>
+                        <Box p={2} borderRadius={1} sx={columnOneTitleBoxSx}>
                             <Typography variant="body1" component="h1">
                                 <Box
                                     component="span"
                                     px={1}
                                     py={0.5}
                                     mr={1}
-                                    borderRadius="2px"
+                                    borderRadius={0.5}
                                     fontWeight="bold"
                                     sx={columnOneTitleSx}
                                 >
@@ -91,7 +91,7 @@ export function Transactions() {
                             </Typography>
                         </Box>
 
-                        <Box p={2} borderRadius="4px" flex={1} sx={columnOneBoxSx}>
+                        <Box p={2} borderRadius={1} flex={1} sx={columnOneBoxSx}>
                             <Typography sx={columnOneFadeOutTxtSx}>Current {symbols.MAD} Balance</Typography>
                             <Typography variant="h5">
                                 {balances.mad || 0} {symbols.MAD}
@@ -102,18 +102,19 @@ export function Transactions() {
                             <Typography sx={columnOneFadeOutTxtSx}>
                                 Exchange rate from {symbols.MAD} to {symbols.ALCA}
                             </Typography>
+
                             <Typography variant="body1">
                                 1 {symbols.MAD} Token ≈ 1.56 {symbols.ALCA} Token
                             </Typography>
 
                             <Box columnGap={1} mt={3} mb={1} display="flex" alignItems="center">
                                 <TextField
-                                    id=""
                                     label="Migrate to ALCA"
                                     size="small"
                                     value={alca}
                                     onChange={(event) => setAlcaBalance(event.target.value)}
                                 />
+
                                 <Button variant="contained" color="secondary">
                                     All
                                 </Button>
@@ -129,14 +130,14 @@ export function Transactions() {
                     </Grid>
 
                     <Grid item xs={8} display="flex" flexDirection="column">
-                        <Box p={2} borderRadius="4px" sx={columnTwoTitleBoxSx}>
+                        <Box p={2} borderRadius={1} sx={columnTwoTitleBoxSx}>
                             <Typography variant="body1" component="h1">
                                 <Box
                                     component="span"
                                     px={1}
                                     py={0.5}
                                     mr={1}
-                                    borderRadius="2px"
+                                    borderRadius={0.5}
                                     fontWeight="bold"
                                     sx={columnTwoTitleSx}
                                 >
@@ -146,8 +147,9 @@ export function Transactions() {
                             </Typography>
                         </Box>
 
-                        <Box p={2} borderRadius="4px" flex={1} sx={columnTwoBoxSx}>
+                        <Box p={2} borderRadius={1} flex={1} sx={columnTwoBoxSx}>
                             <Typography>Future {symbols.ALCA} balance</Typography>
+
                             <Typography variant="h5">
                                 {alca || 0} {symbols.ALCA}
                             </Typography>
@@ -155,6 +157,7 @@ export function Transactions() {
                             <Divider sx={{ my: 2 }} />
 
                             <Typography>CREATE STAKING</Typography>
+
                             <Grid mt={2} alignItems="center">
                                 <Grid container item>
                                     <Grid item xs={5}>
@@ -190,7 +193,7 @@ export function Transactions() {
                                     container
                                     item
                                     alignItems="center"
-                                    borderRadius="2px"
+                                    borderRadius={0.5}
                                     py={1}
                                     mt={2}
                                     mb={4}
@@ -198,7 +201,6 @@ export function Transactions() {
                                 >
                                     <Grid item xs={5} px={2} columnGap={1} display="flex" alignItems="center">
                                         <TextField
-                                            id=""
                                             value={0}
                                             onChange={() => {}}
                                             size="small"
