@@ -45,6 +45,9 @@ export const theme = createTheme({
         body2: {
             fontFamily: "Inter",
         },
+        button: {
+            textTransform: "none",
+        },
     },
     components: {
         MuiCssBaseline: {
@@ -76,9 +79,6 @@ export const theme = createTheme({
                 },
                 withBorder: {
                     border: "none",
-                },
-                "row:hover": {
-                    bgcolor: "transparent",
                 },
             },
         },

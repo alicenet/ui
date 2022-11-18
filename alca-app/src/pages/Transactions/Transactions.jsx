@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { BalanceContext } from "alice-ui-common";
 import { symbols } from "config/symbolConfiguration";
+import { sx } from "utils/sx";
 
 import { useTheme } from "@emotion/react";
 import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch, Container } from "@mui/material";
@@ -13,51 +14,56 @@ export function Transactions() {
     const theme = useTheme();
     const [alca, setAlcaBalance] = useState(0);
 
+    // Title Box Styles
     const activeBoxTitleStyles = {
-        background: `linear-gradient(180deg, ${theme.palette.secondary.startGradient} 18.53%, ${theme.palette.secondary.endGradient} 167.76%)`,
+        background: `linear-gradient(
+            180deg,
+            ${theme.palette.secondary.startGradient} 18.53%,
+            ${theme.palette.secondary.endGradient}
+            167.76%
+        )`,
         color: "secondary.contrastText",
-        borderRadius: "4px",
     };
+    const columnOneTitleBoxSx = sx({ condition: alca <= 0, sx: activeBoxTitleStyles });
+    const columnTwoTitleBoxSx = sx({ condition: alca > 0, sx: activeBoxTitleStyles });
 
-    const titleLabelStyles = {
-        borderRadius: "2px",
-        px: 1,
-        py: 0.5,
-        mr: 1,
-        fontWeight: "bold",
-    };
+    // Title Styles
+    const activeLabelColorStyles = { bgcolor: "dark.main", color: "secondary.main" };
+    const inactiveLabelColorStyles = { bgcolor: "secondary.darkText", color: "dark.main" };
+    const columnOneTitleSx = sx(inactiveLabelColorStyles, { condition: alca <= 0, sx: activeLabelColorStyles });
+    const columnTwoTitleSx = sx(inactiveLabelColorStyles, { condition: alca > 0, sx: activeLabelColorStyles });
 
-    const activeTitleLabelColor = { bgcolor: "dark.main", color: "secondary.main" };
-
-    const defaultTitleLabelColor = { bgcolor: "secondary.darkText", color: "dark.main" };
-
+    // Box Styles
     const activeBoxStyles = {
-        background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
-        borderRadius: "4px",
-        boxShadow: 10,
-        p: 2,
-        flex: 1,
+        background: `linear-gradient(
+            180deg,
+            ${theme.palette.dark.elevation12} 0%,
+            ${theme.palette.dark.elevation12} 100%
+        ), ${theme.palette.dark.main}`,
+    };
+    const inactiveBoxStyles = {
+        background: `linear-gradient(
+            180deg,
+            ${theme.palette.dark.elevation1} 0%,
+            ${theme.palette.dark.elevation1} 100%
+        ),${theme.palette.dark.main} `,
+    };
+    const columnOneBoxSx = sx(inactiveBoxStyles, { condition: alca <= 0, sx: activeBoxStyles });
+    const columnTwoBoxSx = sx(inactiveBoxStyles, { condition: alca > 0, sx: activeBoxStyles });
+
+    const gridStyles = {
+        background: `linear-gradient(
+            180deg, ${theme.palette.dark.elevation3} 0%,
+            ${theme.palette.light.elevation3} 100%,
+            ${theme.palette.dark.elevation1} 100%
+        ), ${theme.palette.dark.main}`,
     };
 
-    const defaultBoxStyles = {
-        background: `linear-gradient(180deg, ${theme.palette.dark.elevation1} 0%, ${theme.palette.dark.elevation1} 100%), ${theme.palette.dark.main}`,
-        borderRadius: "4px",
-        p: 2,
-        flex: 1,
-    };
-
-    const createStakingStyles = {
-        background: `linear-gradient(180deg, ${theme.palette.dark.elevation3} 0%, ${theme.palette.light.elevation3} 100%, ${theme.palette.dark.elevation1} 100%), ${theme.palette.dark.main}`,
-        alignItems: "center",
-        borderRadius: "2px",
-        py: 1,
-        mt: 2,
-        mb: 4,
-    };
-
-    const fadeOutTextStyle = { fontSize: "14px", color: "secondary.darkText" };
-
-    const fadeOutText2Style = { color: "secondary.darkTextDisabled" };
+    // Common Styles
+    const activeFadeOutTextStyle = { color: "secondary.darkText" };
+    const inactiveFadeOutTextStyle = { color: "secondary.darkTextDisabled" };
+    const columnOneFadeOutTxtSx = sx(inactiveFadeOutTextStyle, { condition: alca <= 0, sx: activeFadeOutTextStyle });
+    const columnTwoFadeOutTxtSx = sx(inactiveFadeOutTextStyle, { condition: alca > 0, sx: activeFadeOutTextStyle });
 
     return (
         <>
@@ -66,13 +72,18 @@ export function Transactions() {
             <Container maxWidth="lg">
                 <SubNavigation />
 
-                <Grid container sx={{ mt: 4 }}>
-                    <Grid item xs={4} sx={{ display: "flex", flexDirection: "column" }}>
-                        <Box sx={[{ p: 2 }, alca <= 0 ? activeBoxTitleStyles : {}]}>
+                <Grid container>
+                    <Grid item xs={4} display="flex" flexDirection="column">
+                        <Box p={2} borderRadius={1} sx={columnOneTitleBoxSx}>
                             <Typography variant="body1" component="h1">
                                 <Box
                                     component="span"
-                                    sx={[titleLabelStyles, alca <= 0 ? activeTitleLabelColor : defaultTitleLabelColor]}
+                                    px={1}
+                                    py={0.5}
+                                    mr={1}
+                                    borderRadius={0.5}
+                                    fontWeight="bold"
+                                    sx={columnOneTitleSx}
                                 >
                                     1
                                 </Box>
@@ -80,29 +91,31 @@ export function Transactions() {
                             </Typography>
                         </Box>
 
-                        <Box p={2} sx={[alca <= 0 ? activeBoxStyles : defaultBoxStyles]}>
-                            <Typography sx={[fadeOutTextStyle]}>Current {symbols.MAD} Balance</Typography>
+                        <Box p={2} borderRadius={1} flex={1} sx={columnOneBoxSx}>
+                            <Typography sx={columnOneFadeOutTxtSx}>Current {symbols.MAD} Balance</Typography>
                             <Typography variant="h5">
-                                {balances.mad} {symbols.MAD}
+                                {balances.mad || 0} {symbols.MAD}
                             </Typography>
 
                             <Divider sx={{ my: 2 }} />
 
-                            <Typography sx={[fadeOutTextStyle]}>
+                            <Typography sx={columnOneFadeOutTxtSx}>
                                 Exchange rate from {symbols.MAD} to {symbols.ALCA}
                             </Typography>
+
                             <Typography variant="body1">
                                 1 {symbols.MAD} Token ≈ 1.56 {symbols.ALCA} Token
                             </Typography>
 
-                            <Box sx={[{ display: "flex", alignItems: "center", columnGap: 1, mt: 3, mb: 1 }]}>
+                            <Box columnGap={1} mt={3} mb={1} display="flex" alignItems="center">
                                 <TextField
-                                    id=""
                                     label="Migrate to ALCA"
                                     size="small"
                                     value={alca}
+                                    color="secondary"
                                     onChange={(event) => setAlcaBalance(event.target.value)}
                                 />
+
                                 <Button variant="contained" color="secondary">
                                     All
                                 </Button>
@@ -117,12 +130,17 @@ export function Transactions() {
                         </Box>
                     </Grid>
 
-                    <Grid item xs={8} sx={{ display: "flex", flexDirection: "column" }}>
-                        <Box sx={[{ p: 2 }, alca > 0 ? activeBoxTitleStyles : {}]}>
+                    <Grid item xs={8} display="flex" flexDirection="column">
+                        <Box p={2} borderRadius={1} sx={columnTwoTitleBoxSx}>
                             <Typography variant="body1" component="h1">
                                 <Box
                                     component="span"
-                                    sx={[titleLabelStyles, alca > 0 ? activeTitleLabelColor : defaultTitleLabelColor]}
+                                    px={1}
+                                    py={0.5}
+                                    mr={1}
+                                    borderRadius={0.5}
+                                    fontWeight="bold"
+                                    sx={columnTwoTitleSx}
                                 >
                                     2
                                 </Box>
@@ -130,70 +148,84 @@ export function Transactions() {
                             </Typography>
                         </Box>
 
-                        <Box sx={[alca > 0 ? activeBoxStyles : defaultBoxStyles]}>
-                            <Typography sx={[{ fontSize: "14px" }]}>Future {symbols.ALCA} balance</Typography>
+                        <Box p={2} borderRadius={1} flex={1} sx={columnTwoBoxSx}>
+                            <Typography>Future {symbols.ALCA} balance</Typography>
+
                             <Typography variant="h5">
                                 {alca || 0} {symbols.ALCA}
                             </Typography>
 
                             <Divider sx={{ my: 2 }} />
 
-                            <Typography sx={[{ fontSize: "14px" }]}>CREATE STAKING</Typography>
+                            <Typography>CREATE STAKING</Typography>
 
-                            <Grid sx={[{ alignItems: "center", mt: 2 }]}>
-                                <Grid container item spacing={1}>
-                                    <Grid item xs={4}>
-                                        <Typography sx={{ px: 2, display: "flex", alignItems: "center" }}>
+                            <Grid mt={2} alignItems="center">
+                                <Grid container item>
+                                    <Grid item xs={5}>
+                                        <Typography px={2} display="flex" alignItems="center">
                                             Amount
                                             <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
                                         </Typography>
                                     </Grid>
 
                                     <Grid item xs>
-                                        <Typography sx={{ display: "flex", alignItems: "center" }}>
+                                        <Typography display="flex" alignItems="center">
                                             Reward Type
                                             <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
                                         </Typography>
                                     </Grid>
 
                                     <Grid item xs>
-                                        <Typography sx={{ display: "flex", alignItems: "center" }}>
-                                            Interest
+                                        <Typography display="flex" alignItems="center">
+                                            Rewards
                                             <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
                                         </Typography>
                                     </Grid>
 
-                                    <Grid item xs>
-                                        <Typography sx={{ display: "flex", alignItems: "center" }}>
-                                            Lockup Time
+                                    <Grid item xs columnGap={1}>
+                                        <Typography display="flex" alignItems="center">
+                                            Lockup
                                             <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
                                         </Typography>
                                     </Grid>
                                 </Grid>
 
-                                <Grid container item sx={[createStakingStyles]}>
-                                    <Grid item xs={4} sx={{ px: 2 }}>
+                                <Grid
+                                    container
+                                    item
+                                    alignItems="center"
+                                    borderRadius={0.5}
+                                    py={1}
+                                    mt={2}
+                                    mb={4}
+                                    sx={[gridStyles]}
+                                >
+                                    <Grid item xs={5} px={2} columnGap={1} display="flex" alignItems="center">
                                         <TextField
-                                            id=""
                                             value={0}
                                             onChange={() => {}}
                                             size="small"
+                                            color="secondary"
                                             InputProps={{
                                                 endAdornment: (
                                                     <InputAdornment position="end">{symbols.ALCA}</InputAdornment>
                                                 ),
                                             }}
                                         />
+
+                                        <Button variant="contained" size="small" color="secondary">
+                                            All
+                                        </Button>
                                     </Grid>
 
                                     <Grid item xs>
-                                        <Typography sx={[fadeOutText2Style]}>
+                                        <Typography sx={columnTwoFadeOutTxtSx}>
                                             {symbols.ETH} & {symbols.ALCA}
                                         </Typography>
                                     </Grid>
 
                                     <Grid item xs>
-                                        <Typography sx={[fadeOutText2Style]}>10%</Typography>
+                                        <Typography sx={columnTwoFadeOutTxtSx}>(BR/3) / n Stakers</Typography>
                                     </Grid>
 
                                     <Grid item xs>
@@ -205,10 +237,11 @@ export function Transactions() {
                     </Grid>
                 </Grid>
 
-                <Box sx={[{ mt: 2, display: "flex", justifyContent: "flex-end" }]}>
-                    <Button sx={[{ mr: 1 }]} variant="outlined" disabled={!alca}>
+                <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
+                    <Button variant="outlined" disabled={!alca}>
                         Reset TX
                     </Button>
+
                     <Button endIcon={<ChevronRight />} variant="contained" disabled={!alca}>
                         Review TX
                     </Button>
