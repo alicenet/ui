@@ -50,7 +50,7 @@ export const theme = createTheme({
         MuiCssBaseline: {
             styleOverrides: `
                 body {
-                    background: radial-gradient(81.56% 81.56% at 50% 95.8%, #0D1A31 0%, #11151C 100%);
+                    background: radial-gradient(81.56% 81.56% at 50% 95.8%, #001740 0%, ${CustomPaletteColors.dark.main} 100%);
                 }
             `,
         },

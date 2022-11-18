@@ -1,4 +1,5 @@
 import { NavigationBar } from "components/NavigationBar";
+import { symbols } from "config/symbolConfiguration";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
@@ -75,7 +76,7 @@ export function Positions() {
             rewards: "100 ALCA / 89999 ETH",
         },
         {
-            amount: "10 ALCA",
+            amount: `10 ${symbols.ALCA}`,
             id: 2,
             stakedDate: "03/12/2022",
             rewards: "100000000 ALCA / 10 ETH",
