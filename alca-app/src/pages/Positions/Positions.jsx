@@ -3,11 +3,10 @@ import { symbols } from "config/symbolConfiguration";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
-import { Button, Container, Tab } from "@mui/material";
+import { Button, Container, Tab, Typography } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { HeadingGroup } from "components/HeadingGroup";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { SubNavigation } from "components/SubNavigation";
@@ -21,85 +20,96 @@ export function Positions() {
     };
 
     const columns = [
-        { field: "amount", headerName: "Amount", flex: 1 },
+        {
+            field: "amount",
+            headerName: "Amount",
+            flex: 0.5,
+            sortable: false,
+            headerClassName: "headerClass",
+        },
         {
             field: "id",
             headerName: "ID",
-            editable: true,
-            flex: 1,
+            flex: 0.25,
+            sortable: false,
+            headerClassName: "headerClass",
         },
         {
             field: "stakedDate",
             headerName: "Staked Date",
-            editable: true,
-            flex: 1,
+            flex: 0.5,
+            sortable: false,
+            headerClassName: "headerClass",
         },
         {
             field: "rewards",
             headerName: "Rewards",
-            type: "number",
-            editable: true,
-            flex: 1,
+            flex: 0.75,
+            sortable: false,
+            headerClassName: "headerClass",
         },
         {
-            field: "claimReward",
-            headerName: "Claim Reward",
-            type: "number",
-            editable: true,
+            field: "actions",
+            headerName: "Actions",
             flex: 1,
+            sortable: false,
+            showColumnRightBorder: false,
+            headerClassName: "headerClass",
             renderCell: (params) => (
-                <strong>
-                    <Button variant="contained" size="small" color="secondary">
-                        Claim
+                <Box sx={{ display: "flex" }}>
+                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
+                        Claim Rewards
                     </Button>
-                </strong>
-            ),
-        },
-        {
-            field: "unstaked",
-            headerName: "Unstaked",
-            type: "number",
-            editable: true,
-            flex: 1,
-            renderCell: (params) => (
-                <strong>
-                    <Button variant="contained" size="small" color="secondary">
+                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
                         Unstake
                     </Button>
-                </strong>
+                </Box>
             ),
         },
     ];
 
     const rows = [
         {
-            amount: `10 ${symbols.ALCA}`,
+            amount: "2388888 ALCA",
             id: 1,
             stakedDate: "03/12/2022",
-            rewards: `100 ${symbols.ALCA} / 10 ${symbols.ETH}`,
-            claimReward: "Claim",
-            unstaked: "Unstake",
+            rewards: "100 ALCA / 89999 ETH",
         },
         {
             amount: `10 ${symbols.ALCA}`,
             id: 2,
             stakedDate: "03/12/2022",
-            rewards: `100 ${symbols.ALCA} / 10 ${symbols.ETH}`,
-            claimReward: "Claim",
-            unstaked: "Unstake",
+            rewards: "100000000 ALCA / 10 ETH",
+        },
+        {
+            amount: "10 ALCA",
+            id: 3,
+            stakedDate: "03/12/2022",
+            rewards: "20000 ALCA / 10 ETH",
+        },
+        {
+            amount: "10 ALCA",
+            id: 4,
+            stakedDate: "03/12/2022",
+            rewards: "100 ALCA / 433 ETH",
         },
     ];
 
+    const actionButtonStyles = {
+        textTransform: "none",
+        marginRight: 2,
+        fontSize: 13,
+    };
+
     const defaultTabClasses = {
-        borderRadius: 2,
-        paddingTop: 1,
-        paddingBottom: 1,
+        borderRadius: 1,
+        textTransform: "none",
+        fontSize: 14,
     };
 
     const currentClasses = {
-        bgcolor: theme.palette.secondary.main,
+        background: "linear-gradient(180deg, #FFABD4 18.53%, #CE6D99 167.76%)",
         color: theme.palette.background.default,
-        letterSpacing: 1,
     };
 
     let stakingTabClasses = {
@@ -116,6 +126,30 @@ export function Positions() {
     if (currentTab === "2") {
         positionTabClasses = { ...currentClasses, ...positionTabClasses };
     }
+
+    const fadeOutTextStyle = { fontSize: "14px" };
+    const boxStyles = {
+        background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
+        padding: 2,
+        "& .even": {
+            background: `linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C`,
+        },
+        "& .customRow": {
+            fontFamily: theme.typography.subtitle1.fontFamily,
+        },
+        "& .headerClass": {
+            fontFamily: "JetBrains Mono",
+        },
+        "& .MuiDataGrid-cell:focus-within": {
+            outline: "none",
+        },
+        "& .odd.MuiDataGrid-row:hover": {
+            background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
+        },
+        "& .even.MuiDataGrid-row:hover": {
+            background: `linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C`,
+        },
+    };
 
     function StakedPositionLabel() {
         return (
@@ -156,29 +190,28 @@ export function Positions() {
                         </TabList>
                     </Box>
                     <TabPanel value="1" sx={{ padding: 0 }}>
-                        <Box
-                            sx={{
-                                padding: 2,
-                                bgcolor: "#222",
-                                "& .odd": {
-                                    bgcolor: "#333",
-                                },
-                            }}
-                        >
-                            <Box sx={{ marginBottom: 2 }}>
-                                <HeadingGroup
-                                    title={`Current ${symbols.ALCA} Balance`}
-                                    subtitle={`2,000 ${symbols.ALCA}`}
-                                />
+                        <Box sx={boxStyles}>
+                            <Box sx={{ marginBottom: 1, paddingBottom: 1.5, borderBottom: "1px solid #555" }}>
+                                <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
+                                    Current ALCA Balance
+                                </Typography>
+                                <Typography variant="h5">2,000 ALCA</Typography>
                             </Box>
 
                             <DataGrid
+                                autoPageSize
                                 autoHeight
+                                disableSelectionOnClick
+                                disableColumnMenu
+                                pageSize={10}
                                 rows={rows}
                                 columns={columns}
                                 getRowClassName={(params) => {
-                                    return params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd";
+                                    return params.indexRelativeToCurrentPage % 2 === 0
+                                        ? "customRow even"
+                                        : "customRow odd";
                                 }}
+                                sx={{ fontSize: 14 }}
                             />
                         </Box>
                     </TabPanel>
