@@ -134,7 +134,7 @@ export function Positions() {
                 <Box sx={{ width: "100%" }}>
                     <LinearProgress variant="determinate" color="secondary" value={40} />
 
-                    <Box sx={{ fontSize: "10px", fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
+                    <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
                         40% Rewards
                     </Box>
                 </Box>
