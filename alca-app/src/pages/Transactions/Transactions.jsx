@@ -112,6 +112,7 @@ export function Transactions() {
                                     label="Migrate to ALCA"
                                     size="small"
                                     value={alca}
+                                    color="secondary"
                                     onChange={(event) => setAlcaBalance(event.target.value)}
                                 />
 
@@ -204,6 +205,7 @@ export function Transactions() {
                                             value={0}
                                             onChange={() => {}}
                                             size="small"
+                                            color="secondary"
                                             InputProps={{
                                                 endAdornment: (
                                                     <InputAdornment position="end">{symbols.ALCA}</InputAdornment>
