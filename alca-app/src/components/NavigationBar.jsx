@@ -180,7 +180,6 @@ export function NavigationBar() {
                     }}
                 >
                     <ConnectWeb3Button />
-                    <KeyboardArrowDown />
                 </Box>
             </Toolbar>
         </Container>
