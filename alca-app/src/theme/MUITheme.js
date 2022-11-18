@@ -29,6 +29,23 @@ const CustomPaletteColors = {
 export const theme = createTheme({
     ...aliceTheme,
     palette: CustomPaletteColors,
+    typography: {
+        fontFamily: "JetBrains Mono",
+        subtitle1: {
+            fontFamily: "Inter",
+        },
+        subtitle2: {
+            fontFamily: "Inter",
+            color: "#fff",
+            opacity: "50%",
+        },
+        body1: {
+            fontFamily: "Inter",
+        },
+        body2: {
+            fontFamily: "Inter",
+        },
+    },
     components: {
         MuiCssBaseline: {
             styleOverrides: `
@@ -36,6 +53,41 @@ export const theme = createTheme({
                     background: radial-gradient(81.56% 81.56% at 50% 95.8%, #0D1A31 0%, #11151C 100%);
                 }
             `,
+        },
+        MuiDataGrid: {
+            styleOverrides: {
+                root: {
+                    border: "none",
+                },
+                columnHeaders: {
+                    border: "none",
+                },
+                row: {
+                    border: "none",
+                },
+                cell: {
+                    border: "none",
+                },
+                footerContainer: {
+                    border: "none",
+                },
+                columnSeparator: {
+                    display: "none",
+                },
+                withBorder: {
+                    border: "none",
+                },
+                "row:hover": {
+                    bgcolor: "transparent",
+                },
+            },
+        },
+        MuiLink: {
+            styleOverrides: {
+                root: {
+                    fontFamily: "JetBrains Mono",
+                },
+            },
         },
     },
 });
