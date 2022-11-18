@@ -1,6 +1,8 @@
 import { createTheme } from "@mui/material";
 import { theme as aliceTheme } from "alice-mui-provider";
+import bgAlicenetLogo from "assets/bg-alicenet-logo.svg";
 
+// TODO Update this to use mui-provider palette -> https://github.com/alicenet/alice-mui-provider
 const CustomPaletteColors = {
     mode: "dark",
     primary: {
@@ -33,7 +35,8 @@ export const theme = createTheme({
         MuiCssBaseline: {
             styleOverrides: `
                 body {
-                    background: radial-gradient(81.56% 81.56% at 50% 95.8%, #0D1A31 0%, #11151C 100%);
+                    background: url(${bgAlicenetLogo}) no-repeat -10% -40%, radial-gradient(81.56% 81.56% at 50% 95.8%, #001740 0%, ${CustomPaletteColors.dark.main} 100%);
+                    background-blend-mode: color-dodge;
                 }
             `,
         },
