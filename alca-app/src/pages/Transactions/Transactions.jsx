@@ -1,11 +1,15 @@
-import { useState } from "react";
-import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch, Container } from "@mui/material";
+import { useState, useContext } from "react";
+import { BalanceContext } from "alice-ui-common";
+import { symbols } from "config/symbolConfiguration";
+
 import { useTheme } from "@emotion/react";
+import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch, Container } from "@mui/material";
 import { ChevronRight, InfoOutlined } from "@mui/icons-material";
 import { NavigationBar } from "components/NavigationBar";
 import { SubNavigation } from "components/SubNavigation";
 
 export function Transactions() {
+    const { balances = {} } = useContext(BalanceContext);
     const theme = useTheme();
     const [alca, setAlcaBalance] = useState(0);
 
@@ -72,18 +76,24 @@ export function Transactions() {
                                 >
                                     1
                                 </Box>
-                                Migration MAD to ALCA
+                                Migration {symbols.MAD} to {symbols.ALCA}
                             </Typography>
                         </Box>
 
                         <Box p={2} sx={[alca <= 0 ? activeBoxStyles : defaultBoxStyles]}>
-                            <Typography sx={[fadeOutTextStyle]}>Current MAD Balance</Typography>
-                            <Typography variant="h5">2,000 MAD</Typography>
+                            <Typography sx={[fadeOutTextStyle]}>Current {symbols.MAD} Balance</Typography>
+                            <Typography variant="h5">
+                                {balances.mad} {symbols.MAD}
+                            </Typography>
 
                             <Divider sx={{ my: 2 }} />
 
-                            <Typography sx={[fadeOutTextStyle]}>Exchange rate from MAD to ALCA</Typography>
-                            <Typography variant="body1">1 MAD Token ≈ 1.56 ALCA Token</Typography>
+                            <Typography sx={[fadeOutTextStyle]}>
+                                Exchange rate from {symbols.MAD} to {symbols.ALCA}
+                            </Typography>
+                            <Typography variant="body1">
+                                1 {symbols.MAD} Token ≈ 1.56 {symbols.ALCA} Token
+                            </Typography>
 
                             <Box sx={[{ display: "flex", alignItems: "center", columnGap: 1, mt: 3, mb: 1 }]}>
                                 <TextField
@@ -99,7 +109,10 @@ export function Transactions() {
                             </Box>
 
                             <Typography variant="body1">
-                                you will recieve <strong>{alca || 0} ALCA</strong>
+                                you will recieve{" "}
+                                <strong>
+                                    {alca || 0} {symbols.ALCA}
+                                </strong>
                             </Typography>
                         </Box>
                     </Grid>
@@ -113,13 +126,15 @@ export function Transactions() {
                                 >
                                     2
                                 </Box>
-                                Staking & Lockup ALCA
+                                Staking & Lockup {symbols.ALCA}
                             </Typography>
                         </Box>
 
                         <Box sx={[alca > 0 ? activeBoxStyles : defaultBoxStyles]}>
-                            <Typography sx={[{ fontSize: "14px" }]}>Future ALCA balance</Typography>
-                            <Typography variant="h5">{alca || 0} ALCA</Typography>
+                            <Typography sx={[{ fontSize: "14px" }]}>Future {symbols.ALCA} balance</Typography>
+                            <Typography variant="h5">
+                                {alca || 0} {symbols.ALCA}
+                            </Typography>
 
                             <Divider sx={{ my: 2 }} />
 
@@ -164,13 +179,17 @@ export function Transactions() {
                                             onChange={() => {}}
                                             size="small"
                                             InputProps={{
-                                                endAdornment: <InputAdornment position="end">ALCA</InputAdornment>,
+                                                endAdornment: (
+                                                    <InputAdornment position="end">{symbols.ALCA}</InputAdornment>
+                                                ),
                                             }}
                                         />
                                     </Grid>
 
                                     <Grid item xs>
-                                        <Typography sx={[fadeOutText2Style]}>ETH & ALCA</Typography>
+                                        <Typography sx={[fadeOutText2Style]}>
+                                            {symbols.ETH} & {symbols.ALCA}
+                                        </Typography>
                                     </Grid>
 
                                     <Grid item xs>
@@ -178,7 +197,7 @@ export function Transactions() {
                                     </Grid>
 
                                     <Grid item xs>
-                                        <Switch disabled />
+                                        <Switch disabled={!alca} color="secondary" />
                                     </Grid>
                                 </Grid>
                             </Grid>
