@@ -19,7 +19,10 @@ export function ConnectWeb3Button() {
     return (
         <Box>
             <Typography
-                sx={{ fontWeight: 800, color: theme.palette.secondary.secondary }}
+                sx={{
+                    fontFamily: theme.typography.fontFamily,
+                    color: theme.palette.secondary.secondary,
+                }}
                 onClick={() =>
                     ethAdapter.connectToWeb3Wallet(() => {
                         console.log("hit");

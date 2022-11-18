@@ -27,7 +27,7 @@ export function SubNavigation() {
                         color: page.to === location.pathname ? theme.palette.background.default : "#fff",
                         bgcolor: page.to === location.pathname ? theme.palette.primary.main : "#ffffff29",
                         display: "block",
-                        fontWeight: 900,
+                        fontFamily: theme.typography.fontFamily,
                         textDecoration: 0,
                         padding: "10px 30px",
                         borderRadius: { xs: "5px", md: page.to === location.pathname ? "5px" : padding },
