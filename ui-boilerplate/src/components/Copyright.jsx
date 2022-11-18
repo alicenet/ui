@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Link } from "@mui/material";
-import { configuration } from "config/_config";
+import { configuration } from "config";
 
 export function Copyright() {
     return (

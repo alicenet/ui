@@ -1,10 +1,9 @@
 import "ethers";
 import { ethers } from "ethers";
-import config from "config/_config";
+import config, { CONTRACT_ADDRESSES } from "config";
 import store from "redux/store/store";
 import { APPLICATION_ACTIONS } from "redux/actions";
 import { TOKEN_TYPES } from "redux/constants";
-import { CONTRACT_ADDRESSES } from "config/contracts";
 import utils from "utils";
 
 /**
