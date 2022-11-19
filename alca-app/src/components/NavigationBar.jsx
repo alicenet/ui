@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Toolbar, IconButton, Link, Menu, MenuItem, Container, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@emotion/react";
-import { configuration } from "config/_config";
+import { configuration } from "config";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ConnectWeb3Button } from "./ConnectWeb3Button";
