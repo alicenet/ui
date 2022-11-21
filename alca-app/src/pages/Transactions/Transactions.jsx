@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { BalanceContext } from "alice-ui-common";
-import { symbols } from "config/symbolConfiguration";
+import { symbols } from "config";
 import { sx } from "utils/sx";
 
 import { useTheme } from "@emotion/react";

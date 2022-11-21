@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { theme } from "theme/MUITheme";
-import { configuration } from "config/_config";
+import { configuration } from "config";
 
 export function Debug() {
     const { reduxState } = useSelector((s) => ({

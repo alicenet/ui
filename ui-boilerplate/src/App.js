@@ -12,7 +12,7 @@ import { theme } from "theme/MUITheme";
 
 // Page imports
 import { PageOne, PageTwo, PageThree, ContractTest } from "pages";
-import { configuration } from "config/_config";
+import { configuration } from "config";
 
 export default function App() {
     const dispatch = useDispatch();
