@@ -1,5 +1,5 @@
 import { NavigationBar } from "components/NavigationBar";
-import { symbols } from "config/symbolConfiguration";
+import { symbols } from "config";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
