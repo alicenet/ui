@@ -3,7 +3,7 @@ import { symbols } from "config/symbolConfiguration";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
-import { Button, Container, Tab, Typography } from "@mui/material";
+import { Button, Container, LinearProgress, Tab, Typography } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -19,7 +19,7 @@ export function Positions() {
         setCurrentTab(newValue);
     };
 
-    const columns = [
+    const stakedPositionsColumns = [
         {
             field: "amount",
             headerName: "Amount",
@@ -68,7 +68,7 @@ export function Positions() {
         },
     ];
 
-    const rows = [
+    const stakedPositionsRows = [
         {
             amount: "2388888 ALCA",
             id: 1,
@@ -92,6 +92,88 @@ export function Positions() {
             id: 4,
             stakedDate: "03/12/2022",
             rewards: "100 ALCA / 433 ETH",
+        },
+    ];
+
+    const lockedPositionsColumns = [
+        {
+            field: "amount",
+            headerName: "Amount",
+            flex: 0.5,
+            sortable: false,
+            headerClassName: "headerClass",
+        },
+        {
+            field: "id",
+            headerName: "ID",
+            flex: 0.25,
+            sortable: false,
+            headerClassName: "headerClass",
+        },
+        {
+            field: "lockedDate",
+            headerName: "Locked Date",
+            flex: 0.5,
+            sortable: false,
+            headerClassName: "headerClass",
+        },
+        {
+            field: "timeLeft",
+            headerName: "Time Left",
+            flex: 0.5,
+            sortable: false,
+            headerClassName: "headerClass",
+        },
+        {
+            field: "rewardsAchieved",
+            headerName: "Rewards Achieved",
+            flex: 0.75,
+            sortable: false,
+            headerClassName: "headerClass",
+            renderCell: (params) => (
+                <Box sx={{ width: "100%" }}>
+                    <LinearProgress variant="determinate" color="secondary" value={40} />
+
+                    <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
+                        40% Rewards
+                    </Box>
+                </Box>
+            ),
+        },
+        {
+            field: "currentRewards",
+            headerName: "Current Rewards",
+            flex: 0.75,
+            sortable: false,
+            headerClassName: "headerClass",
+        },
+        {
+            field: "actions",
+            headerName: "Actions",
+            flex: 1,
+            sortable: false,
+            showColumnRightBorder: false,
+            headerClassName: "headerClass",
+            renderCell: (params) => (
+                <Box sx={{ display: "flex" }}>
+                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
+                        Claim Rewards
+                    </Button>
+                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
+                        Unlock
+                    </Button>
+                </Box>
+            ),
+        },
+    ];
+
+    const lockedPositionsRows = [
+        {
+            amount: "2388888 ALCA",
+            id: 1,
+            lockedDate: "03/12/2022",
+            timeLeft: "18 days",
+            currentRewards: "100 ALCA / 10 ETH",
         },
     ];
 
@@ -175,7 +257,7 @@ export function Positions() {
         <>
             <NavigationBar />
 
-            <Container maxWidth="md">
+            <Container maxWidth="lg">
                 <SubNavigation />
 
                 <TabContext value={currentTab}>
@@ -186,7 +268,7 @@ export function Positions() {
                             indicatorColor={theme.palette.background.default}
                         >
                             <Tab label={<StakedPositionLabel />} value="1" sx={stakingTabClasses} />
-                            <Tab label="Lockout Positions" value="2" sx={positionTabClasses} />
+                            <Tab label="Locked Positions" value="2" sx={positionTabClasses} />
                         </TabList>
                     </Box>
                     <TabPanel value="1" sx={{ padding: 0 }}>
@@ -204,8 +286,8 @@ export function Positions() {
                                 disableSelectionOnClick
                                 disableColumnMenu
                                 pageSize={10}
-                                rows={rows}
-                                columns={columns}
+                                rows={stakedPositionsRows}
+                                columns={stakedPositionsColumns}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
@@ -215,7 +297,32 @@ export function Positions() {
                             />
                         </Box>
                     </TabPanel>
-                    <TabPanel value="2">Item Two</TabPanel>
+                    <TabPanel value="2" sx={{ padding: 0 }}>
+                        <Box sx={boxStyles}>
+                            <Box sx={{ marginBottom: 1, paddingBottom: 1.5, borderBottom: "1px solid #555" }}>
+                                <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
+                                    Current ALCA Balance
+                                </Typography>
+                                <Typography variant="h5">2,000 ALCA</Typography>
+                            </Box>
+
+                            <DataGrid
+                                autoPageSize
+                                autoHeight
+                                disableSelectionOnClick
+                                disableColumnMenu
+                                pageSize={10}
+                                rows={lockedPositionsRows}
+                                columns={lockedPositionsColumns}
+                                getRowClassName={(params) => {
+                                    return params.indexRelativeToCurrentPage % 2 === 0
+                                        ? "customRow even"
+                                        : "customRow odd";
+                                }}
+                                sx={{ fontSize: 14 }}
+                            />
+                        </Box>
+                    </TabPanel>
                 </TabContext>
             </Container>
         </>

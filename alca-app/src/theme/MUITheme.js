@@ -88,9 +88,6 @@ export const theme = createTheme({
                 withBorder: {
                     border: "none",
                 },
-                "row:hover": {
-                    bgcolor: "transparent",
-                },
             },
         },
         MuiLink: {
