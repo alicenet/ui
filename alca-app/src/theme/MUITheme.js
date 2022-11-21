@@ -61,7 +61,7 @@ export const theme = createTheme({
                         #001740 0%,
                         ${CustomPaletteColors.dark.main} 100%
                     );
-                    background-position: left -250px bottom;
+                    background-position: left -200px bottom;
                 }
             `,
         },
