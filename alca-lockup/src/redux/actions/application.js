@@ -1,4 +1,4 @@
-import config from "config";
+import * as config from "config";
 import ethAdapter from "eth/ethAdapter";
 import { APPLICATION_ACTION_TYPES, TOKEN_TYPES } from "redux/constants";
 import { toast } from "react-toastify";
