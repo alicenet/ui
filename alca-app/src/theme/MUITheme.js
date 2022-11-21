@@ -56,11 +56,12 @@ export const theme = createTheme({
             styleOverrides: `
                 body {
                     background: url(
-                        ${bgAlicenetLogo}) no-repeat -20% 170%,
+                        ${bgAlicenetLogo}) no-repeat,
                         radial-gradient(81.56% 81.56% at 50% 95.8%,
                         #001740 0%,
                         ${CustomPaletteColors.dark.main} 100%
                     );
+                    background-position: left -250px bottom;
                 }
             `,
         },
