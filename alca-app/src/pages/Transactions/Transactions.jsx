@@ -1,13 +1,11 @@
 import { useState, useContext } from "react";
-import { BalanceContext } from "alice-ui-common";
-import { symbols } from "config/symbolConfiguration";
-import { sx } from "utils/sx";
-
 import { useTheme } from "@emotion/react";
+import { BalanceContext } from "alice-ui-common";
 import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch, Container } from "@mui/material";
 import { ChevronRight, InfoOutlined } from "@mui/icons-material";
-import { NavigationBar } from "components/NavigationBar";
-import { SubNavigation } from "components/SubNavigation";
+import { NavigationBar, SubNavigation } from "components";
+import { sx } from "utils/sx";
+import { symbols } from "config";
 
 export function Transactions() {
     const { balances = {} } = useContext(BalanceContext);

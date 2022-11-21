@@ -1,21 +1,16 @@
 // Page imports
-import { PageOne, PageTwo, PageThree, ContractTest } from "pages";
+import { ContractTest, Positions, Transactions } from "pages";
 
 export const pages = [
     {
-        name: "PAGE_ONE",
-        display: "Page 1",
-        render: PageOne,
+        name: "POSITIONS",
+        display: "Positions",
+        render: Positions,
     },
     {
-        name: "PAGE_TWO",
-        display: "Page 2",
-        render: PageTwo,
-    },
-    {
-        name: "PAGE_THREE",
-        display: "Page 3",
-        render: PageThree,
+        name: "TRANSACTIONS",
+        display: "Transactions",
+        render: Transactions,
     },
     {
         name: "CONTRACT_TEST",

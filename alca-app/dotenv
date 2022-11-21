@@ -8,3 +8,7 @@ REACT_APP__ETHEREUM_ENDPOINT_PRODUCTION=""
 
 ## Contracts Below
 REACT_APP__STORAGE_CONTRACT_ADDRESS=0x5FbDB2315678afecb367f032d93F642f64180aa3
+
+## External links
+REACT_APP__ABOUT_LINK="https://medium.com/alicenet/introducing-alicenet-40b54474d2f2"
+REACT_APP__BLOCK_EXPLORER_LINK="https://explorer.alice.net"

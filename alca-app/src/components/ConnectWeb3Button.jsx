@@ -5,6 +5,7 @@ import { BalanceContext } from "alice-ui-common";
 import ethAdapter from "eth-adapter";
 import { useSelector } from "react-redux";
 import { splitStringWithEllipses } from "utils/string";
+
 export function ConnectWeb3Button() {
     useSelector((s) => s.ethAdapter); // Hook into reducer updates so equalize works properly against ethAdapter
     const balances = React.useContext(BalanceContext);
