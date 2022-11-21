@@ -1,2 +1,2 @@
-export * from "./_config.js";
-export * from "./pageConfiguration";
+export * from "./_config";
+export * from "./_symbolConfiguration";
