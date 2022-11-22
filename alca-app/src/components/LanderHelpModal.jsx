@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from "react";
 import {
     Modal,
     Box,
@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanderModalOpenState } from "redux/actions/application";
-import React from "react";
 import { Circle } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import { configuration } from "config/_config";
@@ -48,7 +47,7 @@ export function LanderHelpModal() {
             <Typography id="modal-modal-title" variant="h5" component="h2">
                 Welcome to AliceNet
             </Typography>
-            <Typography id="modal-modal-title" variant="p" component="h2">
+            <Typography id="modal-modal-subtitle" variant="p" component="h2">
                 This help modal can be re-opened by clicking help at the top of the screen
             </Typography>
         </>
