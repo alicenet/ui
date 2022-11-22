@@ -12,6 +12,8 @@ export function Transactions() {
     const { balances = {} } = useContext(BalanceContext);
     const theme = useTheme();
 
+    const hideMigrationPanel = balances.mad.value === "0" || balances.mad.value === "n/a" || !!balances.mad.error;
+
     // ALCA for migration
     const [alcaForMigration, setAlcaForMigration] = useState(0);
     const [madExchangeAmount, setMadExchangeAmount] = useState(0);
@@ -27,7 +29,7 @@ export function Transactions() {
         color: "secondary.contrastText",
     };
     const columnOneTitleBoxSx = sx({ condition: alcaForMigration <= 0, sx: activeBoxTitleStyles });
-    const columnTwoTitleBoxSx = sx({ condition: alcaForMigration > 0, sx: activeBoxTitleStyles });
+    const columnTwoTitleBoxSx = sx({ condition: alcaForMigration > 0 || hideMigrationPanel, sx: activeBoxTitleStyles });
 
     // Title Styles
     const activeLabelColorStyles = { bgcolor: "dark.main", color: "secondary.main" };
@@ -103,70 +105,72 @@ export function Transactions() {
 
     const renderContentGrid = () => (
         <Grid container>
-            <Grid item xs={4} display="flex" flexDirection="column">
-                <Box p={2} borderRadius={1} sx={columnOneTitleBoxSx}>
-                    <Typography variant="body1" component="h1">
-                        <Box
-                            component="span"
-                            px={1}
-                            py={0.5}
-                            mr={1}
-                            borderRadius={0.5}
-                            fontWeight="bold"
-                            sx={columnOneTitleSx}
-                        >
-                            1
-                        </Box>
-                        Migration {symbols.MAD} to {symbols.ALCA}
-                    </Typography>
-                </Box>
-
-                <Box p={2} borderRadius={1} flex={1} sx={columnOneBoxSx}>
-                    <Typography sx={columnOneFadeOutTxtSx}>Current {symbols.MAD} Balance</Typography>
-                    <Typography variant="h5">
-                        {balances.mad.data || 0} {symbols.MAD}
-                    </Typography>
-
-                    <Divider sx={{ my: 2 }} />
-
-                    <Typography sx={columnOneFadeOutTxtSx}>
-                        Exchange rate from {symbols.MAD} to {symbols.ALCA}
-                    </Typography>
-
-                    <Typography variant="body1">
-                        1 {symbols.MAD} Token ≈ 1.56 {symbols.ALCA} Token
-                    </Typography>
-
-                    <Box columnGap={1} mt={3} mb={1} display="flex" alignItems="center">
-                        <TextField
-                            label="Migrate to ALCA"
-                            size="small"
-                            value={alcaForMigration}
-                            color="secondary"
-                            onChange={(event) => setAlcaForMigration(event.target.value)}
-                        />
-
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => {
-                                setAlcaForMigration(balances.mad.value);
-                            }}
-                        >
-                            All
-                        </Button>
+            {!hideMigrationPanel && (
+                <Grid item xs={4} display="flex" flexDirection="column">
+                    <Box p={2} borderRadius={1} sx={columnOneTitleBoxSx}>
+                        <Typography variant="body1" component="h1">
+                            <Box
+                                component="span"
+                                px={1}
+                                py={0.5}
+                                mr={1}
+                                borderRadius={0.5}
+                                fontWeight="bold"
+                                sx={columnOneTitleSx}
+                            >
+                                1
+                            </Box>
+                            Migration {symbols.MAD} to {symbols.ALCA}
+                        </Typography>
                     </Box>
 
-                    <Typography variant="body1">
-                        you will recieve{" "}
-                        <strong>
-                            {madExchangeAmount || 0} {symbols.ALCA}
-                        </strong>
-                    </Typography>
-                </Box>
-            </Grid>
+                    <Box p={2} borderRadius={1} flex={1} sx={columnOneBoxSx}>
+                        <Typography sx={columnOneFadeOutTxtSx}>Current {symbols.MAD} Balance</Typography>
+                        <Typography variant="h5">
+                            {balances.mad.data || 0} {symbols.MAD}
+                        </Typography>
 
-            <Grid item xs={8} display="flex" flexDirection="column">
+                        <Divider sx={{ my: 2 }} />
+
+                        <Typography sx={columnOneFadeOutTxtSx}>
+                            Exchange rate from {symbols.MAD} to {symbols.ALCA}
+                        </Typography>
+
+                        <Typography variant="body1">
+                            1 {symbols.MAD} Token ≈ 1.56 {symbols.ALCA} Token
+                        </Typography>
+
+                        <Box columnGap={1} mt={3} mb={1} display="flex" alignItems="center">
+                            <TextField
+                                label="Migrate to ALCA"
+                                size="small"
+                                value={alcaForMigration}
+                                color="secondary"
+                                onChange={(event) => setAlcaForMigration(event.target.value)}
+                            />
+
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => {
+                                    setAlcaForMigration(balances.mad.value);
+                                }}
+                            >
+                                All
+                            </Button>
+                        </Box>
+
+                        <Typography variant="body1">
+                            you will recieve{" "}
+                            <strong>
+                                {madExchangeAmount || 0} {symbols.ALCA}
+                            </strong>
+                        </Typography>
+                    </Box>
+                </Grid>
+            )}
+
+            <Grid item xs={hideMigrationPanel ? 12 : 8} display="flex" flexDirection="column">
                 <Box p={2} borderRadius={1} sx={columnTwoTitleBoxSx}>
                     <Typography variant="body1" component="h1">
                         <Box
@@ -178,7 +182,7 @@ export function Transactions() {
                             fontWeight="bold"
                             sx={columnTwoTitleSx}
                         >
-                            2
+                            {hideMigrationPanel ? 1 : 2}
                         </Box>
                         Staking & Lockup {symbols.ALCA}
                     </Typography>
