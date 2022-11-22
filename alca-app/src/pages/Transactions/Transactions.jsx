@@ -124,7 +124,7 @@ export function Transactions() {
                 <Box p={2} borderRadius={1} flex={1} sx={columnOneBoxSx}>
                     <Typography sx={columnOneFadeOutTxtSx}>Current {symbols.MAD} Balance</Typography>
                     <Typography variant="h5">
-                        {balances.mad || 0} {symbols.MAD}
+                        {balances.mad.data || 0} {symbols.MAD}
                     </Typography>
 
                     <Divider sx={{ my: 2 }} />
