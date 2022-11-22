@@ -23,3 +23,14 @@ export const setActivePage = (page) => {
         dispatch({ type: APPLICATION_ACTION_TYPES.SET_ACTIVE_PAGE, payload: page });
     };
 };
+
+/**
+ * Set the help modal state
+ * @param { Boolean } state - Should the modal be open
+ * @returns
+ */
+export const setLanderModalOpenState = (state) => {
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_LANDER_MODAL_STATE, payload: state });
+    };
+};
