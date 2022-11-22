@@ -43,7 +43,6 @@ export function NavigationBar() {
         fontSize: "14px",
         padding: "6px 16px",
         borderRadius: 1,
-        color: theme.palette.background.main,
         display: "flex",
         alignItems: "center",
     };
