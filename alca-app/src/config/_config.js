@@ -10,6 +10,8 @@ const site_configuration = {
     navIcon: <AdbIcon />, // NavBar Icon
     navTitle: "Alicenet - UI", // NavBar Text
     title: "Alicenet - UI", // Browser Document Title
+    url_documentation: "https://github.com/alicenet/alicenet/wiki", // Link for documentation click under "Help"
+    url_termsOfService: "https://alice.net", // Link for terms of service url under "Help"
 };
 
 export const configuration = {
