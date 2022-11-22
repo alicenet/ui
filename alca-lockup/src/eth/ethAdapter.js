@@ -1,6 +1,6 @@
 import "ethers";
 import { ethers } from "ethers";
-import config from "config";
+import { CONTRACT_NAMES as CONFIG_CONTRACT_NAMES, CONTRACTS, RPC } from "config";
 import store from "redux/store/store";
 import { APPLICATION_ACTIONS } from "redux/actions";
 import { TOKEN_TYPES, LOCKUP_PERIOD_STATUS, ETHEREUM_BLOCK_INTERVAL } from "redux/constants";
@@ -10,7 +10,7 @@ import utils from "utils";
  * Re exported for easy importing
  *
  */
-export const CONTRACT_NAMES = config.CONTRACT_NAMES;
+export const CONTRACT_NAMES = CONFIG_CONTRACT_NAMES;
 
 /**
  * Callback to run after establishing web3connection state pass or fail
@@ -25,13 +25,13 @@ class EthAdapter {
         this.accounts = []; // Web3 Accounts List
         this.provider = null; // Web3 Provider -- Populated on successful _connectToWeb3Wallet()
         this.signer = null; // Web3 Signer -- Populated on successful _connectToWeb3Wallet()
-        this.contracts = config.CONTRACTS; // Contracts from config
+        this.contracts = CONTRACTS; // Contracts from config
         this._setupWeb3Listeners();
         this.addressesFromFactory = {};
         this.timeBetweenBalancePolls = 7500;
 
         // Setup RPC provider
-        this.provider = new ethers.providers.JsonRpcProvider(config.RPC.URL);
+        this.provider = new ethers.providers.JsonRpcProvider(RPC.URL);
 
         console.debug("EthAdapter Init: ", this);
     }
