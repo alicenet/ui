@@ -19,7 +19,9 @@ const CustomPaletteColors = {
         main: "#11151C",
         elevation1: "rgba(165, 198, 255, 0.05)",
         elevation3: "rgba(165, 198, 255, 0.08)",
+        elevation4: "rgba(165, 198, 255, 0.09)",
         elevation12: "rgba(165, 198, 255, 0.14)",
+        elevation24: "rgba(165, 198, 255, 0.16)",
     },
     light: {
         elevation3: "rgba(255, 255, 255, 0.08)",
