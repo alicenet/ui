@@ -19,7 +19,7 @@ export function useModalCookie() {
         if (!cookies[cookieName]) {
             dispatch(setLanderModalOpenState(true));
         }
-    }, []);
+    }, [dispatch, cookies]);
 
     return [cookies[cookieName], setHideModalCookie];
 }

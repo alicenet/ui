@@ -104,7 +104,7 @@ export function LanderHelpModal() {
             "Acquire on decentralized exchanges",
         ];
         const WelcomeContent = () => (
-            <>
+            <Box>
                 <Typography variant="p">
                     This DAPP is built around interacting with{" "}
                     <Link href={configuration.site.url_aliceNet} {...configuration.site.href_props}>
@@ -125,7 +125,7 @@ export function LanderHelpModal() {
                         <ContentListItem key={i}>{content}</ContentListItem>
                     ))}
                 </List>
-            </>
+            </Box>
         );
 
         const migrationListContent = [
@@ -149,7 +149,7 @@ export function LanderHelpModal() {
             </>,
         ];
         const MigrationContent = () => (
-            <>
+            <Box>
                 <Typography>
                     Migration will be available to users who have existing MadToken Etherscan in their wallet and can be
                     staked right away, or held without staking.
@@ -167,7 +167,7 @@ export function LanderHelpModal() {
                         <ContentListItem key={i}>{content}</ContentListItem>
                     ))}
                 </List>
-            </>
+            </Box>
         );
 
         const stakingListContent_1 = [
@@ -178,37 +178,41 @@ export function LanderHelpModal() {
         const stakingListContent_2 = [
             "Claim all rewards associated with a position without unstaking",
             "Unstake and claim all rewards associated with a posiiton",
-            "During a&#8216; Lockup&#8216;  period, tokens can be locked for a specified time for additional rewards specific to the Lockup period",
+            "Tokens can be locked for a specified time for additional rewards during a Lockup period",
         ];
         const StakingContent = () => (
-            <>
+            <Box>
                 <Typography>
                     ALCA can be staked to earn rewards based on the alice.net&#8216;s tokenomics
                     <br />
                     <br />
                     By staking ALCA you will earn a pro rata portion of block rewards distributed as follows:
-                    <List disablePadding sx={{ mt: 1 }}>
-                        {stakingListContent_1.map((content, i) => (
-                            <ContentListItem key={i}>{content}</ContentListItem>
-                        ))}
-                    </List>
+                </Typography>
+                <List disablePadding sx={{ mt: 1 }}>
+                    {stakingListContent_1.map((content, i) => (
+                        <ContentListItem key={i}>{content}</ContentListItem>
+                    ))}
+                </List>
+                <Typography>
                     <br />
                     ALCA Staked positions are minted as ERC-721&#8216;s that represent your staked position.
                     <br />
                     The following actions are available to staked positions:
-                    <List disablePadding sx={{ mt: 1 }}>
-                        {stakingListContent_2.map((content, i) => (
-                            <ContentListItem key={i}>{content}</ContentListItem>
-                        ))}
-                    </List>
-                    <br />
-                    <br />
+                </Typography>
+                <List disablePadding sx={{ mt: 1 }}>
+                    {stakingListContent_2.map((content, i) => (
+                        <ContentListItem key={i}>{content}</ContentListItem>
+                    ))}
+                </List>
+                <br />
+                <br />
+                <Typography>
                     More information on the alice.net tokenomics can be found{" "}
                     <Link href={configuration.site.url_alcaTokenBlog} {...configuration.site.href_props}>
                         here
                     </Link>
                 </Typography>
-            </>
+            </Box>
         );
 
         const ModalContent = (props) => {
