@@ -33,6 +33,7 @@ export const theme = createTheme({
         fontFamily: "JetBrains Mono",
         subtitle1: {
             fontFamily: "Inter",
+            fontSize: 16,
         },
         subtitle2: {
             fontFamily: "Inter",
