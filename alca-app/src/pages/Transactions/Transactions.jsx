@@ -39,7 +39,7 @@ export function Transactions() {
         sx: activeLabelColorStyles,
     });
     const columnTwoTitleSx = sx(inactiveLabelColorStyles, {
-        condition: alcaForMigration > 0,
+        condition: alcaForMigration > 0 || hideMigrationPanel,
         sx: activeLabelColorStyles,
     });
 
