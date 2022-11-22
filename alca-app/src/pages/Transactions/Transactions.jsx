@@ -1,18 +1,20 @@
-import { useState, useContext } from "react";
-import { BalanceContext } from "alice-ui-common";
+import { useState, useContext, useEffect } from "react";
 import { symbols } from "config";
+import { BalanceContext } from "alice-ui-common";
 import { sx } from "utils/sx";
 
 import { useTheme } from "@emotion/react";
 import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch, Container } from "@mui/material";
 import { ChevronRight, InfoOutlined } from "@mui/icons-material";
-import { NavigationBar } from "components/NavigationBar";
-import { SubNavigation } from "components/SubNavigation";
+import { NavigationBar, SubNavigation } from "components";
 
 export function Transactions() {
     const { balances = {} } = useContext(BalanceContext);
     const theme = useTheme();
-    const [alca, setAlcaBalance] = useState(0);
+
+    // ALCA for migration
+    const [alcaForMigration, setAlcaForMigration] = useState(0);
+    const [madExchangeAmount, setMadExchangeAmount] = useState(0);
 
     // Title Box Styles
     const activeBoxTitleStyles = {
@@ -24,14 +26,20 @@ export function Transactions() {
         )`,
         color: "secondary.contrastText",
     };
-    const columnOneTitleBoxSx = sx({ condition: alca <= 0, sx: activeBoxTitleStyles });
-    const columnTwoTitleBoxSx = sx({ condition: alca > 0, sx: activeBoxTitleStyles });
+    const columnOneTitleBoxSx = sx({ condition: alcaForMigration <= 0, sx: activeBoxTitleStyles });
+    const columnTwoTitleBoxSx = sx({ condition: alcaForMigration > 0, sx: activeBoxTitleStyles });
 
     // Title Styles
     const activeLabelColorStyles = { bgcolor: "dark.main", color: "secondary.main" };
     const inactiveLabelColorStyles = { bgcolor: "secondary.darkText", color: "dark.main" };
-    const columnOneTitleSx = sx(inactiveLabelColorStyles, { condition: alca <= 0, sx: activeLabelColorStyles });
-    const columnTwoTitleSx = sx(inactiveLabelColorStyles, { condition: alca > 0, sx: activeLabelColorStyles });
+    const columnOneTitleSx = sx(inactiveLabelColorStyles, {
+        condition: alcaForMigration <= 0,
+        sx: activeLabelColorStyles,
+    });
+    const columnTwoTitleSx = sx(inactiveLabelColorStyles, {
+        condition: alcaForMigration > 0,
+        sx: activeLabelColorStyles,
+    });
 
     // Box Styles
     const activeBoxStyles = {
@@ -48,8 +56,8 @@ export function Transactions() {
             ${theme.palette.dark.elevation1} 100%
         ),${theme.palette.dark.main} `,
     };
-    const columnOneBoxSx = sx(inactiveBoxStyles, { condition: alca <= 0, sx: activeBoxStyles });
-    const columnTwoBoxSx = sx(inactiveBoxStyles, { condition: alca > 0, sx: activeBoxStyles });
+    const columnOneBoxSx = sx(inactiveBoxStyles, { condition: alcaForMigration <= 0, sx: activeBoxStyles });
+    const columnTwoBoxSx = sx(inactiveBoxStyles, { condition: alcaForMigration > 0, sx: activeBoxStyles });
 
     const gridStyles = {
         background: `linear-gradient(
@@ -62,8 +70,23 @@ export function Transactions() {
     // Common Styles
     const activeFadeOutTextStyle = { color: "secondary.darkText" };
     const inactiveFadeOutTextStyle = { color: "secondary.darkTextDisabled" };
-    const columnOneFadeOutTxtSx = sx(inactiveFadeOutTextStyle, { condition: alca <= 0, sx: activeFadeOutTextStyle });
-    const columnTwoFadeOutTxtSx = sx(inactiveFadeOutTextStyle, { condition: alca > 0, sx: activeFadeOutTextStyle });
+    const columnOneFadeOutTxtSx = sx(inactiveFadeOutTextStyle, {
+        condition: alcaForMigration <= 0,
+        sx: activeFadeOutTextStyle,
+    });
+    const columnTwoFadeOutTxtSx = sx(inactiveFadeOutTextStyle, {
+        condition: alcaForMigration > 0,
+        sx: activeFadeOutTextStyle,
+    });
+
+    useEffect(() => {
+        async function call() {
+            // TODO: Convert MAD to ALCA
+            setMadExchangeAmount(0);
+        }
+
+        call();
+    }, [alcaForMigration]);
 
     return (
         <>
@@ -111,12 +134,18 @@ export function Transactions() {
                                 <TextField
                                     label="Migrate to ALCA"
                                     size="small"
-                                    value={alca}
+                                    value={alcaForMigration}
                                     color="secondary"
-                                    onChange={(event) => setAlcaBalance(event.target.value)}
+                                    onChange={(event) => setAlcaForMigration(event.target.value)}
                                 />
 
-                                <Button variant="contained" color="secondary">
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => {
+                                        setAlcaForMigration(balances.mad.value);
+                                    }}
+                                >
                                     All
                                 </Button>
                             </Box>
@@ -124,7 +153,7 @@ export function Transactions() {
                             <Typography variant="body1">
                                 you will recieve{" "}
                                 <strong>
-                                    {alca || 0} {symbols.ALCA}
+                                    {madExchangeAmount || 0} {symbols.ALCA}
                                 </strong>
                             </Typography>
                         </Box>
@@ -152,7 +181,7 @@ export function Transactions() {
                             <Typography>Future {symbols.ALCA} balance</Typography>
 
                             <Typography variant="h5">
-                                {alca || 0} {symbols.ALCA}
+                                {alcaForMigration || 0} {symbols.ALCA}
                             </Typography>
 
                             <Divider sx={{ my: 2 }} />
@@ -229,7 +258,7 @@ export function Transactions() {
                                     </Grid>
 
                                     <Grid item xs>
-                                        <Switch disabled={!alca} color="secondary" />
+                                        <Switch disabled={!alcaForMigration} color="secondary" />
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -238,11 +267,11 @@ export function Transactions() {
                 </Grid>
 
                 <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
-                    <Button variant="outlined" disabled={!alca}>
+                    <Button variant="outlined" disabled={!alcaForMigration}>
                         Reset TX
                     </Button>
 
-                    <Button endIcon={<ChevronRight />} variant="contained" disabled={!alca}>
+                    <Button endIcon={<ChevronRight />} variant="contained" disabled={!alcaForMigration}>
                         Review TX
                     </Button>
                 </Box>
