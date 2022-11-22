@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { ConnectWeb3Button } from "./ConnectWeb3Button";
 import ethAdapter from "eth-adapter";
 import { KeyboardArrowDown } from "@mui/icons-material";
+import { HelpDropdown } from "./HelpDropdown";
 
 export function NavigationBar() {
     const theme = useTheme();
@@ -34,6 +35,17 @@ export function NavigationBar() {
     };
     const handleClose = () => {
         setNetworkMenuAnchor(null);
+    };
+
+    const menuButtonSx = {
+        fontFamily: theme.typography.fontFamily,
+        color: theme.palette.secondary.secondary,
+        fontSize: "14px",
+        padding: "6px 16px",
+        borderRadius: 1,
+        color: theme.palette.background.main,
+        display: "flex",
+        alignItems: "center",
     };
 
     return (
@@ -132,26 +144,23 @@ export function NavigationBar() {
                     </Link>
                 </Box>
 
-                <Box>
+                <Box sx={{ display: "flex" }}>
+                    <HelpDropdown menuButtonSx={menuButtonSx} />
+
+                    {/** Should probably extract network as it's own component when fixing as per issue#59  */}
                     <Button
                         id="network-button"
                         aria-controls={open ? "network-menu" : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? "true" : undefined}
                         onClick={handleClick}
-                        sx={{
-                            fontSize: "14px",
-                            padding: "1px 10px",
-                            borderRadius: 1,
-                            color: theme.palette.background.main,
-                            display: "flex",
-                            alignItems: "center",
-                            marginRight: 1,
-                        }}
+                        variant={"outlined"}
+                        sx={menuButtonSx}
                     >
                         Ethereum
-                        <KeyboardArrowDown />
+                        <KeyboardArrowDown sx={{ ml: 1 }} />
                     </Button>
+
                     <Menu
                         id="network-menu"
                         anchorEl={networkMenuAnchor}
@@ -160,6 +169,7 @@ export function NavigationBar() {
                         MenuListProps={{
                             "aria-labelledby": "network-button",
                         }}
+                        sx={{ mt: 1 }}
                     >
                         <MenuItem onClick={handleClose}>Ethereum</MenuItem>
                         <MenuItem onClick={handleClose}>AliceNet</MenuItem>
@@ -168,18 +178,14 @@ export function NavigationBar() {
 
                 <Box
                     sx={{
-                        fontSize: "14px",
-                        padding: "3px 15px",
-                        borderRadius: 1,
-                        bgcolor: theme.palette.primary.main,
-                        color: theme.palette.background.default,
                         pointerEvents: web3Connected ? "none" : "all",
                         display: "flex",
                         alignItems: "center",
                         cursor: "pointer",
+                        ml: 2,
                     }}
                 >
-                    <ConnectWeb3Button />
+                    <ConnectWeb3Button menuButtonSx={menuButtonSx} />
                 </Box>
             </Toolbar>
         </Container>
