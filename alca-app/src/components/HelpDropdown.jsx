@@ -2,6 +2,8 @@ import React from "react";
 import { Button, Box, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { configuration } from "config/_config";
+import { useDispatch } from "react-redux";
+import { setLanderModalOpenState } from "redux/actions/application";
 
 /**
  * @prop { Function } onHelpModalClick - Function to call on "Help Modal" menu item click
@@ -10,6 +12,7 @@ import { configuration } from "config/_config";
 export function HelpDropdown({ menuButtonSx }) {
     const [open, setOpen] = React.useState(false);
     const anchorElement = React.useRef();
+    const dispatch = useDispatch();
 
     return (
         <Box>
@@ -37,7 +40,13 @@ export function HelpDropdown({ menuButtonSx }) {
                     "aria-labelledby": "help-button",
                 }}
             >
-                <MenuItem onClick={() => {}}>Help Modal</MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        dispatch(setLanderModalOpenState(true));
+                    }}
+                >
+                    Help Modal
+                </MenuItem>
                 <MenuItem
                     onClick={() => {
                         window.open(configuration.site.url_documentation, "_blank");

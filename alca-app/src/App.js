@@ -10,6 +10,8 @@ import { theme } from "theme/MUITheme";
 import { BalanceContextProvider } from "alice-ui-common";
 
 import ethAdapter from "eth-adapter";
+import { LanderHelpModal } from "components/LanderHelpModal";
+
 export default function App() {
     const router = createBrowserRouter(
         createRoutesFromElements(
@@ -27,6 +29,7 @@ export default function App() {
                 <Debug />
                 <RouterProvider router={router} />
             </BalanceContextProvider>
+            <LanderHelpModal />
         </ThemeProvider>
     );
 }
