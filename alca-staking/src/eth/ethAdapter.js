@@ -13,7 +13,6 @@ import utils from "utils";
 export const CONTRACT_NAMES = CONFIG_CONTRACT_NAMES;
 
 /**
->>>>>>> staging
  * Callback to run after establishing web3connection state pass or fail
  * @callback web3ConnectCallback
  * @param { Object } err - Will be null if no error, or else contain the error
