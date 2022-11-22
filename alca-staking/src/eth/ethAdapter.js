@@ -1,12 +1,19 @@
 import "ethers";
 import { ethers } from "ethers";
-import { CONTRACTS, CONTRACT_ADDRESSES, CONTRACT_NAMES, RPC } from "config";
+import { CONTRACT_NAMES as CONFIG_CONTRACT_NAMES, CONTRACTS, RPC, CONTRACT_ADDRESSES } from "config";
 import store from "redux/store/store";
 import { APPLICATION_ACTIONS } from "redux/actions";
 import { TOKEN_TYPES } from "redux/constants";
 import utils from "utils";
 
 /**
+ * Re exported for easy importing
+ *
+ */
+export const CONTRACT_NAMES = CONFIG_CONTRACT_NAMES;
+
+/**
+>>>>>>> staging
  * Callback to run after establishing web3connection state pass or fail
  * @callback web3ConnectCallback
  * @param { Object } err - Will be null if no error, or else contain the error
