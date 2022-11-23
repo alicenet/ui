@@ -70,6 +70,52 @@ export function Positions() {
         setTransacting(false);
     }
 
+    async function handleClaim(tokenId) {
+        setTransacting(true);
+
+        // Pending message
+        setSnackbarMessage({
+            status: "pending",
+            message: "Pending Claim Rewards Transaction",
+        });
+
+        // Open snackbar
+        setSnackbarOpen(true);
+
+        try {
+            // Claim rewards transaction
+            const tx = await commonEthRequests.staking_sendClaimAllPublicStakingRewardsRequest(ethAdapter, tokenId);
+
+            if (tx.error) {
+                throw new Error(tx.error);
+            }
+
+            await tx.wait();
+        } catch (e) {
+            // Error message
+            setSnackbarAutoHideDuration(7500);
+            setSnackbarMessage({
+                status: "error",
+                message: "There was an error with the transaction. Please try again.",
+            });
+
+            // No longer transacting
+            setTransacting(false);
+
+            return;
+        }
+
+        // Success message
+        setSnackbarAutoHideDuration(7500);
+        setSnackbarMessage({
+            status: "success",
+            message: "Successfully Claimed Rewards",
+        });
+
+        // No longer transacting
+        setTransacting(false);
+    }
+
     const handleTabChange = (_, newValue) => {
         setCurrentTab(newValue);
     };
@@ -103,25 +149,38 @@ export function Positions() {
             sortable: false,
             showColumnRightBorder: false,
             headerClassName: "headerClass",
-            renderCell: (params) => (
-                <Box sx={{ display: "flex" }}>
-                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
-                        Claim Rewards
-                    </Button>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        color="secondary"
-                        sx={actionButtonStyles}
-                        onClick={async () => {
-                            handleUnstake(params.id);
-                        }}
-                        disabled={transacting}
-                    >
-                        Unstake
-                    </Button>
-                </Box>
-            ),
+            renderCell: (params) => {
+                const hasRewards = parseInt(params.row.alcaRewards) > 0 || parseInt(params.row.ethRewards) > 0;
+
+                return (
+                    <Box sx={{ display: "flex" }}>
+                        <Button
+                            variant="contained"
+                            size="small"
+                            color="secondary"
+                            sx={actionButtonStyles}
+                            onClick={() => {
+                                handleClaim(params.row.id);
+                            }}
+                            disabled={transacting || !hasRewards}
+                        >
+                            Claim Rewards
+                        </Button>
+                        <Button
+                            variant="contained"
+                            size="small"
+                            color="secondary"
+                            sx={actionButtonStyles}
+                            onClick={() => {
+                                handleUnstake(params.row.id);
+                            }}
+                            disabled={transacting}
+                        >
+                            Unstake
+                        </Button>
+                    </Box>
+                );
+            },
         },
     ];
 
@@ -132,6 +191,7 @@ export function Positions() {
             rewards: `${formatNumberToLocale(position.alcaRewards)} ${symbols.ALCA} / ${formatNumberToLocale(
                 position.ethRewards
             )} ${symbols.ETH}`,
+            ...position,
         };
     });
 
