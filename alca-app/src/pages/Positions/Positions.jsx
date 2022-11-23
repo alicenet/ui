@@ -249,6 +249,8 @@ export function Positions() {
         );
     }
 
+    const hasLockedPosition = lockedPositionsRows.length > 0;
+
     return (
         <>
             <NavigationBar />
@@ -264,7 +266,7 @@ export function Positions() {
                             indicatorColor={theme.palette.background.default}
                         >
                             <Tab label={<StakedPositionLabel />} value="1" sx={stakingTabClasses} />
-                            <Tab label="Locked Positions" value="2" sx={positionTabClasses} />
+                            {hasLockedPosition && <Tab label="Locked Positions" value="2" sx={positionTabClasses} />}
                         </TabList>
                     </Box>
                     <TabPanel value="1" sx={{ padding: 0 }}>
