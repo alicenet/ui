@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTheme } from "@emotion/react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
 import { Button, Container, LinearProgress, Tab, Typography } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { NavigationBar, SubNavigation } from "components";
+import { BalanceContext } from "alice-ui-common";
+import { formatNumberToLocale } from "utils/number";
 import { symbols } from "config";
 
 export function Positions() {
+    const { balances, positions = {} } = useContext(BalanceContext);
+
     const theme = useTheme();
     const [currentTab, setCurrentTab] = useState("1");
 
@@ -27,13 +31,6 @@ export function Positions() {
             field: "id",
             headerName: "ID",
             flex: 0.25,
-            sortable: false,
-            headerClassName: "headerClass",
-        },
-        {
-            field: "stakedDate",
-            headerName: "Staked Date",
-            flex: 0.5,
             sortable: false,
             headerClassName: "headerClass",
         },
@@ -64,32 +61,15 @@ export function Positions() {
         },
     ];
 
-    const stakedPositionsRows = [
-        {
-            amount: "2388888 ALCA",
-            id: 1,
-            stakedDate: "03/12/2022",
-            rewards: "100 ALCA / 89999 ETH",
-        },
-        {
-            amount: `10 ${symbols.ALCA}`,
-            id: 2,
-            stakedDate: "03/12/2022",
-            rewards: "100000000 ALCA / 10 ETH",
-        },
-        {
-            amount: "10 ALCA",
-            id: 3,
-            stakedDate: "03/12/2022",
-            rewards: "20000 ALCA / 10 ETH",
-        },
-        {
-            amount: "10 ALCA",
-            id: 4,
-            stakedDate: "03/12/2022",
-            rewards: "100 ALCA / 433 ETH",
-        },
-    ];
+    const stakedPositionsRows = positions.staked.value.map((position) => {
+        return {
+            amount: formatNumberToLocale(position.shares),
+            id: position.tokenId,
+            rewards: `${formatNumberToLocale(position.alcaRewards)} ${symbols.ALCA} / ${formatNumberToLocale(
+                position.ethRewards
+            )} ${symbols.ETH}`,
+        };
+    });
 
     const lockedPositionsColumns = [
         {
@@ -229,6 +209,12 @@ export function Positions() {
         },
     };
 
+    function formattedAlcaBalance() {
+        if (balances.alca.error || balances.alca.value === "n/a") return "n/a";
+
+        return formatNumberToLocale(balances.alca.value);
+    }
+
     function StakedPositionLabel() {
         return (
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -243,7 +229,7 @@ export function Positions() {
                         borderRadius: 10,
                     }}
                 >
-                    10
+                    {positions.staked.value.length}
                 </Box>
             </Box>
         );
@@ -275,7 +261,7 @@ export function Positions() {
                                 <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
                                     Current ALCA Balance
                                 </Typography>
-                                <Typography variant="h5">2,000 ALCA</Typography>
+                                <Typography variant="h5">{formattedAlcaBalance()} ALCA</Typography>
                             </Box>
 
                             <DataGrid
