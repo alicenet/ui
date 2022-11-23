@@ -150,7 +150,6 @@ export function Transactions() {
                 const amount = await ethAdapter.contractMethods.ATOKEN.convert_view_IN1_OUT1({
                     amount: ethers.utils.parseEther(madForMigration.toString()).toString(),
                 });
-
                 if (!amount.error) {
                     setMadToAlca(ethers.utils.formatEther(amount));
                 } else {
@@ -159,6 +158,7 @@ export function Transactions() {
             } catch (e) {
                 // TODO: Handle error message
                 console.error(e);
+                setMadToAlca(0);
             }
         }
 
@@ -221,6 +221,9 @@ export function Transactions() {
 
         // Reset MAD to ALCA
         setMadForMigration("0");
+
+        // Fetch balance
+        balances.updateBalances();
 
         // No longer transacting
         setTransacting(false);
@@ -457,10 +460,12 @@ export function Transactions() {
                 </Box>
 
                 <Box p={2} borderRadius={1} flex={1} sx={columnTwoBoxSx}>
-                    <Typography>Future {symbols.ALCA} balance</Typography>
+                    <Typography>
+                        {madToAlca && madToAlca > 0 ? "Future" : "Current"} {symbols.ALCA} balance
+                    </Typography>
 
                     <Typography variant="h5">
-                        {formattedMadValue()} {symbols.ALCA}
+                        {formatNumberToLocale(Number(madToAlca) + Number(balances.alca.value))} {symbols.ALCA}
                     </Typography>
 
                     <Divider sx={{ my: 2 }} />
