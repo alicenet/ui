@@ -70,7 +70,7 @@
         "start-boiler": "yarn --cwd ui-boilerplate start",
         "build-boiler": "yarn --cwd ui-boilerplate build",
         "start-alca": "npx ethpst; cd alca-app; yarn start",
-        "build-alca": "npx ethpst; cd alca-app; yarn "
+        "build-alca": "npx ethpst; cd alca-app; yarn build"
     },
     "description": "Common alicenet/ui dependencies",
     "repository": {
