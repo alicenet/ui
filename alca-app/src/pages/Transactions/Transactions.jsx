@@ -171,7 +171,7 @@ export function Transactions() {
 
         try {
             // Pending message
-            setSnackbarMessage(renderSnackbarMessage("pending", "Pending Allowance transaction"));
+            setSnackbarMessage(renderSnackbarMessage("pending", "Pending Allowance Transaction"));
 
             // Open snackbar
             setSnackbarOpen(true);
@@ -189,7 +189,7 @@ export function Transactions() {
             await allowanceTx.wait();
 
             // Pending message
-            setSnackbarMessage(renderSnackbarMessage("pending", "Pending Migration transaction"));
+            setSnackbarMessage(renderSnackbarMessage("pending", "Pending Migration Transaction"));
 
             // Migration transaction
             const migrateTx = await commonEthRequests.migrate_sendMigrateRequest(ethAdapter, madForMigration);
@@ -201,7 +201,7 @@ export function Transactions() {
             await migrateTx.wait();
         } catch (e) {
             // Error message
-            setSnackbarAutoHideDuration(5000);
+            setSnackbarAutoHideDuration(7500);
             setSnackbarMessage(
                 renderSnackbarMessage("error", "There was an error with the transaction. Please try again.")
             );
@@ -216,8 +216,8 @@ export function Transactions() {
         setModalOpen(false);
 
         // Success message
-        setSnackbarAutoHideDuration(5000);
-        setSnackbarMessage(renderSnackbarMessage("success", "Successfully migrated"));
+        setSnackbarAutoHideDuration(7500);
+        setSnackbarMessage(renderSnackbarMessage("success", "Successfully Migrated"));
 
         // Reset MAD to ALCA
         setMadForMigration("0");
@@ -247,7 +247,7 @@ export function Transactions() {
 
         return (
             <Alert severity={severity} icon={false}>
-                <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center", fontSize: 16 }}>
                     <Box sx={{ marginRight: 1 }}>{icon}</Box>
                     {message}
                 </Box>
@@ -558,7 +558,9 @@ export function Transactions() {
             {renderModal()}
 
             <Snackbar
+                sx={{ mb: 10 }}
                 open={snackbarOpen}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 autoHideDuration={snackbarAutoHideDuration}
                 onClose={() => {
                     setSnackbarOpen(false);
