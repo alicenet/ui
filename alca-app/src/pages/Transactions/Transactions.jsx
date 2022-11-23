@@ -39,6 +39,20 @@ export function Transactions() {
     const [madForMigration, setMadForMigration] = useState(0);
     const [madToAlca, setMadToAlca] = useState(0);
 
+    const sanitizeMadForMigrationInput = (amt) => {
+        if (amt === "." || amt === "") {
+            return setMadForMigration("");
+        }
+        if (!/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/.test(amt)) {
+            return;
+        }
+        let split = amt.split(".");
+        if (split[0].length >= 15 || (split[1] && split[1].length > 10)) {
+            return;
+        }
+        setMadForMigration(amt);
+    };
+
     // Modal
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -318,9 +332,9 @@ export function Transactions() {
                             <TextField
                                 label="Migrate to ALCA"
                                 size="small"
-                                value={parseInt(madForMigration)}
+                                value={madForMigration}
                                 color="secondary"
-                                onChange={(event) => setMadForMigration(event.target.value)}
+                                onChange={(event) => sanitizeMadForMigrationInput(event.target.value.replace(",", ""))}
                             />
 
                             <Button
