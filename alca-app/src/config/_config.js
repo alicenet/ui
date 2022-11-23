@@ -1,12 +1,48 @@
 // Icon Import
 import AdbIcon from "@mui/icons-material/Adb";
 
+// If environment is staging, do not show UI
+const [environment, isLive] = (() => {
+    let environment = "";
+    let isLive = "";
+    switch (process.env.REACT_APP__ENVIRONMENT) {
+        case "LOCAL":
+            environment = "LOCAL";
+            break;
+        case "STAGING":
+            environment = "STAGING";
+            break;
+        case "PRODUCTION":
+            environment = "PRODUCTION";
+            break;
+        default:
+            throw new Error("REACT_APP__ENVIRONMENT must be set correctly in application src .env file!");
+    }
+    switch (process.env.REACT_APP__ALCA_LIVE) {
+        case "TRUE":
+            isLive = true;
+            break;
+        case "FALSE":
+            isLive = false;
+            break;
+        default:
+            throw new Error("REACT_APP_ALCA_LIVE must be set correctly in application src .env file!");
+    }
+    return [environment, isLive];
+})();
+
 const site_configuration = {
     copyriteName: "AliceNetUI", // Copyrite business name title
     webView: {
         headerLinkSpacing: 2, //sx.mx applied to header links in webView
         headerHeight: 1, // sx.my applied to header links in webView
     },
+    environment: {
+        isLocal: environment === "LOCAL",
+        isStaging: environment === "STAGING",
+        isProduction: environment === "PRODUCTION",
+    },
+    isLive: isLive,
     navIcon: <AdbIcon />, // NavBar Icon
     navTitle: "Alicenet - UI", // NavBar Text
     title: "Alicenet - UI", // Browser Document Title

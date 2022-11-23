@@ -5,12 +5,13 @@ import { Transactions, Positions } from "pages";
 import { Debug } from "components";
 
 import { ThemeProvider } from "@mui/system";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Box } from "@mui/material";
 import { theme } from "theme/MUITheme";
 import { BalanceContextProvider } from "alice-ui-common";
 
 import ethAdapter from "eth-adapter";
 import { LanderHelpModal } from "components/LanderHelpModal";
+import { configuration } from "config/_config";
 
 export default function App() {
     const router = createBrowserRouter(
@@ -22,7 +23,7 @@ export default function App() {
         )
     );
 
-    return (
+    const AppEntry = () => (
         <ThemeProvider theme={theme}>
             <BalanceContextProvider ethAdapter={ethAdapter}>
                 <CssBaseline enableColorScheme />
@@ -32,4 +33,19 @@ export default function App() {
             <LanderHelpModal />
         </ThemeProvider>
     );
+
+    const HoldOff = () => (
+        <Box sx={{ display: "flex", width: "100%", height: "100%", justifyContent: "center", mt: 4 }}>
+            <a href="https://alice.net" rel="no-opener no-referrer">
+                https://alice.net
+            </a>
+        </Box>
+    );
+
+    // Production, require isLive
+    if (configuration.site.environment.isProduction) {
+        return configuration.site.isLive ? <AppEntry /> : <HoldOff />;
+    } else {
+        return <AppEntry />;
+    }
 }
