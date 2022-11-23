@@ -24,13 +24,12 @@ import {
     TableBody,
     styled,
     Snackbar,
-    CircularProgress,
-    Alert,
 } from "@mui/material";
-import { CheckCircle, ChevronRight, InfoOutlined } from "@mui/icons-material";
+import { ChevronRight, InfoOutlined } from "@mui/icons-material";
 import { NavigationBar, SubNavigation } from "components";
 import ethAdapter from "eth-adapter";
 import { formatNumberToLocale } from "utils/number";
+import { SnackbarMessage } from "components/SnackbarMessage";
 
 export function Transactions() {
     const { balances = {} } = useContext(BalanceContext);
@@ -61,7 +60,7 @@ export function Transactions() {
 
     // Snackbar
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState(<></>);
+    const [snackbarMessage, setSnackbarMessage] = useState({});
     const [snackbarAutoHideDuration, setSnackbarAutoHideDuration] = useState(null);
 
     // Transaction state
@@ -171,7 +170,7 @@ export function Transactions() {
 
         try {
             // Pending message
-            setSnackbarMessage(renderSnackbarMessage("pending", "Pending Allowance Transaction"));
+            setSnackbarMessage({ status: "pending", message: "Pending Allowance Transaction" });
 
             // Open snackbar
             setSnackbarOpen(true);
@@ -189,7 +188,7 @@ export function Transactions() {
             await allowanceTx.wait();
 
             // Pending message
-            setSnackbarMessage(renderSnackbarMessage("pending", "Pending Migration Transaction"));
+            setSnackbarMessage({ status: "pending", message: "Pending Migration Transaction" });
 
             // Migration transaction
             const migrateTx = await commonEthRequests.migrate_sendMigrateRequest(ethAdapter, madForMigration);
@@ -202,9 +201,10 @@ export function Transactions() {
         } catch (e) {
             // Error message
             setSnackbarAutoHideDuration(7500);
-            setSnackbarMessage(
-                renderSnackbarMessage("error", "There was an error with the transaction. Please try again.")
-            );
+            setSnackbarMessage({
+                status: "error",
+                message: "There was an error with the transaction. Please try again.",
+            });
 
             // No longer transacting
             setTransacting(false);
@@ -217,7 +217,10 @@ export function Transactions() {
 
         // Success message
         setSnackbarAutoHideDuration(7500);
-        setSnackbarMessage(renderSnackbarMessage("success", "Successfully Migrated"));
+        setSnackbarMessage({
+            status: "success",
+            message: "Successfully Migrated",
+        });
 
         // Reset MAD to ALCA
         setMadForMigration("0");
@@ -230,29 +233,6 @@ export function Transactions() {
         if (balances.mad.error || balances.mad.value === "n/a") return "n/a";
 
         return formatNumberToLocale(balances.mad.value);
-    }
-
-    function renderSnackbarMessage(type, message) {
-        let icon = <></>;
-        let severity = "info";
-
-        if (type === "pending") {
-            icon = <CircularProgress size={20} />;
-        } else if (type === "success") {
-            icon = <CheckCircle />;
-            severity = "success";
-        } else if (type === "error") {
-            severity = "error";
-        }
-
-        return (
-            <Alert severity={severity} icon={false}>
-                <Box sx={{ display: "flex", alignItems: "center", fontSize: 16 }}>
-                    <Box sx={{ marginRight: 1 }}>{icon}</Box>
-                    {message}
-                </Box>
-            </Alert>
-        );
     }
 
     function renderModal() {
@@ -566,7 +546,7 @@ export function Transactions() {
                     setSnackbarOpen(false);
                 }}
             >
-                {snackbarMessage}
+                <SnackbarMessage status={snackbarMessage.status} message={snackbarMessage.message} />
             </Snackbar>
         </>
     );

@@ -2,18 +2,73 @@ import { useContext, useState } from "react";
 import { useTheme } from "@emotion/react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
-import { Button, Container, LinearProgress, Tab, Typography } from "@mui/material";
+import { Button, Container, LinearProgress, Snackbar, Tab, Typography } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { NavigationBar, SubNavigation } from "components";
-import { BalanceContext } from "alice-ui-common";
+import { BalanceContext, commonEthRequests } from "alice-ui-common";
 import { formatNumberToLocale } from "utils/number";
 import { symbols } from "config";
+import ethAdapter from "eth-adapter";
+import { SnackbarMessage } from "components/SnackbarMessage";
 
 export function Positions() {
     const { balances, positions = {} } = useContext(BalanceContext);
 
     const theme = useTheme();
     const [currentTab, setCurrentTab] = useState("1");
+
+    // Snackbar
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState({});
+    const [snackbarAutoHideDuration, setSnackbarAutoHideDuration] = useState(null);
+
+    // Transaction state
+    const [transacting, setTransacting] = useState(false);
+
+    async function handleUnstake(tokenId) {
+        setTransacting(true);
+
+        // Pending message
+        setSnackbarMessage({
+            status: "pending",
+            message: "Pending Unstake Transaction",
+        });
+
+        // Open snackbar
+        setSnackbarOpen(true);
+
+        try {
+            const tx = await commonEthRequests.staking_sendUnstakePublicStakedPositionRequest(ethAdapter, tokenId);
+
+            if (tx.error) {
+                throw new Error(tx.error);
+            }
+
+            await tx.wait();
+        } catch (e) {
+            // Error message
+            setSnackbarAutoHideDuration(7500);
+            setSnackbarMessage({
+                status: "error",
+                message: "There was an error with the transaction. Please try again.",
+            });
+
+            // No longer transacting
+            setTransacting(false);
+
+            return;
+        }
+
+        // Success message
+        setSnackbarAutoHideDuration(7500);
+        setSnackbarMessage({
+            status: "success",
+            message: "Successfully Unstaked",
+        });
+
+        // No longer transacting
+        setTransacting(false);
+    }
 
     const handleTabChange = (_, newValue) => {
         setCurrentTab(newValue);
@@ -53,7 +108,16 @@ export function Positions() {
                     <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
                         Claim Rewards
                     </Button>
-                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
+                    <Button
+                        variant="contained"
+                        size="small"
+                        color="secondary"
+                        sx={actionButtonStyles}
+                        onClick={async () => {
+                            handleUnstake(params.id);
+                        }}
+                        disabled={transacting}
+                    >
                         Unstake
                     </Button>
                 </Box>
@@ -309,6 +373,20 @@ export function Positions() {
                     </TabPanel>
                 </TabContext>
             </Container>
+
+            <Snackbar
+                sx={{ mb: 10 }}
+                open={snackbarOpen}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                autoHideDuration={snackbarAutoHideDuration}
+                onClose={() => {
+                    setSnackbarOpen(false);
+                }}
+            >
+                <Box>
+                    <SnackbarMessage status={snackbarMessage.status} message={snackbarMessage.message} />
+                </Box>
+            </Snackbar>
         </>
     );
 }
