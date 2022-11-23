@@ -1,21 +1,17 @@
 import React from "react";
-import { Box, Toolbar, IconButton, Link, Menu, MenuItem, Container, Button } from "@mui/material";
+import { Box, Toolbar, IconButton, Link, Menu, Container } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@emotion/react";
 import { configuration } from "config";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ConnectWeb3Button } from "./ConnectWeb3Button";
 import ethAdapter from "eth-adapter";
-import { KeyboardArrowDown } from "@mui/icons-material";
-import { HelpDropdown } from "./HelpDropdown";
+import { ConnectWeb3Button, HelpDropdown, Web3NetworkMenu } from "./index";
 
 export function NavigationBar() {
     const theme = useTheme();
 
     const [mobileMenuAnchor, setMobileMenuAnchor] = React.useState(null);
-    const [networkMenuAnchor, setNetworkMenuAnchor] = React.useState(null);
-    const open = Boolean(networkMenuAnchor);
 
     // Hook into reducer updates so equalize works properly against ethAdapter
     useSelector((s) => s.ethAdapter);
@@ -28,13 +24,6 @@ export function NavigationBar() {
 
     const handleCloseNavMenu = () => {
         setMobileMenuAnchor(null);
-    };
-
-    const handleClick = (event) => {
-        setNetworkMenuAnchor(event.currentTarget);
-    };
-    const handleClose = () => {
-        setNetworkMenuAnchor(null);
     };
 
     const menuButtonSx = {
@@ -145,34 +134,7 @@ export function NavigationBar() {
 
                 <Box sx={{ display: "flex" }}>
                     <HelpDropdown menuButtonSx={menuButtonSx} />
-
-                    {/** Should probably extract network as it's own component when fixing as per issue#59  */}
-                    <Button
-                        id="network-button"
-                        aria-controls={open ? "network-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={handleClick}
-                        variant={"outlined"}
-                        sx={menuButtonSx}
-                    >
-                        Ethereum
-                        <KeyboardArrowDown sx={{ ml: 1 }} />
-                    </Button>
-
-                    <Menu
-                        id="network-menu"
-                        anchorEl={networkMenuAnchor}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            "aria-labelledby": "network-button",
-                        }}
-                        sx={{ mt: 1 }}
-                    >
-                        <MenuItem onClick={handleClose}>Ethereum</MenuItem>
-                        <MenuItem onClick={handleClose}>AliceNet</MenuItem>
-                    </Menu>
+                    <Web3NetworkMenu menuButtonSx={menuButtonSx} />
                 </Box>
 
                 <Box
