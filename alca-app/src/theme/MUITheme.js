@@ -21,7 +21,9 @@ const CustomPaletteColors = {
         main: "#11151C",
         elevation1: "rgba(165, 198, 255, 0.05)",
         elevation3: "rgba(165, 198, 255, 0.08)",
+        elevation4: "rgba(165, 198, 255, 0.09)",
         elevation12: "rgba(165, 198, 255, 0.14)",
+        elevation24: "rgba(165, 198, 255, 0.16)",
     },
     light: {
         elevation3: "rgba(255, 255, 255, 0.08)",
@@ -35,6 +37,7 @@ export const theme = createTheme({
         fontFamily: "JetBrains Mono",
         subtitle1: {
             fontFamily: "Inter",
+            fontSize: 16,
         },
         subtitle2: {
             fontFamily: "Inter",
@@ -94,6 +97,13 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     fontFamily: "JetBrains Mono",
+                },
+            },
+        },
+        MuiTableCell: {
+            styleOverrides: {
+                root: {
+                    border: 0,
                 },
             },
         },

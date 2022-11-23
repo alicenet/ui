@@ -1,11 +1,33 @@
 import { useState, useContext, useEffect } from "react";
-import { useTheme } from "@emotion/react";
-import { BalanceContext } from "alice-ui-common";
+import { symbols } from "config";
+import { BalanceContext, commonEthRequests } from "alice-ui-common";
 import { sx } from "utils/sx";
-import { Box, Grid, TextField, Button, Typography, Divider, InputAdornment, Switch, Container } from "@mui/material";
+import { ethers } from "ethers";
+
+import { useTheme } from "@emotion/react";
+import {
+    Box,
+    Grid,
+    TextField,
+    Button,
+    Typography,
+    Divider,
+    InputAdornment,
+    Switch,
+    Container,
+    Modal,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    styled,
+} from "@mui/material";
 import { ChevronRight, InfoOutlined } from "@mui/icons-material";
 import { NavigationBar, SubNavigation } from "components";
-import { symbols } from "config";
+import ethAdapter from "eth-adapter";
+import { formatNumberToLocale } from "utils/number";
 
 export function Transactions() {
     const { balances = {} } = useContext(BalanceContext);
@@ -14,8 +36,25 @@ export function Transactions() {
     const hideMigrationPanel = balances.mad.value === "0" || balances.mad.value === "n/a" || !!balances.mad.error;
 
     // ALCA for migration
-    const [alcaForMigration, setAlcaForMigration] = useState(0);
-    const [madExchangeAmount, setMadExchangeAmount] = useState(0);
+    const [madForMigration, setMadForMigration] = useState(0);
+    const [madToAlca, setMadToAlca] = useState(0);
+
+    const sanitizeMadForMigrationInput = (amt) => {
+        if (amt === "." || amt === "") {
+            return setMadForMigration("");
+        }
+        if (!/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/.test(amt)) {
+            return;
+        }
+        let split = amt.split(".");
+        if (split[0].length >= 15 || (split[1] && split[1].length > 10)) {
+            return;
+        }
+        setMadForMigration(amt);
+    };
+
+    // Modal
+    const [modalOpen, setModalOpen] = useState(false);
 
     // Title Box Styles=
     const activeBoxTitleStyles = {
@@ -27,28 +66,30 @@ export function Transactions() {
         )`,
         color: "secondary.contrastText",
     };
-    const columnOneTitleBoxSx = sx({ condition: alcaForMigration <= 0, sx: activeBoxTitleStyles });
-    const columnTwoTitleBoxSx = sx({ condition: alcaForMigration > 0 || hideMigrationPanel, sx: activeBoxTitleStyles });
+    const columnOneTitleBoxSx = sx({ condition: madForMigration <= 0, sx: activeBoxTitleStyles });
+    const columnTwoTitleBoxSx = sx({ condition: madForMigration > 0 || hideMigrationPanel, sx: activeBoxTitleStyles });
 
     // Title Styles
     const activeLabelColorStyles = { bgcolor: "dark.main", color: "secondary.main" };
     const inactiveLabelColorStyles = { bgcolor: "secondary.darkText", color: "dark.main" };
     const columnOneTitleSx = sx(inactiveLabelColorStyles, {
-        condition: alcaForMigration <= 0,
+        condition: madForMigration <= 0,
         sx: activeLabelColorStyles,
     });
     const columnTwoTitleSx = sx(inactiveLabelColorStyles, {
-        condition: alcaForMigration > 0 || hideMigrationPanel,
+        condition: madForMigration > 0 || hideMigrationPanel,
         sx: activeLabelColorStyles,
     });
 
+    const activeBg = `linear-gradient(
+        180deg,
+        ${theme.palette.dark.elevation12} 0%,
+        ${theme.palette.dark.elevation12} 100%
+    ), ${theme.palette.dark.main}`;
+
     // Box Styles
     const activeBoxStyles = {
-        background: `linear-gradient(
-            180deg,
-            ${theme.palette.dark.elevation12} 0%,
-            ${theme.palette.dark.elevation12} 100%
-        ), ${theme.palette.dark.main}`,
+        background: activeBg,
         boxShadow: 10,
     };
     const inactiveBoxStyles = {
@@ -58,8 +99,8 @@ export function Transactions() {
             ${theme.palette.dark.elevation1} 100%
         ),${theme.palette.dark.main} `,
     };
-    const columnOneBoxSx = sx(inactiveBoxStyles, { condition: alcaForMigration <= 0, sx: activeBoxStyles });
-    const columnTwoBoxSx = sx(inactiveBoxStyles, { condition: alcaForMigration > 0, sx: activeBoxStyles });
+    const columnOneBoxSx = sx(inactiveBoxStyles, { condition: madForMigration <= 0, sx: activeBoxStyles });
+    const columnTwoBoxSx = sx(inactiveBoxStyles, { condition: madForMigration > 0, sx: activeBoxStyles });
 
     const gridStyles = {
         background: `linear-gradient(
@@ -73,30 +114,178 @@ export function Transactions() {
     const activeFadeOutTextStyle = { color: "secondary.darkText" };
     const inactiveFadeOutTextStyle = { color: "secondary.darkTextDisabled" };
     const columnOneFadeOutTxtSx = sx(inactiveFadeOutTextStyle, {
-        condition: alcaForMigration <= 0,
+        condition: madForMigration <= 0,
         sx: activeFadeOutTextStyle,
     });
     const columnTwoFadeOutTxtSx = sx(inactiveFadeOutTextStyle, {
-        condition: alcaForMigration > 0,
+        condition: madForMigration > 0,
         sx: activeFadeOutTextStyle,
     });
 
+    // Custom table row
+    const StyledTableRow = styled(TableRow)(() => ({
+        "&:nth-of-type(odd)": {
+            background: `linear-gradient(
+                180deg, ${theme.palette.dark.elevation4} 0%,
+                ${theme.palette.dark.elevation4} 100%
+            ), ${theme.palette.dark.main}`,
+        },
+    }));
+
+    // Update MAD to AlCA state
     useEffect(() => {
         async function call() {
-            // TODO: Convert MAD to ALCA
-            setMadExchangeAmount(0);
+            try {
+                const amount = await ethAdapter.contractMethods.ATOKEN.convert_view_IN1_OUT1({
+                    amount: ethers.utils.parseEther(madForMigration.toString()).toString(),
+                });
+
+                if (!amount.error) {
+                    setMadToAlca(ethers.utils.formatEther(amount));
+                } else {
+                    console.error(amount.error);
+                }
+            } catch (e) {
+                // TODO: Handle error message
+                console.error(e);
+            }
         }
 
         call();
-    }, [alcaForMigration]);
+    }, [madForMigration]);
+
+    // Migrate MAD to ALCA
+    async function migrate() {
+        try {
+            await commonEthRequests.migrate_sendMadAllowanceForATokenRequest(ethAdapter, madForMigration);
+
+            await commonEthRequests.migrate_sendMigrateRequest(ethAdapter, madForMigration);
+        } catch (e) {
+            // TODO: Handle displaying error message
+            console.error(e);
+        }
+
+        setModalOpen(false);
+
+        // TODO: Show success mesage
+    }
+
+    function formattedMadValue() {
+        if (balances.mad.error || balances.mad.value === "n/a") return "n/a";
+
+        return formatNumberToLocale(balances.mad.value);
+    }
+
+    function renderModal() {
+        return (
+            <Modal
+                open={modalOpen}
+                onClose={() => {
+                    setModalOpen(false);
+                }}
+            >
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: 250,
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: "70%",
+                        background: `linear-gradient(180deg, ${theme.palette.dark.elevation24} 0%, ${theme.palette.dark.elevation24} 100%), ${theme.palette.dark.main}`,
+                        borderRadius: 2,
+                        paddingY: 2,
+                        paddingX: 3,
+                    }}
+                >
+                    <Typography variant="h6" component="h1">
+                        Transaction Confirmation
+                    </Typography>
+
+                    <Typography sx={{ mt: 2 }}>This action cannot be reverted</Typography>
+
+                    <TableContainer
+                        sx={{
+                            padding: 1.5,
+                            background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
+                            marginTop: 2,
+                        }}
+                    >
+                        <Typography
+                            variant="subtitle1"
+                            sx={{
+                                borderBottom: "1px solid rgba(255, 255, 255, 0.23)",
+                                paddingBottom: 1.5,
+                                marginBottom: 0.5,
+                            }}
+                        >
+                            Operation 1
+                        </Typography>
+
+                        <Table sx={{ minWidth: 650 }}>
+                            <TableHead sx={{ "& .MuiTableCell-root": { fontFamily: theme.typography.fontFamily } }}>
+                                <TableRow>
+                                    <TableCell>Type</TableCell>
+                                    <TableCell>Transaction</TableCell>
+                                    <TableCell>Final wallet balance</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <StyledTableRow>
+                                    <TableCell component="th" scope="row">
+                                        Migration
+                                    </TableCell>
+                                    <TableCell>
+                                        from {formatNumberToLocale(madForMigration)} {symbols.MAD} to{" "}
+                                        {formatNumberToLocale(madToAlca)} {symbols.ALCA}
+                                    </TableCell>
+                                    <TableCell>
+                                        from {formatNumberToLocale(madForMigration)} {symbols.MAD} to{" "}
+                                        {formatNumberToLocale(madToAlca)} {symbols.ALCA}
+                                    </TableCell>
+                                </StyledTableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
+                        <Button
+                            variant="outlined"
+                            onClick={() => {
+                                setModalOpen(false);
+                            }}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            endIcon={<ChevronRight />}
+                            variant="contained"
+                            onClick={() => {
+                                migrate();
+                            }}
+                        >
+                            Send transaction
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
+        );
+    }
 
     const renderActions = () => (
         <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
-            <Button variant="outlined" disabled={!alcaForMigration}>
+            <Button variant="outlined" disabled={!madForMigration}>
                 Reset TX
             </Button>
 
-            <Button endIcon={<ChevronRight />} variant="contained" disabled={!alcaForMigration}>
+            <Button
+                endIcon={<ChevronRight />}
+                variant="contained"
+                disabled={!madForMigration}
+                onClick={() => {
+                    setModalOpen(true);
+                }}
+            >
                 Review TX
             </Button>
         </Box>
@@ -126,7 +315,7 @@ export function Transactions() {
                     <Box p={2} borderRadius={1} flex={1} sx={columnOneBoxSx}>
                         <Typography sx={columnOneFadeOutTxtSx}>Current {symbols.MAD} Balance</Typography>
                         <Typography variant="h5">
-                            {balances.mad.data || 0} {symbols.MAD}
+                            {formattedMadValue()} {symbols.MAD}
                         </Typography>
 
                         <Divider sx={{ my: 2 }} />
@@ -143,16 +332,16 @@ export function Transactions() {
                             <TextField
                                 label="Migrate to ALCA"
                                 size="small"
-                                value={alcaForMigration}
+                                value={madForMigration}
                                 color="secondary"
-                                onChange={(event) => setAlcaForMigration(event.target.value)}
+                                onChange={(event) => sanitizeMadForMigrationInput(event.target.value.replace(",", ""))}
                             />
 
                             <Button
                                 variant="contained"
                                 color="secondary"
                                 onClick={() => {
-                                    setAlcaForMigration(balances.mad.value);
+                                    setMadForMigration(balances.mad.value);
                                 }}
                             >
                                 All
@@ -162,7 +351,7 @@ export function Transactions() {
                         <Typography variant="body1">
                             you will recieve{" "}
                             <strong>
-                                {madExchangeAmount || 0} {symbols.ALCA}
+                                {formatNumberToLocale(madToAlca)} {symbols.ALCA}
                             </strong>
                         </Typography>
                     </Box>
@@ -191,7 +380,7 @@ export function Transactions() {
                     <Typography>Future {symbols.ALCA} balance</Typography>
 
                     <Typography variant="h5">
-                        {alcaForMigration || 0} {symbols.ALCA}
+                        {formattedMadValue()} {symbols.ALCA}
                     </Typography>
 
                     <Divider sx={{ my: 2 }} />
@@ -266,7 +455,7 @@ export function Transactions() {
                             </Grid>
 
                             <Grid item xs>
-                                <Switch disabled={!alcaForMigration} color="secondary" />
+                                <Switch disabled={!madForMigration} color="secondary" />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -281,9 +470,12 @@ export function Transactions() {
 
             <Container maxWidth="lg">
                 <SubNavigation />
+
                 {renderContentGrid()}
                 {renderActions()}
             </Container>
+
+            {renderModal()}
         </>
     );
 }
