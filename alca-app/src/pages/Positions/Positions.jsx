@@ -153,7 +153,7 @@ export function Positions() {
                 const hasRewards = parseInt(params.row.alcaRewards) > 0 || parseInt(params.row.ethRewards) > 0;
 
                 return (
-                    <Box sx={{ display: "flex" }}>
+                    <Box display="flex">
                         <Button
                             variant="contained"
                             size="small"
