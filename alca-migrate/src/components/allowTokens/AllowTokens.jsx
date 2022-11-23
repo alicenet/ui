@@ -1,6 +1,6 @@
+import { useContext, useState } from "react";
 import { Button, Container, Header, Input, Message } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useContext, useState } from "react";
 import ethAdapter from "eth/ethAdapter";
 import config from "utils";
 import { TabPanesContext } from "contexts";
@@ -89,7 +89,14 @@ export function AllowTokens() {
             </div>
 
             <div className="absolute left-0 top-[100%]">
-                <Message size="mini" content={success || error} success={success.length > 0} error={error} className="mt-4" hidden={!success && !error} />
+                <Message
+                    size="mini"
+                    content={success || error}
+                    success={success.length > 0}
+                    error={error}
+                    className="mt-4"
+                    hidden={!success && !error}
+                />
             </div>
 
             <div className="absolute right-0 top-[105%]">

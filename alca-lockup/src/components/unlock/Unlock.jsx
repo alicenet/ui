@@ -124,7 +124,9 @@ export function Unlock() {
             <Header>
                 {hash ? "Rewards Claimed Successful!" : "Claim unlocked position rewards"}
                 <Header.Subheader className="mt-3">
-                    {hash ? `The following rewards have been sent to your wallet` : `Your ${lockedAlca} ALCA position is unlocked and ready to be claimed`}
+                    {hash
+                        ? `The following rewards have been sent to your wallet`
+                        : `Your ${formatNumberToLocale(lockedAlca)} ALCA position is unlocked and ready to be claimed`}
                 </Header.Subheader>
             </Header>
         </Grid.Column>

@@ -1,10 +1,9 @@
 import React from "react";
+import { useTheme } from "@emotion/react";
+import ethAdapter from "eth-adapter";
 import { Button, CircularProgress, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Grid2 from "@mui/material/Unstable_Grid2"; // Grid version 2
-
-import { useTheme } from "@emotion/react";
-import ethAdapter from "eth-adapter";
 
 export function ContractTest() {
     const theme = useTheme();
@@ -42,13 +41,19 @@ export function ContractTest() {
     };
 
     const updateInputState = (contractFxKey, contractMethodKey, parameterName, parameterValue) =>
-        setInputStates((s) => createNestedContractState(s, contractFxKey, contractMethodKey, parameterName, parameterValue));
+        setInputStates((s) =>
+            createNestedContractState(s, contractFxKey, contractMethodKey, parameterName, parameterValue)
+        );
 
     const updateResponseState = (contractFxKey, contractMethodKey, parameterName, parameterValue) =>
-        setResponseStates((s) => createNestedContractState(s, contractFxKey, contractMethodKey, parameterName, parameterValue));
+        setResponseStates((s) =>
+            createNestedContractState(s, contractFxKey, contractMethodKey, parameterName, parameterValue)
+        );
 
     const updateLoadingState = (contractFxKey, contractMethodKey, parameterName, parameterValue) =>
-        setLoadingStates((s) => createNestedContractState(s, contractFxKey, contractMethodKey, parameterName, parameterValue));
+        setLoadingStates((s) =>
+            createNestedContractState(s, contractFxKey, contractMethodKey, parameterName, parameterValue)
+        );
 
     console.log(loadingStates);
 
@@ -85,7 +90,14 @@ export function ContractTest() {
                                     variant="standard"
                                     label={param.name}
                                     value={inputStates?.contractFxKey?.contractMethodKey[param.name]}
-                                    onChange={(e) => updateInputState(contractFxKey, contractMethodKey, param.name + "_" + param.type, e.target.value)}
+                                    onChange={(e) =>
+                                        updateInputState(
+                                            contractFxKey,
+                                            contractMethodKey,
+                                            param.name + "_" + param.type,
+                                            e.target.value
+                                        )
+                                    }
                                     placeholder={param.type}
                                 />
                             </Grid2>
@@ -100,7 +112,9 @@ export function ContractTest() {
                             console.log("input", inputStates);
                             let res =
                                 methodParams.length > 0
-                                    ? await CONTRACT_FXS[contractFxKey][contractMethodKey]({ ...inputStates?.[contractFxKey]?.[contractMethodKey] })
+                                    ? await CONTRACT_FXS[contractFxKey][contractMethodKey]({
+                                          ...inputStates?.[contractFxKey]?.[contractMethodKey],
+                                      })
                                     : await CONTRACT_FXS[contractFxKey][contractMethodKey]();
                             if (res.error) {
                                 throw new Error(res.error);
@@ -131,9 +145,15 @@ export function ContractTest() {
                         <Grid2 xs={12}>
                             <Button onClick={attemptMethod} variant="outlined" sx={{ p: 1, pl: 2.75, m: 0 }}>
                                 <Box sx={{ mr: 2 }}>Execute</Box>
-                                {loadingStates?.[contractFxKey]?.[contractMethodKey]?.[methodName] && <CircularProgress size={14} />}
+                                {loadingStates?.[contractFxKey]?.[contractMethodKey]?.[methodName] && (
+                                    <CircularProgress size={14} />
+                                )}
                             </Button>
-                            <Typography color={!!responseObj?.error ? "red" : "green"} variant="body2" sx={{ mt: 2, mb: 0, height: "24px" }}>
+                            <Typography
+                                color={responseObj?.error ? "red" : "green"}
+                                variant="body2"
+                                sx={{ mt: 2, mb: 0, height: "24px" }}
+                            >
                                 {JSON.stringify(responseObj?.message)}
                             </Typography>
                         </Grid2>
@@ -143,7 +163,10 @@ export function ContractTest() {
 
                 contractFxGroups[contractFxKey].push(
                     <Grid2 xs={12} sx={{ borderBottom: "1px dashed", borderColor: theme.palette.primary.main }}>
-                        <Typography variant="h6" sx={{ fontWeight: 900, color: theme.palette.primary.main, textDecoration: "underline" }}>
+                        <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 900, color: theme.palette.primary.main, textDecoration: "underline" }}
+                        >
                             {methodName}
                             {methodParamString}
                         </Typography>

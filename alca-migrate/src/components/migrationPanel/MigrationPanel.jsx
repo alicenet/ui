@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { classNames } from "utils/generic";
 import { Header, Segment, Input, Button, Icon } from "semantic-ui-react";
 
@@ -40,7 +39,7 @@ export function MigrationPanel({
             throw "MigrationStatus requires prop 'quadrants' to be an array of length 4 containing appropriate prop objects. See inline comments.";
         }
 
-        const StatusQuadrant = ({ title, sub, value, valueName, isTop }) => {
+        const StatusQuadrant = ({ title, value, valueName, isTop }) => {
             return (
                 <div
                     className={classNames("py-3 w-[85%]", {
@@ -50,7 +49,9 @@ export function MigrationPanel({
                     <div className="text-xs font-bold text-gray-500">{title}</div>
                     <div className="flex items-end mt-2">
                         <div className="flex items-end text-lg">{value}</div>
-                        <div className="flex items-end ml-1 relative -top-[2px] font-bold">{valueName.toUpperCase()}</div>
+                        <div className="flex items-end ml-1 relative -top-[2px] font-bold">
+                            {valueName.toUpperCase()}
+                        </div>
                     </div>
                 </div>
             );
@@ -58,7 +59,11 @@ export function MigrationPanel({
         const parsedQuadrants = (() => {
             const quadSet = new Array(4);
             for (let i = 0; i < quadrants.length; i++) {
-                quadSet[i] = !!quadrants[i] ? <StatusQuadrant {...quadrants[i]} isTop={i === 0 || i === 2} /> : <div></div>;
+                quadSet[i] = quadrants[i] ? (
+                    <StatusQuadrant {...quadrants[i]} isTop={i === 0 || i === 2} />
+                ) : (
+                    <div></div>
+                );
             }
             return [
                 [quadSet[0], quadSet[1]],
@@ -71,16 +76,19 @@ export function MigrationPanel({
             for (let i = 0; i < parsedQuadrants.length; i++) {
                 cols.push(
                     <div
-                        className={classNames("flex flex-col w-full justify-start items-start border-gray-300 px-9 py-4", {
-                            "border-r-[1px]": i === 0,
-                            // "pl-8": i !== 0,
-                            "border-t-2": disableLeft,
-                            "bg-gray-100": i === 0 && disableLeft,
-                            "text-gray-300": i === 0 && disableLeft,
-                            "border-t-blue-200": i === 1,
-                            "rounded-tr-lg": i === 1 && disableLeft,
-                            "rounded-tl-lg": i === 0 && disableLeft,
-                        })}
+                        className={classNames(
+                            "flex flex-col w-full justify-start items-start border-gray-300 px-9 py-4",
+                            {
+                                "border-r-[1px]": i === 0,
+                                // "pl-8": i !== 0,
+                                "border-t-2": disableLeft,
+                                "bg-gray-100": i === 0 && disableLeft,
+                                "text-gray-300": i === 0 && disableLeft,
+                                "border-t-blue-200": i === 1,
+                                "rounded-tr-lg": i === 1 && disableLeft,
+                                "rounded-tl-lg": i === 0 && disableLeft,
+                            }
+                        )}
                     >
                         <Header as="h5" className={classNames({ "text-gray-400": disableLeft && i === 0 })}>
                             {i === 0 ? preTextHeader : postTextHeader}
@@ -96,7 +104,10 @@ export function MigrationPanel({
             <div className="relative justify-center items-center flex flex-row ">
                 {getCols()}
                 <div className="centerabsarrow z-20 drop-shadow-sm  p-3 flex justify-center items-center bg-white">
-                    <Icon name="arrow circle right" className="bg-red-100" className="relative bottom-[1px] left-[1px] text-[#235979]" />
+                    <Icon
+                        name="arrow circle right"
+                        className="bg-red-100 relative bottom-[1px] left-[1px] text-[#235979]"
+                    />
                 </div>
             </div>
         );

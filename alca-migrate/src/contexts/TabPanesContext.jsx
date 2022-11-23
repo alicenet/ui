@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import { createContext, useState } from "react";
 import { tabPanes } from "utils/constants";
 
 export const TabPanesContext = createContext(null);

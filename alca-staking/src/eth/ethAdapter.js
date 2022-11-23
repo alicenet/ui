@@ -1,17 +1,16 @@
 import "ethers";
 import { ethers } from "ethers";
-import config from "config/_config";
+import { CONTRACT_NAMES as CONFIG_CONTRACT_NAMES, CONTRACTS, RPC, CONTRACT_ADDRESSES } from "config";
 import store from "redux/store/store";
 import { APPLICATION_ACTIONS } from "redux/actions";
 import { TOKEN_TYPES } from "redux/constants";
-import { CONTRACT_ADDRESSES } from "config/contracts";
 import utils from "utils";
 
 /**
  * Re exported for easy importing
  *
  */
-export const CONTRACT_NAMES = config.CONTRACT_NAMES;
+export const CONTRACT_NAMES = CONFIG_CONTRACT_NAMES;
 
 /**
  * Callback to run after establishing web3connection state pass or fail
@@ -26,13 +25,13 @@ class EthAdapter {
         this.accounts = []; // Web3 Accounts List
         this.provider = null; // Web3 Provider -- Populated on successful _connectToWeb3Wallet()
         this.signer = null; // Web3 Signer -- Populated on successful _connectToWeb3Wallet()
-        this.contracts = config.CONTRACTS; // Contracts from config
+        this.contracts = CONTRACTS; // Contracts from config
         this._setupWeb3Listeners();
         this.addressesFromFactory = {};
         this.timeBetweenBalancePolls = 7500;
 
         // Setup RPC provider
-        this.provider = new ethers.providers.JsonRpcProvider(config.RPC.URL);
+        this.provider = new ethers.providers.JsonRpcProvider(RPC.URL);
 
         console.debug("EthAdapter Init: ", this);
     }
@@ -110,22 +109,6 @@ class EthAdapter {
         );
     }
 
-    // TODO: FINISH DETERMINISTIC CONFIG SETUP
-    /**
-     * Get deterministic create2 contract address by contract name
-     * @param { ContractName } contractName - One of the available contract name strings from config
-     * @returns { web3.eth.Contract }
-     */
-    _getDeterministicContractAddress(contractName) {
-        return `0x${this.web3.utils
-            .sha3(
-                `0x${["ff", config.factoryContractAddress, config.CONTRACT_SALTS[contractName], this.web3.utils.sha3(config.CONTRACT_BYTECODE[contractName])]
-                    .map((x) => x.replace(/0x/, ""))
-                    .join("")}`
-            )
-            .slice(-40)}`.toLowerCase();
-    }
-
     /**
      * Throw exceptions
      * @param { String } msg
@@ -140,7 +123,11 @@ class EthAdapter {
      */
     _requireContractExists(contractName) {
         if (!this.contracts[contractName]) {
-            this._throw("Contract configuration for contract '" + contractName + "' nonexistent. Verify contract has been set in .env");
+            this._throw(
+                "Contract configuration for contract '" +
+                    contractName +
+                    "' nonexistent. Verify contract has been set in .env"
+            );
         }
     }
 
@@ -150,7 +137,11 @@ class EthAdapter {
      */
     _requireContractAbi(contractName) {
         if (!this.contracts[contractName].abi) {
-            this._throw("Requesting contract instance for contract '" + contractName + "' with nonexistent abi. Verify ABI has been set.");
+            this._throw(
+                "Requesting contract instance for contract '" +
+                    contractName +
+                    "' with nonexistent abi. Verify ABI has been set."
+            );
         }
     }
 
@@ -163,7 +154,11 @@ class EthAdapter {
             return;
         }
         if (!this.contracts[contractName].address) {
-            this._throw("Requesting contract instance for contract '" + contractName + "' with nonexistant address. Verify address has been set.");
+            this._throw(
+                "Requesting contract instance for contract '" +
+                    contractName +
+                    "' with nonexistant address. Verify address has been set."
+            );
         }
     }
 
@@ -174,7 +169,9 @@ class EthAdapter {
     _requireSigner(contractName) {
         if (!this.signer) {
             this._throw(
-                "Requesting contract instance for contract '" + contractName + "' but EthAdapter has not been provided a signer. Verify a signer has been set."
+                "Requesting contract instance for contract '" +
+                    contractName +
+                    "' but EthAdapter has not been provided a signer. Verify a signer has been set."
             );
         }
     }
@@ -221,7 +218,9 @@ class EthAdapter {
 
     async _lookupContractName(cName) {
         return this._try(async () => {
-            const contractAddress = await this._tryCall(CONTRACT_NAMES.Factory, "lookup", [ethers.utils.formatBytes32String(cName)]);
+            const contractAddress = await this._tryCall(CONTRACT_NAMES.Factory, "lookup", [
+                ethers.utils.formatBytes32String(cName),
+            ]);
             return contractAddress;
         });
     }
@@ -333,7 +332,9 @@ class EthAdapter {
      */
     async getAlcaBalance(accountIndex = 0) {
         return this._try(async () => {
-            let balance = await this._tryCall(CONTRACT_NAMES.AToken, "balanceOf", [await this._getAddressByIndex(accountIndex)]);
+            let balance = await this._tryCall(CONTRACT_NAMES.AToken, "balanceOf", [
+                await this._getAddressByIndex(accountIndex),
+            ]);
             return ethers.utils.formatEther(balance);
         });
     }
@@ -382,7 +383,10 @@ class EthAdapter {
 
         while (fetching) {
             try {
-                const tokenId = await this._tryCall(CONTRACT_NAMES.PublicStaking, "tokenOfOwnerByIndex", [address, index]);
+                const tokenId = await this._tryCall(CONTRACT_NAMES.PublicStaking, "tokenOfOwnerByIndex", [
+                    address,
+                    index,
+                ]);
                 if (tokenId) tokenIds.push(tokenId);
                 index++;
             } catch (error) {
@@ -433,7 +437,10 @@ class EthAdapter {
      */
     async sendStakingAllowanceRequest(amount) {
         return await this._try(async () => {
-            const tx = await this._trySend(CONTRACT_NAMES.AToken, "approve", [CONTRACT_ADDRESSES.PublicStaking, ethers.utils.parseEther(amount)]);
+            const tx = await this._trySend(CONTRACT_NAMES.AToken, "approve", [
+                CONTRACT_ADDRESSES.PublicStaking,
+                ethers.utils.parseEther(amount),
+            ]);
             return tx;
         });
     }

@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5590f05d.css",
+    "main.js": "/static/js/main.94f89f8e.js",
+    "static/media/bg-alicenet-logo.svg": "/static/media/bg-alicenet-logo.003427213055e0fb21c939ad6426b04b.svg",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.5590f05d.css",
+    "static/js/main.94f89f8e.js"
+  ]
+}

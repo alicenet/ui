@@ -4,7 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 import { ConnectWeb3Button } from "./ConnectWeb3Button";
-import { configuration } from "config/_config";
+import { configuration } from "config";
 import ethAdapter from "eth-adapter";
 
 export function NavigationBar({ navigate, pages }) {
@@ -114,7 +114,10 @@ export function NavigationBar({ navigate, pages }) {
                                 sx={{
                                     mx: configuration.site.webView.headerLinkSpacing,
                                     my: configuration.site.webView.headerHeight,
-                                    color: page.name === currentPage ? theme.palette.secondary.main : theme.palette.common.white,
+                                    color:
+                                        page.name === currentPage
+                                            ? theme.palette.secondary.main
+                                            : theme.palette.common.white,
                                     display: "block",
                                     fontWeight: 900,
                                 }}
@@ -124,7 +127,11 @@ export function NavigationBar({ navigate, pages }) {
                         ))}
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
-                        <MenuItem key={"wallet"} onClick={handleCloseNavMenu} sx={{ pointerEvents: web3Connected ? "none" : "all" }}>
+                        <MenuItem
+                            key={"wallet"}
+                            onClick={handleCloseNavMenu}
+                            sx={{ pointerEvents: web3Connected ? "none" : "all" }}
+                        >
                             <ConnectWeb3Button />
                         </MenuItem>
                     </Box>

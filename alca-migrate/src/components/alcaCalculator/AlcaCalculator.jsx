@@ -36,12 +36,20 @@ export function AlcaCalculator() {
             <div>
                 <Header>
                     How many ALCA will I receive?
-                    <Header.Subheader>Use the calculater below to see how many tokens you could receive</Header.Subheader>
+                    <Header.Subheader>
+                        Use the calculator below to see how many tokens you could receive
+                    </Header.Subheader>
                 </Header>
             </div>
 
             <div className="mt-4">
-                <Input placeholder={"MAD To Migrate"} size="small" value={input} className="calcInput" onChange={updateExchangeAmount} />
+                <Input
+                    placeholder={"MAD To Migrate"}
+                    size="small"
+                    value={input}
+                    className="calcInput"
+                    onChange={updateExchangeAmount}
+                />
                 <Icon name="arrow circle right" className="mx-4" />
                 <Input disabled placeholder={"ALCA Received"} value={excAmount} size="small" className="calcInput" />
             </div>

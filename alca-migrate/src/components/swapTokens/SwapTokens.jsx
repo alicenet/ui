@@ -1,6 +1,6 @@
-import { Button, Container, Header, Icon, Input, Message, Segment } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { tabPanes } from "utils/constants";
 import { TabPanesContext } from "contexts";
 import * as ACTIONS from "redux/actions/application";
@@ -73,21 +73,30 @@ export function SwapTokens() {
                         },
                         {
                             title: "Future ALCA Balance",
-                            value: formatNumberToLocale(Number(alcaBalance) + Number(migrateAmount ? alcaExchangeRate : 0)),
+                            value: formatNumberToLocale(
+                                Number(alcaBalance) + Number(migrateAmount ? alcaExchangeRate : 0)
+                            ),
                             valueName: "ALCA",
                         },
                     ]}
                     inputValue={migrateAmount}
                     inputOnChange={(e) => updateMigrateAmt(e.target.value)}
                     inputDisabled={!web3Connected}
-                    inputBtnOnClick={(e) => updateMigrateAmt(madBalance)}
-                    inputSubText={`Migrate ${formatNumberToLocale(migrateAmount)} MAD to ${formatNumberToLocale(alcaExchangeRate)} ALCA`}
+                    inputBtnOnClick={() => updateMigrateAmt(madBalance)}
+                    inputSubText={`Migrate ${formatNumberToLocale(migrateAmount)} MAD to ${formatNumberToLocale(
+                        alcaExchangeRate
+                    )} ALCA`}
                     buttonOnClick={openMigrationModal}
                     buttonDisabled={!web3Connected || migrateAmount < 1 || !alcaExchangeRate}
                 />
             </Container>
 
-            <MigrationModal isOpen={modalOpen} migrationAmount={migrateAmount} successAction={successAction} closeModal={() => setModalOpen(false)} />
+            <MigrationModal
+                isOpen={modalOpen}
+                migrationAmount={migrateAmount}
+                successAction={successAction}
+                closeModal={() => setModalOpen(false)}
+            />
         </>
     );
 }

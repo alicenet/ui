@@ -1,5 +1,5 @@
+import { useContext } from "react";
 import { Button, Container, Icon } from "semantic-ui-react";
-import React, { useContext } from "react";
 import { tabPanes } from "utils/constants";
 import { TabPanesContext } from "contexts";
 import { useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { MigrationPanel } from "components/migrationPanel/MigrationPanel";
 import { formatNumberToLocale } from "utils/locale";
 
 export function Success() {
-    const { activeTabPane, setActiveTabPane } = useContext(TabPanesContext);
+    const { setActiveTabPane } = useContext(TabPanesContext);
 
     const goExtLink = (target) => {
         let finalTarget = target;
@@ -20,7 +20,16 @@ export function Success() {
         window.open(finalTarget, "_blank").focus();
     };
 
-    const { alcaBalance, madBalance, approvalHash, migrationHash, migrationAmount, alcaExchangeRate, prevMadBal, prevAlcaBal } = useSelector((state) => ({
+    const {
+        alcaBalance,
+        madBalance,
+        approvalHash,
+        migrationHash,
+        migrationAmount,
+        alcaExchangeRate,
+        prevMadBal,
+        prevAlcaBal,
+    } = useSelector((state) => ({
         approvalHash: state.application.approvalHash,
         migrationHash: state.application.migrationHash,
         prevAlcaBal: state.application.startingBalances.alca,
@@ -37,7 +46,8 @@ export function Success() {
                 <div className="text-xl">
                     <div className="text-sm mb-2">Thank you for migrating to ALCA</div>
                     <div className="font-bold">
-                        You have migrated {formatNumberToLocale(migrationAmount)} MAD to {formatNumberToLocale(alcaExchangeRate)} ALCA
+                        You have migrated {formatNumberToLocale(migrationAmount)} MAD to{" "}
+                        {formatNumberToLocale(alcaExchangeRate)} ALCA
                     </div>
                 </div>
             </div>
@@ -64,7 +74,12 @@ export function Success() {
                         <b>&nbsp;Approval Hash:</b>
                     </div>{" "}
                     {approvalHash ? (
-                        <a className="text-blue-500 underline" target="_blank" rel="noopener noreferrer" href={`https://etherscan.io/tx/${approvalHash}`}>
+                        <a
+                            className="text-blue-500 underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`https://etherscan.io/tx/${approvalHash}`}
+                        >
                             {" "}
                             {approvalHash} <Icon name="external" className="m-0 h-full" />{" "}
                         </a>
@@ -78,7 +93,12 @@ export function Success() {
                         <b>Migration Hash:</b>
                     </div>{" "}
                     {migrationHash ? (
-                        <a className="text-blue-500 underline" target="_blank" rel="noopener noreferrer" href={`https://etherscan.io/tx/${migrationHash}`}>
+                        <a
+                            className="text-blue-500 underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`https://etherscan.io/tx/${migrationHash}`}
+                        >
                             {" "}
                             {migrationHash} <Icon name="external" className="m-0 h-full" />{" "}
                         </a>
@@ -90,7 +110,11 @@ export function Success() {
 
             <div className="flex justify-between min-w-[420px]">
                 <div>
-                    <Button secondary content="Migrate More Tokens" onClick={() => setActiveTabPane(tabPanes.MIGRATE)} />
+                    <Button
+                        secondary
+                        content="Migrate More Tokens"
+                        onClick={() => setActiveTabPane(tabPanes.MIGRATE)}
+                    />
                 </div>
                 <div className="ml-4">
                     <Button primary content="Stake ALCA" onClick={() => goExtLink("https://stake.alice.net")} />

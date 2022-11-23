@@ -4,7 +4,7 @@ import { APPLICATION_ACTION_TYPES } from "redux/constants";
 
 const initialApplicationState = {
     debugMode: false,
-    activePage: "HOME",
+    landerModalOpen: false,
 };
 
 export default function applicationReducer(state = initialApplicationState, action) {
@@ -14,9 +14,9 @@ export default function applicationReducer(state = initialApplicationState, acti
                 debugMode: action.payload,
             });
 
-        case APPLICATION_ACTION_TYPES.SET_ACTIVE_PAGE:
+        case APPLICATION_ACTION_TYPES.SET_LANDER_MODAL_STATE:
             return Object.assign({}, state, {
-                activePage: action.payload,
+                landerModalOpen: action.payload,
             });
 
         default:

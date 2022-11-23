@@ -1,4 +1,4 @@
-import config from "config/_config";
+import { METAMASK_NETWORKS } from "config";
 import ethAdapter from "eth/ethAdapter";
 import { APPLICATION_ACTION_TYPES, TOKEN_TYPES } from "redux/constants";
 import { toast } from "react-toastify";
@@ -45,9 +45,9 @@ export const updateNetwork = (networkId) => {
     // Get network name from network key -- Shouldn't fail but try/catch in case it does
     let networkName;
     try {
-        networkName = Object.keys(config.METAMASK_NETWORKS).map((key) => {
-            if (config.METAMASK_NETWORKS[key].id === networkId) {
-                return config.METAMASK_NETWORKS[key].name;
+        networkName = Object.keys(METAMASK_NETWORKS).map((key) => {
+            if (METAMASK_NETWORKS[key].id === networkId) {
+                return METAMASK_NETWORKS[key].name;
             }
             throw new Error("Cannot determine network name");
         })[0];
@@ -138,6 +138,7 @@ export const updateBalances = (tokenType) => {
                     ethReward: lockedPosition.payoutEth,
                     alcaReward: lockedPosition.payoutToken,
                     lockupPeriod: lockedPosition.lockupPeriod,
+                    lockupPeriodInMonths: lockedPosition.lockupPeriodInMonths,
                     penalty: lockedPosition.penalty,
                     remainingRewards: lockedPosition.remainingRewards,
                     unlockDate: lockedPosition.blockUntilUnlock,

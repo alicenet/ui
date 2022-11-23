@@ -1,43 +1,154 @@
 import React from "react";
-import { AppBar, Typography, MenuItem, Grid, Toolbar } from "@mui/material";
-import { useSelector } from "react-redux";
+import { Box, Toolbar, IconButton, Link, Menu, Container } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@emotion/react";
-import { ConnectWeb3Button } from "./ConnectWeb3Button";
-import { configuration } from "config/_config";
+import { configuration } from "config";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 import ethAdapter from "eth-adapter";
+import { ConnectWeb3Button, HelpDropdown, Web3NetworkMenu } from "./index";
 
-export function NavigationBar({ navigate, pages }) {
-    useSelector((s) => s.ethAdapter); // Hook into reducer updates so equalize works properly against ethAdapter
-    const { web3Connected } = { web3Connected: ethAdapter.connected };
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const { currentPage } = useSelector((state) => ({ currentPage: state.application.activePage }));
-
+export function NavigationBar() {
     const theme = useTheme();
 
+    const [mobileMenuAnchor, setMobileMenuAnchor] = React.useState(null);
+
+    // Hook into reducer updates so equalize works properly against ethAdapter
+    useSelector((s) => s.ethAdapter);
+
+    const { web3Connected } = { web3Connected: ethAdapter.connected };
+
     const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
+        setMobileMenuAnchor(event.currentTarget);
     };
 
     const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+        setMobileMenuAnchor(null);
+    };
+
+    const menuButtonSx = {
+        fontFamily: theme.typography.fontFamily,
+        color: theme.palette.secondary.secondary,
+        fontSize: "14px",
+        padding: "6px 16px",
+        borderRadius: 1,
+        display: "flex",
+        alignItems: "center",
     };
 
     return (
-        <AppBar enableColorOnDark position="static">
-            <Toolbar disableGutters sx={[{ padding: 2 }]}>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <Typography variant="h4" component="h1" mb={1}>
-                        Staking
-                    </Typography>
-                    <Typography variant="body1" component="h2" mb={1}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.
-                    </Typography>
-                </Typography>
+        <Container maxWidth="lg">
+            <Toolbar disableGutters>
+                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleOpenNavMenu}
+                        color="inherit"
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={mobileMenuAnchor}
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "left",
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                        }}
+                        open={Boolean(mobileMenuAnchor)}
+                        onClose={handleCloseNavMenu}
+                        sx={{
+                            display: { xs: "block", md: "none" },
+                        }}
+                    >
+                        <Link
+                            to={configuration.site.url_about}
+                            component={NavLink}
+                            sx={{
+                                mx: configuration.site.webView.headerLinkSpacing,
+                                my: configuration.site.webView.headerHeight,
+                                display: "block",
+                                fontWeight: 900,
+                                textDecoration: 0,
+                            }}
+                        >
+                            About AliceNet
+                        </Link>
+                        <Link
+                            to={configuration.site.url_blockExplorer}
+                            component={NavLink}
+                            sx={{
+                                mx: configuration.site.webView.headerLinkSpacing,
+                                my: configuration.site.webView.headerHeight,
+                                display: "block",
+                                fontWeight: 900,
+                                textDecoration: 0,
+                            }}
+                        >
+                            Block Explorer
+                        </Link>
+                    </Menu>
+                </Box>
 
-                <MenuItem key={"wallet"} onClick={handleCloseNavMenu} sx={{ pointerEvents: web3Connected ? "none" : "all" }}>
-                    <ConnectWeb3Button />
-                </MenuItem>
+                <Box
+                    sx={{
+                        flexGrow: 1,
+                        display: { xs: "none", md: "flex" },
+                        alignItems: "center",
+                    }}
+                >
+                    <Link
+                        to={configuration.site.url_about}
+                        component={NavLink}
+                        sx={{
+                            color: theme.palette.secondary.darkText,
+                            mx: configuration.site.webView.headerLinkSpacing,
+                            my: configuration.site.webView.headerHeight,
+                            display: "block",
+                            textDecoration: 0,
+                        }}
+                    >
+                        About AliceNet
+                    </Link>
+                    <Link
+                        to={configuration.site.url_blockExplorer}
+                        component={NavLink}
+                        sx={{
+                            color: theme.palette.secondary.darkText,
+                            mx: configuration.site.webView.headerLinkSpacing,
+                            my: configuration.site.webView.headerHeight,
+                            display: "block",
+                            textDecoration: 0,
+                        }}
+                    >
+                        Block Explorer
+                    </Link>
+                </Box>
+
+                <Box sx={{ display: "flex" }}>
+                    <HelpDropdown menuButtonSx={menuButtonSx} />
+                    <Web3NetworkMenu menuButtonSx={menuButtonSx} />
+                </Box>
+
+                <Box
+                    sx={{
+                        pointerEvents: web3Connected ? "none" : "all",
+                        display: "flex",
+                        alignItems: "center",
+                        cursor: "pointer",
+                        ml: 2,
+                    }}
+                >
+                    <ConnectWeb3Button menuButtonSx={menuButtonSx} />
+                </Box>
             </Toolbar>
-        </AppBar>
+        </Container>
     );
 }
