@@ -7,6 +7,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { NavigationBar, SubNavigation } from "components";
 import { BalanceContext } from "alice-ui-common";
 import { formatNumberToLocale } from "utils/number";
+import { symbols } from "config";
 
 export function Positions() {
     const { balances, positions = {} } = useContext(BalanceContext);
@@ -30,13 +31,6 @@ export function Positions() {
             field: "id",
             headerName: "ID",
             flex: 0.25,
-            sortable: false,
-            headerClassName: "headerClass",
-        },
-        {
-            field: "stakedDate",
-            headerName: "Staked Date",
-            flex: 0.5,
             sortable: false,
             headerClassName: "headerClass",
         },
@@ -68,12 +62,12 @@ export function Positions() {
     ];
 
     const stakedPositionsRows = positions.staked.value.map((position) => {
-        // TODO: Return values based on position
         return {
-            amount: "2388888 ALCA",
-            id: 1,
-            stakedDate: "03/12/2022",
-            rewards: "100 ALCA / 89999 ETH",
+            amount: formatNumberToLocale(position.shares),
+            id: position.tokenId,
+            rewards: `${formatNumberToLocale(position.alcaRewards)} ${symbols.ALCA} / ${formatNumberToLocale(
+                position.ethRewards
+            )} ${symbols.ETH}`,
         };
     });
 
