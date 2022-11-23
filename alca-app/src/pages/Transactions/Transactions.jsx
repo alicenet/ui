@@ -23,8 +23,11 @@ import {
     TableCell,
     TableBody,
     styled,
+    Snackbar,
+    CircularProgress,
+    Alert,
 } from "@mui/material";
-import { ChevronRight, InfoOutlined } from "@mui/icons-material";
+import { CheckCircle, ChevronRight, InfoOutlined } from "@mui/icons-material";
 import { NavigationBar, SubNavigation } from "components";
 import ethAdapter from "eth-adapter";
 import { formatNumberToLocale } from "utils/number";
@@ -55,6 +58,11 @@ export function Transactions() {
 
     // Modal
     const [modalOpen, setModalOpen] = useState(false);
+
+    // Snackbar
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState(<></>);
+    const [snackbarAutoHideDuration, setSnackbarAutoHideDuration] = useState(null);
 
     // Title Box Styles=
     const activeBoxTitleStyles = {
@@ -157,23 +165,60 @@ export function Transactions() {
     // Migrate MAD to ALCA
     async function migrate() {
         try {
-            await commonEthRequests.migrate_sendMadAllowanceForATokenRequest(ethAdapter, madForMigration);
+            setSnackbarMessage(renderSnackbarMessage("pending", "Pending Allowance transaction"));
+            setSnackbarOpen(true);
 
-            await commonEthRequests.migrate_sendMigrateRequest(ethAdapter, madForMigration);
+            const allowanceTx = await commonEthRequests.migrate_sendMadAllowanceForATokenRequest(
+                ethAdapter,
+                madForMigration
+            );
+
+            await allowanceTx.wait();
+
+            setSnackbarMessage(renderSnackbarMessage("pending", "Pending Migration transaction"));
+
+            const migrateTx = await commonEthRequests.migrate_sendMigrateRequest(ethAdapter, madForMigration);
+
+            await migrateTx.wait();
         } catch (e) {
-            // TODO: Handle displaying error message
-            console.error(e);
+            setSnackbarAutoHideDuration(5000);
+            setSnackbarMessage(
+                renderSnackbarMessage("error", "There was an error with the transaction. Please try again.")
+            );
         }
 
         setModalOpen(false);
-
-        // TODO: Show success mesage
+        setSnackbarAutoHideDuration(5000);
+        setSnackbarMessage(renderSnackbarMessage("success", "Successfully migrated"));
     }
 
     function formattedMadValue() {
         if (balances.mad.error || balances.mad.value === "n/a") return "n/a";
 
         return formatNumberToLocale(balances.mad.value);
+    }
+
+    function renderSnackbarMessage(type, message) {
+        let icon = <></>;
+        let severity = "info";
+
+        if (type === "pending") {
+            icon = <CircularProgress size={20} />;
+        } else if (type === "success") {
+            icon = <CheckCircle />;
+            severity = "success";
+        } else if (type === "error") {
+            severity = "error";
+        }
+
+        return (
+            <Alert severity={severity} icon={false}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box sx={{ marginRight: 1 }}>{icon}</Box>
+                    {message}
+                </Box>
+            </Alert>
+        );
     }
 
     function renderModal() {
@@ -476,6 +521,16 @@ export function Transactions() {
             </Container>
 
             {renderModal()}
+
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={snackbarAutoHideDuration}
+                onClose={() => {
+                    setSnackbarOpen(false);
+                }}
+            >
+                {snackbarMessage}
+            </Snackbar>
         </>
     );
 }
