@@ -80,7 +80,7 @@ export function NavigationBar() {
                         }}
                     >
                         <Link
-                            to="/"
+                            to={configuration.site.url_about}
                             component={NavLink}
                             sx={{
                                 mx: configuration.site.webView.headerLinkSpacing,
@@ -93,7 +93,7 @@ export function NavigationBar() {
                             About AliceNet
                         </Link>
                         <Link
-                            to="/"
+                            to={configuration.site.url_blockExplorer}
                             component={NavLink}
                             sx={{
                                 mx: configuration.site.webView.headerLinkSpacing,
@@ -116,7 +116,7 @@ export function NavigationBar() {
                     }}
                 >
                     <Link
-                        to="/"
+                        to={configuration.site.url_about}
                         component={NavLink}
                         sx={{
                             color: theme.palette.secondary.darkText,
@@ -129,7 +129,7 @@ export function NavigationBar() {
                         About AliceNet
                     </Link>
                     <Link
-                        to="/"
+                        to={configuration.site.url_blockExplorer}
                         component={NavLink}
                         sx={{
                             color: theme.palette.secondary.darkText,

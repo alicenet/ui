@@ -1,15 +1,11 @@
-import { NavigationBar } from "components/NavigationBar";
-import { symbols } from "config";
-
+import { useState } from "react";
+import { useTheme } from "@emotion/react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
 import { Button, Container, LinearProgress, Tab, Typography } from "@mui/material";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import { useState } from "react";
-import { useTheme } from "@emotion/react";
-import { SubNavigation } from "components/SubNavigation";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { NavigationBar, SubNavigation } from "components";
+import { symbols } from "config";
 
 export function Positions() {
     const theme = useTheme();
