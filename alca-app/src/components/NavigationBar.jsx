@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Toolbar, IconButton, Link, Menu, Container } from "@mui/material";
+import { Box, Toolbar, IconButton, Link, Menu, MenuItem, Container } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@emotion/react";
 import { configuration } from "config";
@@ -67,32 +67,36 @@ export function NavigationBar() {
                             display: { xs: "block", md: "none" },
                         }}
                     >
-                        <Link
-                            href={configuration.site.url_about}
-                            {...configuration.site.href_props}
-                            sx={{
-                                mx: configuration.site.webView.headerLinkSpacing,
-                                my: configuration.site.webView.headerHeight,
-                                display: "block",
-                                fontWeight: 900,
-                                textDecoration: 0,
-                            }}
-                        >
-                            About AliceNet
-                        </Link>
-                        <Link
-                            href={configuration.site.url_blockExplorer}
-                            {...configuration.site.href_props}
-                            sx={{
-                                mx: configuration.site.webView.headerLinkSpacing,
-                                my: configuration.site.webView.headerHeight,
-                                display: "block",
-                                fontWeight: 900,
-                                textDecoration: 0,
-                            }}
-                        >
-                            Block Explorer
-                        </Link>
+                        <MenuItem>
+                            <Link
+                                href={configuration.site.url_about}
+                                {...configuration.site.href_props}
+                                sx={{
+                                    mx: configuration.site.webView.headerLinkSpacing,
+                                    my: configuration.site.webView.headerHeight,
+                                    display: "block",
+                                    fontWeight: 900,
+                                    textDecoration: 0,
+                                }}
+                            >
+                                About AliceNet
+                            </Link>
+                        </MenuItem>
+                        <MenuItem>
+                            <Link
+                                href={configuration.site.url_blockExplorer}
+                                {...configuration.site.href_props}
+                                sx={{
+                                    mx: configuration.site.webView.headerLinkSpacing,
+                                    my: configuration.site.webView.headerHeight,
+                                    display: "block",
+                                    fontWeight: 900,
+                                    textDecoration: 0,
+                                }}
+                            >
+                                Block Explorer
+                            </Link>
+                        </MenuItem>
                     </Menu>
                 </Box>
 
