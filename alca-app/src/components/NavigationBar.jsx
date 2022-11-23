@@ -81,7 +81,7 @@ export function NavigationBar() {
                         }}
                     >
                         <Link
-                            to={process.env.REACT_APP__ABOUT_LINK}
+                            to={configuration.site.url_about}
                             component={NavLink}
                             sx={{
                                 mx: configuration.site.webView.headerLinkSpacing,
@@ -94,7 +94,7 @@ export function NavigationBar() {
                             About AliceNet
                         </Link>
                         <Link
-                            to={process.env.REACT_APP__BLOCK_EXPLORER_LINK}
+                            to={configuration.site.url_blockExplorer}
                             component={NavLink}
                             sx={{
                                 mx: configuration.site.webView.headerLinkSpacing,
@@ -117,7 +117,7 @@ export function NavigationBar() {
                     }}
                 >
                     <Link
-                        to={process.env.REACT_APP__ABOUT_LINK}
+                        to={configuration.site.url_about}
                         component={NavLink}
                         sx={{
                             color: theme.palette.secondary.darkText,
@@ -130,7 +130,7 @@ export function NavigationBar() {
                         About AliceNet
                     </Link>
                     <Link
-                        to={process.env.REACT_APP__BLOCK_EXPLORER_LINK}
+                        to={configuration.site.url_blockExplorer}
                         component={NavLink}
                         sx={{
                             color: theme.palette.secondary.darkText,

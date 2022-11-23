@@ -12,6 +12,8 @@ const site_configuration = {
     title: "Alicenet - UI", // Browser Document Title
     url_documentation: "https://github.com/alicenet/alicenet/wiki", // Link for documentation click under "Help"
     url_termsOfService: "https://alice.net", // Link for terms of service url under "Help"
+    url_about: "https://medium.com/alicenet/introducing-alicenet-40b54474d2f2", // Link for about page
+    url_blockExplorer: "https://explorer.alice.net", // Link for the block explorer
 };
 
 export const configuration = {
