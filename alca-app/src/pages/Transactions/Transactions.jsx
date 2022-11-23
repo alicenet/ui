@@ -33,6 +33,8 @@ export function Transactions() {
     const { balances = {} } = useContext(BalanceContext);
     const theme = useTheme();
 
+    const hideMigrationPanel = balances.mad.value === "0" || balances.mad.value === "n/a" || !!balances.mad.error;
+
     // ALCA for migration
     const [madForMigration, setMadForMigration] = useState(0);
     const [madToAlca, setMadToAlca] = useState(0);
@@ -40,7 +42,7 @@ export function Transactions() {
     // Modal
     const [modalOpen, setModalOpen] = useState(false);
 
-    // Title Box Styles
+    // Title Box Styles=
     const activeBoxTitleStyles = {
         background: `linear-gradient(
             180deg,
@@ -51,7 +53,7 @@ export function Transactions() {
         color: "secondary.contrastText",
     };
     const columnOneTitleBoxSx = sx({ condition: madForMigration <= 0, sx: activeBoxTitleStyles });
-    const columnTwoTitleBoxSx = sx({ condition: madForMigration > 0, sx: activeBoxTitleStyles });
+    const columnTwoTitleBoxSx = sx({ condition: madForMigration > 0 || hideMigrationPanel, sx: activeBoxTitleStyles });
 
     // Title Styles
     const activeLabelColorStyles = { bgcolor: "dark.main", color: "secondary.main" };
@@ -61,7 +63,7 @@ export function Transactions() {
         sx: activeLabelColorStyles,
     });
     const columnTwoTitleSx = sx(inactiveLabelColorStyles, {
-        condition: madForMigration > 0,
+        condition: madForMigration > 0 || hideMigrationPanel,
         sx: activeLabelColorStyles,
     });
 
@@ -74,6 +76,7 @@ export function Transactions() {
     // Box Styles
     const activeBoxStyles = {
         background: activeBg,
+        boxShadow: 10,
     };
     const inactiveBoxStyles = {
         background: `linear-gradient(
@@ -255,6 +258,198 @@ export function Transactions() {
         );
     }
 
+    const renderActions = () => (
+        <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
+            <Button variant="outlined" disabled={!madForMigration}>
+                Reset TX
+            </Button>
+
+            <Button
+                endIcon={<ChevronRight />}
+                variant="contained"
+                disabled={!madForMigration}
+                onClick={() => {
+                    setModalOpen(true);
+                }}
+            >
+                Review TX
+            </Button>
+        </Box>
+    );
+
+    const renderContentGrid = () => (
+        <Grid container>
+            {!hideMigrationPanel && (
+                <Grid item xs={4} display="flex" flexDirection="column">
+                    <Box p={2} borderRadius={1} sx={columnOneTitleBoxSx}>
+                        <Typography variant="body1" component="h1">
+                            <Box
+                                component="span"
+                                px={1}
+                                py={0.5}
+                                mr={1}
+                                borderRadius={0.5}
+                                fontWeight="bold"
+                                sx={columnOneTitleSx}
+                            >
+                                1
+                            </Box>
+                            Migration {symbols.MAD} to {symbols.ALCA}
+                        </Typography>
+                    </Box>
+
+                    <Box p={2} borderRadius={1} flex={1} sx={columnOneBoxSx}>
+                        <Typography sx={columnOneFadeOutTxtSx}>Current {symbols.MAD} Balance</Typography>
+                        <Typography variant="h5">
+                            {formattedMadValue()} {symbols.MAD}
+                        </Typography>
+
+                        <Divider sx={{ my: 2 }} />
+
+                        <Typography sx={columnOneFadeOutTxtSx}>
+                            Exchange rate from {symbols.MAD} to {symbols.ALCA}
+                        </Typography>
+
+                        <Typography variant="body1">
+                            1 {symbols.MAD} Token ≈ 1.56 {symbols.ALCA} Token
+                        </Typography>
+
+                        <Box columnGap={1} mt={3} mb={1} display="flex" alignItems="center">
+                            <TextField
+                                label="Migrate to ALCA"
+                                size="small"
+                                value={parseInt(madForMigration)}
+                                color="secondary"
+                                onChange={(event) => setMadForMigration(event.target.value)}
+                            />
+
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => {
+                                    setMadForMigration(balances.mad.value);
+                                }}
+                            >
+                                All
+                            </Button>
+                        </Box>
+
+                        <Typography variant="body1">
+                            you will recieve{" "}
+                            <strong>
+                                {formatNumberToLocale(madToAlca)} {symbols.ALCA}
+                            </strong>
+                        </Typography>
+                    </Box>
+                </Grid>
+            )}
+
+            <Grid item xs={hideMigrationPanel ? 12 : 8} display="flex" flexDirection="column">
+                <Box p={2} borderRadius={1} sx={columnTwoTitleBoxSx}>
+                    <Typography variant="body1" component="h1">
+                        <Box
+                            component="span"
+                            px={1}
+                            py={0.5}
+                            mr={1}
+                            borderRadius={0.5}
+                            fontWeight="bold"
+                            sx={columnTwoTitleSx}
+                        >
+                            {hideMigrationPanel ? 1 : 2}
+                        </Box>
+                        Staking & Lockup {symbols.ALCA}
+                    </Typography>
+                </Box>
+
+                <Box p={2} borderRadius={1} flex={1} sx={columnTwoBoxSx}>
+                    <Typography>Future {symbols.ALCA} balance</Typography>
+
+                    <Typography variant="h5">
+                        {formattedMadValue()} {symbols.ALCA}
+                    </Typography>
+
+                    <Divider sx={{ my: 2 }} />
+
+                    <Typography>CREATE STAKING</Typography>
+
+                    <Grid mt={2} alignItems="center">
+                        <Grid container item>
+                            <Grid item xs={5}>
+                                <Typography px={2} display="flex" alignItems="center">
+                                    Amount
+                                    <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs>
+                                <Typography display="flex" alignItems="center">
+                                    Reward Type
+                                    <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs>
+                                <Typography display="flex" alignItems="center">
+                                    Rewards
+                                    <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs columnGap={1}>
+                                <Typography display="flex" alignItems="center">
+                                    Lockup
+                                    <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                </Typography>
+                            </Grid>
+                        </Grid>
+
+                        <Grid
+                            container
+                            item
+                            alignItems="center"
+                            borderRadius={0.5}
+                            py={1}
+                            mt={2}
+                            mb={4}
+                            sx={[gridStyles]}
+                        >
+                            <Grid item xs={5} px={2} columnGap={1} display="flex" alignItems="center">
+                                <TextField
+                                    value={0}
+                                    onChange={() => {}}
+                                    size="small"
+                                    color="secondary"
+                                    InputProps={{
+                                        endAdornment: <InputAdornment position="end">{symbols.ALCA}</InputAdornment>,
+                                    }}
+                                />
+
+                                <Button variant="contained" size="small" color="secondary">
+                                    All
+                                </Button>
+                            </Grid>
+
+                            <Grid item xs>
+                                <Typography sx={columnTwoFadeOutTxtSx}>
+                                    {symbols.ETH} & {symbols.ALCA}
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs>
+                                <Typography sx={columnTwoFadeOutTxtSx}>(BR/3) / n Stakers</Typography>
+                            </Grid>
+
+                            <Grid item xs>
+                                <Switch disabled={!madForMigration} color="secondary" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Grid>
+        </Grid>
+    );
+
     return (
         <>
             <NavigationBar />
@@ -262,194 +457,8 @@ export function Transactions() {
             <Container maxWidth="lg">
                 <SubNavigation />
 
-                <Grid container>
-                    <Grid item xs={4} display="flex" flexDirection="column">
-                        <Box p={2} borderRadius={1} sx={columnOneTitleBoxSx}>
-                            <Typography variant="body1" component="h1">
-                                <Box
-                                    component="span"
-                                    px={1}
-                                    py={0.5}
-                                    mr={1}
-                                    borderRadius={0.5}
-                                    fontWeight="bold"
-                                    sx={columnOneTitleSx}
-                                >
-                                    1
-                                </Box>
-                                Migration {symbols.MAD} to {symbols.ALCA}
-                            </Typography>
-                        </Box>
-
-                        <Box p={2} borderRadius={1} flex={1} sx={columnOneBoxSx}>
-                            <Typography sx={columnOneFadeOutTxtSx}>Current {symbols.MAD} Balance</Typography>
-                            <Typography variant="h5">
-                                {formattedMadValue()} {symbols.MAD}
-                            </Typography>
-
-                            <Divider sx={{ my: 2 }} />
-
-                            <Typography sx={columnOneFadeOutTxtSx}>
-                                Exchange rate from {symbols.MAD} to {symbols.ALCA}
-                            </Typography>
-
-                            <Typography variant="body1">
-                                1 {symbols.MAD} Token ≈ 1.56 {symbols.ALCA} Token
-                            </Typography>
-
-                            <Box columnGap={1} mt={3} mb={1} display="flex" alignItems="center">
-                                <TextField
-                                    label="Migrate to ALCA"
-                                    size="small"
-                                    value={parseInt(madForMigration)}
-                                    color="secondary"
-                                    onChange={(event) => setMadForMigration(event.target.value)}
-                                />
-
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => {
-                                        setMadForMigration(balances.mad.value);
-                                    }}
-                                    disabled={!ethAdapter.connected}
-                                >
-                                    All
-                                </Button>
-                            </Box>
-
-                            <Typography variant="body1">
-                                you will recieve{" "}
-                                <strong>
-                                    {formatNumberToLocale(madToAlca) || 0} {symbols.ALCA}
-                                </strong>
-                            </Typography>
-                        </Box>
-                    </Grid>
-
-                    <Grid item xs={8} display="flex" flexDirection="column">
-                        <Box p={2} borderRadius={1} sx={columnTwoTitleBoxSx}>
-                            <Typography variant="body1" component="h1">
-                                <Box
-                                    component="span"
-                                    px={1}
-                                    py={0.5}
-                                    mr={1}
-                                    borderRadius={0.5}
-                                    fontWeight="bold"
-                                    sx={columnTwoTitleSx}
-                                >
-                                    2
-                                </Box>
-                                Staking & Lockup {symbols.ALCA}
-                            </Typography>
-                        </Box>
-
-                        <Box p={2} borderRadius={1} flex={1} sx={columnTwoBoxSx}>
-                            <Typography>Future {symbols.ALCA} balance</Typography>
-
-                            <Typography variant="h5">
-                                {formatNumberToLocale(madToAlca) || 0} {symbols.ALCA}
-                            </Typography>
-
-                            <Divider sx={{ my: 2 }} />
-
-                            <Typography>CREATE STAKING</Typography>
-
-                            <Grid mt={2} alignItems="center">
-                                <Grid container item>
-                                    <Grid item xs={5}>
-                                        <Typography px={2} display="flex" alignItems="center">
-                                            Amount
-                                            <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
-                                        </Typography>
-                                    </Grid>
-
-                                    <Grid item xs>
-                                        <Typography display="flex" alignItems="center">
-                                            Reward Type
-                                            <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
-                                        </Typography>
-                                    </Grid>
-
-                                    <Grid item xs>
-                                        <Typography display="flex" alignItems="center">
-                                            Rewards
-                                            <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
-                                        </Typography>
-                                    </Grid>
-
-                                    <Grid item xs columnGap={1}>
-                                        <Typography display="flex" alignItems="center">
-                                            Lockup
-                                            <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-
-                                <Grid
-                                    container
-                                    item
-                                    alignItems="center"
-                                    borderRadius={0.5}
-                                    py={1}
-                                    mt={2}
-                                    mb={4}
-                                    sx={[gridStyles]}
-                                >
-                                    <Grid item xs={5} px={2} columnGap={1} display="flex" alignItems="center">
-                                        <TextField
-                                            value={0}
-                                            onChange={() => {}}
-                                            size="small"
-                                            color="secondary"
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">{symbols.ALCA}</InputAdornment>
-                                                ),
-                                            }}
-                                        />
-
-                                        <Button variant="contained" size="small" color="secondary">
-                                            All
-                                        </Button>
-                                    </Grid>
-
-                                    <Grid item xs>
-                                        <Typography sx={columnTwoFadeOutTxtSx}>
-                                            {symbols.ETH} & {symbols.ALCA}
-                                        </Typography>
-                                    </Grid>
-
-                                    <Grid item xs>
-                                        <Typography sx={columnTwoFadeOutTxtSx}>(BR/3) / n Stakers</Typography>
-                                    </Grid>
-
-                                    <Grid item xs>
-                                        <Switch disabled={!madForMigration} color="secondary" />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Box>
-                    </Grid>
-                </Grid>
-
-                <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
-                    <Button variant="outlined" disabled={!madForMigration}>
-                        Reset TX
-                    </Button>
-
-                    <Button
-                        endIcon={<ChevronRight />}
-                        variant="contained"
-                        disabled={!madForMigration}
-                        onClick={() => {
-                            setModalOpen(true);
-                        }}
-                    >
-                        Review TX
-                    </Button>
-                </Box>
+                {renderContentGrid()}
+                {renderActions()}
             </Container>
 
             {renderModal()}
