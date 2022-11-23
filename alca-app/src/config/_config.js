@@ -17,6 +17,8 @@ const site_configuration = {
     url_migrationBlogLink: "https://medium.com/alicenet/mad-token-to-alca-token-migration-faq-23ff5940044b",
     url_alcaTokenBlog: "https://medium.com/alicenet/announcing-alicenet-c904e99d4179",
     href_props: { target: "_blank", rel: "noopener noreferrer" },
+    url_about: "https://medium.com/alicenet/introducing-alicenet-40b54474d2f2", // Link for about page
+    url_blockExplorer: "https://explorer.alice.net", // Link for the block explorer
 };
 
 export const configuration = {
