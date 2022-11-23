@@ -64,6 +64,9 @@ export function Transactions() {
     const [snackbarMessage, setSnackbarMessage] = useState(<></>);
     const [snackbarAutoHideDuration, setSnackbarAutoHideDuration] = useState(null);
 
+    // Transaction state
+    const [transacting, setTransacting] = useState(false);
+
     // Title Box Styles=
     const activeBoxTitleStyles = {
         background: `linear-gradient(
@@ -164,32 +167,63 @@ export function Transactions() {
 
     // Migrate MAD to ALCA
     async function migrate() {
+        setTransacting(true);
+
         try {
+            // Pending message
             setSnackbarMessage(renderSnackbarMessage("pending", "Pending Allowance transaction"));
+
+            // Open snackbar
             setSnackbarOpen(true);
 
+            // Allowance transaction
             const allowanceTx = await commonEthRequests.migrate_sendMadAllowanceForATokenRequest(
                 ethAdapter,
                 madForMigration
             );
 
+            if (allowanceTx.error) {
+                throw new Error(allowanceTx.error);
+            }
+
             await allowanceTx.wait();
 
+            // Pending message
             setSnackbarMessage(renderSnackbarMessage("pending", "Pending Migration transaction"));
 
+            // Migration transaction
             const migrateTx = await commonEthRequests.migrate_sendMigrateRequest(ethAdapter, madForMigration);
+
+            if (migrateTx.error) {
+                throw new Error(migrateTx.error);
+            }
 
             await migrateTx.wait();
         } catch (e) {
+            // Error message
             setSnackbarAutoHideDuration(5000);
             setSnackbarMessage(
                 renderSnackbarMessage("error", "There was an error with the transaction. Please try again.")
             );
+
+            // No longer transacting
+            setTransacting(false);
+
+            return;
         }
 
+        // Close modal
         setModalOpen(false);
+
+        // Success message
         setSnackbarAutoHideDuration(5000);
         setSnackbarMessage(renderSnackbarMessage("success", "Successfully migrated"));
+
+        // Reset MAD to ALCA
+        setMadForMigration("0");
+
+        // No longer transacting
+        setTransacting(false);
     }
 
     function formattedMadValue() {
@@ -308,6 +342,7 @@ export function Transactions() {
                             onClick={() => {
                                 migrate();
                             }}
+                            disabled={transacting}
                         >
                             Send transaction
                         </Button>
