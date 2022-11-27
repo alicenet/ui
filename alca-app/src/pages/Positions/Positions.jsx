@@ -10,12 +10,22 @@ import { formatNumberToLocale } from "utils/number";
 import { symbols } from "config";
 import ethAdapter from "eth-adapter";
 import { SnackbarMessage } from "components/SnackbarMessage";
+import { useEffect } from "react";
+import {
+    claimLockedRewards,
+    unlockLockedPosition,
+    unlockLockedPositionEarly,
+} from "pages/Transactions/transactionFunctions";
+import { Navigate } from "react-router-dom";
 
 export function Positions() {
-    const { balances, positions = {} } = useContext(BalanceContext);
+    const { balances, positions = {}, updateBalances } = useContext(BalanceContext);
+    const hasLockedPosition = positions?.lockedPosition?.value?.tokenId !== "0";
+    const lockedPosition = hasLockedPosition ? positions?.lockedPosition?.value : {};
 
     const theme = useTheme();
     const [currentTab, setCurrentTab] = useState("1");
+    const [currentBlock, setCurrentBlock] = useState("?");
 
     // Snackbar
     const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -25,13 +35,41 @@ export function Positions() {
     // Transaction state
     const [transacting, setTransacting] = useState(false);
 
+    const txFxParams = {
+        setSnackbarAutoHideDuration,
+        setSnackbarOpen,
+        setSnackbarMessage,
+        setTransacting,
+        updateBalances,
+        lockedPosition,
+    };
+
+    useEffect(() => {
+        let checker;
+        const check = async () => {
+            try {
+                let cBlock = (await ethAdapter.provider.getBlockNumber()).toString();
+                setCurrentBlock(cBlock);
+            } catch (ex) {
+                setCurrentBlock((s) => s);
+            }
+            checker = setTimeout(check, 5000);
+        };
+        check();
+        return clearTimeout(checker);
+    }, []);
+
+    if (!ethAdapter.connected) {
+        return <Navigate to="/" />;
+    }
+
     async function handleUnstake(tokenId) {
         setTransacting(true);
 
         // Pending message
         setSnackbarMessage({
             status: "pending",
-            message: "Pending Unstake Transaction",
+            message: "Tx: Pending Unstake Transaction",
         });
 
         // Open snackbar
@@ -64,6 +102,52 @@ export function Positions() {
         setSnackbarMessage({
             status: "success",
             message: "Successfully Unstaked",
+        });
+
+        // No longer transacting
+        setTransacting(false);
+    }
+
+    async function handleClaim(tokenId) {
+        setTransacting(true);
+
+        // Pending message
+        setSnackbarMessage({
+            status: "pending",
+            message: "Tx: Pending Claim Rewards Transaction",
+        });
+
+        // Open snackbar
+        setSnackbarOpen(true);
+
+        try {
+            // Claim rewards transaction
+            const tx = await commonEthRequests.staking_sendClaimAllPublicStakingRewardsRequest(ethAdapter, tokenId);
+
+            if (tx.error) {
+                throw new Error(tx.error);
+            }
+
+            await tx.wait();
+        } catch (e) {
+            // Error message
+            setSnackbarAutoHideDuration(7500);
+            setSnackbarMessage({
+                status: "error",
+                message: "There was an error with the transaction. Please try again.",
+            });
+
+            // No longer transacting
+            setTransacting(false);
+
+            return;
+        }
+
+        // Success message
+        setSnackbarAutoHideDuration(7500);
+        setSnackbarMessage({
+            status: "success",
+            message: "Successfully Claimed Rewards",
         });
 
         // No longer transacting
@@ -103,25 +187,38 @@ export function Positions() {
             sortable: false,
             showColumnRightBorder: false,
             headerClassName: "headerClass",
-            renderCell: (params) => (
-                <Box sx={{ display: "flex" }}>
-                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
-                        Claim Rewards
-                    </Button>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        color="secondary"
-                        sx={actionButtonStyles}
-                        onClick={async () => {
-                            handleUnstake(params.id);
-                        }}
-                        disabled={transacting}
-                    >
-                        Unstake
-                    </Button>
-                </Box>
-            ),
+            renderCell: (params) => {
+                const hasRewards = parseInt(params.row.alcaRewards) > 0 || parseInt(params.row.ethRewards) > 0;
+
+                return (
+                    <Box display="flex">
+                        <Button
+                            variant="contained"
+                            size="small"
+                            color="secondary"
+                            sx={actionButtonStyles}
+                            onClick={() => {
+                                handleClaim(params.row.id);
+                            }}
+                            disabled={transacting || !hasRewards}
+                        >
+                            Claim Rewards
+                        </Button>
+                        <Button
+                            variant="contained"
+                            size="small"
+                            color="secondary"
+                            sx={actionButtonStyles}
+                            onClick={() => {
+                                handleUnstake(params.row.id);
+                            }}
+                            disabled={transacting}
+                        >
+                            Unstake
+                        </Button>
+                    </Box>
+                );
+            },
         },
     ];
 
@@ -132,6 +229,7 @@ export function Positions() {
             rewards: `${formatNumberToLocale(position.alcaRewards)} ${symbols.ALCA} / ${formatNumberToLocale(
                 position.ethRewards
             )} ${symbols.ETH}`,
+            ...position,
         };
     });
 
@@ -151,13 +249,6 @@ export function Positions() {
             headerClassName: "headerClass",
         },
         {
-            field: "lockedDate",
-            headerName: "Locked Date",
-            flex: 0.5,
-            sortable: false,
-            headerClassName: "headerClass",
-        },
-        {
             field: "timeLeft",
             headerName: "Time Left",
             flex: 0.5,
@@ -166,16 +257,22 @@ export function Positions() {
         },
         {
             field: "rewardsAchieved",
-            headerName: "Rewards Achieved",
+            headerName: "Lock Period Progress",
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
             renderCell: (params) => (
                 <Box sx={{ width: "100%" }}>
-                    <LinearProgress variant="determinate" color="secondary" value={40} />
-
+                    <LinearProgress
+                        variant="determinate"
+                        color="secondary"
+                        value={Number((currentBlock / lockedPosition.blockUntilUnlock) * 100)}
+                    />
                     <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
-                        40% Rewards
+                        {Number((currentBlock / lockedPosition.blockUntilUnlock) * 100).toLocaleString(false, {
+                            maximumFractionDigits: 2,
+                        })}
+                        %
                     </Box>
                 </Box>
             ),
@@ -196,26 +293,45 @@ export function Positions() {
             headerClassName: "headerClass",
             renderCell: (params) => (
                 <Box sx={{ display: "flex" }}>
-                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
+                    <Button
+                        variant="contained"
+                        size="small"
+                        color="secondary"
+                        sx={actionButtonStyles}
+                        onClick={() => claimLockedRewards({ ...txFxParams })}
+                    >
                         Claim Rewards
                     </Button>
-                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
-                        Unlock
+                    <Button
+                        variant="contained"
+                        size="small"
+                        color={lockedPosition.blockUntilUnlock > 0 ? "warning" : "primary"}
+                        sx={{ ...actionButtonStyles }}
+                        onClick={
+                            lockedPosition.blockUntilUnlock > 0
+                                ? () => unlockLockedPositionEarly({ ...txFxParams })
+                                : () => unlockLockedPosition({ ...txFxParams })
+                        }
+                    >
+                        {lockedPosition.blockUntilUnlock > 0 ? "Unlock Early" : "Unlock"}
                     </Button>
                 </Box>
             ),
         },
     ];
 
-    const lockedPositionsRows = [
-        {
-            amount: "2388888 ALCA",
-            id: 1,
-            lockedDate: "03/12/2022",
-            timeLeft: "18 days",
-            currentRewards: "100 ALCA / 10 ETH",
-        },
-    ];
+    console.log(currentBlock);
+
+    const lockedPositionsRows = hasLockedPosition
+        ? [
+              {
+                  amount: lockedPosition?.lockedAlca,
+                  id: lockedPosition?.tokenId || 1,
+                  timeLeft: Number(lockedPosition?.blockUntilUnlock).toLocaleString() + " Blocks",
+                  currentRewards: `${lockedPosition?.payoutToken} ALCA / ${lockedPosition?.payoutEth} ETH`,
+              },
+          ]
+        : [];
 
     const actionButtonStyles = {
         textTransform: "none",
@@ -299,8 +415,6 @@ export function Positions() {
         );
     }
 
-    const hasLockedPosition = lockedPositionsRows.length > 0;
-
     return (
         <>
             <NavigationBar />
@@ -316,7 +430,7 @@ export function Positions() {
                             indicatorColor={theme.palette.background.default}
                         >
                             <Tab label={<StakedPositionLabel />} value="1" sx={stakingTabClasses} />
-                            {hasLockedPosition && <Tab label="Locked Positions" value="2" sx={positionTabClasses} />}
+                            {hasLockedPosition && <Tab label="Locked Position" value="2" sx={positionTabClasses} />}
                         </TabList>
                     </Box>
                     <TabPanel value="1" sx={{ padding: 0 }}>
@@ -351,7 +465,7 @@ export function Positions() {
                                 <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
                                     Current ALCA Balance
                                 </Typography>
-                                <Typography variant="h5">2,000 ALCA</Typography>
+                                <Typography variant="h5">{formattedAlcaBalance()} ALCA</Typography>
                             </Box>
 
                             <DataGrid

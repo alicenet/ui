@@ -5,6 +5,7 @@ import { APPLICATION_ACTION_TYPES } from "redux/constants";
 const initialApplicationState = {
     debugMode: false,
     landerModalOpen: false,
+    initialLoadCompleted: false,
 };
 
 export default function applicationReducer(state = initialApplicationState, action) {
@@ -17,6 +18,11 @@ export default function applicationReducer(state = initialApplicationState, acti
         case APPLICATION_ACTION_TYPES.SET_LANDER_MODAL_STATE:
             return Object.assign({}, state, {
                 landerModalOpen: action.payload,
+            });
+
+        case APPLICATION_ACTION_TYPES.SET_INITIAL_LOAD_COMPLETE:
+            return Object.assign({}, state, {
+                initialLoadCompleted: true,
             });
 
         default:
