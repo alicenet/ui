@@ -59,8 +59,16 @@ export function Positions() {
         return clearTimeout(checker);
     }, []);
 
+    // If no connection, push to connect/transaction page
     if (!ethAdapter.connected) {
         return <Navigate to="/" />;
+    }
+
+    // Force Staked tab if no locked positions
+    if (!hasLockedPosition) {
+        if (currentTab !== "1") {
+            setCurrentTab("1");
+        }
     }
 
     async function handleUnstake(tokenId) {
