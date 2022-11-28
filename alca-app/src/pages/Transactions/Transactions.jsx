@@ -62,6 +62,7 @@ export function Transactions() {
 
     const sanitizeMadForMigrationInput = (amt) => {
         setAmountOfAlcaToStake("0");
+        setLockupStakePosition(false);
         if (amt === "." || amt === "") {
             return setMadForMigration("");
         }
@@ -519,6 +520,8 @@ export function Transactions() {
             </Button>
         </Box>
     );
+
+    console.log({ stakedAlca: stakeAlcaAmount, hasLock: hasLockedPosition() });
 
     const renderContentGrid = () => (
         <Grid container>
