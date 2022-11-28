@@ -31,6 +31,7 @@ import { ChevronRight, InfoOutlined } from "@mui/icons-material";
 import { ConnectWeb3Button, NavigationBar, SubNavigation } from "components";
 import ethAdapter from "eth-adapter";
 import { formatNumberToLocale } from "utils/number";
+import { checkValidAmountCharacters } from "utils/string";
 import { SnackbarMessage } from "components/SnackbarMessage";
 import { migrate, migrateAndStake, migrateStakeAndLock, stake, stakeAndLock } from "./transactionFunctions";
 import { useSelector } from "react-redux";
@@ -65,14 +66,23 @@ export function Transactions() {
         if (amt === "." || amt === "") {
             return setMadForMigration("");
         }
-        if (!/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/.test(amt)) {
+        if (checkValidAmountCharacters(amt)) {
+            setMadForMigration(amt);
+        } else {
             return;
         }
-        let split = amt.split(".");
-        if (split[0].length >= 15 || (split[1] && split[1].length > 10)) {
+    };
+
+    const sanitizeAlcaForStakingInput = (amt) => {
+        setMadForMigration("0");
+        if (amt === "." || amt === "") {
+            return setAmountOfAlcaToStake("");
+        }
+        if (checkValidAmountCharacters(amt)) {
+            setAmountOfAlcaToStake(amt);
+        } else {
             return;
         }
-        setMadForMigration(amt);
     };
 
     // Modal
@@ -646,7 +656,7 @@ export function Transactions() {
                             <Grid item xs={5} px={2} columnGap={1} display="flex" alignItems="center">
                                 <TextField
                                     value={stakeAlcaAmount}
-                                    onChange={(event) => setAmountOfAlcaToStake(event.target.value)}
+                                    onChange={(event) => sanitizeAlcaForStakingInput(event.target.value)}
                                     onFocus={() => setActiveColumn(2)}
                                     size="small"
                                     color="secondary"

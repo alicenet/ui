@@ -375,6 +375,7 @@ export function Positions() {
     const boxStyles = {
         background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
         padding: 2,
+        borderRadius: 1,
         "& .even": {
             background: `linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C`,
         },
