@@ -55,7 +55,6 @@ export function Transactions() {
     const [madToAlca, setMadToAlca] = useState("");
     const [madToAlcaBn, setMadToAlcaBn] = useState(ethers.BigNumber.from(0));
     const [stakeAlcaAmount, setAmountOfAlcaToStake] = useState("");
-    // const [stakeAlcaAmountBn, setAmountoFAlcaToStateBn] = useState(ethers.BigNumber.from(0));
 
     // Future Alca balance tracker
     const [futureAlcaBalance, setFutureAlcaBalance] = useState("0");
