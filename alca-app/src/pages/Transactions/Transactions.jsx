@@ -645,7 +645,7 @@ export function Transactions() {
                             container
                             item
                             alignItems="center"
-                            borderRadius={0.5}
+                            borderRadius={1}
                             py={1}
                             mt={2}
                             mb={4}
