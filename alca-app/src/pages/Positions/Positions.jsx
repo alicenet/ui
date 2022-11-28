@@ -196,7 +196,7 @@ export function Positions() {
             showColumnRightBorder: false,
             headerClassName: "headerClass",
             renderCell: (params) => {
-                const hasRewards = parseInt(params.row.alcaRewards) > 0 || parseInt(params.row.ethRewards) > 0;
+                const hasRewards = parseFloat(params.row.alcaRewards) > 0 || parseFloat(params.row.ethRewards) > 0;
 
                 return (
                     <Box display="flex">
@@ -375,11 +375,13 @@ export function Positions() {
     const boxStyles = {
         background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
         padding: 2,
+        borderRadius: 1,
         "& .even": {
             background: `linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C`,
         },
         "& .customRow": {
             fontFamily: theme.typography.subtitle1.fontFamily,
+            borderRadius: 1,
         },
         "& .headerClass": {
             fontFamily: "JetBrains Mono",
@@ -429,7 +431,7 @@ export function Positions() {
                 <SubNavigation />
 
                 <TabContext value={currentTab}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }} pb={0.5}>
                         <TabList
                             onChange={handleTabChange}
                             textColor={theme.palette.background.default}
@@ -482,6 +484,7 @@ export function Positions() {
                                 pageSize={10}
                                 rows={lockedPositionsRows}
                                 columns={lockedPositionsColumns}
+                                hideFooterPagination={true}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
