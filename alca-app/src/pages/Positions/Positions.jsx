@@ -328,8 +328,6 @@ export function Positions() {
         },
     ];
 
-    console.log(currentBlock);
-
     const lockedPositionsRows = hasLockedPosition
         ? [
               {

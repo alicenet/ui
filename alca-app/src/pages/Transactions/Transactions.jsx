@@ -41,7 +41,7 @@ export function Transactions() {
         initialLoadCompleted: s.application.initialLoadCompleted,
     })); // Hook into reducer updates so equalize works properly against ethAdapter
 
-    console.log({ balances, allowances, positions });
+    console.log({ balances, allowances, positions }); // Leave for QOL / QA
 
     const theme = useTheme();
 
