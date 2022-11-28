@@ -12,7 +12,7 @@ export function splitStringWithEllipses(strToSplit, charCountToLeave) {
 /**
  * Verify if the input string has valid amount characters
  * @param { String } string - String
- * @returns { String }
+ * @returns { Boolean }
  */
 export function checkValidAmountCharacters(string) {
     const parsedString = string.toString();
