@@ -521,8 +521,6 @@ export function Transactions() {
         </Box>
     );
 
-    console.log({ stakedAlca: stakeAlcaAmount, hasLock: hasLockedPosition() });
-
     const renderContentGrid = () => (
         <Grid container>
             {!hideMigrationPanel && (
