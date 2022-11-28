@@ -214,6 +214,10 @@ export function Transactions() {
         if (positions?.lockedPosition?.value?.lockupPeriod === "ENROLLMENT") {
             setIsLockupPeriod(true);
         }
+
+        if (hasLockedPosition()) {
+            setLockupStakePosition(false);
+        }
     }, [positions]);
 
     // Reset lock if available, and stakeAlcaAmount === 0
@@ -227,6 +231,10 @@ export function Transactions() {
         if (balances.mad.error || ["0", "0.0", "n/a"].includes(balances.mad.value)) return "n/a";
 
         return formatNumberToLocale(balances.mad.value);
+    }
+
+    function hasLockedPosition() {
+        return positions?.lockedPosition?.value?.lockedAlca !== "0.0";
     }
 
     function renderModal() {
@@ -674,7 +682,7 @@ export function Transactions() {
                                 <Grid item xs>
                                     <Switch
                                         checked={lockupStakePosition}
-                                        disabled={!stakeAlcaAmount}
+                                        disabled={!stakeAlcaAmount || hasLockedPosition()}
                                         onChange={lockupStakeToggle}
                                         color="secondary"
                                     />
