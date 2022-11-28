@@ -196,7 +196,7 @@ export function Positions() {
             showColumnRightBorder: false,
             headerClassName: "headerClass",
             renderCell: (params) => {
-                const hasRewards = parseInt(params.row.alcaRewards) > 0 || parseInt(params.row.ethRewards) > 0;
+                const hasRewards = parseFloat(params.row.alcaRewards) > 0 || parseFloat(params.row.ethRewards) > 0;
 
                 return (
                     <Box display="flex">
