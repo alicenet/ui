@@ -307,6 +307,7 @@ export function Positions() {
                         color="secondary"
                         sx={actionButtonStyles}
                         onClick={() => claimLockedRewards({ ...txFxParams })}
+                        disabled={!hasRewards()}
                     >
                         Claim Rewards
                     </Button>
@@ -419,6 +420,10 @@ export function Positions() {
                 </Box>
             </Box>
         );
+    }
+
+    function hasRewards() {
+        return lockedPosition?.payoutToken !== "0.0" && lockedPosition?.payoutEth !== "0.0";
     }
 
     return (
