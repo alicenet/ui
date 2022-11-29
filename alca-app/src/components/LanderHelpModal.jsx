@@ -15,9 +15,9 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanderModalOpenState } from "redux/actions/application";
-import { Circle } from "@mui/icons-material";
+import { ChevronLeft, ChevronRight, Circle } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
-import { configuration } from "config/_config";
+import { configuration } from "config";
 import { useModalCookie } from "hooks/useModalCookie";
 
 export function LanderHelpModal() {
@@ -44,6 +44,12 @@ export function LanderHelpModal() {
 
     const ModalHeader = () => (
         <>
+            <Box
+                sx={{ display: "flex", justifyContent: "end", fontWeight: "bold", cursor: "pointer" }}
+                onClick={closeModal}
+            >
+                X
+            </Box>
             <Typography id="modal-modal-title" variant="h5" component="h2">
                 Welcome to AliceNet
             </Typography>
@@ -69,7 +75,7 @@ export function LanderHelpModal() {
                 <Tabs
                     TabIndicatorProps={{ style: { background: theme.palette.secondary.main } }}
                     value={pageNameToIdx[modalPage]}
-                    aria-label="basic tabs example"
+                    aria-label="help modal tabs"
                 >
                     <Tab label="Welcome" {...tabPropeties} onClick={() => setModalPage(modalPageNames.welcome)} />
                     <Tab label="Migration" {...tabPropeties} onClick={() => setModalPage(modalPageNames.migration)} />
@@ -234,12 +240,50 @@ export function LanderHelpModal() {
         );
     };
 
+    const changeTab = (step) => {
+        if (step === -1) {
+            if (modalPage === modalPageNames.welcome) return;
+            if (modalPage === modalPageNames.migration) setModalPage(modalPageNames.welcome);
+            if (modalPage === modalPageNames.staking) setModalPage(modalPageNames.migration);
+        } else if (step === 1) {
+            if (modalPage === modalPageNames.welcome) setModalPage(modalPageNames.migration);
+            if (modalPage === modalPageNames.migration) setModalPage(modalPageNames.staking);
+            if (modalPage === modalPageNames.staking) return;
+        }
+    };
+
     const ModalActions = () => {
         return (
-            <Box sx={{ display: "flex", mt: 2, justifyContent: "flex-end" }}>
-                <Button size="large" variant="outlined" color="secondary" disableRipple onClick={closeModal}>
-                    Close
-                </Button>
+            <Box sx={{ display: "flex", mt: 2, justifyContent: "space-between" }}>
+                <Box sx={{ display: "flex", gap: 2 }}>
+                    <Button
+                        size="large"
+                        variant="outlined"
+                        color="secondary"
+                        disableRipple
+                        onClick={() => changeTab(-1)}
+                        disabled={modalPage === modalPageNames.welcome}
+                        sx={{ gap: 2 }}
+                    >
+                        <ChevronLeft /> Back
+                    </Button>
+                    <Button
+                        size="large"
+                        variant="outlined"
+                        color="secondary"
+                        disableRipple
+                        onClick={() => changeTab(+1)}
+                        disabled={modalPage === modalPageNames.staking}
+                        sx={{ gap: 2 }}
+                    >
+                        Next <ChevronRight />
+                    </Button>
+                </Box>
+                <Box>
+                    <Button size="large" variant="contained" color="secondary" disableRipple onClick={closeModal}>
+                        Close
+                    </Button>
+                </Box>
             </Box>
         );
     };
