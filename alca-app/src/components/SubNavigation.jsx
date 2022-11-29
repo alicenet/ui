@@ -65,7 +65,7 @@ export function SubNavigation() {
                     ), ${theme.palette.dark.main};`,
                     display: "flex",
                     borderRadius: 1,
-                    minWidth: 7 / 14,
+                    minWidth: 7 / 16,
                 }}
             >
                 {renderPages()}

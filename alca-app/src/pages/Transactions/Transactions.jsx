@@ -519,13 +519,14 @@ export function Transactions() {
 
     const renderActions = () => (
         <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
-            <Button variant="outlined" disabled={!madForMigration || !stakeAlcaAmount}>
+            <Button variant="outlined" size="large" disabled={!madForMigration || !stakeAlcaAmount}>
                 Reset TX
             </Button>
 
             <Button
                 endIcon={<ChevronRight />}
                 variant="contained"
+                size="large"
                 disabled={(!madForMigration && !stakeAlcaAmount) || parseFloat(futureAlcaBalance) < 0}
                 onClick={() => {
                     setModalOpen(true);
@@ -578,6 +579,7 @@ export function Transactions() {
                             <Button
                                 variant="contained"
                                 color="secondary"
+                                sx={{ py: 1 }}
                                 onClick={() => {
                                     setMadForMigration(balances.mad.value);
                                 }}
@@ -678,7 +680,12 @@ export function Transactions() {
                                     }}
                                 />
 
-                                <Button variant="contained" size="small" color="secondary" onClick={() => allInAlca()}>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    sx={{ py: 1 }}
+                                    onClick={() => allInAlca()}
+                                >
                                     All
                                 </Button>
                             </Grid>
