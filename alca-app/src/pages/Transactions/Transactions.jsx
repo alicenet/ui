@@ -62,7 +62,6 @@ export function Transactions() {
 
     const sanitizeMadForMigrationInput = (amt) => {
         setAmountOfAlcaToStake("0");
-        setLockupStakePosition(false);
         if (amt === "." || amt === "") {
             return setMadForMigration("");
         }
@@ -236,6 +235,10 @@ export function Transactions() {
             setLockupStakePosition(false);
         }
     }, [stakeAlcaAmount, isLockupPeriod]);
+
+    useEffect(() => {
+        setLockupStakePosition(!madForMigration);
+    }, [madForMigration]);
 
     function formattedMadValue() {
         if (balances.mad.error || ["0", "0.0", "n/a"].includes(balances.mad.value)) return "n/a";
