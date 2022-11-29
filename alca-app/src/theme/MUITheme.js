@@ -44,11 +44,9 @@ export const theme = createTheme({
             color: "#fff",
             opacity: "50%",
         },
-        body1: {
-            fontFamily: "Inter",
-        },
         body2: {
             fontFamily: "Inter",
+            fontSize: 14,
         },
         button: {
             textTransform: "none",

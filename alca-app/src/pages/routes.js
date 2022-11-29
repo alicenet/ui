@@ -1,7 +1,7 @@
 export const PAGES = [
     {
         to: "/",
-        display: "Transactions",
+        display: "Staking",
     },
     {
         to: "/positions",
