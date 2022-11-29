@@ -8,6 +8,7 @@ const CustomPaletteColors = {
     primary: {
         main: "#95F1E3",
         light: "#C9FFFF",
+        dark: "#6FBEB2",
     },
     secondary: {
         main: "#FFABD1",
