@@ -254,7 +254,7 @@ export function LanderHelpModal() {
 
     const ModalActions = () => {
         return (
-            <Box sx={{ display: "flex", mt: 2, justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", mt: 2, justifyContent: "space-between", width: "100%" }}>
                 <Box sx={{ display: "flex", gap: 2 }}>
                     <Button
                         size="large"
@@ -300,6 +300,7 @@ export function LanderHelpModal() {
                     position: "absolute",
                     width: "90%",
                     maxWidth: 1080,
+                    height: "70vh",
                     left: 0,
                     right: 0,
                     marginLeft: "auto",
@@ -310,10 +311,14 @@ export function LanderHelpModal() {
                     p: "24px",
                 }}
             >
-                <ModalHeader />
-                <ModalMenu />
-                <ModalContent />
-                <ModalActions />
+                <Box sx={{ position: "relative", display: "flex", height: "100%", flexFlow: "column" }}>
+                    <ModalHeader />
+                    <ModalMenu />
+                    <ModalContent />
+                    <Box sx={{ position: "absolute", bottom: 0, width: "100%" }}>
+                        <ModalActions />
+                    </Box>
+                </Box>
             </Paper>
         </Modal>
     );
