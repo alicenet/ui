@@ -202,7 +202,7 @@ export function Transactions() {
     useEffect(() => {
         async function call() {
             try {
-                const amount = await ethAdapter.contractMethods.ATOKEN.convert_view_IN1_OUT1({
+                const amount = await ethAdapter.contractMethods.ALCA.convert_view_IN1_OUT1({
                     amount: ethers.utils.parseEther(madForMigration.toString()).toString(),
                 });
                 if (!amount.error) {
@@ -215,7 +215,7 @@ export function Transactions() {
                 // TODO: Handle error message
                 console.error(e);
                 setMadToAlca(0);
-                setMadToAlcaBn(ethers.BigNumber(0));
+                setMadToAlcaBn(ethers.BigNumber.from(0));
             }
         }
 
