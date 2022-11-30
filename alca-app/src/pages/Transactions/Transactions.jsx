@@ -203,7 +203,7 @@ export function Transactions() {
                 // TODO: Handle error message
                 console.error(e);
                 setMadToAlca(0);
-                setMadToAlcaBn(ethers.BigNumber(0));
+                setMadToAlcaBn(ethers.BigNumber.from(0));
             }
         }
 
