@@ -27,7 +27,7 @@ import {
     CircularProgress,
     Fade,
 } from "@mui/material";
-import { ChevronRight, InfoOutlined } from "@mui/icons-material";
+import { ChevronRight, InfoOutlined, LooksOne, LooksTwo } from "@mui/icons-material";
 import { ConnectWeb3Button, NavigationBar, SubNavigation } from "components";
 import ethAdapter from "eth-adapter";
 import { formatNumberToLocale } from "utils/number";
@@ -105,15 +105,25 @@ export function Transactions() {
         )`,
         color: "secondary.contrastText",
     };
+    const inactiveBoxTitleStyles = {
+        background: `linear-gradient(
+            180deg,
+            ${theme.palette.dark.elevation4} 0%,
+            ${theme.palette.dark.elevation4} 100%
+        ), ${theme.palette.dark.main};`,
+    };
 
     const [activeColumn, setActiveColumn] = useState(1);
 
-    const columnOneTitleBoxSx = sx({ condition: activeColumn === 1, sx: activeBoxTitleStyles });
-    const columnTwoTitleBoxSx = sx({ condition: activeColumn === 2 || hideMigrationPanel, sx: activeBoxTitleStyles });
+    const columnOneTitleBoxSx = sx(inactiveBoxTitleStyles, { condition: activeColumn === 1, sx: activeBoxTitleStyles });
+    const columnTwoTitleBoxSx = sx(inactiveBoxTitleStyles, {
+        condition: activeColumn === 2 || hideMigrationPanel,
+        sx: activeBoxTitleStyles,
+    });
 
     // Title Styles
-    const activeLabelColorStyles = { bgcolor: "dark.main", color: "secondary.main" };
-    const inactiveLabelColorStyles = { bgcolor: "secondary.darkText", color: "dark.main" };
+    const activeLabelColorStyles = { color: "dark.main", mr: 1 };
+    const inactiveLabelColorStyles = { color: "white", mr: 1 };
     const columnOneTitleSx = sx(inactiveLabelColorStyles, {
         condition: activeColumn === 1,
         sx: activeLabelColorStyles,
@@ -130,10 +140,7 @@ export function Transactions() {
     ), ${theme.palette.dark.main}`;
 
     // Box Styles
-    const activeBoxStyles = {
-        background: activeBg,
-        boxShadow: 10,
-    };
+    const activeBoxStyles = { background: activeBg };
     const inactiveBoxStyles = {
         background: `linear-gradient(
             180deg,
@@ -141,6 +148,11 @@ export function Transactions() {
             ${theme.palette.dark.elevation1} 100%
         ),${theme.palette.dark.main} `,
     };
+    const columnOneContainer = sx({ overflow: "hidden" }, { condition: activeColumn === 1, sx: { boxShadow: 10 } });
+    const columnTwoContainer = sx(
+        { overflow: "hidden" },
+        { condition: activeColumn === 2 || hideMigrationPanel, sx: { boxShadow: 10 } }
+    );
     const columnOneBoxSx = sx(inactiveBoxStyles, { condition: activeColumn === 1, sx: activeBoxStyles });
     const columnTwoBoxSx = sx(inactiveBoxStyles, {
         condition: activeColumn === 2 || hideMigrationPanel,
@@ -235,6 +247,10 @@ export function Transactions() {
             setLockupStakePosition(false);
         }
     }, [stakeAlcaAmount, isLockupPeriod]);
+
+    useEffect(() => {
+        setLockupStakePosition(!madForMigration);
+    }, [madForMigration]);
 
     function formattedMadValue() {
         if (balances.mad.error || ["0", "0.0", "n/a"].includes(balances.mad.value)) return "n/a";
@@ -503,13 +519,14 @@ export function Transactions() {
 
     const renderActions = () => (
         <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
-            <Button variant="outlined" disabled={!madForMigration || !stakeAlcaAmount}>
+            <Button variant="outlined" size="large" disabled={!madForMigration || !stakeAlcaAmount}>
                 Reset TX
             </Button>
 
             <Button
                 endIcon={<ChevronRight />}
                 variant="contained"
+                size="large"
                 disabled={(!madForMigration && !stakeAlcaAmount) || parseFloat(futureAlcaBalance) < 0}
                 onClick={() => {
                     setModalOpen(true);
@@ -523,37 +540,29 @@ export function Transactions() {
     const renderContentGrid = () => (
         <Grid container>
             {!hideMigrationPanel && (
-                <Grid item xs={4} display="flex" flexDirection="column">
-                    <Box p={2} borderRadius={1} sx={columnOneTitleBoxSx}>
-                        <Typography variant="body1" component="h1">
-                            <Box
-                                component="span"
-                                px={1}
-                                py={0.5}
-                                mr={1}
-                                borderRadius={0.5}
-                                fontWeight="bold"
-                                sx={columnOneTitleSx}
-                            >
-                                1
-                            </Box>
+                <Grid item xs={4} borderRadius={1} display="flex" flexDirection="column" sx={columnOneContainer}>
+                    <Box px={2} py={1.5} sx={columnOneTitleBoxSx}>
+                        <Typography display="flex" variant="body1" component="h1">
+                            <LooksOne sx={columnOneTitleSx} />
                             Migration {symbols.MAD} to {symbols.ALCA}
                         </Typography>
                     </Box>
 
-                    <Box p={2} borderRadius={1} flex={1} sx={columnOneBoxSx}>
-                        <Typography sx={columnOneFadeOutTxtSx}>Current {symbols.MAD} Balance</Typography>
+                    <Box p={2} flex={1} sx={columnOneBoxSx}>
+                        <Typography variant="body2" sx={columnOneFadeOutTxtSx}>
+                            Current {symbols.MAD} Balance
+                        </Typography>
                         <Typography variant="h5">
                             {formattedMadValue()} {symbols.MAD}
                         </Typography>
 
                         <Divider sx={{ my: 2 }} />
 
-                        <Typography sx={columnOneFadeOutTxtSx}>
+                        <Typography variant="body2" sx={columnOneFadeOutTxtSx}>
                             Exchange rate from {symbols.MAD} to {symbols.ALCA}
                         </Typography>
 
-                        <Typography variant="body1">
+                        <Typography variant="body2" sx={{ fontSize: 16 }}>
                             1 {symbols.MAD} Token ≈ 1.5556 {symbols.ALCA} Token
                         </Typography>
 
@@ -570,6 +579,7 @@ export function Transactions() {
                             <Button
                                 variant="contained"
                                 color="secondary"
+                                sx={{ py: 1 }}
                                 onClick={() => {
                                     setMadForMigration(balances.mad.value);
                                 }}
@@ -578,7 +588,7 @@ export function Transactions() {
                             </Button>
                         </Box>
 
-                        <Typography variant="body1">
+                        <Typography variant="body2">
                             you will recieve{" "}
                             <strong>
                                 {formatNumberToLocale(madToAlca)} {symbols.ALCA}
@@ -588,26 +598,23 @@ export function Transactions() {
                 </Grid>
             )}
 
-            <Grid item xs={hideMigrationPanel ? 12 : 8} display="flex" flexDirection="column">
-                <Box p={2} borderRadius={1} sx={columnTwoTitleBoxSx}>
-                    <Typography variant="body1" component="h1">
-                        <Box
-                            component="span"
-                            px={1}
-                            py={0.5}
-                            mr={1}
-                            borderRadius={0.5}
-                            fontWeight="bold"
-                            sx={columnTwoTitleSx}
-                        >
-                            {hideMigrationPanel ? 1 : 2}
-                        </Box>
+            <Grid
+                item
+                xs={hideMigrationPanel ? 12 : 8}
+                borderRadius={1}
+                display="flex"
+                flexDirection="column"
+                sx={columnTwoContainer}
+            >
+                <Box px={2} py={1.5} sx={columnTwoTitleBoxSx}>
+                    <Typography display="flex" variant="body1" component="h1">
+                        {hideMigrationPanel ? <LooksOne sx={columnTwoTitleSx} /> : <LooksTwo sx={columnTwoTitleSx} />}
                         {symbols.ALCA} Staking {isLockupPeriod && "& Lockup"}
                     </Typography>
                 </Box>
 
-                <Box p={2} borderRadius={1} flex={1} sx={columnTwoBoxSx}>
-                    <Typography>
+                <Box p={2} flex={1} sx={columnTwoBoxSx}>
+                    <Typography variant="body2">
                         {madToAlca && madToAlca > 0 ? "Future" : "Current"} {symbols.ALCA} balance
                     </Typography>
 
@@ -617,7 +624,8 @@ export function Transactions() {
 
                     <Divider sx={{ my: 2 }} />
 
-                    <Grid mt={5} alignItems="center">
+                    <Typography variant="body2">CREATE STAKING</Typography>
+                    <Grid mt={3} alignItems="center">
                         <Grid container item>
                             <Grid item xs={5}>
                                 <Typography px={2} display="flex" alignItems="center">
@@ -672,7 +680,12 @@ export function Transactions() {
                                     }}
                                 />
 
-                                <Button variant="contained" size="small" color="secondary" onClick={() => allInAlca()}>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    sx={{ py: 1 }}
+                                    onClick={() => allInAlca()}
+                                >
                                     All
                                 </Button>
                             </Grid>

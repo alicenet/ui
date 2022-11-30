@@ -8,6 +8,7 @@ const CustomPaletteColors = {
     primary: {
         main: "#95F1E3",
         light: "#C9FFFF",
+        dark: "#6FBEB2",
     },
     secondary: {
         main: "#FFABD1",
@@ -44,11 +45,9 @@ export const theme = createTheme({
             color: "#fff",
             opacity: "50%",
         },
-        body1: {
-            fontFamily: "Inter",
-        },
         body2: {
             fontFamily: "Inter",
+            fontSize: 14,
         },
         button: {
             textTransform: "none",

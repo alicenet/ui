@@ -6,6 +6,7 @@ import { configuration } from "config";
 import { useSelector } from "react-redux";
 import ethAdapter from "eth-adapter";
 import { ConnectWeb3Button, HelpDropdown, Web3NetworkMenu } from "./index";
+import { ReactComponent as AliceNetLogo } from "assets/alicenet-logo.svg";
 
 export function NavigationBar() {
     const theme = useTheme();
@@ -107,6 +108,10 @@ export function NavigationBar() {
                         alignItems: "center",
                     }}
                 >
+                    <Box mr={3}>
+                        <AliceNetLogo />
+                    </Box>
+
                     <Link
                         href={configuration.site.url_about}
                         {...configuration.site.href_props}
