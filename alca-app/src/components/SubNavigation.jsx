@@ -10,15 +10,13 @@ export function SubNavigation() {
 
     function renderPages() {
         return PAGES.map((page, index) => {
-            const padding = index === 0 ? "5px 0 0 5px" : "0 5px 5px 0";
-
             return (
                 <Link
                     key={page.to}
                     to={page.to}
                     component={NavLink}
                     sx={{
-                        color: page.to === location.pathname ? theme.palette.background.default : "#fff",
+                        color: page.to === location.pathname ? theme.palette.background.default : "white",
                         background:
                             page.to === location.pathname
                                 ? `linear-gradient(
@@ -33,8 +31,9 @@ export function SubNavigation() {
                         display: "block",
                         fontFamily: theme.typography.fontFamily,
                         textDecoration: 0,
-                        padding: "12px 30px",
-                        borderRadius: { xs: "5px", md: page.to === location.pathname ? "5px" : padding },
+                        py: 1.5,
+                        px: 4,
+                        borderRadius: 1,
                         fontSize: theme.typography.body1.fontSize,
                         width: 1 / 2,
                         textAlign: "center",
