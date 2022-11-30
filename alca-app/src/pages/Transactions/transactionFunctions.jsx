@@ -209,7 +209,7 @@ export async function stakeAndLock({
         // Open snackbar
         setSnackbarOpen(true);
         // Allowance transaction
-        const allowanceTx = await ethAdapter.contractMethods.ATOKEN.approve_nonpayable_IN2_OUT1({
+        const allowanceTx = await ethAdapter.contractMethods.ALCA.approve_nonpayable_IN2_OUT1({
             amount: ethAdapter.ethers.utils.parseEther(stakeAlcaAmount),
             spender: ethAdapter.contractConfig.STAKINGROUTERV1.address,
         });
