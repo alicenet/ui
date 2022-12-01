@@ -126,7 +126,13 @@ export function Transactions() {
             condition: activeColumn === 2 && !hideMigrationPanel,
             sx: activeBoxTitleStyles,
         },
-        { borderBottom: 1, borderColor: theme.palette.secondary.main },
+        {
+            condition: hideMigrationPanel,
+            sx: {
+                borderBottom: 1,
+                borderColor: theme.palette.secondary.main,
+            },
+        },
         {
             condition: hideMigrationPanel,
             sx: { paddingX: 0 },
@@ -567,7 +573,7 @@ export function Transactions() {
                     </Box>
 
                     <Box p={2} flex={1} sx={columnOneBoxSx}>
-                        <Typography variant="subtitle1" sx={columnOneFadeOutTxtSx}>
+                        <Typography variant="subtitle2" sx={columnOneFadeOutTxtSx}>
                             Current {symbols.MAD} Balance
                         </Typography>
                         <Typography variant="h5">
@@ -576,7 +582,7 @@ export function Transactions() {
 
                         <Divider sx={{ my: 2 }} />
 
-                        <Typography variant="subtitle1" sx={columnOneFadeOutTxtSx}>
+                        <Typography variant="subtitle2" sx={columnOneFadeOutTxtSx}>
                             Exchange rate from {symbols.MAD} to {symbols.ALCA}
                         </Typography>
 

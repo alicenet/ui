@@ -30,12 +30,13 @@ export const theme = createTheme({
     palette: CustomPaletteColors,
     typography: {
         ...aliceTheme.typography,
-        fontFamily: "JetBrains Mono",
+        // TODO Move this to mui-provider
         subtitle1: {
             fontFamily: "Inter",
         },
         subtitle2: {
             fontFamily: "Inter",
+            fontSize: 14,
         },
         body2: {
             fontFamily: "Inter",
@@ -59,6 +60,7 @@ export const theme = createTheme({
                 }
             `,
         },
+        // TODO Move this to mui-provider
         MuiDataGrid: {
             styleOverrides: {
                 root: {
