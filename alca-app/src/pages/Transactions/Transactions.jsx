@@ -109,7 +109,7 @@ export function Transactions() {
             180deg,
             ${theme.palette.dark.elevation4} 0%,
             ${theme.palette.dark.elevation4} 100%
-        ), ${theme.palette.dark.main};`,
+        ), ${theme.palette.background.default};`,
     };
 
     const [activeColumn, setActiveColumn] = useState(1);
@@ -140,7 +140,7 @@ export function Transactions() {
     );
 
     // Title Styles
-    const activeLabelColorStyles = { color: "dark.main", mr: 1 };
+    const activeLabelColorStyles = { color: "background.default", mr: 1 };
     const inactiveLabelColorStyles = { color: "white", mr: 1 };
     const columnOneTitleSx = sx(inactiveLabelColorStyles, {
         condition: activeColumn === 1,
@@ -155,7 +155,7 @@ export function Transactions() {
         180deg,
         ${theme.palette.dark.elevation12} 0%,
         ${theme.palette.dark.elevation12} 100%
-    ), ${theme.palette.dark.main}`;
+    ), ${theme.palette.background.default}`;
 
     // Box Styles
     const activeBoxStyles = { background: activeBg };
@@ -164,7 +164,7 @@ export function Transactions() {
             180deg,
             ${theme.palette.dark.elevation1} 0%,
             ${theme.palette.dark.elevation1} 100%
-        ),${theme.palette.dark.main} `,
+        ),${theme.palette.background.default} `,
     };
     const columnOneContainer = sx({ overflow: "hidden" }, { condition: activeColumn === 1, sx: { boxShadow: 10 } });
     const columnTwoContainer = sx(
@@ -182,7 +182,7 @@ export function Transactions() {
             180deg, ${theme.palette.dark.elevation3} 0%,
             ${theme.palette.light.elevation3} 100%,
             ${theme.palette.dark.elevation1} 100%
-        ), ${theme.palette.dark.main}`,
+        ), ${theme.palette.background.default}`,
     };
 
     // Common Styles
@@ -203,7 +203,7 @@ export function Transactions() {
             background: `linear-gradient(
                 180deg, ${theme.palette.dark.elevation4} 0%,
                 ${theme.palette.dark.elevation4} 100%
-            ), ${theme.palette.dark.main}`,
+            ), ${theme.palette.background.default}`,
         },
     }));
 
@@ -380,7 +380,7 @@ export function Transactions() {
                         180deg,
                         ${theme.palette.dark.elevation12} 0%,
                         ${theme.palette.dark.elevation12} 100%
-                    ), ${theme.palette.dark.main}`,
+                    ), ${theme.palette.background.default}`,
                         marginTop: 2,
                     }}
                 >
@@ -437,7 +437,7 @@ export function Transactions() {
                             180deg,
                             ${theme.palette.dark.elevation24} 0%,
                             ${theme.palette.dark.elevation24} 100%
-                        ), ${theme.palette.dark.main}`,
+                        ), ${theme.palette.background.default}`,
                         borderRadius: 2,
                         paddingY: 2,
                         paddingX: 3,

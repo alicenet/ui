@@ -5,15 +5,13 @@ import bgAlicenetLogo from "assets/bg-alicenet-logo.svg";
 // TODO Update this to use mui-provider palette -> https://github.com/alicenet/alice-mui-provider
 console.log({ aliceTheme });
 const CustomPaletteColors = {
-    mode: "dark",
-    primary: { ...aliceTheme.palette.primary },
+    ...aliceTheme.palette,
     secondary: {
         ...aliceTheme.palette.secondary,
         startGradient: "#FFABD4",
         endGradient: "#CE6D99",
     },
     dark: {
-        main: "#11151C",
         elevation1: "rgba(165, 198, 255, 0.05)",
         elevation3: "rgba(165, 198, 255, 0.08)",
         elevation4: "rgba(165, 198, 255, 0.09)",
@@ -54,7 +52,7 @@ export const theme = createTheme({
                         ${bgAlicenetLogo}) no-repeat,
                         radial-gradient(81.56% 81.56% at 50% 95.8%,
                         #001740 0%,
-                        ${CustomPaletteColors.dark.main} 100%
+                        ${aliceTheme.palette.background.default} 100%
                     );
                     background-position: left -200px bottom;
                 }
@@ -86,6 +84,7 @@ export const theme = createTheme({
                 },
             },
         },
+        // TODO Move this to mui-provider
         MuiLink: {
             styleOverrides: {
                 root: {
@@ -93,6 +92,7 @@ export const theme = createTheme({
                 },
             },
         },
+        // TODO Move this to mui-provider
         MuiTableCell: {
             styleOverrides: {
                 root: {
