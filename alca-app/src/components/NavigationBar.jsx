@@ -116,7 +116,7 @@ export function NavigationBar() {
                         href={configuration.site.url_about}
                         {...configuration.site.href_props}
                         sx={{
-                            color: theme.palette.secondary.darkText,
+                            color: "text.secondary",
                             mx: configuration.site.webView.headerLinkSpacing,
                             my: configuration.site.webView.headerHeight,
                             display: "block",
@@ -129,7 +129,7 @@ export function NavigationBar() {
                         href={configuration.site.url_blockExplorer}
                         {...configuration.site.href_props}
                         sx={{
-                            color: theme.palette.secondary.darkText,
+                            color: "text.secondary",
                             mx: configuration.site.webView.headerLinkSpacing,
                             my: configuration.site.webView.headerHeight,
                             display: "block",

@@ -100,8 +100,7 @@ export function Transactions() {
         background: `linear-gradient(
             180deg,
             ${theme.palette.secondary.startGradient} 18.53%,
-            ${theme.palette.secondary.endGradient}
-            167.76%
+            ${theme.palette.secondary.endGradient} 167.76%
         )`,
         color: "secondary.contrastText",
     };
@@ -181,8 +180,8 @@ export function Transactions() {
     };
 
     // Common Styles
-    const activeFadeOutTextStyle = { color: "secondary.darkText" };
-    const inactiveFadeOutTextStyle = { color: "secondary.darkTextDisabled" };
+    const activeFadeOutTextStyle = { color: "text.secondary" };
+    const inactiveFadeOutTextStyle = { color: "text.disabled" };
     const columnOneFadeOutTxtSx = sx(inactiveFadeOutTextStyle, {
         condition: activeColumn === 1,
         sx: activeFadeOutTextStyle,
@@ -568,7 +567,7 @@ export function Transactions() {
                     </Box>
 
                     <Box p={2} flex={1} sx={columnOneBoxSx}>
-                        <Typography variant="body2" sx={columnOneFadeOutTxtSx}>
+                        <Typography variant="subtitle1" sx={columnOneFadeOutTxtSx}>
                             Current {symbols.MAD} Balance
                         </Typography>
                         <Typography variant="h5">
@@ -577,7 +576,7 @@ export function Transactions() {
 
                         <Divider sx={{ my: 2 }} />
 
-                        <Typography variant="body2" sx={columnOneFadeOutTxtSx}>
+                        <Typography variant="subtitle1" sx={columnOneFadeOutTxtSx}>
                             Exchange rate from {symbols.MAD} to {symbols.ALCA}
                         </Typography>
 
@@ -633,7 +632,7 @@ export function Transactions() {
                 </Box>
 
                 <Box p={2} flex={1} sx={columnTwoBoxSx}>
-                    <Typography variant="body2">
+                    <Typography variant="subtitle2">
                         {madToAlca && madToAlca > 0 ? "Future" : "Current"} {symbols.ALCA} balance
                     </Typography>
 
