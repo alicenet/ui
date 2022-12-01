@@ -115,11 +115,24 @@ export function Transactions() {
 
     const [activeColumn, setActiveColumn] = useState(1);
 
-    const columnOneTitleBoxSx = sx(inactiveBoxTitleStyles, { condition: activeColumn === 1, sx: activeBoxTitleStyles });
-    const columnTwoTitleBoxSx = sx(inactiveBoxTitleStyles, {
-        condition: activeColumn === 2 || hideMigrationPanel,
-        sx: activeBoxTitleStyles,
+    const onlyStakingHeaderStyles = sx({
+        condition: hideMigrationPanel,
+        sx: { fontSize: 24 },
     });
+
+    const columnOneTitleBoxSx = sx(inactiveBoxTitleStyles, { condition: activeColumn === 1, sx: activeBoxTitleStyles });
+    const columnTwoTitleBoxSx = sx(
+        { condition: !hideMigrationPanel, sx: inactiveBoxTitleStyles },
+        {
+            condition: activeColumn === 2 && !hideMigrationPanel,
+            sx: activeBoxTitleStyles,
+        },
+        { borderBottom: 1, borderColor: theme.palette.secondary.main },
+        {
+            condition: hideMigrationPanel,
+            sx: { paddingX: 0 },
+        }
+    );
 
     // Title Styles
     const activeLabelColorStyles = { color: "dark.main", mr: 1 };
@@ -517,6 +530,12 @@ export function Transactions() {
         );
     }
 
+    function renderColumnNumber() {
+        if (hideMigrationPanel) return <></>;
+
+        return <LooksTwo sx={columnTwoTitleSx} />;
+    }
+
     const renderActions = () => (
         <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
             <Button variant="outlined" size="large" disabled={!madForMigration || !stakeAlcaAmount}>
@@ -607,9 +626,9 @@ export function Transactions() {
                 sx={columnTwoContainer}
             >
                 <Box px={2} py={1.5} sx={columnTwoTitleBoxSx}>
-                    <Typography display="flex" variant="body1" component="h1">
-                        {hideMigrationPanel ? <LooksOne sx={columnTwoTitleSx} /> : <LooksTwo sx={columnTwoTitleSx} />}
-                        {symbols.ALCA} Staking {isLockupPeriod && "& Lockup"}
+                    <Typography display="flex" sx={onlyStakingHeaderStyles}>
+                        {renderColumnNumber()}
+                        Staking {isLockupPeriod && "& Lockup"} {symbols.ALCA}
                     </Typography>
                 </Box>
 
