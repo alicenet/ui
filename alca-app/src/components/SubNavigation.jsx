@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Link } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { NavLink, useLocation } from "react-router-dom";
 import { PAGES } from "pages/routes";
+import { BalanceContext } from "alice-ui-common";
+import { CountBubble } from "./CountBubble";
 
 export function SubNavigation() {
     const location = useLocation();
     const theme = useTheme();
+
+    const { positions = {} } = useContext(BalanceContext);
+
+    function renderPositionCount(show) {
+        if (!show) return <></>;
+
+        return <CountBubble count={positions.staked.value.length} />;
+    }
 
     function renderPages() {
         return PAGES.map((page, index) => {
@@ -39,7 +49,10 @@ export function SubNavigation() {
                         textAlign: "center",
                     }}
                 >
-                    {page.display}
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        {page.display}
+                        {renderPositionCount(page.to === "/positions")}
+                    </Box>
                 </Link>
             );
         });

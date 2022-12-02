@@ -73,7 +73,6 @@ export function Transactions() {
     };
 
     const sanitizeAlcaForStakingInput = (amt) => {
-        setMadForMigration("0");
         if (amt === "." || amt === "") {
             return setAmountOfAlcaToStake("");
         }
@@ -119,8 +118,14 @@ export function Transactions() {
         sx: { fontSize: 24 },
     });
 
-    const columnOneTitleBoxSx = sx(inactiveBoxTitleStyles, { condition: activeColumn === 1, sx: activeBoxTitleStyles });
+    const pointerStyles = { cursor: "pointer" };
+
+    const columnOneTitleBoxSx = sx(inactiveBoxTitleStyles, pointerStyles, {
+        condition: activeColumn === 1,
+        sx: activeBoxTitleStyles,
+    });
     const columnTwoTitleBoxSx = sx(
+        pointerStyles,
         { condition: !hideMigrationPanel, sx: inactiveBoxTitleStyles },
         {
             condition: activeColumn === 2 && !hideMigrationPanel,
@@ -565,7 +570,14 @@ export function Transactions() {
         <Grid container>
             {!hideMigrationPanel && (
                 <Grid item xs={4} borderRadius={1} display="flex" flexDirection="column" sx={columnOneContainer}>
-                    <Box px={2} py={1.5} sx={columnOneTitleBoxSx}>
+                    <Box
+                        px={2}
+                        py={1.5}
+                        sx={columnOneTitleBoxSx}
+                        onClick={() => {
+                            setActiveColumn(1);
+                        }}
+                    >
                         <Typography display="flex" variant="body1" component="h1">
                             <LooksOne sx={columnOneTitleSx} />
                             Migration {symbols.MAD} to {symbols.ALCA}
@@ -630,7 +642,14 @@ export function Transactions() {
                 flexDirection="column"
                 sx={columnTwoContainer}
             >
-                <Box px={2} py={1.5} sx={columnTwoTitleBoxSx}>
+                <Box
+                    px={2}
+                    py={1.5}
+                    sx={columnTwoTitleBoxSx}
+                    onClick={() => {
+                        setActiveColumn(2);
+                    }}
+                >
                     <Typography display="flex" sx={onlyStakingHeaderStyles}>
                         {renderColumnNumber()}
                         Staking {isLockupPeriod && "& Lockup"} {symbols.ALCA}

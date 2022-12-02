@@ -17,6 +17,7 @@ import {
     unlockLockedPositionEarly,
 } from "pages/Transactions/transactionFunctions";
 import { Navigate } from "react-router-dom";
+import { CountBubble } from "components/CountBubble";
 
 export function Positions() {
     const { balances, positions = {}, updateBalances } = useContext(BalanceContext);
@@ -408,18 +409,7 @@ export function Positions() {
         return (
             <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box>Staked Positions</Box>
-                <Box
-                    sx={{
-                        marginLeft: 1,
-                        fontSize: "14px",
-                        color: "#fff",
-                        padding: "1px 5px",
-                        bgcolor: "#0000007a",
-                        borderRadius: 10,
-                    }}
-                >
-                    {positions.staked.value.length}
-                </Box>
+                <CountBubble count={positions.staked.value.length} />
             </Box>
         );
     }
