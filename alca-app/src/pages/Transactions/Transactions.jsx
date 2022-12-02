@@ -98,18 +98,17 @@ export function Transactions() {
     const activeBoxTitleStyles = {
         background: `linear-gradient(
             180deg,
-            ${theme.palette.secondary.startGradient} 18.53%,
-            ${theme.palette.secondary.endGradient}
-            167.76%
+            ${theme.palette.custom.startGradient} 18.53%,
+            ${theme.palette.custom.endGradient} 167.76%
         )`,
         color: "secondary.contrastText",
     };
     const inactiveBoxTitleStyles = {
         background: `linear-gradient(
             180deg,
-            ${theme.palette.dark.elevation4} 0%,
-            ${theme.palette.dark.elevation4} 100%
-        ), ${theme.palette.dark.main};`,
+            ${theme.palette.custom.elevation4} 0%,
+            ${theme.palette.custom.elevation4} 100%
+        ), ${theme.palette.background.default};`,
     };
 
     const [activeColumn, setActiveColumn] = useState(1);
@@ -132,7 +131,13 @@ export function Transactions() {
             condition: activeColumn === 2 && !hideMigrationPanel,
             sx: activeBoxTitleStyles,
         },
-        { borderBottom: 1, borderColor: theme.palette.secondary.main },
+        {
+            condition: hideMigrationPanel,
+            sx: {
+                borderBottom: 1,
+                borderColor: theme.palette.secondary.main,
+            },
+        },
         {
             condition: hideMigrationPanel,
             sx: { paddingX: 0 },
@@ -140,7 +145,7 @@ export function Transactions() {
     );
 
     // Title Styles
-    const activeLabelColorStyles = { color: "dark.main", mr: 1 };
+    const activeLabelColorStyles = { color: "background.default", mr: 1 };
     const inactiveLabelColorStyles = { color: "white", mr: 1 };
     const columnOneTitleSx = sx(inactiveLabelColorStyles, {
         condition: activeColumn === 1,
@@ -153,18 +158,18 @@ export function Transactions() {
 
     const activeBg = `linear-gradient(
         180deg,
-        ${theme.palette.dark.elevation12} 0%,
-        ${theme.palette.dark.elevation12} 100%
-    ), ${theme.palette.dark.main}`;
+        ${theme.palette.custom.elevation12} 0%,
+        ${theme.palette.custom.elevation12} 100%
+    ), ${theme.palette.background.default}`;
 
     // Box Styles
     const activeBoxStyles = { background: activeBg };
     const inactiveBoxStyles = {
         background: `linear-gradient(
             180deg,
-            ${theme.palette.dark.elevation1} 0%,
-            ${theme.palette.dark.elevation1} 100%
-        ),${theme.palette.dark.main} `,
+            ${theme.palette.custom.elevation1} 0%,
+            ${theme.palette.custom.elevation1} 100%
+        ),${theme.palette.background.default} `,
     };
     const columnOneContainer = sx({ overflow: "hidden" }, { condition: activeColumn === 1, sx: { boxShadow: 10 } });
     const columnTwoContainer = sx(
@@ -179,15 +184,15 @@ export function Transactions() {
 
     const gridStyles = {
         background: `linear-gradient(
-            180deg, ${theme.palette.dark.elevation3} 0%,
-            ${theme.palette.light.elevation3} 100%,
-            ${theme.palette.dark.elevation1} 100%
-        ), ${theme.palette.dark.main}`,
+            180deg, ${theme.palette.custom.elevation3} 0%,
+            ${theme.palette.action.hover} 100%,
+            ${theme.palette.custom.elevation1} 100%
+        ), ${theme.palette.background.default}`,
     };
 
     // Common Styles
-    const activeFadeOutTextStyle = { color: "secondary.darkText" };
-    const inactiveFadeOutTextStyle = { color: "secondary.darkTextDisabled" };
+    const activeFadeOutTextStyle = { color: "text.secondary" };
+    const inactiveFadeOutTextStyle = { color: "text.disabled" };
     const columnOneFadeOutTxtSx = sx(inactiveFadeOutTextStyle, {
         condition: activeColumn === 1,
         sx: activeFadeOutTextStyle,
@@ -201,9 +206,9 @@ export function Transactions() {
     const StyledTableRow = styled(TableRow)(() => ({
         "&:nth-of-type(odd)": {
             background: `linear-gradient(
-                180deg, ${theme.palette.dark.elevation4} 0%,
-                ${theme.palette.dark.elevation4} 100%
-            ), ${theme.palette.dark.main}`,
+                180deg, ${theme.palette.custom.elevation4} 0%,
+                ${theme.palette.custom.elevation4} 100%
+            ), ${theme.palette.background.default}`,
         },
     }));
 
@@ -378,9 +383,9 @@ export function Transactions() {
                         padding: 1.5,
                         background: `linear-gradient(
                         180deg,
-                        ${theme.palette.dark.elevation12} 0%,
-                        ${theme.palette.dark.elevation12} 100%
-                    ), ${theme.palette.dark.main}`,
+                        ${theme.palette.custom.elevation12} 0%,
+                        ${theme.palette.custom.elevation12} 100%
+                    ), ${theme.palette.background.default}`,
                         marginTop: 2,
                     }}
                 >
@@ -435,9 +440,9 @@ export function Transactions() {
                         width: "70%",
                         background: `linear-gradient(
                             180deg,
-                            ${theme.palette.dark.elevation24} 0%,
-                            ${theme.palette.dark.elevation24} 100%
-                        ), ${theme.palette.dark.main}`,
+                            ${theme.palette.custom.elevation24} 0%,
+                            ${theme.palette.custom.elevation24} 100%
+                        ), ${theme.palette.background.default}`,
                         borderRadius: 2,
                         paddingY: 2,
                         paddingX: 3,
@@ -580,7 +585,7 @@ export function Transactions() {
                     </Box>
 
                     <Box p={2} flex={1} sx={columnOneBoxSx}>
-                        <Typography variant="body2" sx={columnOneFadeOutTxtSx}>
+                        <Typography variant="subtitle2" sx={columnOneFadeOutTxtSx}>
                             Current {symbols.MAD} Balance
                         </Typography>
                         <Typography variant="h5">
@@ -589,7 +594,7 @@ export function Transactions() {
 
                         <Divider sx={{ my: 2 }} />
 
-                        <Typography variant="body2" sx={columnOneFadeOutTxtSx}>
+                        <Typography variant="subtitle2" sx={columnOneFadeOutTxtSx}>
                             Exchange rate from {symbols.MAD} to {symbols.ALCA}
                         </Typography>
 
@@ -652,7 +657,7 @@ export function Transactions() {
                 </Box>
 
                 <Box p={2} flex={1} sx={columnTwoBoxSx}>
-                    <Typography variant="body2">
+                    <Typography variant="subtitle2">
                         {madToAlca && madToAlca > 0 ? "Future" : "Current"} {symbols.ALCA} balance
                     </Typography>
 

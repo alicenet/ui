@@ -35,9 +35,9 @@ export function SubNavigation() {
                                     ${theme.palette.primary.dark} 96.31%
                                 );`
                                 : `linear-gradient(
-                                    180deg, ${theme.palette.dark.elevation1} 0%,
-                                    ${theme.palette.dark.elevation1} 100%
-                                ), ${theme.palette.dark.main};`,
+                                    180deg, ${theme.palette.custom.elevation1} 0%,
+                                    ${theme.palette.custom.elevation1} 100%
+                                ), ${theme.palette.background.default};`,
                         display: "block",
                         fontFamily: theme.typography.fontFamily,
                         textDecoration: 0,
@@ -46,10 +46,9 @@ export function SubNavigation() {
                         borderRadius: 1,
                         fontSize: theme.typography.body1.fontSize,
                         width: 1 / 2,
-                        textAlign: "center",
                     }}
                 >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                         {page.display}
                         {renderPositionCount(page.to === "/positions")}
                     </Box>
@@ -72,12 +71,12 @@ export function SubNavigation() {
                 sx={{
                     background: `linear-gradient(
                         180deg,
-                        ${theme.palette.dark.elevation1} 0%,
-                        ${theme.palette.dark.elevation1} 100%
-                    ), ${theme.palette.dark.main};`,
+                        ${theme.palette.custom.elevation1} 0%,
+                        ${theme.palette.custom.elevation1} 100%
+                    ), ${theme.palette.background.default};`,
                     display: "flex",
                     borderRadius: 1,
-                    minWidth: 7 / 16,
+                    minWidth: 8 / 16,
                 }}
             >
                 {renderPages()}
