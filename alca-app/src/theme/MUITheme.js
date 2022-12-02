@@ -2,8 +2,6 @@ import { createTheme } from "@mui/material";
 import { theme as aliceTheme } from "alice-mui-provider";
 import bgAlicenetLogo from "assets/bg-alicenet-logo.svg";
 
-// TODO Update this to use mui-provider palette -> https://github.com/alicenet/alice-mui-provider
-console.log({ aliceTheme });
 const CustomPaletteColors = {
     ...aliceTheme.palette,
     custom: {
@@ -80,15 +78,6 @@ export const theme = createTheme({
                 },
             },
         },
-        // TODO Move this to mui-provider
-        MuiLink: {
-            styleOverrides: {
-                root: {
-                    fontFamily: "JetBrains Mono",
-                },
-            },
-        },
-        // TODO Move this to mui-provider
         MuiTableCell: {
             styleOverrides: {
                 root: {

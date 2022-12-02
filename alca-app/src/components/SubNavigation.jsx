@@ -46,10 +46,9 @@ export function SubNavigation() {
                         borderRadius: 1,
                         fontSize: theme.typography.body1.fontSize,
                         width: 1 / 2,
-                        textAlign: "center",
                     }}
                 >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                         {page.display}
                         {renderPositionCount(page.to === "/positions")}
                     </Box>
@@ -77,7 +76,7 @@ export function SubNavigation() {
                     ), ${theme.palette.background.default};`,
                     display: "flex",
                     borderRadius: 1,
-                    minWidth: 7 / 16,
+                    minWidth: 8 / 16,
                 }}
             >
                 {renderPages()}
