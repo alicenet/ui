@@ -6,44 +6,40 @@ import bgAlicenetLogo from "assets/bg-alicenet-logo.svg";
 console.log({ aliceTheme });
 const CustomPaletteColors = {
     ...aliceTheme.palette,
-    secondary: {
-        ...aliceTheme.palette.secondary,
+    custom: {
         startGradient: "#FFABD4",
         endGradient: "#CE6D99",
-    },
-    dark: {
         elevation1: "rgba(165, 198, 255, 0.05)",
         elevation3: "rgba(165, 198, 255, 0.08)",
         elevation4: "rgba(165, 198, 255, 0.09)",
         elevation12: "rgba(165, 198, 255, 0.14)",
         elevation24: "rgba(165, 198, 255, 0.16)",
     },
-    light: {
-        elevation3: "rgba(255, 255, 255, 0.08)",
+};
+
+const CustomTypography = {
+    ...aliceTheme.typography,
+    // TODO Move this to mui-provider
+    subtitle1: {
+        fontFamily: "Inter",
+    },
+    subtitle2: {
+        fontFamily: "Inter",
+        fontSize: 14,
+    },
+    body2: {
+        fontFamily: "Inter",
+        fontSize: 14,
+    },
+    button: {
+        textTransform: "none",
     },
 };
 
 export const theme = createTheme({
     ...aliceTheme,
     palette: CustomPaletteColors,
-    typography: {
-        ...aliceTheme.typography,
-        // TODO Move this to mui-provider
-        subtitle1: {
-            fontFamily: "Inter",
-        },
-        subtitle2: {
-            fontFamily: "Inter",
-            fontSize: 14,
-        },
-        body2: {
-            fontFamily: "Inter",
-            fontSize: 14,
-        },
-        button: {
-            textTransform: "none",
-        },
-    },
+    typography: CustomTypography,
     components: {
         MuiCssBaseline: {
             styleOverrides: `

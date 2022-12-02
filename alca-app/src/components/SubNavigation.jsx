@@ -25,8 +25,8 @@ export function SubNavigation() {
                                     ${theme.palette.primary.dark} 96.31%
                                 );`
                                 : `linear-gradient(
-                                    180deg, ${theme.palette.dark.elevation1} 0%,
-                                    ${theme.palette.dark.elevation1} 100%
+                                    180deg, ${theme.palette.custom.elevation1} 0%,
+                                    ${theme.palette.custom.elevation1} 100%
                                 ), ${theme.palette.background.default};`,
                         display: "block",
                         fontFamily: theme.typography.fontFamily,
@@ -59,8 +59,8 @@ export function SubNavigation() {
                 sx={{
                     background: `linear-gradient(
                         180deg,
-                        ${theme.palette.dark.elevation1} 0%,
-                        ${theme.palette.dark.elevation1} 100%
+                        ${theme.palette.custom.elevation1} 0%,
+                        ${theme.palette.custom.elevation1} 100%
                     ), ${theme.palette.background.default};`,
                     display: "flex",
                     borderRadius: 1,

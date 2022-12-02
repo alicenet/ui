@@ -99,16 +99,16 @@ export function Transactions() {
     const activeBoxTitleStyles = {
         background: `linear-gradient(
             180deg,
-            ${theme.palette.secondary.startGradient} 18.53%,
-            ${theme.palette.secondary.endGradient} 167.76%
+            ${theme.palette.custom.startGradient} 18.53%,
+            ${theme.palette.custom.endGradient} 167.76%
         )`,
         color: "secondary.contrastText",
     };
     const inactiveBoxTitleStyles = {
         background: `linear-gradient(
             180deg,
-            ${theme.palette.dark.elevation4} 0%,
-            ${theme.palette.dark.elevation4} 100%
+            ${theme.palette.custom.elevation4} 0%,
+            ${theme.palette.custom.elevation4} 100%
         ), ${theme.palette.background.default};`,
     };
 
@@ -153,8 +153,8 @@ export function Transactions() {
 
     const activeBg = `linear-gradient(
         180deg,
-        ${theme.palette.dark.elevation12} 0%,
-        ${theme.palette.dark.elevation12} 100%
+        ${theme.palette.custom.elevation12} 0%,
+        ${theme.palette.custom.elevation12} 100%
     ), ${theme.palette.background.default}`;
 
     // Box Styles
@@ -162,8 +162,8 @@ export function Transactions() {
     const inactiveBoxStyles = {
         background: `linear-gradient(
             180deg,
-            ${theme.palette.dark.elevation1} 0%,
-            ${theme.palette.dark.elevation1} 100%
+            ${theme.palette.custom.elevation1} 0%,
+            ${theme.palette.custom.elevation1} 100%
         ),${theme.palette.background.default} `,
     };
     const columnOneContainer = sx({ overflow: "hidden" }, { condition: activeColumn === 1, sx: { boxShadow: 10 } });
@@ -179,9 +179,9 @@ export function Transactions() {
 
     const gridStyles = {
         background: `linear-gradient(
-            180deg, ${theme.palette.dark.elevation3} 0%,
-            ${theme.palette.light.elevation3} 100%,
-            ${theme.palette.dark.elevation1} 100%
+            180deg, ${theme.palette.custom.elevation3} 0%,
+            ${theme.palette.action.hover} 100%,
+            ${theme.palette.custom.elevation1} 100%
         ), ${theme.palette.background.default}`,
     };
 
@@ -201,8 +201,8 @@ export function Transactions() {
     const StyledTableRow = styled(TableRow)(() => ({
         "&:nth-of-type(odd)": {
             background: `linear-gradient(
-                180deg, ${theme.palette.dark.elevation4} 0%,
-                ${theme.palette.dark.elevation4} 100%
+                180deg, ${theme.palette.custom.elevation4} 0%,
+                ${theme.palette.custom.elevation4} 100%
             ), ${theme.palette.background.default}`,
         },
     }));
@@ -378,8 +378,8 @@ export function Transactions() {
                         padding: 1.5,
                         background: `linear-gradient(
                         180deg,
-                        ${theme.palette.dark.elevation12} 0%,
-                        ${theme.palette.dark.elevation12} 100%
+                        ${theme.palette.custom.elevation12} 0%,
+                        ${theme.palette.custom.elevation12} 100%
                     ), ${theme.palette.background.default}`,
                         marginTop: 2,
                     }}
@@ -435,8 +435,8 @@ export function Transactions() {
                         width: "70%",
                         background: `linear-gradient(
                             180deg,
-                            ${theme.palette.dark.elevation24} 0%,
-                            ${theme.palette.dark.elevation24} 100%
+                            ${theme.palette.custom.elevation24} 0%,
+                            ${theme.palette.custom.elevation24} 100%
                         ), ${theme.palette.background.default}`,
                         borderRadius: 2,
                         paddingY: 2,

@@ -374,7 +374,7 @@ export function Positions() {
 
     const fadeOutTextStyle = { fontSize: "14px" };
     const boxStyles = {
-        background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.background.default}`,
+        background: `linear-gradient(180deg, ${theme.palette.custom.elevation12} 0%, ${theme.palette.custom.elevation12} 100%), ${theme.palette.background.default}`,
         padding: 2,
         borderRadius: 1,
         "& .even": {
@@ -391,7 +391,7 @@ export function Positions() {
             outline: "none",
         },
         "& .odd.MuiDataGrid-row:hover": {
-            background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.background.default}`,
+            background: `linear-gradient(180deg, ${theme.palette.custom.elevation12} 0%, ${theme.palette.custom.elevation12} 100%), ${theme.palette.background.default}`,
         },
         "& .even.MuiDataGrid-row:hover": {
             background: `linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C`,
