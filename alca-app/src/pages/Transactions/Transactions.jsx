@@ -73,7 +73,6 @@ export function Transactions() {
     };
 
     const sanitizeAlcaForStakingInput = (amt) => {
-        setMadForMigration("0");
         if (amt === "." || amt === "") {
             return setAmountOfAlcaToStake("");
         }
