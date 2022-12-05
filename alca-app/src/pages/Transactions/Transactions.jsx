@@ -669,7 +669,7 @@ export function Transactions() {
 
                     <Typography variant="body2">CREATE STAKING</Typography>
                     <Grid mt={3} alignItems="center">
-                        <Grid container item>
+                        <Grid container item gap={1}>
                             <Grid item xs={5}>
                                 <Typography px={2} display="flex" alignItems="center">
                                     Amount
@@ -706,6 +706,7 @@ export function Transactions() {
                             item
                             alignItems="center"
                             borderRadius={1}
+                            gap={1}
                             py={1}
                             mt={2}
                             mb={4}
