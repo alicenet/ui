@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Modal,
     Box,
@@ -12,6 +12,8 @@ import {
     ListItemIcon,
     Button,
     Link,
+    Checkbox,
+    FormControlLabel,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanderModalOpenState } from "redux/actions/application";
@@ -26,9 +28,15 @@ export function LanderHelpModal() {
     const theme = useTheme();
     const [, setHideModalCookie] = useModalCookie();
 
-    const modalPageNames = { welcome: "welcome", migration: "migration", staking: "staking" };
-    const pageNameToIdx = { [modalPageNames.welcome]: 0, [modalPageNames.migration]: 1, [modalPageNames.staking]: 2 };
+    const modalPageNames = { welcome: "welcome", migration: "migration", staking: "staking", tos: "tos" };
+    const pageNameToIdx = {
+        [modalPageNames.welcome]: 0,
+        [modalPageNames.migration]: 1,
+        [modalPageNames.staking]: 2,
+        [modalPageNames.tos]: 3,
+    };
     const [modalPage, setModalPage] = React.useState(modalPageNames.welcome); // welcome | migration | staking
+    const [acceptTerms, setAcceptTerms] = useState(false);
 
     const closeModal = () => {
         dispatch(setLanderModalOpenState(false));
@@ -44,12 +52,6 @@ export function LanderHelpModal() {
 
     const ModalHeader = () => (
         <>
-            <Box
-                sx={{ display: "flex", justifyContent: "end", fontWeight: "bold", cursor: "pointer" }}
-                onClick={closeModal}
-            >
-                X
-            </Box>
             <Typography id="modal-modal-title" variant="h5" component="h2">
                 Welcome to AliceNet
             </Typography>
@@ -80,6 +82,11 @@ export function LanderHelpModal() {
                     <Tab label="Welcome" {...tabPropeties} onClick={() => setModalPage(modalPageNames.welcome)} />
                     <Tab label="Migration" {...tabPropeties} onClick={() => setModalPage(modalPageNames.migration)} />
                     <Tab label="Staking" {...tabPropeties} onClick={() => setModalPage(modalPageNames.staking)} />
+                    <Tab
+                        label="Terms & Conditions"
+                        {...tabPropeties}
+                        onClick={() => setModalPage(modalPageNames.tos)}
+                    />
                 </Tabs>
             </Box>
         </>
@@ -221,21 +228,60 @@ export function LanderHelpModal() {
             </Box>
         );
 
-        const ModalContent = (props) => {
-            const pageContent =
-                modalPage === modalPageNames.welcome ? (
-                    <WelcomeContent />
-                ) : modalPage === modalPageNames.staking ? (
-                    <StakingContent />
-                ) : (
-                    <MigrationContent />
-                );
-            return <Box {...props}>{pageContent}</Box>;
+        const TosContent = (props) => {
+            return (
+                <>
+                    <a href="/" target="_blank">
+                        Go to Terms and Conditions
+                    </a>
+
+                    <FormControlLabel
+                        sx={{ marginTop: 2 }}
+                        control={<Checkbox checked={acceptTerms} />}
+                        label="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+                        onClick={() => {
+                            setAcceptTerms(!acceptTerms);
+                        }}
+                    />
+
+                    <Box sx={{ display: "flex", mt: 2, justifyContent: "space-between", width: "100%" }}>
+                        <Box sx={{ display: "flex", gap: 2 }}>
+                            <Button
+                                size="large"
+                                variant="contained"
+                                color="secondary"
+                                disableRipple
+                                onClick={closeModal}
+                                sx={{ gap: 2 }}
+                                disabled={!acceptTerms}
+                            >
+                                I Accept
+                            </Button>
+                        </Box>
+                    </Box>
+                </>
+            );
+        };
+
+        const ModalContent = () => {
+            if (modalPage === modalPageNames.welcome) return <WelcomeContent />;
+            if (modalPage === modalPageNames.staking) return <StakingContent />;
+            if (modalPage === modalPageNames.migration) return <MigrationContent />;
+
+            return <TosContent />;
         };
 
         return (
-            <Box>
-                <ModalContent sx={{ mt: 2, maxWidth: "75ch" }} />
+            <Box
+                sx={{
+                    background:
+                        "linear-gradient(180deg, rgba(165, 198, 255, 0.11) 0%, rgba(165, 198, 255, 0.11) 100%), #11151C;",
+                    padding: 3,
+                }}
+            >
+                <Box sx={{ maxWidth: "75ch" }}>
+                    <ModalContent />
+                </Box>
             </Box>
         );
     };
@@ -245,10 +291,12 @@ export function LanderHelpModal() {
             if (modalPage === modalPageNames.welcome) return;
             if (modalPage === modalPageNames.migration) setModalPage(modalPageNames.welcome);
             if (modalPage === modalPageNames.staking) setModalPage(modalPageNames.migration);
+            if (modalPage === modalPageNames.tos) setModalPage(modalPageNames.staking);
         } else if (step === 1) {
             if (modalPage === modalPageNames.welcome) setModalPage(modalPageNames.migration);
             if (modalPage === modalPageNames.migration) setModalPage(modalPageNames.staking);
-            if (modalPage === modalPageNames.staking) return;
+            if (modalPage === modalPageNames.staking) setModalPage(modalPageNames.tos);
+            if (modalPage === modalPageNames.tos) return;
         }
     };
 
@@ -273,15 +321,10 @@ export function LanderHelpModal() {
                         color="secondary"
                         disableRipple
                         onClick={() => changeTab(+1)}
-                        disabled={modalPage === modalPageNames.staking}
+                        disabled={modalPage === modalPageNames.tos}
                         sx={{ gap: 2 }}
                     >
                         Next <ChevronRight />
-                    </Button>
-                </Box>
-                <Box>
-                    <Button size="large" variant="contained" color="secondary" disableRipple onClick={closeModal}>
-                        Close
                     </Button>
                 </Box>
             </Box>
@@ -289,24 +332,18 @@ export function LanderHelpModal() {
     };
 
     return (
-        <Modal
-            open={isModalOpen}
-            onClose={closeModal}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
+        <Modal open={isModalOpen} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
             <Paper
                 sx={{
                     position: "absolute",
                     width: "90%",
                     maxWidth: 1080,
-                    height: "70vh",
                     left: 0,
                     right: 0,
                     marginLeft: "auto",
                     marginRight: "auto",
                     background:
-                        " linear-gradient(180deg, rgba(165, 198, 255, 0.16) 0%, rgba(165, 198, 255, 0.16) 100%), #11151C;",
+                        "linear-gradient(180deg, rgba(165, 198, 255, 0.16) 0%, rgba(165, 198, 255, 0.16) 100%), #11151C;",
                     mt: 8,
                     p: "24px",
                 }}
@@ -315,7 +352,7 @@ export function LanderHelpModal() {
                     <ModalHeader />
                     <ModalMenu />
                     <ModalContent />
-                    <Box sx={{ position: "absolute", bottom: 0, width: "100%" }}>
+                    <Box sx={{ width: "100%" }}>
                         <ModalActions />
                     </Box>
                 </Box>
