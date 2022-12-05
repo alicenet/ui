@@ -188,6 +188,18 @@ export function Positions() {
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
+            renderCell: (params) => {
+                return (
+                    <Box display="flex" flexDirection="column" py={2}>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.alcaRewards)} ${symbols.ALCA}`}
+                        </Typography>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.ethRewards)} ${symbols.ETH}`}
+                        </Typography>
+                    </Box>
+                );
+            },
         },
         {
             field: "actions",
@@ -235,9 +247,6 @@ export function Positions() {
         return {
             amount: formatNumberToLocale(position.shares),
             id: position.tokenId,
-            rewards: `${formatNumberToLocale(position.alcaRewards)} ${symbols.ALCA} / ${formatNumberToLocale(
-                position.ethRewards
-            )} ${symbols.ETH}`,
             ...position,
         };
     });
@@ -292,6 +301,18 @@ export function Positions() {
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
+            renderCell: (params) => {
+                return (
+                    <Box display="flex" flexDirection="column" py={2}>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.payoutToken)} ${symbols.ALCA}`}
+                        </Typography>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.payoutEth)} ${symbols.ETH}`}
+                        </Typography>
+                    </Box>
+                );
+            },
         },
         {
             field: "actions",
@@ -336,7 +357,6 @@ export function Positions() {
                   amount: lockedPosition?.lockedAlca,
                   id: lockedPosition?.tokenId || 1,
                   timeLeft: Number(lockedPosition?.blockUntilUnlock).toLocaleString() + " Blocks",
-                  currentRewards: `${lockedPosition?.payoutToken} ALCA / ${lockedPosition?.payoutEth} ETH`,
               },
           ]
         : [];
@@ -453,6 +473,7 @@ export function Positions() {
                                 pageSize={10}
                                 rows={stakedPositionsRows}
                                 columns={stakedPositionsColumns}
+                                getRowHeight={() => "auto"}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
@@ -480,6 +501,7 @@ export function Positions() {
                                 rows={lockedPositionsRows}
                                 columns={lockedPositionsColumns}
                                 hideFooterPagination={true}
+                                getRowHeight={() => "auto"}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
