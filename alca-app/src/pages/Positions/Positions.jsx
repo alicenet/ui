@@ -374,7 +374,11 @@ export function Positions() {
     };
 
     const currentClasses = {
-        background: "linear-gradient(180deg, #FFABD4 18.53%, #CE6D99 167.76%)",
+        background: `linear-gradient(
+            180deg,
+            ${theme.palette.custom.startGradient} 18.53%,
+            ${theme.palette.custom.endGradient} 167.76%
+        )`,
         color: theme.palette.background.default,
     };
 
