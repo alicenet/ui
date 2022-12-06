@@ -365,9 +365,12 @@ export function LanderHelpModal() {
                         "linear-gradient(180deg, rgba(165, 198, 255, 0.16) 0%, rgba(165, 198, 255, 0.16) 100%), #11151C;",
                     mt: 8,
                     p: "24px",
+                    height: "auto",
+                    maxHeight: "80vh",
+                    overflow: "scroll",
                 }}
             >
-                <Box sx={{ position: "relative", display: "flex", height: "100%", flexFlow: "column" }}>
+                <Box sx={{ position: "relative", display: "flex", flexFlow: "column" }}>
                     <ModalHeader />
                     <ModalMenu />
                     <ModalContent />
