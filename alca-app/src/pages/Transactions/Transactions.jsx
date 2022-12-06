@@ -3,7 +3,6 @@ import { symbols } from "config";
 import { BalanceContext } from "alice-ui-common";
 import { sx } from "utils/sx";
 import { ethers } from "ethers";
-
 import { useTheme } from "@emotion/react";
 import {
     Box,
@@ -22,6 +21,7 @@ import {
     TableRow,
     TableCell,
     TableBody,
+    Tooltip,
     styled,
     Snackbar,
     CircularProgress,
@@ -673,21 +673,35 @@ export function Transactions() {
                             <Grid item xs={5}>
                                 <Typography px={2} display="flex" alignItems="center">
                                     Amount
-                                    <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    <Tooltip title="Amount of ALCA you wish to stake" placement="top" arrow>
+                                        <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    </Tooltip>
                                 </Typography>
                             </Grid>
 
                             <Grid item xs>
                                 <Typography display="flex" alignItems="center">
                                     Reward Type
-                                    <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    <Tooltip
+                                        title="Rewards for staked positions are both ETH and ACLA"
+                                        placement="top"
+                                        arrow
+                                    >
+                                        <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    </Tooltip>
                                 </Typography>
                             </Grid>
 
                             <Grid item xs>
                                 <Typography display="flex" alignItems="center">
                                     Rewards
-                                    <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    <Tooltip
+                                        title="Staked positions earn 1/3 of block rewards distributed evenly among n staked positions"
+                                        placement="top"
+                                        arrow
+                                    >
+                                        <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                    </Tooltip>
                                 </Typography>
                             </Grid>
 
@@ -695,7 +709,13 @@ export function Transactions() {
                                 <Grid item xs columnGap={1}>
                                     <Typography display="flex" alignItems="center">
                                         Lockup
-                                        <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                        <Tooltip
+                                            title="Locked positions generate more rewards, but have penalties for unlocking"
+                                            placement="top"
+                                            arrow
+                                        >
+                                            <InfoOutlined color="disabled" fontSize="small" sx={{ ml: 0.5 }} />
+                                        </Tooltip>
                                     </Typography>
                                 </Grid>
                             )}
