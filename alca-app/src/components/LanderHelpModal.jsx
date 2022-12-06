@@ -21,12 +21,14 @@ import { ChevronLeft, ChevronRight, Circle } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import { configuration } from "config";
 import { useModalCookie } from "hooks/useModalCookie";
+import { useTosCookie } from "hooks/useTosCookie";
 
 export function LanderHelpModal() {
     const { isModalOpen } = useSelector((s) => ({ isModalOpen: s.application.landerModalOpen }));
     const dispatch = useDispatch();
     const theme = useTheme();
     const [, setHideModalCookie] = useModalCookie();
+    const [tosAccepted, setTosAcceptedCookie] = useTosCookie();
 
     const modalPageNames = { welcome: "welcome", migration: "migration", staking: "staking", tos: "tos" };
     const pageNameToIdx = {
@@ -41,6 +43,12 @@ export function LanderHelpModal() {
     const closeModal = () => {
         dispatch(setLanderModalOpenState(false));
         setHideModalCookie();
+    };
+
+    // Close modal but also flag ToS as read
+    const closeTosModal = () => {
+        setTosAcceptedCookie();
+        closeModal();
     };
 
     React.useEffect(() => {
@@ -254,7 +262,7 @@ export function LanderHelpModal() {
                                 variant="contained"
                                 color="secondary"
                                 disableRipple
-                                onClick={closeModal}
+                                onClick={closeTosModal}
                                 sx={{ gap: 2 }}
                                 disabled={!acceptTerms}
                             >
@@ -318,24 +326,31 @@ export function LanderHelpModal() {
                     >
                         <ChevronLeft /> Back
                     </Button>
-                    <Button
-                        size="large"
-                        variant="outlined"
-                        color="secondary"
-                        disableRipple
-                        onClick={() => changeTab(+1)}
-                        disabled={modalPage === modalPageNames.tos}
-                        sx={{ gap: 2 }}
-                    >
-                        Next <ChevronRight />
-                    </Button>
+                    {modalPage !== modalPageNames.tos && (
+                        <Button
+                            size="large"
+                            variant="outlined"
+                            color="secondary"
+                            disableRipple
+                            onClick={() => changeTab(+1)}
+                            disabled={modalPage === modalPageNames.tos}
+                            sx={{ gap: 2 }}
+                        >
+                            Next <ChevronRight />
+                        </Button>
+                    )}
                 </Box>
             </Box>
         );
     };
 
     return (
-        <Modal open={isModalOpen} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Modal
+            open={isModalOpen}
+            onClose={tosAccepted ? closeModal : null}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
             <Paper
                 sx={{
                     position: "absolute",
