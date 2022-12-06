@@ -433,6 +433,7 @@ export function Transactions() {
                 onClose={() => {
                     setModalOpen(false);
                 }}
+                sx={{ overflow: "auto" }}
             >
                 <Box
                     sx={{
