@@ -83,6 +83,11 @@ export function Transactions() {
         }
     };
 
+    const resetTx = () => {
+        sanitizeMadForMigrationInput("0");
+        sanitizeAlcaForStakingInput("0");
+    };
+
     // Modal
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -548,7 +553,7 @@ export function Transactions() {
 
     const renderActions = () => (
         <Box columnGap={1} mt={2} display="flex" justifyContent="flex-end">
-            <Button variant="outlined" size="large" disabled={!madForMigration || !stakeAlcaAmount}>
+            <Button variant="outlined" size="large" disabled={!madForMigration || !stakeAlcaAmount} onClick={resetTx}>
                 Reset TX
             </Button>
 
@@ -667,7 +672,7 @@ export function Transactions() {
 
                     <Divider sx={{ my: 2 }} />
 
-                    <Typography variant="body2">CREATE STAKING</Typography>
+                    <Box sx={{ background: "transparent", height: "1px" }}></Box>
                     <Grid mt={3} alignItems="center">
                         <Grid container item gap={1}>
                             <Grid item xs={5}>
@@ -734,6 +739,7 @@ export function Transactions() {
                         >
                             <Grid item xs={5} px={2} columnGap={1} display="flex" alignItems="center">
                                 <TextField
+                                    label="ALCA To Stake"
                                     value={stakeAlcaAmount}
                                     onChange={(event) => sanitizeAlcaForStakingInput(event.target.value)}
                                     onFocus={() => setActiveColumn(2)}
