@@ -118,9 +118,9 @@ export function Positions() {
             message: "Successfully Unstaked",
         });
 
+        await updateBalances(ethAdapter);
         // No longer transacting
         setTransacting(false);
-
         setUnstakePosition(null);
     }
 
@@ -166,6 +166,7 @@ export function Positions() {
             message: "Successfully Claimed Rewards",
         });
 
+        await updateBalances(ethAdapter);
         // No longer transacting
         setTransacting(false);
     }
