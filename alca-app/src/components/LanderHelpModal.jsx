@@ -123,7 +123,7 @@ export function LanderHelpModal() {
                     <Link href={configuration.site.url_aliceNet} {...configuration.site.href_props}>
                         alice.net
                     </Link>{" "}
-                    ALCA token. Previous holders of MadToken will always be able to use this interface to migrate to
+                    ALCA token. Previous holders of MADToken will always be able to use this interface to migrate to
                     ALCA and all others can use it for staking to earn rewards based on the{" "}
                     <Link href={configuration.site.url_aliceNet} {...configuration.site.href_props}>
                         alice.net
@@ -145,17 +145,17 @@ export function LanderHelpModal() {
             <>
                 Migration FAQ{" "}
                 <Link href={configuration.site.url_migrationBlogLink} {...configuration.site.href_props}>
-                    More info
+                    more info
                 </Link>
             </>,
             <>
                 Information About ALCA Token{" "}
                 <Link href={configuration.site.url_alcaTokenBlog} {...configuration.site.href_props}>
-                    More info
+                    more info
                 </Link>
             </>,
             <>
-                Mad Token on Etherscan:{" "}
+                MADToken on Etherscan:{" "}
                 <Link href={configuration.site.url_madTokenEtherScan} {...configuration.site.href_props}>
                     0x5b09a0371c1da44a8e24d36bf5deb1141a84d875
                 </Link>
@@ -164,11 +164,14 @@ export function LanderHelpModal() {
         const MigrationContent = () => (
             <Box>
                 <Typography>
-                    Migration will be available to users who have existing MadToken Etherscan in their wallet and can be
-                    staked right away, or held without staking.
+                    Migration will be available to users who have existing{" "}
+                    <Link href={configuration.site.url_madTokenEtherScan} {...configuration.site.href_props}>
+                        MADToken
+                    </Link>{" "}
+                    in their wallet and can be staked right away, or held without staking.
                     <br />
                     <br />
-                    ALCA is can be converted from Mad token at an exchange rate of 1.55555555556 ALCA per MAD.
+                    ALCA can be converted from MADToken at an exchange rate of 1.55555555556 ALCA per MAD.
                     <br />
                     <br />
                 </Typography>
@@ -185,18 +188,18 @@ export function LanderHelpModal() {
 
         const stakingListContent_1 = [
             "1/3 of block rewards go to ALCA Staked positions",
-            "The reamining 2/3 go to the Validators",
+            "The reamining 2/3 go to Validators",
             "Each staked position receives the pro rata division of the noted 1/3 ALCA block rewards",
         ];
         const stakingListContent_2 = [
-            "Claim all rewards associated with a position without unstaking",
+            "Claim all rewards associated with a position (without unstaking)",
             "Unstake and claim all rewards associated with a posiiton",
-            "Tokens can be locked for a specified time for additional rewards during a Lockup period",
+            "Tokens can be locked for a specified time for additional rewards during a lockup period",
         ];
         const StakingContent = () => (
             <Box>
                 <Typography>
-                    ALCA can be staked to earn rewards based on the alice.net&#8216;s tokenomics
+                    ALCA can be staked to earn rewards based on the tokenomics of AliceNet
                     <br />
                     <br />
                     By staking ALCA you will earn a pro rata portion of block rewards distributed as follows:
@@ -231,14 +234,14 @@ export function LanderHelpModal() {
         const TosContent = (props) => {
             return (
                 <>
-                    <a href="/" target="_blank">
+                    <Link href={configuration.site.url_termsOfService} {...configuration.site.href_props}>
                         Go to Terms and Conditions
-                    </a>
+                    </Link>
 
                     <FormControlLabel
                         sx={{ marginTop: 2 }}
                         control={<Checkbox checked={acceptTerms} />}
-                        label="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+                        label="I have read and agreed to the linked terms and conditions"
                         onClick={() => {
                             setAcceptTerms(!acceptTerms);
                         }}
