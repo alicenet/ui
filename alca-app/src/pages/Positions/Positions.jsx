@@ -279,21 +279,27 @@ export function Positions() {
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
-            renderCell: (params) => (
-                <Box sx={{ width: "100%" }}>
-                    <LinearProgress
-                        variant="determinate"
-                        color="secondary"
-                        value={Number((lockedPosition.blockUntilUnlock / currentBlock) * 100)}
-                    />
-                    <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
-                        {Number((lockedPosition.blockUntilUnlock / currentBlock) * 100).toLocaleString(false, {
-                            maximumFractionDigits: 2,
-                        })}
-                        %
+            renderCell: () => {
+                const progress =
+                    (Number(currentBlock) * 100) / (Number(lockedPosition.blockUntilUnlock) + Number(currentBlock));
+
+                return (
+                    <Box sx={{ width: "100%" }}>
+                        <LinearProgress
+                            variant="determinate"
+                            color="secondary"
+                            value={lockedPosition.blockUntilUnlock > 0 ? progress : 100}
+                        />
+
+                        <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
+                            {lockedPosition.blockUntilUnlock > 0
+                                ? progress.toLocaleString(false, { maximumFractionDigits: 2 })
+                                : 100}
+                            %
+                        </Box>
                     </Box>
-                </Box>
-            ),
+                );
+            },
         },
         {
             field: "currentRewards",
@@ -356,7 +362,11 @@ export function Positions() {
               {
                   amount: lockedPosition?.lockedAlca,
                   id: lockedPosition?.tokenId || 1,
-                  timeLeft: Number(lockedPosition?.blockUntilUnlock).toLocaleString() + " Blocks",
+                  timeLeft: `${
+                      lockedPosition.blockUntilUnlock > 0
+                          ? Number(lockedPosition?.blockUntilUnlock).toLocaleString()
+                          : 0
+                  } Blocks`,
               },
           ]
         : [];
