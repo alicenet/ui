@@ -284,10 +284,10 @@ export function Positions() {
                     <LinearProgress
                         variant="determinate"
                         color="secondary"
-                        value={Number((currentBlock / lockedPosition.blockUntilUnlock) * 100)}
+                        value={Number((lockedPosition.blockUntilUnlock / currentBlock) * 100)}
                     />
                     <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
-                        {Number((currentBlock / lockedPosition.blockUntilUnlock) * 100).toLocaleString(false, {
+                        {Number((lockedPosition.blockUntilUnlock / currentBlock) * 100).toLocaleString(false, {
                             maximumFractionDigits: 2,
                         })}
                         %
