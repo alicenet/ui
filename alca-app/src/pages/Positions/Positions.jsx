@@ -1,4 +1,5 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
@@ -9,15 +10,12 @@ import { BalanceContext, commonEthRequests } from "alice-ui-common";
 import { formatNumberToLocale } from "utils/number";
 import { symbols } from "config";
 import ethAdapter from "eth-adapter";
-import { SnackbarMessage } from "components/SnackbarMessage";
-import { useEffect } from "react";
 import {
     claimLockedRewards,
     unlockLockedPosition,
     unlockLockedPositionEarly,
 } from "pages/Transactions/transactionFunctions";
-import { Navigate } from "react-router-dom";
-import { CountBubble } from "components/CountBubble";
+import { ConfirmUnstakeModal, CountBubble, SnackbarMessage } from "components";
 
 export function Positions() {
     const { balances, positions = {}, updateBalances } = useContext(BalanceContext);
@@ -27,6 +25,9 @@ export function Positions() {
     const theme = useTheme();
     const [currentTab, setCurrentTab] = useState("1");
     const [currentBlock, setCurrentBlock] = useState("?");
+
+    // Unstake Modal
+    const [unstakePosition, setUnstakePosition] = useState(null);
 
     // Snackbar
     const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -72,6 +73,10 @@ export function Positions() {
         }
     }
 
+    function handleShowUnstakeModal(row) {
+        setUnstakePosition(row);
+    }
+
     async function handleUnstake(tokenId) {
         setTransacting(true);
 
@@ -115,6 +120,8 @@ export function Positions() {
 
         // No longer transacting
         setTransacting(false);
+
+        setUnstakePosition(null);
     }
 
     async function handleClaim(tokenId) {
@@ -219,7 +226,7 @@ export function Positions() {
                             color="secondary"
                             sx={actionButtonStyles}
                             onClick={() => {
-                                handleUnstake(params.row.id);
+                                handleShowUnstakeModal(params.row);
                             }}
                             disabled={transacting}
                         >
@@ -420,6 +427,11 @@ export function Positions() {
 
     return (
         <>
+            <ConfirmUnstakeModal
+                unstakePosition={unstakePosition}
+                onClose={() => setUnstakePosition(null)}
+                handleUnstake={handleUnstake}
+            />
             <NavigationBar />
 
             <Container maxWidth="lg">
