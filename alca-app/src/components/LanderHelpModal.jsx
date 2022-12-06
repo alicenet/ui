@@ -367,7 +367,7 @@ export function LanderHelpModal() {
                     p: "24px",
                     height: "auto",
                     maxHeight: "80vh",
-                    overflow: "scroll",
+                    overflow: "auto",
                 }}
             >
                 <Box sx={{ position: "relative", display: "flex", flexFlow: "column" }}>
