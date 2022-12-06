@@ -249,7 +249,7 @@ export function LanderHelpModal() {
 
                     <FormControlLabel
                         sx={{ marginTop: 2 }}
-                        control={<Checkbox checked={acceptTerms} />}
+                        control={<Checkbox checked={acceptTerms || tosAccepted} />}
                         label="I have read and agreed to the linked terms and conditions"
                         onClick={() => {
                             setAcceptTerms(!acceptTerms);
@@ -265,9 +265,9 @@ export function LanderHelpModal() {
                                 disableRipple
                                 onClick={closeTosModal}
                                 sx={{ gap: 2 }}
-                                disabled={!acceptTerms}
+                                disabled={!acceptTerms || tosAccepted}
                             >
-                                I Accept
+                                Terms Already Accepted
                             </Button>
                         </Box>
                     </Box>
