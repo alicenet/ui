@@ -285,11 +285,7 @@ export function Positions() {
 
                 return (
                     <Box sx={{ width: "100%" }}>
-                        <LinearProgress
-                            variant="determinate"
-                            color="secondary"
-                            value={lockedPosition.blockUntilUnlock > 0 ? progress : 100}
-                        />
+                        <LinearProgress variant="determinate" color="secondary" value={progress} />
 
                         <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
                             {lockedPosition.blockUntilUnlock > 0
