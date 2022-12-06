@@ -487,7 +487,7 @@ export function Positions() {
                                 pageSize={10}
                                 rows={stakedPositionsRows}
                                 columns={stakedPositionsColumns}
-                                getRowHeight={() => "auto"}
+                                rowHeight={72}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
@@ -515,7 +515,7 @@ export function Positions() {
                                 rows={lockedPositionsRows}
                                 columns={lockedPositionsColumns}
                                 hideFooterPagination={true}
-                                getRowHeight={() => "auto"}
+                                rowHeight={72}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
