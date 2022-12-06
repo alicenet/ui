@@ -22,6 +22,7 @@ import { useTheme } from "@emotion/react";
 import { configuration } from "config";
 import { useModalCookie } from "hooks/useModalCookie";
 import { useTosCookie } from "hooks/useTosCookie";
+import CloseIcon from "@mui/icons-material/Close";
 
 export function LanderHelpModal() {
     const { isModalOpen } = useSelector((s) => ({ isModalOpen: s.application.landerModalOpen }));
@@ -374,6 +375,11 @@ export function LanderHelpModal() {
                         <ModalActions />
                     </Box>
                 </Box>
+                {tosAccepted && (
+                    <Box sx={{ position: "absolute", top: 15, right: 15, cursor: "pointer" }} onClick={closeModal}>
+                        <CloseIcon />
+                    </Box>
+                )}
             </Paper>
         </Modal>
     );
