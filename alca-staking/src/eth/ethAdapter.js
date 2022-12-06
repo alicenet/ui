@@ -332,7 +332,7 @@ class EthAdapter {
      */
     async getAlcaBalance(accountIndex = 0) {
         return this._try(async () => {
-            let balance = await this._tryCall(CONTRACT_NAMES.AToken, "balanceOf", [
+            let balance = await this._tryCall(CONTRACT_NAMES.ALCA, "balanceOf", [
                 await this._getAddressByIndex(accountIndex),
             ]);
             return ethers.utils.formatEther(balance);
@@ -341,7 +341,7 @@ class EthAdapter {
 
     async getPublicStakingAllowance(accountIndex = 0) {
         return this._try(async () => {
-            let allowance = await this._tryCall(CONTRACT_NAMES.AToken, "allowance", [
+            let allowance = await this._tryCall(CONTRACT_NAMES.ALCA, "allowance", [
                 await this._getAddressByIndex(accountIndex),
                 CONTRACT_ADDRESSES.PublicStaking,
             ]);
@@ -437,7 +437,7 @@ class EthAdapter {
      */
     async sendStakingAllowanceRequest(amount) {
         return await this._try(async () => {
-            const tx = await this._trySend(CONTRACT_NAMES.AToken, "approve", [
+            const tx = await this._trySend(CONTRACT_NAMES.ALCA, "approve", [
                 CONTRACT_ADDRESSES.PublicStaking,
                 ethers.utils.parseEther(amount),
             ]);

@@ -196,6 +196,18 @@ export function Positions() {
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
+            renderCell: (params) => {
+                return (
+                    <Box display="flex" flexDirection="column" py={2}>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.alcaRewards)} ${symbols.ALCA}`}
+                        </Typography>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.ethRewards)} ${symbols.ETH}`}
+                        </Typography>
+                    </Box>
+                );
+            },
         },
         {
             field: "actions",
@@ -243,9 +255,6 @@ export function Positions() {
         return {
             amount: formatNumberToLocale(position.shares),
             id: position.tokenId,
-            rewards: `${formatNumberToLocale(position.alcaRewards)} ${symbols.ALCA} / ${formatNumberToLocale(
-                position.ethRewards
-            )} ${symbols.ETH}`,
             ...position,
         };
     });
@@ -278,21 +287,27 @@ export function Positions() {
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
-            renderCell: (params) => (
-                <Box sx={{ width: "100%" }}>
-                    <LinearProgress
-                        variant="determinate"
-                        color="secondary"
-                        value={Number((currentBlock / lockedPosition.blockUntilUnlock) * 100)}
-                    />
-                    <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
-                        {Number((currentBlock / lockedPosition.blockUntilUnlock) * 100).toLocaleString(false, {
-                            maximumFractionDigits: 2,
-                        })}
-                        %
+            renderCell: () => {
+                const progress =
+                    (Number(currentBlock) * 100) / (Number(lockedPosition.blockUntilUnlock) + Number(currentBlock));
+
+                return (
+                    <Box sx={{ width: "100%" }}>
+                        <LinearProgress
+                            variant="determinate"
+                            color="secondary"
+                            value={lockedPosition.blockUntilUnlock > 0 ? progress : 100}
+                        />
+
+                        <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
+                            {lockedPosition.blockUntilUnlock > 0
+                                ? progress.toLocaleString(false, { maximumFractionDigits: 2 })
+                                : 100}
+                            %
+                        </Box>
                     </Box>
-                </Box>
-            ),
+                );
+            },
         },
         {
             field: "currentRewards",
@@ -300,6 +315,18 @@ export function Positions() {
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
+            renderCell: (params) => {
+                return (
+                    <Box display="flex" flexDirection="column" py={2}>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.payoutToken)} ${symbols.ALCA}`}
+                        </Typography>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.payoutEth)} ${symbols.ETH}`}
+                        </Typography>
+                    </Box>
+                );
+            },
         },
         {
             field: "actions",
@@ -343,8 +370,11 @@ export function Positions() {
               {
                   amount: lockedPosition?.lockedAlca,
                   id: lockedPosition?.tokenId || 1,
-                  timeLeft: Number(lockedPosition?.blockUntilUnlock).toLocaleString() + " Blocks",
-                  currentRewards: `${lockedPosition?.payoutToken} ALCA / ${lockedPosition?.payoutEth} ETH`,
+                  timeLeft: `${
+                      lockedPosition.blockUntilUnlock > 0
+                          ? Number(lockedPosition?.blockUntilUnlock).toLocaleString()
+                          : 0
+                  } Blocks`,
               },
           ]
         : [];
@@ -362,7 +392,11 @@ export function Positions() {
     };
 
     const currentClasses = {
-        background: "linear-gradient(180deg, #FFABD4 18.53%, #CE6D99 167.76%)",
+        background: `linear-gradient(
+            180deg,
+            ${theme.palette.custom.startGradient} 18.53%,
+            ${theme.palette.custom.endGradient} 167.76%
+        )`,
         color: theme.palette.background.default,
     };
 
@@ -466,6 +500,7 @@ export function Positions() {
                                 pageSize={10}
                                 rows={stakedPositionsRows}
                                 columns={stakedPositionsColumns}
+                                rowHeight={72}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
@@ -493,6 +528,7 @@ export function Positions() {
                                 rows={lockedPositionsRows}
                                 columns={lockedPositionsColumns}
                                 hideFooterPagination={true}
+                                rowHeight={72}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
