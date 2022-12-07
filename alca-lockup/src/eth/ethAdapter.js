@@ -317,7 +317,7 @@ class EthAdapter {
      */
     async getAlcaBalance(accountIndex = 0) {
         return this._try(async () => {
-            let balance = await this._tryCall(CONTRACT_NAMES.AToken, "balanceOf", [
+            let balance = await this._tryCall(CONTRACT_NAMES.ALCA, "balanceOf", [
                 await this._getAddressByIndex(accountIndex),
             ]);
             return ethers.utils.formatEther(balance);
