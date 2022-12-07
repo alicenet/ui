@@ -375,6 +375,7 @@ export function Positions() {
                           ? Number(lockedPosition?.blockUntilUnlock).toLocaleString()
                           : 0
                   } Blocks`,
+                  ...lockedPosition,
               },
           ]
         : [];
