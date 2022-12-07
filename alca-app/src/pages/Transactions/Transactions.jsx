@@ -689,7 +689,7 @@ export function Transactions() {
                                 <Typography display="flex" alignItems="center">
                                     Reward Type
                                     <Tooltip
-                                        title="Rewards for staked positions are both ETH and ACLA"
+                                        title="Rewards for staked positions are both ETH and ALCA"
                                         placement="top"
                                         arrow
                                     >
