@@ -46,6 +46,7 @@ export function SubNavigation() {
                         borderRadius: 1,
                         fontSize: theme.typography.body1.fontSize,
                         width: 1 / 2,
+                        height: 42,
                     }}
                 >
                     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>

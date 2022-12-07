@@ -390,7 +390,7 @@ export function Positions() {
         borderRadius: 1,
         textTransform: "none",
         fontSize: 14,
-        height: 44,
+        height: 42,
         minHeight: "inherit",
     };
 
