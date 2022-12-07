@@ -1,0 +1,41 @@
+name: first-issues-to-beginner-project-board
+on:
+  workflow_call:
+    inputs:
+      labelsJson:
+        type: string
+        description: The type of issue
+        required: true
+
+jobs:
+  setup-matrixJson:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3.0.1
+        with:
+          repository: 'alicenet/ui'
+      - name: handle input  
+        id: set-matrix
+        run: |
+          sudo bash script.sh ${{ inputs.labelsJson }}
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+  manage_project_issues:
+    needs: setup-matrixJson
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.setup-matrixJson.outputs.matrix) }}
+    runs-on: ubuntu-latest    
+    steps:
+        # When an issue that is open is assigned and has an assigned member
+        # create or move the card to "In progress"
+      - name: Assign Project Card
+        if: |
+          github.event.action == 'assigned'
+        uses: alex-page/github-project-automation-plus@v0.8.1
+        with:
+          project: ${{ matrix.project }}
+          column: 'In progress'
+          repo-token: ${{ secrets.ISSUE_ADDER_PAT }}
