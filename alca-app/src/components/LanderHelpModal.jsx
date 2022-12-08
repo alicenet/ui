@@ -202,7 +202,7 @@ export function LanderHelpModal() {
         ];
         const stakingListContent_2 = [
             "Claim all rewards associated with a position (without unstaking)",
-            "Unstake and claim all rewards associated with a posiiton",
+            "Unstake and claim all rewards associated with a position",
             "Tokens can be locked for a specified time for additional rewards during a lockup period",
         ];
         const StakingContent = () => (
