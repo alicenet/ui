@@ -476,12 +476,12 @@ export function Transactions() {
                         ),
                         balanceChange: operationOneIsStake
                             ? {
-                                  ALCA: -Number(formatNumberToLocale(stakeAlcaAmount)),
+                                  ALCA: -Number(stakeAlcaAmount),
                                   "Staked ALCA Position NFT": 1,
                               }
                             : {
-                                  MAD: -Number(formatNumberToLocale(madForMigration)),
-                                  ALCA: Number(formatNumberToLocale(madToAlca)),
+                                  MAD: -Number(madForMigration),
+                                  ALCA: Number(madToAlca),
                               },
                     })}
 
@@ -497,7 +497,7 @@ export function Transactions() {
                                     </>
                                 ),
                                 balanceChange: {
-                                    ALCA: -Number(formatNumberToLocale(stakeAlcaAmount)),
+                                    ALCA: -Number(stakeAlcaAmount),
                                     "Staked ALCA Position NFT": 1,
                                 },
                             })}
