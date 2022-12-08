@@ -390,6 +390,8 @@ export function Positions() {
         borderRadius: 1,
         textTransform: "none",
         fontSize: 14,
+        height: 42,
+        minHeight: "inherit",
     };
 
     const currentClasses = {
@@ -418,11 +420,19 @@ export function Positions() {
 
     const fadeOutTextStyle = { fontSize: "14px" };
     const boxStyles = {
-        background: `linear-gradient(180deg, ${theme.palette.custom.elevation12} 0%, ${theme.palette.custom.elevation12} 100%), ${theme.palette.background.default}`,
+        background: `linear-gradient(
+            180deg,
+            ${theme.palette.custom.elevation12} 0%,
+            ${theme.palette.custom.elevation12} 100%
+        ), ${theme.palette.background.default}`,
         padding: 2,
         borderRadius: 1,
         "& .even": {
-            background: `linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C`,
+            background: `linear-gradient(
+                180deg, ${theme.palette.custom.elevation3} 0%,
+                ${theme.palette.action.hover} 100%,
+                ${theme.palette.custom.elevation1} 100%
+            ), ${theme.palette.background.default}`,
         },
         "& .customRow": {
             fontFamily: theme.typography.subtitle1.fontFamily,
@@ -435,10 +445,17 @@ export function Positions() {
             outline: "none",
         },
         "& .odd.MuiDataGrid-row:hover": {
-            background: `linear-gradient(180deg, ${theme.palette.custom.elevation12} 0%, ${theme.palette.custom.elevation12} 100%), ${theme.palette.background.default}`,
+            background: `linear-gradient(
+                180deg, ${theme.palette.custom.elevation12} 0%,
+                ${theme.palette.custom.elevation12} 100%
+            ), ${theme.palette.background.default}`,
         },
         "& .even.MuiDataGrid-row:hover": {
-            background: `linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C`,
+            background: `linear-gradient(
+                180deg, ${theme.palette.custom.elevation3} 0%,
+                ${theme.palette.action.hover} 100%,
+                ${theme.palette.custom.elevation1} 100%
+            ), ${theme.palette.background.default}`,
         },
     };
 

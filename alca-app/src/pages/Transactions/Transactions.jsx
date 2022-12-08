@@ -290,6 +290,10 @@ export function Transactions() {
         return positions?.lockedPosition?.value?.lockedAlca !== "0.0";
     }
 
+    function isMigrateOverBalance() {
+        return parseInt(madForMigration) > parseInt(balances.mad.value);
+    }
+
     function renderModal() {
         // Lock ~== an op, always append as 2nd or 3rd operation
         const twoOps = !!Number(stakeAlcaAmount) && !!Number(madToAlca);
@@ -476,12 +480,12 @@ export function Transactions() {
                         ),
                         balanceChange: operationOneIsStake
                             ? {
-                                  ALCA: -Number(formatNumberToLocale(stakeAlcaAmount)),
+                                  ALCA: -Number(stakeAlcaAmount),
                                   "Staked ALCA Position NFT": 1,
                               }
                             : {
-                                  MAD: -Number(formatNumberToLocale(madForMigration)),
-                                  ALCA: Number(formatNumberToLocale(madToAlca)),
+                                  MAD: -Number(madForMigration),
+                                  ALCA: Number(madToAlca),
                               },
                     })}
 
@@ -497,7 +501,7 @@ export function Transactions() {
                                     </>
                                 ),
                                 balanceChange: {
-                                    ALCA: -Number(formatNumberToLocale(stakeAlcaAmount)),
+                                    ALCA: -Number(stakeAlcaAmount),
                                     "Staked ALCA Position NFT": 1,
                                 },
                             })}
@@ -562,7 +566,11 @@ export function Transactions() {
                 endIcon={<ChevronRight />}
                 variant="contained"
                 size="large"
-                disabled={(!madForMigration && !stakeAlcaAmount) || parseFloat(futureAlcaBalance) < 0}
+                disabled={
+                    isMigrateOverBalance() ||
+                    (!madForMigration && !stakeAlcaAmount) ||
+                    parseFloat(futureAlcaBalance) < 0
+                }
                 onClick={() => {
                     setModalOpen(true);
                 }}
@@ -608,7 +616,7 @@ export function Transactions() {
                             1 {symbols.MAD} Token ≈ 1.5556 {symbols.ALCA} Token
                         </Typography>
 
-                        <Box columnGap={1} mt={3} mb={1} display="flex" alignItems="center">
+                        <Box columnGap={1} mt={3} mb={1}>
                             <TextField
                                 label="Migrate to ALCA"
                                 size="small"
@@ -616,15 +624,18 @@ export function Transactions() {
                                 onFocus={() => setActiveColumn(1)}
                                 color="secondary"
                                 onChange={(event) => sanitizeMadForMigrationInput(event.target.value.replace(",", ""))}
+                                error={isMigrateOverBalance()}
+                                helperText={isMigrateOverBalance() ? "Amount exceeds your balance" : ""}
                             />
 
                             <Button
                                 variant="contained"
                                 color="secondary"
-                                sx={{ py: 1 }}
+                                sx={{ py: 1, marginLeft: 1 }}
                                 onClick={() => {
                                     setMadForMigration(balances.mad.value);
                                 }}
+                                disabled={isMigrateOverBalance()}
                             >
                                 All
                             </Button>
@@ -689,7 +700,7 @@ export function Transactions() {
                                 <Typography display="flex" alignItems="center">
                                     Reward Type
                                     <Tooltip
-                                        title="Rewards for staked positions are both ETH and ACLA"
+                                        title="Rewards for staked positions are both ETH and ALCA"
                                         placement="top"
                                         arrow
                                     >
@@ -749,6 +760,7 @@ export function Transactions() {
                                     InputProps={{
                                         endAdornment: <InputAdornment position="end">{symbols.ALCA}</InputAdornment>,
                                     }}
+                                    disabled={isMigrateOverBalance()}
                                 />
 
                                 <Button
@@ -756,6 +768,7 @@ export function Transactions() {
                                     color="secondary"
                                     sx={{ py: 1 }}
                                     onClick={() => allInAlca()}
+                                    disabled={isMigrateOverBalance()}
                                 >
                                     All
                                 </Button>
