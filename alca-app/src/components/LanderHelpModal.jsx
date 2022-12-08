@@ -267,7 +267,7 @@ export function LanderHelpModal() {
                                 sx={{ gap: 2 }}
                                 disabled={!acceptTerms || tosAccepted}
                             >
-                                Terms Already Accepted
+                                {tosAccepted ? "Terms Already Accepted" : "Accept Terms"}
                             </Button>
                         </Box>
                     </Box>
