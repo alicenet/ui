@@ -57,6 +57,10 @@ export function Transactions() {
     const [madToAlcaBn, setMadToAlcaBn] = useState(ethers.BigNumber.from(0));
     const [stakeAlcaAmount, setAmountOfAlcaToStake] = useState("");
 
+    // Check Allowances
+    const [allowStake, setAllowStake] = useState(true);
+    const [allowMad, setAllowMad] = useState(true);
+
     // Future Alca balance tracker
     const [futureAlcaBalance, setFutureAlcaBalance] = useState("0");
 
@@ -271,14 +275,32 @@ export function Transactions() {
 
     // Reset lock if available, and stakeAlcaAmount === 0
     useEffect(() => {
+        // Set allowance met
+        const stakeAllowance = allowances?.alca[Object.keys(allowances?.alca)[0]]?.value;
+        if (stakeAllowance) {
+            const parsedStakeAllowance = ethers.utils.parseUnits(
+                stakeAllowance !== "0.0" ? stakeAllowance.toString() : "0"
+            );
+            const parsedStakeAlcaAmount = ethers.utils.parseUnits(stakeAlcaAmount.toString() || "0");
+            setAllowStake(!ethers.BigNumber.from(parsedStakeAllowance || 0).gte(parsedStakeAlcaAmount));
+        }
+
         if (isLockupPeriod && !stakeAlcaAmount) {
             setLockupStakePosition(false);
         }
-    }, [stakeAlcaAmount, isLockupPeriod]);
+    }, [stakeAlcaAmount, isLockupPeriod, allowances]);
 
     useEffect(() => {
+        // Set allowance met
+        const madAllowance = allowances?.mad[Object.keys(allowances.mad)[0]]?.value;
+        if (madAllowance) {
+            const parsedMadAllowance = ethers.utils.parseUnits(madAllowance !== "0.0" ? madAllowance.toString() : "0");
+            const parsedMadForMigration = ethers.utils.parseUnits(madForMigration.toString() || "0");
+            setAllowMad(!ethers.BigNumber.from(parsedMadAllowance || 0).gte(parsedMadForMigration));
+        }
+
         setLockupStakePosition(!madForMigration);
-    }, [madForMigration]);
+    }, [madForMigration, allowances]);
 
     function formattedMadValue() {
         if (balances.mad.error || ["0", "0.0", "n/a"].includes(balances.mad.value)) return "n/a";
@@ -312,6 +334,8 @@ export function Transactions() {
                 setTransacting,
                 stakeAlcaAmount,
                 updateBalances,
+                allowStake,
+                allowMad,
             };
 
             // If lockup, catch and handle early...
