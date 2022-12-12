@@ -1,15 +1,175 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
-import { Button, Container, LinearProgress, Tab, Typography } from "@mui/material";
+import { Button, Container, LinearProgress, Snackbar, Tab, Typography } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { NavigationBar, SubNavigation } from "components";
+import { BalanceContext, commonEthRequests } from "alice-ui-common";
+import { formatNumberToLocale } from "utils/number";
 import { symbols } from "config";
+import ethAdapter from "eth-adapter";
+import {
+    claimLockedRewards,
+    unlockLockedPosition,
+    unlockLockedPositionEarly,
+} from "pages/Transactions/transactionFunctions";
+import { ConfirmUnstakeModal, CountBubble, SnackbarMessage } from "components";
 
 export function Positions() {
+    const { balances, positions = {}, updateBalances } = useContext(BalanceContext);
+    const hasLockedPosition = positions?.lockedPosition?.value?.tokenId !== "0";
+    const lockedPosition = hasLockedPosition ? positions?.lockedPosition?.value : {};
+
     const theme = useTheme();
     const [currentTab, setCurrentTab] = useState("1");
+    const [currentBlock, setCurrentBlock] = useState("?");
+
+    // Unstake Modal
+    const [unstakePosition, setUnstakePosition] = useState(null);
+
+    // Snackbar
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState({});
+    const [snackbarAutoHideDuration, setSnackbarAutoHideDuration] = useState(null);
+
+    // Transaction state
+    const [transacting, setTransacting] = useState(false);
+
+    const txFxParams = {
+        setSnackbarAutoHideDuration,
+        setSnackbarOpen,
+        setSnackbarMessage,
+        setTransacting,
+        updateBalances,
+        lockedPosition,
+    };
+
+    useEffect(() => {
+        let checker;
+        const check = async () => {
+            try {
+                let cBlock = (await ethAdapter.provider.getBlockNumber()).toString();
+                setCurrentBlock(cBlock);
+            } catch (ex) {
+                setCurrentBlock((s) => s);
+            }
+            checker = setTimeout(check, 5000);
+        };
+        check();
+        return clearTimeout(checker);
+    }, []);
+
+    // If no connection, push to connect/transaction page
+    if (!ethAdapter.connected) {
+        return <Navigate to="/" />;
+    }
+
+    // Force Staked tab if no locked positions
+    if (!hasLockedPosition) {
+        if (currentTab !== "1") {
+            setCurrentTab("1");
+        }
+    }
+
+    function handleShowUnstakeModal(row) {
+        setUnstakePosition(row);
+    }
+
+    async function handleUnstake(tokenId) {
+        setTransacting(true);
+
+        // Pending message
+        setSnackbarMessage({
+            status: "pending",
+            message: "Tx: Pending Unstake Transaction",
+        });
+
+        // Open snackbar
+        setSnackbarOpen(true);
+
+        try {
+            const tx = await commonEthRequests.staking_sendUnstakePublicStakedPositionRequest(ethAdapter, tokenId);
+
+            if (tx.error) {
+                throw new Error(tx.error);
+            }
+
+            await tx.wait();
+        } catch (e) {
+            // Error message
+            setSnackbarAutoHideDuration(7500);
+            setSnackbarMessage({
+                status: "error",
+                message: "There was an error with the transaction. Please try again.",
+            });
+
+            // No longer transacting
+            setTransacting(false);
+
+            return;
+        }
+
+        // Success message
+        setSnackbarAutoHideDuration(7500);
+        setSnackbarMessage({
+            status: "success",
+            message: "Successfully Unstaked",
+        });
+
+        await updateBalances(ethAdapter);
+        // No longer transacting
+        setTransacting(false);
+        setUnstakePosition(null);
+    }
+
+    async function handleClaim(tokenId) {
+        setTransacting(true);
+
+        // Pending message
+        setSnackbarMessage({
+            status: "pending",
+            message: "Tx: Pending Claim Rewards Transaction",
+        });
+
+        // Open snackbar
+        setSnackbarOpen(true);
+
+        try {
+            // Claim rewards transaction
+            const tx = await commonEthRequests.staking_sendClaimAllPublicStakingRewardsRequest(ethAdapter, tokenId);
+
+            if (tx.error) {
+                throw new Error(tx.error);
+            }
+
+            await tx.wait();
+        } catch (e) {
+            // Error message
+            setSnackbarAutoHideDuration(7500);
+            setSnackbarMessage({
+                status: "error",
+                message: "There was an error with the transaction. Please try again.",
+            });
+
+            // No longer transacting
+            setTransacting(false);
+
+            return;
+        }
+
+        // Success message
+        setSnackbarAutoHideDuration(7500);
+        setSnackbarMessage({
+            status: "success",
+            message: "Successfully Claimed Rewards",
+        });
+
+        await updateBalances(ethAdapter);
+        // No longer transacting
+        setTransacting(false);
+    }
 
     const handleTabChange = (_, newValue) => {
         setCurrentTab(newValue);
@@ -31,18 +191,23 @@ export function Positions() {
             headerClassName: "headerClass",
         },
         {
-            field: "stakedDate",
-            headerName: "Staked Date",
-            flex: 0.5,
-            sortable: false,
-            headerClassName: "headerClass",
-        },
-        {
             field: "rewards",
             headerName: "Rewards",
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
+            renderCell: (params) => {
+                return (
+                    <Box display="flex" flexDirection="column" py={2}>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.alcaRewards)} ${symbols.ALCA}`}
+                        </Typography>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.ethRewards)} ${symbols.ETH}`}
+                        </Typography>
+                    </Box>
+                );
+            },
         },
         {
             field: "actions",
@@ -51,45 +216,48 @@ export function Positions() {
             sortable: false,
             showColumnRightBorder: false,
             headerClassName: "headerClass",
-            renderCell: (params) => (
-                <Box sx={{ display: "flex" }}>
-                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
-                        Claim Rewards
-                    </Button>
-                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
-                        Unstake
-                    </Button>
-                </Box>
-            ),
+            renderCell: (params) => {
+                const hasRewards = parseFloat(params.row.alcaRewards) > 0 || parseFloat(params.row.ethRewards) > 0;
+
+                return (
+                    <Box display="flex">
+                        <Button
+                            variant="contained"
+                            size="small"
+                            color="secondary"
+                            sx={actionButtonStyles}
+                            onClick={() => {
+                                handleClaim(params.row.id);
+                            }}
+                            disabled={transacting || !hasRewards}
+                        >
+                            Claim Rewards
+                        </Button>
+                        <Button
+                            variant="contained"
+                            size="small"
+                            color="secondary"
+                            sx={actionButtonStyles}
+                            onClick={() => {
+                                handleShowUnstakeModal(params.row);
+                            }}
+                            disabled={transacting}
+                        >
+                            Unstake
+                        </Button>
+                    </Box>
+                );
+            },
         },
     ];
 
-    const stakedPositionsRows = [
-        {
-            amount: "2388888 ALCA",
-            id: 1,
-            stakedDate: "03/12/2022",
-            rewards: "100 ALCA / 89999 ETH",
-        },
-        {
-            amount: `10 ${symbols.ALCA}`,
-            id: 2,
-            stakedDate: "03/12/2022",
-            rewards: "100000000 ALCA / 10 ETH",
-        },
-        {
-            amount: "10 ALCA",
-            id: 3,
-            stakedDate: "03/12/2022",
-            rewards: "20000 ALCA / 10 ETH",
-        },
-        {
-            amount: "10 ALCA",
-            id: 4,
-            stakedDate: "03/12/2022",
-            rewards: "100 ALCA / 433 ETH",
-        },
-    ];
+    const stakedPositionsRows = positions.staked.value.map((position) => {
+        return {
+            amount: formatNumberToLocale(position.shares),
+            id: position.tokenId,
+            ...position,
+        };
+    });
 
     const lockedPositionsColumns = [
         {
@@ -107,13 +275,6 @@ export function Positions() {
             headerClassName: "headerClass",
         },
         {
-            field: "lockedDate",
-            headerName: "Locked Date",
-            flex: 0.5,
-            sortable: false,
-            headerClassName: "headerClass",
-        },
-        {
             field: "timeLeft",
             headerName: "Time Left",
             flex: 0.5,
@@ -122,19 +283,31 @@ export function Positions() {
         },
         {
             field: "rewardsAchieved",
-            headerName: "Rewards Achieved",
+            headerName: "Lock Period Progress",
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
-            renderCell: (params) => (
-                <Box sx={{ width: "100%" }}>
-                    <LinearProgress variant="determinate" color="secondary" value={40} />
+            renderCell: () => {
+                const progress =
+                    (Number(currentBlock) * 100) / (Number(lockedPosition.blockUntilUnlock) + Number(currentBlock));
 
-                    <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
-                        40% Rewards
+                return (
+                    <Box sx={{ width: "100%" }}>
+                        <LinearProgress
+                            variant="determinate"
+                            color="secondary"
+                            value={lockedPosition.blockUntilUnlock > 0 ? progress : 100}
+                        />
+
+                        <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
+                            {lockedPosition.blockUntilUnlock > 0
+                                ? progress.toLocaleString(false, { maximumFractionDigits: 2 })
+                                : 100}
+                            %
+                        </Box>
                     </Box>
-                </Box>
-            ),
+                );
+            },
         },
         {
             field: "currentRewards",
@@ -142,6 +315,18 @@ export function Positions() {
             flex: 0.75,
             sortable: false,
             headerClassName: "headerClass",
+            renderCell: (params) => {
+                return (
+                    <Box display="flex" flexDirection="column" py={2}>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.payoutToken)} ${symbols.ALCA}`}
+                        </Typography>
+                        <Typography variant="body2">
+                            {`${formatNumberToLocale(params.row.payoutEth)} ${symbols.ETH}`}
+                        </Typography>
+                    </Box>
+                );
+            },
         },
         {
             field: "actions",
@@ -152,26 +337,48 @@ export function Positions() {
             headerClassName: "headerClass",
             renderCell: (params) => (
                 <Box sx={{ display: "flex" }}>
-                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
+                    <Button
+                        variant="contained"
+                        size="small"
+                        color="secondary"
+                        sx={actionButtonStyles}
+                        onClick={() => claimLockedRewards({ ...txFxParams })}
+                        disabled={!hasRewards()}
+                    >
                         Claim Rewards
                     </Button>
-                    <Button variant="contained" size="small" color="secondary" sx={actionButtonStyles}>
-                        Unlock
+                    <Button
+                        variant="contained"
+                        size="small"
+                        color={lockedPosition.blockUntilUnlock > 0 ? "warning" : "primary"}
+                        sx={{ ...actionButtonStyles }}
+                        onClick={
+                            lockedPosition.blockUntilUnlock > 0
+                                ? () => unlockLockedPositionEarly({ ...txFxParams })
+                                : () => unlockLockedPosition({ ...txFxParams })
+                        }
+                    >
+                        {lockedPosition.blockUntilUnlock > 0 ? "Unlock Early" : "Unlock"}
                     </Button>
                 </Box>
             ),
         },
     ];
 
-    const lockedPositionsRows = [
-        {
-            amount: "2388888 ALCA",
-            id: 1,
-            lockedDate: "03/12/2022",
-            timeLeft: "18 days",
-            currentRewards: "100 ALCA / 10 ETH",
-        },
-    ];
+    const lockedPositionsRows = hasLockedPosition
+        ? [
+              {
+                  amount: lockedPosition?.lockedAlca,
+                  id: lockedPosition?.tokenId || 1,
+                  timeLeft: `${
+                      lockedPosition.blockUntilUnlock > 0
+                          ? Number(lockedPosition?.blockUntilUnlock).toLocaleString()
+                          : 0
+                  } Blocks`,
+                  ...lockedPosition,
+              },
+          ]
+        : [];
 
     const actionButtonStyles = {
         textTransform: "none",
@@ -183,10 +390,16 @@ export function Positions() {
         borderRadius: 1,
         textTransform: "none",
         fontSize: 14,
+        height: 42,
+        minHeight: "inherit",
     };
 
     const currentClasses = {
-        background: "linear-gradient(180deg, #FFABD4 18.53%, #CE6D99 167.76%)",
+        background: `linear-gradient(
+            180deg,
+            ${theme.palette.custom.startGradient} 18.53%,
+            ${theme.palette.custom.endGradient} 167.76%
+        )`,
         color: theme.palette.background.default,
     };
 
@@ -207,13 +420,23 @@ export function Positions() {
 
     const fadeOutTextStyle = { fontSize: "14px" };
     const boxStyles = {
-        background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
+        background: `linear-gradient(
+            180deg,
+            ${theme.palette.custom.elevation12} 0%,
+            ${theme.palette.custom.elevation12} 100%
+        ), ${theme.palette.background.default}`,
         padding: 2,
+        borderRadius: 1,
         "& .even": {
-            background: `linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C`,
+            background: `linear-gradient(
+                180deg, ${theme.palette.custom.elevation3} 0%,
+                ${theme.palette.action.hover} 100%,
+                ${theme.palette.custom.elevation1} 100%
+            ), ${theme.palette.background.default}`,
         },
         "& .customRow": {
             fontFamily: theme.typography.subtitle1.fontFamily,
+            borderRadius: 1,
         },
         "& .headerClass": {
             fontFamily: "JetBrains Mono",
@@ -222,49 +445,60 @@ export function Positions() {
             outline: "none",
         },
         "& .odd.MuiDataGrid-row:hover": {
-            background: `linear-gradient(180deg, ${theme.palette.dark.elevation12} 0%, ${theme.palette.dark.elevation12} 100%), ${theme.palette.dark.main}`,
+            background: `linear-gradient(
+                180deg, ${theme.palette.custom.elevation12} 0%,
+                ${theme.palette.custom.elevation12} 100%
+            ), ${theme.palette.background.default}`,
         },
         "& .even.MuiDataGrid-row:hover": {
-            background: `linear-gradient(180deg, rgba(165, 198, 255, 0.08) 0%, rgba(255, 255, 255, 0.08) 100%, rgba(165, 198, 255, 0.08) 100%), #11151C`,
+            background: `linear-gradient(
+                180deg, ${theme.palette.custom.elevation3} 0%,
+                ${theme.palette.action.hover} 100%,
+                ${theme.palette.custom.elevation1} 100%
+            ), ${theme.palette.background.default}`,
         },
     };
+
+    function formattedAlcaBalance() {
+        if (balances.alca.error || balances.alca.value === "n/a") return "n/a";
+
+        return formatNumberToLocale(balances.alca.value);
+    }
 
     function StakedPositionLabel() {
         return (
             <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box>Staked Positions</Box>
-                <Box
-                    sx={{
-                        marginLeft: 1,
-                        fontSize: "14px",
-                        color: "#fff",
-                        padding: "1px 5px",
-                        bgcolor: "#0000007a",
-                        borderRadius: 10,
-                    }}
-                >
-                    10
-                </Box>
+                <CountBubble count={positions.staked.value.length} />
             </Box>
         );
     }
 
+    function hasRewards() {
+        return lockedPosition?.payoutToken !== "0.0" && lockedPosition?.payoutEth !== "0.0";
+    }
+
     return (
         <>
+            <ConfirmUnstakeModal
+                unstakePosition={unstakePosition}
+                onClose={() => setUnstakePosition(null)}
+                handleUnstake={handleUnstake}
+            />
             <NavigationBar />
 
             <Container maxWidth="lg">
                 <SubNavigation />
 
                 <TabContext value={currentTab}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }} pb={0.5}>
                         <TabList
                             onChange={handleTabChange}
                             textColor={theme.palette.background.default}
                             indicatorColor={theme.palette.background.default}
                         >
                             <Tab label={<StakedPositionLabel />} value="1" sx={stakingTabClasses} />
-                            <Tab label="Locked Positions" value="2" sx={positionTabClasses} />
+                            {hasLockedPosition && <Tab label="Locked Position" value="2" sx={positionTabClasses} />}
                         </TabList>
                     </Box>
                     <TabPanel value="1" sx={{ padding: 0 }}>
@@ -273,7 +507,7 @@ export function Positions() {
                                 <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
                                     Current ALCA Balance
                                 </Typography>
-                                <Typography variant="h5">2,000 ALCA</Typography>
+                                <Typography variant="h5">{formattedAlcaBalance()} ALCA</Typography>
                             </Box>
 
                             <DataGrid
@@ -284,6 +518,7 @@ export function Positions() {
                                 pageSize={10}
                                 rows={stakedPositionsRows}
                                 columns={stakedPositionsColumns}
+                                rowHeight={72}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
@@ -299,7 +534,7 @@ export function Positions() {
                                 <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
                                     Current ALCA Balance
                                 </Typography>
-                                <Typography variant="h5">2,000 ALCA</Typography>
+                                <Typography variant="h5">{formattedAlcaBalance()} ALCA</Typography>
                             </Box>
 
                             <DataGrid
@@ -310,6 +545,8 @@ export function Positions() {
                                 pageSize={10}
                                 rows={lockedPositionsRows}
                                 columns={lockedPositionsColumns}
+                                hideFooterPagination={true}
+                                rowHeight={72}
                                 getRowClassName={(params) => {
                                     return params.indexRelativeToCurrentPage % 2 === 0
                                         ? "customRow even"
@@ -321,6 +558,20 @@ export function Positions() {
                     </TabPanel>
                 </TabContext>
             </Container>
+
+            <Snackbar
+                sx={{ mb: 10 }}
+                open={snackbarOpen}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                autoHideDuration={snackbarAutoHideDuration}
+                onClose={() => {
+                    setSnackbarOpen(false);
+                }}
+            >
+                <Box>
+                    <SnackbarMessage status={snackbarMessage.status} message={snackbarMessage.message} />
+                </Box>
+            </Snackbar>
         </>
     );
 }

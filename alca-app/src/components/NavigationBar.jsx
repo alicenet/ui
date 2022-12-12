@@ -1,12 +1,12 @@
 import React from "react";
-import { Box, Toolbar, IconButton, Link, Menu, Container } from "@mui/material";
+import { Box, Toolbar, IconButton, Link, Menu, MenuItem, Container } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@emotion/react";
 import { configuration } from "config";
-import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ethAdapter from "eth-adapter";
 import { ConnectWeb3Button, HelpDropdown, Web3NetworkMenu } from "./index";
+import { ReactComponent as AliceNetLogo } from "assets/alicenet-logo.svg";
 
 export function NavigationBar() {
     const theme = useTheme();
@@ -68,32 +68,36 @@ export function NavigationBar() {
                             display: { xs: "block", md: "none" },
                         }}
                     >
-                        <Link
-                            to={configuration.site.url_about}
-                            component={NavLink}
-                            sx={{
-                                mx: configuration.site.webView.headerLinkSpacing,
-                                my: configuration.site.webView.headerHeight,
-                                display: "block",
-                                fontWeight: 900,
-                                textDecoration: 0,
-                            }}
-                        >
-                            About AliceNet
-                        </Link>
-                        <Link
-                            to={configuration.site.url_blockExplorer}
-                            component={NavLink}
-                            sx={{
-                                mx: configuration.site.webView.headerLinkSpacing,
-                                my: configuration.site.webView.headerHeight,
-                                display: "block",
-                                fontWeight: 900,
-                                textDecoration: 0,
-                            }}
-                        >
-                            Block Explorer
-                        </Link>
+                        <MenuItem>
+                            <Link
+                                href={configuration.site.url_about}
+                                {...configuration.site.href_props}
+                                sx={{
+                                    mx: configuration.site.webView.headerLinkSpacing,
+                                    my: configuration.site.webView.headerHeight,
+                                    display: "block",
+                                    fontWeight: 900,
+                                    textDecoration: 0,
+                                }}
+                            >
+                                About AliceNet
+                            </Link>
+                        </MenuItem>
+                        <MenuItem>
+                            <Link
+                                href={configuration.site.url_blockExplorer}
+                                {...configuration.site.href_props}
+                                sx={{
+                                    mx: configuration.site.webView.headerLinkSpacing,
+                                    my: configuration.site.webView.headerHeight,
+                                    display: "block",
+                                    fontWeight: 900,
+                                    textDecoration: 0,
+                                }}
+                            >
+                                Block Explorer
+                            </Link>
+                        </MenuItem>
                     </Menu>
                 </Box>
 
@@ -104,11 +108,15 @@ export function NavigationBar() {
                         alignItems: "center",
                     }}
                 >
+                    <Box mr={3}>
+                        <AliceNetLogo />
+                    </Box>
+
                     <Link
-                        to={configuration.site.url_about}
-                        component={NavLink}
+                        href={configuration.site.url_about}
+                        {...configuration.site.href_props}
                         sx={{
-                            color: theme.palette.secondary.darkText,
+                            color: "text.secondary",
                             mx: configuration.site.webView.headerLinkSpacing,
                             my: configuration.site.webView.headerHeight,
                             display: "block",
@@ -118,10 +126,10 @@ export function NavigationBar() {
                         About AliceNet
                     </Link>
                     <Link
-                        to={configuration.site.url_blockExplorer}
-                        component={NavLink}
+                        href={configuration.site.url_blockExplorer}
+                        {...configuration.site.href_props}
                         sx={{
-                            color: theme.palette.secondary.darkText,
+                            color: "text.secondary",
                             mx: configuration.site.webView.headerLinkSpacing,
                             my: configuration.site.webView.headerHeight,
                             display: "block",

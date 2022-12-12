@@ -34,3 +34,9 @@ export const setLanderModalOpenState = (state) => {
         dispatch({ type: APPLICATION_ACTION_TYPES.SET_LANDER_MODAL_STATE, payload: state });
     };
 };
+
+export const setInitialLoadCompleted = () => {
+    return (dispatch) => {
+        dispatch({ type: APPLICATION_ACTION_TYPES.SET_INITIAL_LOAD_COMPLETE });
+    };
+};
