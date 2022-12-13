@@ -6,11 +6,9 @@ const routerHasEnoughAllowance = async (CNAME, amount) => {
         [CNAME === "MADTOKEN" ? "_owner" : "owner"]: ethAdapter.connectedAccount,
         [CNAME === "MADTOKEN" ? "_spender" : "spender"]: ethAdapter.contractConfig["STAKINGROUTERV1"].address,
     });
-    console.log(allowance);
     // Shouldnt see amounts > 10m
     const parsedAllowance = Number(ethAdapter.ethers.utils.formatEther(allowance));
     const parsedAmount = Number(amount);
-    console.log(parsedAllowance, parsedAmount);
     return parsedAllowance >= parsedAmount;
 };
 
