@@ -276,7 +276,7 @@ export function Transactions() {
     // Reset lock if available, and stakeAlcaAmount === 0
     useEffect(() => {
         // Set allowance met
-        const stakeAllowance = allowances?.alca[Object.keys(allowances?.alca)[0]]?.value;
+        const stakeAllowance = allowances?.alca[ethAdapter.contractConfig.STAKINGROUTERV1.address]?.value;
         if (stakeAllowance) {
             const parsedStakeAllowance = ethers.utils.parseUnits(
                 stakeAllowance !== "0.0" ? stakeAllowance.toString() : "0"
@@ -292,7 +292,7 @@ export function Transactions() {
 
     useEffect(() => {
         // Set allowance met
-        const madAllowance = allowances?.mad[Object.keys(allowances.mad)[0]]?.value;
+        const madAllowance = allowances?.mad[ethAdapter.contractConfig.STAKINGROUTERV1.address]?.value;
         if (madAllowance) {
             const parsedMadAllowance = ethers.utils.parseUnits(madAllowance !== "0.0" ? madAllowance.toString() : "0");
             const parsedMadForMigration = ethers.utils.parseUnits(madForMigration.toString() || "0");
