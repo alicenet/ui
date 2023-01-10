@@ -20,6 +20,6 @@
     REACT_APP_STAKINGROUTERV1_CONTRACT_ADDRESS="0x0"
     REACT_APP_VALIDATORSTAKING_CONTRACT_ADDRESS="0x0"
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+    from = "/*"
+    to = "/index.html"
+    status = 200
