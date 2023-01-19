@@ -49,7 +49,7 @@ const site_configuration = {
     url_documentation: "https://github.com/alicenet/alicenet/wiki", // Link for documentation click under "Help"
     url_termsOfService: "https://alice.net", // Link for terms of service url under "Help"
     url_aliceNet: "https://alice.net",
-    url_etherScanAddress: "https://etherscan.io/address",
+    url_etherScanAddress: "https://etherscan.io/address/",
     url_madTokenEtherScan: "https://etherscan.io/token/0x5b09a0371c1da44a8e24d36bf5deb1141a84d875",
     url_migrationBlogLink: "https://medium.com/alicenet/mad-token-to-alca-token-migration-faq-23ff5940044b",
     url_alcaTokenBlog: "https://medium.com/alicenet/announcing-alicenet-c904e99d4179",
@@ -57,6 +57,7 @@ const site_configuration = {
     url_about: "https://medium.com/alicenet/introducing-alicenet-40b54474d2f2", // Link for about page
     url_blockExplorer: "https://explorer.alice.net", // Link for the block explorer
     smartContracts: {
+        //TODO replace with proper addresses
         ALCA: "Bb556b0eE2CBd89ed95DdEA881477723A3Aa8F8b",
         publicStaking: "3EDCaA9005DAe58F911C257c9Dbf6113e1BbEE74",
         lockup: "D4E53d48Cb943Efd4F913862D38BDAe3fcBBD036",
