@@ -72,9 +72,9 @@
         "start-alca": "npx ethpst; cd alca-app; yarn start",
         "build-alca": "npx ethpst; cd alca-app; yarn build",
         "build-alca-netlify": "yarn; npx ethpst; yarn --cwd alca-app build",
-        "start-tictac": "npx ethpst; cd hw-tictac; yarn start",
-        "build-tictac": "npx ethpst; cd hw-tictac; yarn build",
-        "build-tictac-netlify": "yarn; npx ethpst; yarn --cwd alca-app build"
+        "start-tictac": "cd hw-tictac; yarn start",
+        "build-tictac": "cd hw-tictac; yarn build",
+        "build-tictac-netlify": "yarn; yarn --cwd alca-app build"
     },
     "description": "Common alicenet/ui dependencies",
     "repository": {
