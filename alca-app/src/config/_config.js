@@ -62,7 +62,7 @@ const site_configuration = {
         publicStaking: "3EDCaA9005DAe58F911C257c9Dbf6113e1BbEE74",
         lockup: "D4E53d48Cb943Efd4F913862D38BDAe3fcBBD036",
         stakingRouterV1: "B00b635f87B9c0Aa19aB023d63cDfD6f9bb562A7",
-        MAD: "MAD",
+        MAD: "0x5B09A0371C1DA44A8E24D36Bf5DEb1141a84d875",
     },
 };
 
