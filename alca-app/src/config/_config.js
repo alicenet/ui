@@ -57,6 +57,7 @@ const site_configuration = {
     url_about: "https://medium.com/alicenet/introducing-alicenet-40b54474d2f2", // Link for about page
     url_blockExplorer: "https://explorer.alice.net", // Link for the block explorer
     smartContracts: {
+        //TODO verify smart contrats addresses
         ALCA: "Bb556b0eE2CBd89ed95DdEA881477723A3Aa8F8b",
         publicStaking: "3EDCaA9005DAe58F911C257c9Dbf6113e1BbEE74",
         lockup: "D4E53d48Cb943Efd4F913862D38BDAe3fcBBD036",
