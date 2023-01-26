@@ -1,1 +1,1 @@
-Don't delete this folder -- Build files get put here. Netlify appreciates this directory existing.
+Don't delete this folder -- Netlify appreciates this directory existing.
