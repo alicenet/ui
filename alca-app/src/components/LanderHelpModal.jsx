@@ -24,6 +24,34 @@ import { useModalCookie } from "hooks/useModalCookie";
 import { useTosCookie } from "hooks/useTosCookie";
 import CloseIcon from "@mui/icons-material/Close";
 
+const smartContracts = [
+    {
+        label: "ALCA",
+        href: configuration.site.url_etherScanAddress + configuration.site.smartContracts.ALCA,
+        address: configuration.site.smartContracts.ALCA,
+    },
+    {
+        label: "Public Staking Contract",
+        href: configuration.site.url_etherScanAddress + configuration.site.smartContracts.publicStaking,
+        address: configuration.site.smartContracts.publicStaking,
+    },
+    {
+        label: "Lockup",
+        href: configuration.site.url_etherScanAddress + configuration.site.smartContracts.lockup,
+        address: configuration.site.smartContracts.lockup,
+    },
+    {
+        label: "Staking RouterV1",
+        href: configuration.site.url_etherScanAddress + configuration.site.smartContracts.stakingRouterV1,
+        address: configuration.site.smartContracts.stakingRouterV1,
+    },
+    {
+        label: "MAD",
+        href: configuration.site.url_etherScanAddress + configuration.site.smartContracts.MAD,
+        address: configuration.site.smartContracts.MAD,
+    },
+];
+
 export function LanderHelpModal() {
     const { isModalOpen } = useSelector((s) => ({ isModalOpen: s.application.landerModalOpen }));
     const dispatch = useDispatch();
@@ -147,6 +175,20 @@ export function LanderHelpModal() {
                         <ContentListItem key={i}>{content}</ContentListItem>
                     ))}
                 </List>
+                <br />
+                <Typography variant="p">
+                    <b>Relevant Smart Contracts</b>
+                    <List>
+                        {smartContracts.map((content, i) => (
+                            <ContentListItem key={i}>
+                                {content.label}:{" "}
+                                <Link href={content.href} {...configuration.site.href_props}>
+                                    {content.address}
+                                </Link>
+                            </ContentListItem>
+                        ))}
+                    </List>
+                </Typography>
             </Box>
         );
 
