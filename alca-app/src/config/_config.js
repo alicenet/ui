@@ -5,7 +5,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 const [environment, isLive] = (() => {
     let environment = "";
     let isLive = "";
-    switch (process.env.REACT_APP__ENVIRONMENT) {
+    switch (process.env.REACT_APP__ALCA_ENVIRONMENT) {
         case "LOCAL":
             environment = "LOCAL";
             break;
@@ -16,7 +16,7 @@ const [environment, isLive] = (() => {
             environment = "PRODUCTION";
             break;
         default:
-            throw new Error("REACT_APP__ENVIRONMENT must be set correctly in application src .env file!");
+            throw new Error("REACT_APP__ALCA_ENVIRONMENT must be set correctly in application src .env file!");
     }
     switch (process.env.REACT_APP__ALCA_LIVE) {
         case "TRUE":
