@@ -5,7 +5,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 const [environment, isLive] = (() => {
     let environment = "";
     let isLive = "";
-    switch (process.env.REACT_APP__ENVIRONMENT) {
+    switch (process.env.REACT_APP__ALCA_ENVIRONMENT) {
         case "LOCAL":
             environment = "LOCAL";
             break;
@@ -16,7 +16,7 @@ const [environment, isLive] = (() => {
             environment = "PRODUCTION";
             break;
         default:
-            throw new Error("REACT_APP__ENVIRONMENT must be set correctly in application src .env file!");
+            throw new Error("REACT_APP__ALCA_ENVIRONMENT must be set correctly in application src .env file!");
     }
     switch (process.env.REACT_APP__ALCA_LIVE) {
         case "TRUE":
@@ -49,12 +49,21 @@ const site_configuration = {
     url_documentation: "https://github.com/alicenet/alicenet/wiki", // Link for documentation click under "Help"
     url_termsOfService: "https://alice.net/terms-of-use", // Link for terms of service url under "Help"
     url_aliceNet: "https://alice.net",
+    url_etherScanAddress: "https://etherscan.io/address/",
     url_madTokenEtherScan: "https://etherscan.io/token/0x5b09a0371c1da44a8e24d36bf5deb1141a84d875",
     url_migrationBlogLink: "https://medium.com/alicenet/mad-token-to-alca-token-migration-faq-23ff5940044b",
     url_alcaTokenBlog: "https://medium.com/alicenet/announcing-alicenet-c904e99d4179",
     href_props: { target: "_blank", rel: "noopener noreferrer" },
     url_about: "https://medium.com/alicenet/introducing-alicenet-40b54474d2f2", // Link for about page
     url_blockExplorer: "https://explorer.alice.net", // Link for the block explorer
+    smartContracts: {
+        //TODO verify smart contrats addresses
+        ALCA: "Bb556b0eE2CBd89ed95DdEA881477723A3Aa8F8b",
+        publicStaking: "3EDCaA9005DAe58F911C257c9Dbf6113e1BbEE74",
+        lockup: "D4E53d48Cb943Efd4F913862D38BDAe3fcBBD036",
+        stakingRouterV1: "B00b635f87B9c0Aa19aB023d63cDfD6f9bb562A7",
+        MAD: "0x5B09A0371C1DA44A8E24D36Bf5DEb1141a84d875",
+    },
 };
 
 export const configuration = {
