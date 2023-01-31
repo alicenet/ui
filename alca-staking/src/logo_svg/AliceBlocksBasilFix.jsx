@@ -3,7 +3,7 @@ import "./aliceBlocksBasilStyle.css";
 
 export function AliceBlocksBasilFix() {
     return (
-        <svg version="1.1" viewBox="0 0 969.7 600" xmlSpace="preserve" width="210mm" height="297mm">
+        <svg version="1.1" viewBox="0 0 969.7 600" xmlSpace="preserve" width="98.2%" height="173.1%">
             <path d="M567.3 525.9L571.2 519.2 575 525.9z" className="st0" style={{ fill: "red" }}></path>
             <path d="M662.5 493.2L664.2 490.2 666 493.2z" className="st1"></path>
             <path d="M135.2 447.6L137.4 443.8 139.5 447.6z" className="st2"></path>
