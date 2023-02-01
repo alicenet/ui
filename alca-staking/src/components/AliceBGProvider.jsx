@@ -1,20 +1,18 @@
 import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { Container } from "@mui/system";
-import { AliceHealthBlocks } from "logo_svg/AliceHealthBlocks";
 import { AliceBlocksBasilFix } from "logo_svg/AliceBlocksBasilFix";
 
 export function AliceBGProvider({ children }) {
     const theme = useTheme();
+    const matches = useMediaQuery("(min-width:600px)");
 
     console.log(theme.palette.primary);
-
-    const useTracedLogo = false;
 
     const AccentCircle = () => {
         return (
             <Box
-                style={{
+                sx={{
                     position: "absolute",
                     top: "-7.91%",
                     left: "-29.73%",
@@ -30,13 +28,26 @@ export function AliceBGProvider({ children }) {
     const AccentLogo = () => {
         return (
             <Box
-                style={{
+                sx={{
                     position: "absolute",
-                    left: "-6.5vw",
-                    top: "27vh",
+                    left: "0px",
+                    bottom: "0px",
+                    height: matches ? "50%" : "50%",
+                    width: matches ? "50%" : "100%",
+                    // background: "green",
                 }}
             >
-                {useTracedLogo ? <AliceHealthBlocks /> : <AliceBlocksBasilFix />}
+                <Box
+                    sx={{
+                        position: "absolute",
+                        height: "100%",
+                        width: "100%",
+                        top: "22.5%",
+                        left: "-15%",
+                    }}
+                >
+                    <AliceBlocksBasilFix />
+                </Box>
             </Box>
         );
     };
@@ -44,10 +55,10 @@ export function AliceBGProvider({ children }) {
     return (
         <Container
             maxWidth={false}
-            style={{
+            sx={{
                 background: theme.palette.primary.tile,
                 color: theme.palette.text.primary,
-                display: "relative",
+                position: "relative",
                 height: "100vh",
                 width: "100vw",
                 overflow: "hidden",
@@ -55,7 +66,17 @@ export function AliceBGProvider({ children }) {
         >
             <AccentCircle />
             <AccentLogo />
-            <Container>{children}</Container>
+
+            <Container
+                maxWidth={"xl"}
+                sx={{
+                    position: "relative",
+                    height: "100%",
+                    width: "100%",
+                }}
+            >
+                {children}
+            </Container>
         </Container>
     );
 }

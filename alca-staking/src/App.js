@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 // Components
-import { AliceBGProvider } from "./components";
+import { AliceBGProvider, InfoSplash, NavHeader, StakingBox } from "./components";
 
 // Pages
 import { ThemeProvider } from "@mui/system";
@@ -10,6 +10,7 @@ import { theme } from "theme/MUITheme";
 
 // Page imports
 import { configuration } from "config";
+import { Grid } from "@mui/material";
 
 export default function App() {
     const { reduxState } = useSelector((s) => ({
@@ -35,7 +36,19 @@ export default function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <AliceBGProvider>App Children</AliceBGProvider>
+            <AliceBGProvider>
+                <Grid container>
+                    <Grid xs={12}>
+                        <NavHeader />
+                    </Grid>
+                    <Grid xs={6}>
+                        <InfoSplash />
+                    </Grid>
+                    <Grid xs={6}>
+                        <StakingBox />
+                    </Grid>
+                </Grid>
+            </AliceBGProvider>
         </ThemeProvider>
     );
 }
