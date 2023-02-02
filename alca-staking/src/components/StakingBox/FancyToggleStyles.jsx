@@ -40,7 +40,7 @@ export const fancyToggleStyles = {
         },
     },
     "& .MuiSwitch-thumb": {
-        transition: "all .20s cubic-bezier(0.45, 0, 0.55, 1)",
+        transition: "all .35s cubic-bezier(0.45, 0, 0.55, 1)",
         position: "relative",
         left: -9,
         top: -2,

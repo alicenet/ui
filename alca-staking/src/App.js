@@ -41,10 +41,10 @@ export default function App() {
                     <Grid xs={12}>
                         <NavHeader />
                     </Grid>
-                    <Grid xs={6}>
+                    <Grid xs={6} px={8}>
                         <InfoSplash />
                     </Grid>
-                    <Grid xs={6}>
+                    <Grid xs={6} px={8}>
                         <StakingBox />
                     </Grid>
                 </Grid>

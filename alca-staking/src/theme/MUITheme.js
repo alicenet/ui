@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material";
 
 const CustomColors = {
-    copperCrayola: "#ea9167",
+    copperCrayola: "rgba(219, 9, 169, 1)",
     darkPurple: "#24031",
     electricBlue: "#9AEBDD",
     midnight: "#7e176b",
