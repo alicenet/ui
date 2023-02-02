@@ -1,19 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// App Entry
 import App from "./App";
-// Style
-import "./style/index.css";
-
-/* Redux Store */
-import store from "redux/store/store.js";
 import { Provider } from "react-redux";
+import store from "./redux/store";
+import "./style/index.scss";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { theme } from "alice-mui-provider";
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Provider store={store}>
+    <Provider store={store}>
+        <ThemeProvider theme={theme}>
+            <CssBaseline enableColorScheme />
             <App />
-        </Provider>
-    </React.StrictMode>,
-    document.getElementById("root")
+        </ThemeProvider>
+    </Provider>,
+    document.getElementById('root')
 );

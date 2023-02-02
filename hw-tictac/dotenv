@@ -1,10 +1,15 @@
 ## ENVIRONMENT TYPE
-REACT_APP__ENVIRONMENT="LOCAL"
+REACT_APP_DEPLOYMENT_TYPE="STAGING"
 
-## Ethereum Endpoints for JSON RPC requests if desired ( Allows Pre Wallet Connect Reads )
-REACT_APP__ETHEREUM_ENDPOINT_LOCAL="https://localhost:8545"
-REACT_APP__ETHEREUM_ENDPOINT_STAGING=""
-REACT_APP__ETHEREUM_ENDPOINT_PRODUCTION=""
+# RPC Endpoint for AliceNet
+REACT_APP_ALICENET_RPC_ENDPOINT_LOCAL="https://edge.staging.alice.net/v1/"
+REACT_APP_ALICENET_RPC_ENDPOINT_STAGING="https://edge.staging.alice.net/v1/"
+REACT_APP_ALICENET_RPC_ENDPOINT_PRODUCTION="https://edge.alice.net/v1/"
 
-## Contracts Below
-REACT_APP__STORAGE_CONTRACT_ADDRESS=0x5FbDB2315678afecb367f032d93F642f64180aa3
+REACT_APP_GITHUB_URL="https://github.com/alicenet"
+REACT_APP_WHITE_PAPER_URL="https://github.com/alicenet/whitepaper/blob/main/alicenet.pdf"
+REACT_APP_ALICENET_URL="https://www.alice.net"
+
+REACT_APP_WALLET_LINUX_URL="https://github.com/alicenet/wallet/releases/download/v1.0.4-alpha/linux_alicenetwallet_x64.zip"
+REACT_APP_WALLET_MAC_URL="https://github.com/alicenet/wallet/releases/download/v1.0.4-alpha/mac_alicenetwallet.dmg"
+REACT_APP_WALLET_WINDOWS_URL="https://github.com/alicenet/wallet/releases/download/v1.0.4-alpha/windows_alicenetwallet_x64.exe"
