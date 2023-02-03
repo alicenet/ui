@@ -1,6 +1,17 @@
 import { commonEthRequests } from "alice-ui-common";
 import ethAdapter from "eth-adapter";
 
+const routerHasEnoughAllowance = async (CNAME, amount) => {
+    let allowance = await ethAdapter.contractMethods[CNAME].allowance_view_IN2_OUT1({
+        [CNAME === "MADTOKEN" ? "_owner" : "owner"]: ethAdapter.connectedAccount,
+        [CNAME === "MADTOKEN" ? "_spender" : "spender"]: ethAdapter.contractConfig["STAKINGROUTERV1"].address,
+    });
+    // Shouldnt see amounts > 10m
+    const parsedAllowance = Number(ethAdapter.ethers.utils.formatEther(allowance));
+    const parsedAmount = Number(amount);
+    return parsedAllowance >= parsedAmount;
+};
+
 export async function migrate({
     madForMigration,
     setMadForMigration,
@@ -13,19 +24,32 @@ export async function migrate({
 }) {
     setTransacting(true);
     try {
-        // Pending message
-        setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Migration Allowance" });
-        // Open snackbar
+        let allowance = await ethAdapter.contractMethods.MADTOKEN.allowance_view_IN2_OUT1({
+            _owner: ethAdapter.connectedAccount,
+            _spender: ethAdapter.contractConfig["ALCA"].address,
+        });
+
+        // Shouldnt see amounts > 10m
+        const parsedAllowance = Number(ethAdapter.ethers.utils.formatEther(allowance));
+        const parsedMigrationAmount = Number(madForMigration);
+
         setSnackbarOpen(true);
-        // Allowance transaction
-        const allowanceTx = await commonEthRequests.migrate_sendMadAllowanceForATokenRequest(
-            ethAdapter,
-            madForMigration
-        );
-        if (allowanceTx.error) {
-            throw new Error(allowanceTx.error);
+
+        if (parsedMigrationAmount > parsedAllowance) {
+            // Pending message
+            setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Migration Allowance" });
+            // Open snackbar
+            // Allowance transaction
+            const allowanceTx = await commonEthRequests.migrate_sendMadAllowanceForATokenRequest(
+                ethAdapter,
+                madForMigration
+            );
+            if (allowanceTx.error) {
+                throw new Error(allowanceTx.error);
+            }
+            await allowanceTx.wait();
         }
-        await allowanceTx.wait();
+
         // Pending message
         setSnackbarMessage({ status: "pending", message: "Tx 2/2: Pending Migration" });
         // Migration transaction
@@ -36,7 +60,7 @@ export async function migrate({
         await migrateTx.wait();
     } catch (e) {
         // Error message
-        console.error(e.message);
+        console.error(e);
         setSnackbarAutoHideDuration(7500);
         setSnackbarMessage({
             status: "error",
@@ -74,19 +98,31 @@ export async function stake({
 }) {
     setTransacting(true);
     try {
-        // Pending message
-        setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Staking Allowance" });
-        // Open snackbar
+        let allowance = await ethAdapter.contractMethods.ALCA.allowance_view_IN2_OUT1({
+            owner: ethAdapter.connectedAccount,
+            spender: ethAdapter.contractConfig["PUBLICSTAKING"].address,
+        });
+
+        // Shouldnt see amounts > 10m
+        const parsedAllowance = Number(ethAdapter.ethers.utils.formatEther(allowance));
+        const parsedStakingAmt = Number(stakeAlcaAmount);
+
         setSnackbarOpen(true);
-        // Allowance transaction
-        const allowanceTx = await commonEthRequests.staking_sendAtokenAllowanceForPublicStakingRequest(
-            ethAdapter,
-            stakeAlcaAmount
-        );
-        if (allowanceTx.error) {
-            throw new Error(allowanceTx.error);
+        if (parsedStakingAmt > parsedAllowance) {
+            // Pending message
+            setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Staking Allowance" });
+            // Open snackbar
+            // Allowance transaction
+            const allowanceTx = await commonEthRequests.staking_sendAtokenAllowanceForPublicStakingRequest(
+                ethAdapter,
+                stakeAlcaAmount
+            );
+            if (allowanceTx.error) {
+                throw new Error(allowanceTx.error);
+            }
+            await allowanceTx.wait();
         }
-        await allowanceTx.wait();
+
         // Pending message
         setSnackbarMessage({ status: "pending", message: `Tx 2/2: Pending Stake ${stakeAlcaAmount} ALCA` });
         // Stake transaction
@@ -100,7 +136,7 @@ export async function stake({
         await stakeTx.wait();
     } catch (e) {
         // Error message
-        console.error(e.message);
+        console.error(e);
         setSnackbarAutoHideDuration(7500);
         setSnackbarMessage({
             status: "error",
@@ -138,19 +174,22 @@ export async function migrateAndStake({
 }) {
     setTransacting(true);
     try {
-        // Pending message
-        setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Migrate/Stake Allowance" });
         // Open snackbar
         setSnackbarOpen(true);
-        // Allowance transaction
-        const allowanceTx = await commonEthRequests.psrouter_sendApproveMadTokenForPublicStakingRouterRequest(
-            ethAdapter,
-            madForMigration
-        );
-        if (allowanceTx.error) {
-            throw new Error(allowanceTx.error);
+
+        if (!(await routerHasEnoughAllowance("MADTOKEN", madForMigration))) {
+            // Pending message
+            setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Migrate/Stake Allowance" });
+            // Allowance transaction
+            const allowanceTx = await commonEthRequests.psrouter_sendApproveMadTokenForPublicStakingRouterRequest(
+                ethAdapter,
+                madForMigration
+            );
+            if (allowanceTx.error) {
+                throw new Error(allowanceTx.error);
+            }
+            await allowanceTx.wait();
         }
-        await allowanceTx.wait();
         // Pending message
         setSnackbarMessage({ status: "pending", message: `Tx 2/2: Pending Migrate & Stake` });
         // Stake transaction
@@ -204,19 +243,22 @@ export async function stakeAndLock({
 }) {
     setTransacting(true);
     try {
-        // Pending message
-        setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Stake/Lock Allowance" });
         // Open snackbar
         setSnackbarOpen(true);
-        // Allowance transaction
-        const allowanceTx = await ethAdapter.contractMethods.ALCA.approve_nonpayable_IN2_OUT1({
-            amount: ethAdapter.ethers.utils.parseEther(stakeAlcaAmount),
-            spender: ethAdapter.contractConfig.STAKINGROUTERV1.address,
-        });
-        if (allowanceTx.error) {
-            throw new Error(allowanceTx.error);
+
+        if (!(await routerHasEnoughAllowance("ALCA", stakeAlcaAmount))) {
+            // Pending message
+            setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Stake/Lock Allowance" });
+            // Allowance transaction
+            const allowanceTx = await ethAdapter.contractMethods.ALCA.approve_nonpayable_IN2_OUT1({
+                amount: ethAdapter.ethers.utils.parseEther(stakeAlcaAmount),
+                spender: ethAdapter.contractConfig.STAKINGROUTERV1.address,
+            });
+            if (allowanceTx.error) {
+                throw new Error(allowanceTx.error);
+            }
+            await allowanceTx.wait();
         }
-        await allowanceTx.wait();
         // Pending message
         setSnackbarMessage({ status: "pending", message: `Tx 2/2: Pending Stake/Lock` });
 
@@ -271,19 +313,23 @@ export async function migrateStakeAndLock({
 }) {
     setTransacting(true);
     try {
-        // Pending message
-        setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Migrate/Stake/Lock Allowance" });
         // Open snackbar
         setSnackbarOpen(true);
-        // Allowance transaction
-        const allowanceTx = await commonEthRequests.psrouter_sendApproveMadTokenForPublicStakingRouterRequest(
-            ethAdapter,
-            madForMigration
-        );
-        if (allowanceTx.error) {
-            throw new Error(allowanceTx.error);
+
+        if (!(await routerHasEnoughAllowance("MADTOKEN", madForMigration))) {
+            // Pending message
+            setSnackbarMessage({ status: "pending", message: "Tx 1/2: Pending Migrate/Stake/Lock Allowance" });
+
+            // Allowance transaction
+            const allowanceTx = await commonEthRequests.psrouter_sendApproveMadTokenForPublicStakingRouterRequest(
+                ethAdapter,
+                madForMigration
+            );
+            if (allowanceTx.error) {
+                throw new Error(allowanceTx.error);
+            }
+            await allowanceTx.wait();
         }
-        await allowanceTx.wait();
 
         // Pending message
         setSnackbarMessage({ status: "pending", message: "Tx 2/2: Pending Migrate/Stake/Lock" });
