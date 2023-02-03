@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 // Components
-import { AliceBGProvider, InfoSplash, NavHeader, StakingBox } from "./components";
+import { AliceBGProvider, InfoSplash, NavHeader, StakingControls } from "./components";
 
 // Pages
 import { ThemeProvider } from "@mui/system";
@@ -38,14 +38,14 @@ export default function App() {
         <ThemeProvider theme={theme}>
             <AliceBGProvider>
                 <Grid container>
-                    <Grid xs={12}>
+                    <Grid lg={12}>
                         <NavHeader />
                     </Grid>
-                    <Grid xs={6} px={8}>
+                    <Grid xs={12} lg={6} px={8}>
                         <InfoSplash />
                     </Grid>
-                    <Grid xs={6} px={8}>
-                        <StakingBox />
+                    <Grid xs={12} lg={6} px={8}>
+                        <StakingControls />
                     </Grid>
                 </Grid>
             </AliceBGProvider>

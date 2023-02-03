@@ -1,6 +1,5 @@
-import { Link, useTheme } from "@mui/material";
+import { Button, Link, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
-import { ThemedPrimaryButton } from "components/AliceThemeButtons";
 import { AliceTriangle } from "logo_svg";
 
 export function NavHeader() {
@@ -43,7 +42,7 @@ export function NavHeader() {
         </Box>
     );
 
-    const ConnectWalletButton = () => <ThemedPrimaryButton>CONNECT Wallet</ThemedPrimaryButton>;
+    const ConnectWalletButton = () => <Button color="primary">Connect Wallet</Button>;
 
     return (
         <Box height={56} mt={"12px"} display="flex" justifyContent={"space-between"} pr={"48px"}>
