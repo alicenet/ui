@@ -1,0 +1,19 @@
+{
+    "name": "web3-app-boilerplate",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "ethpst && react-scripts start",
+        "build": "ethpst && react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+    ],
+    "dependencies": {
+        "react-transition-group": "^4.4.5"
+    }
+}
