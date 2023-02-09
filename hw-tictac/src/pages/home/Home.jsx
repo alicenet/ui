@@ -1,15 +1,24 @@
 import React from "react";
-import { LatestBlocks, Page } from "components";
-import { Box } from "@mui/material";
+import { GroupDataStoreIndex, Page, PlayTicTacToe, ProofOfConcept, WalletComposition } from "components";
+import { Box, Grid } from "@mui/material";
 
 export const Home = () => {
 
     return (
 
         <Page>
-            <Box display="flex" flexDirection="column">
-                <LatestBlocks />
-            </Box>
+            <Grid container spacing={3}>
+                <Grid item xs={4}>
+                    <PlayTicTacToe />
+                </Grid>
+                <Grid item xs={8}>
+                    <Box display="flex" flexDirection="column" gap={2}>
+                        <ProofOfConcept />
+                        <WalletComposition />
+                        <GroupDataStoreIndex />
+                    </Box>
+                </Grid>
+            </Grid>
         </Page>
 
     );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { AppBar, Box, Container, Drawer, IconButton, Link, Toolbar, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Container, Drawer, IconButton, Link, Toolbar, useTheme } from "@mui/material";
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { HeaderMobile } from "./HeaderMobile";
 import { Logo, MenuDivider } from "components";
@@ -48,6 +48,16 @@ const sections =
             location: WHITE_PAPER_URL,
             displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />
         },
+        {
+            displayCallback: () =>
+                <Button
+                    color="secondary"
+                    size="small"
+                    variant="contained"
+                >
+                    Get Involved!
+                </Button>
+        },
     ];
 
 export function Header() {
@@ -91,7 +101,13 @@ export function Header() {
                             </IconButton>
                         </Box>
 
-                        <Box gap={2} justifyContent="end" flexGrow={1} sx={{ display: { xs: "none", md: "flex" } }}>
+                        <Box
+                            gap={2}
+                            alignItems="center"
+                            justifyContent="end"
+                            flexGrow={1}
+                            sx={{ display: { xs: "none", md: "flex" } }}
+                        >
                             {sections.map((section, index, { length }) => (
                                 <React.Fragment key={`menu-link-${index}`}>
                                     {section.displayCallback(section)}

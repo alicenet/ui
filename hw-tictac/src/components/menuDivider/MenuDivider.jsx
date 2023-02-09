@@ -5,9 +5,9 @@ export const MenuDivider = () => {
     const theme = useTheme();
     return (
         <Box
-            marginY={0.5}
+            paddingY={0.75}
             border={1}
-            borderColor={theme.palette.tableBlack.main}
+            borderColor={theme.palette.clearGray.main}
             sx={{ borderStyle: { xs: "none", md: "solid" } }}
         />
     );
