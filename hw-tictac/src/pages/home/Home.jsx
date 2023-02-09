@@ -12,7 +12,7 @@ export const Home = () => {
                     <PlayTicTacToe />
                 </Grid>
                 <Grid item xs={7}>
-                    <Box display="flex" flexDirection="column" gap={2}>
+                    <Box display="flex" flexDirection="column" gap={3}>
                         <ProofOfConcept />
                         <WalletComposition />
                         <GroupDataStoreIndex />

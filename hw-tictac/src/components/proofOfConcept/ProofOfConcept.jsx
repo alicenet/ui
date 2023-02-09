@@ -8,7 +8,7 @@ export function ProofOfConcept() {
             <Typography variant="h5">
                 AliceNet Tictactoe (POC)
             </Typography>
-            <Box display="flex" flexDirection="row" gap={1}>
+            <Box display="flex" flexDirection="row" gap={2}>
                 <Typography variant="span" fontFamily="Roboto">
                     "This application is to demonstrate the use of multi-signature wallets where two wallets are coming
                     together to create a group signature used to create, sign, and send transactions. The use cases for
