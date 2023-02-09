@@ -1,5 +1,16 @@
 import React from "react";
-import { Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, useTheme } from "@mui/material";
+import {
+    Box,
+    Button,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    Typography,
+    useTheme
+} from "@mui/material";
 
 export function GroupDataStoreIndex() {
 
@@ -23,15 +34,24 @@ export function GroupDataStoreIndex() {
                                 display="flex"
                                 alignItems="center"
                                 padding={3}
+                                paddingY={2}
                                 border={2}
                                 borderColor={theme.palette.primary.main}
                                 borderBottom={0}
                                 borderLeft={0}
                                 borderRight={0}
+                                gap={2}
                             >
                                 <Typography>
                                     <strong>Group DataStore Index</strong>
                                 </Typography>
+                                <Button
+                                    color="primary"
+                                    size="small"
+                                    variant="contained"
+                                >
+                                    View
+                                </Button>
                             </Box>
 
                         </TableCell>
