@@ -19,7 +19,6 @@ const headerCells =
         {
             id: "empty",
             label: "",
-            displayCallback: () => <></>
         },
         {
             id: "privateKey",
@@ -119,7 +118,7 @@ export function WalletComposition() {
                                         id: headerCell.id,
                                         label: headerCell.label
                                     }
-                                ) : headerCell}
+                                ) : <></>}
 
                             </TableCell>
 
