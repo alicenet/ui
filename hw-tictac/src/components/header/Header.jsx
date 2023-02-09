@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom";
 import { AppBar, Box, Container, Drawer, IconButton, Link, Toolbar, useTheme } from "@mui/material";
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { HeaderMobile } from "./HeaderMobile";
-import { WalletDropdown } from "./WalletDropdown";
 import { Logo, MenuDivider } from "components";
 
+const EXPLORER_URL = process.env.REACT_APP_EXPLORER_URL;
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
 const ALICENET_URL = process.env.REACT_APP_ALICENET_URL;
 const WHITE_PAPER_URL = process.env.REACT_APP_WHITE_PAPER_URL;
@@ -29,9 +29,9 @@ const MenuLink = ({ location, label, blank = false }) => {
 const sections =
     [
         {
-            label: "Monitor",
-            location: "/",
-            displayCallback: ({ location, label }) => <MenuLink location={location} label={label} />
+            label: "Block Explorer",
+            location: EXPLORER_URL,
+            displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />
         },
         {
             label: "About",

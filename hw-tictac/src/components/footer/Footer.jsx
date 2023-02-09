@@ -66,7 +66,7 @@ export function Footer() {
                     sx={{ cursor: "pointer", "&:hover": { color: theme.palette.primary.main } }}
                     variant="span"
                 >
-                    Terms of service
+                    Terms of Service
                 </Typography>
 
                 <MenuDivider />

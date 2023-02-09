@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple, faLinux, faWindows } from "@fortawesome/free-brands-svg-icons";
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 
+const EXPLORER_URL = process.env.REACT_APP_EXPLORER_URL;
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
 const ALICENET_URL = process.env.REACT_APP_ALICENET_URL;
 const WHITE_PAPER_URL = process.env.REACT_APP_WHITE_PAPER_URL;
@@ -24,10 +25,10 @@ const WALLET_WINDOWS_URL = process.env.REACT_APP_WALLET_WINDOWS_URL;
 const sections =
     [
         {
-            label: "Monitor",
-            location: "/",
+            label: "Block Explorer",
+            location: EXPLORER_URL,
             displayCallback: ({ location, label }) =>
-                <MenuItem key={`header-mobile-${label}`} location={location} label={label} />
+                <MenuItem key={`header-mobile-${label}`} location={location} label={label} blank />
         },
         {
             label: "About",
