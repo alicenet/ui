@@ -5,32 +5,47 @@ const instructions = [
     {
         label: "Generate wallet 1",
         left: true,
-        displayCallback: ({ id, label }) => <InstructionItem id={id} label={label} />
+        displayCallback: ({ id, label }) =>
+            <React.Fragment key={`grid-item-instruction-${id}`}>
+                <InstructionItem id={id} label={label} />
+            </React.Fragment>
     },
     {
         label: "Generate wallet 2",
         left: true,
-        displayCallback: ({ id, label }) => <InstructionItem id={id} label={label} />
+        displayCallback: ({ id, label }) =>
+            <React.Fragment key={`grid-item-instruction-${id}`}>
+                <InstructionItem id={id} label={label} />
+            </React.Fragment>
     },
     {
         label: "Generate multisig wallet",
         left: true,
-        displayCallback: ({ id, label }) => <InstructionItem id={id} label={label} />
+        displayCallback: ({ id, label }) =>
+            <React.Fragment key={`grid-item-instruction-${id}`}>
+                <InstructionItem id={id} label={label} />
+            </React.Fragment>
     },
     {
         label: "Fund wallet",
         left: false,
-        displayCallback: ({ id, label }) => <InstructionItem id={id} label={label} />
+        displayCallback: ({ id, label }) =>
+            <React.Fragment key={`grid-item-instruction-${id}`}>
+                <InstructionItem id={id} label={label} />
+            </React.Fragment>
     },
     {
         label: "Play",
         left: false,
-        displayCallback: ({ id, label }) => <InstructionItem id={id} label={label} />
+        displayCallback: ({ id, label }) =>
+            <React.Fragment key={`grid-item-instruction-${id}`}>
+                <InstructionItem id={id} label={label} />
+            </React.Fragment>
     },
 ];
 
 const InstructionItem = ({ id, label }) =>
-    <Grid item key={`grid-item-instruction-${id}`} paddingY={0.25}>
+    <Grid item paddingY={0.25}>
         <Typography variant="span" fontFamily="Roboto">
             <strong>{id}.</strong> {label}
         </Typography>
