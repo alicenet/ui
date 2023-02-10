@@ -184,7 +184,6 @@ export function WalletComposition() {
                             <TableCell
                                 key={`row-${headerCell.id}`}
                                 sx={{
-                                    border: 0,
                                     background: lighten(theme.palette.background.paper, 3 * 0.045),
                                     padding: 2,
                                     fontSize: "small",
@@ -212,7 +211,6 @@ export function WalletComposition() {
                             <TableCell
                                 key={`row-PX-${playerXCell.id}`}
                                 sx={{
-                                    border: 0,
                                     background: lighten(theme.palette.background.paper, 3 * 0.045),
                                     padding: 2,
                                     fontSize: "small",
@@ -240,7 +238,6 @@ export function WalletComposition() {
                             <TableCell
                                 key={`row-PO-${playerOCell.id}`}
                                 sx={{
-                                    border: 0,
                                     background: lighten(theme.palette.background.paper, 3 * 0.045),
                                     padding: 2,
                                     fontSize: "small",
@@ -268,7 +265,6 @@ export function WalletComposition() {
                             <TableCell
                                 key={`row-GA-${groupAddressCell.id}`}
                                 sx={{
-                                    border: 0,
                                     background: lighten(theme.palette.background.paper, 3 * 0.045),
                                     padding: 2,
                                     fontSize: "small",
