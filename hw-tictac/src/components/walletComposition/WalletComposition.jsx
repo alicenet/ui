@@ -43,6 +43,84 @@ const headerCells =
     ]
 ;
 
+const playerXCells =
+    [
+        {
+            id: "playerX",
+            label: "Player X",
+            displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+    ]
+;
+
+const playerOCells =
+    [
+        {
+            id: "playerO",
+            label: "Player O",
+            displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+    ]
+;
+
+const groupAddressCells =
+    [
+        {
+            id: "groupAddress",
+            label: "Group Address",
+            displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+        {
+            id: "empty",
+            label: "",
+        },
+    ]
+;
+
 const HeaderCell = ({ id, label }) =>
     <Box display="flex" flexDirection="row" alignItems="center" gap={0.5}>
         <Typography variant="span">
@@ -117,6 +195,90 @@ export function WalletComposition() {
                                     {
                                         id: headerCell.id,
                                         label: headerCell.label
+                                    }
+                                ) : <></>}
+
+                            </TableCell>
+
+                        );
+                    })}
+
+                </TableRow>
+
+                <TableRow>
+
+                    {playerXCells.map(playerXCell => {
+                        return (
+                            <TableCell
+                                key={`row-PX-${playerXCell.id}`}
+                                sx={{
+                                    border: 0,
+                                    background: lighten(theme.palette.background.paper, 3 * 0.045),
+                                    padding: 2,
+                                    fontSize: "small",
+                                }}
+                            >
+
+                                {playerXCell?.displayCallback ? playerXCell.displayCallback(
+                                    {
+                                        id: playerXCell.id,
+                                        label: playerXCell.label
+                                    }
+                                ) : <></>}
+
+                            </TableCell>
+
+                        );
+                    })}
+
+                </TableRow>
+
+                <TableRow>
+
+                    {playerOCells.map(playerOCell => {
+                        return (
+                            <TableCell
+                                key={`row-PO-${playerOCell.id}`}
+                                sx={{
+                                    border: 0,
+                                    background: lighten(theme.palette.background.paper, 3 * 0.045),
+                                    padding: 2,
+                                    fontSize: "small",
+                                }}
+                            >
+
+                                {playerOCell?.displayCallback ? playerOCell.displayCallback(
+                                    {
+                                        id: playerOCell.id,
+                                        label: playerOCell.label
+                                    }
+                                ) : <></>}
+
+                            </TableCell>
+
+                        );
+                    })}
+
+                </TableRow>
+
+                <TableRow>
+
+                    {groupAddressCells.map(groupAddressCell => {
+                        return (
+                            <TableCell
+                                key={`row-GA-${groupAddressCell.id}`}
+                                sx={{
+                                    border: 0,
+                                    background: lighten(theme.palette.background.paper, 3 * 0.045),
+                                    padding: 2,
+                                    fontSize: "small",
+                                }}
+                            >
+
+                                {groupAddressCell?.displayCallback ? groupAddressCell.displayCallback(
+                                    {
+                                        id: groupAddressCell.id,
+                                        label: groupAddressCell.label
                                     }
                                 ) : <></>}
 
