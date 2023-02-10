@@ -8,7 +8,7 @@ export const Page = ({ children }) => {
         <Box
             display="flex"
             flexDirection="column"
-            justifyContent="space-between"
+            justifyContent={{ xs: "space-around", md: "space-between" }}
             maxWidth="72rem"
             marginX="auto"
             minHeight="100vh"

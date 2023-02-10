@@ -8,10 +8,10 @@ export const Home = () => {
 
         <Page>
             <Grid container spacing={3}>
-                <Grid item xs={5}>
+                <Grid item xs={12} md={5}>
                     <PlayTicTacToe />
                 </Grid>
-                <Grid item xs={7}>
+                <Grid item xs={12} md={7}>
                     <Box display="flex" flexDirection="column" gap={3}>
                         <ProofOfConcept />
                         <WalletComposition />

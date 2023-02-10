@@ -9,4 +9,5 @@ export * from './page';
 export * from './playTicTacToe';
 export * from './proofOfConcept';
 export * from './statusOverlay';
+export * from './ticTacToeBoard';
 export * from './walletComposition';

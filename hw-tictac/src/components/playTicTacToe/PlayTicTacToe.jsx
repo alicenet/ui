@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Button, Grid, Paper, Typography, useTheme } from "@mui/material";
+import { TicTacToeBoard } from "components";
 
 const instructions = [
     {
@@ -58,6 +59,7 @@ export function PlayTicTacToe() {
 
     return (
         <Paper elevation={1} square>
+
             <Box
                 display="flex"
                 flexDirection="column"
@@ -113,6 +115,8 @@ export function PlayTicTacToe() {
                         </Button>
                     </Grid>
                 </Grid>
+
+                <TicTacToeBoard />
 
             </Box>
 
