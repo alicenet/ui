@@ -1,6 +1,7 @@
 import React from "react";
 import {
     Box,
+    Button,
     lighten,
     Paper,
     Table,
@@ -48,7 +49,7 @@ const playerXCells =
         {
             id: "playerX",
             label: "Player X",
-            displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>
+            displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>
         },
         {
             id: "empty",
@@ -64,7 +65,9 @@ const playerXCells =
         },
         {
             id: "empty",
-            label: "",
+            label: "Sign",
+            displayCallback: ({ label }) =>
+                <Button disabled variant="outlined" size="small">{label}</Button>
         },
     ]
 ;
@@ -74,7 +77,7 @@ const playerOCells =
         {
             id: "playerO",
             label: "Player O",
-            displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>
+            displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>
         },
         {
             id: "empty",
@@ -90,7 +93,9 @@ const playerOCells =
         },
         {
             id: "empty",
-            label: "",
+            label: "Sign",
+            displayCallback: ({ label }) =>
+                <Button disabled variant="outlined" size="small">{label}</Button>
         },
     ]
 ;
@@ -116,7 +121,9 @@ const groupAddressCells =
         },
         {
             id: "empty",
-            label: "",
+            label: "X Sends",
+            displayCallback: ({ label }) =>
+                <Button disabled variant="outlined" size="small">{label}</Button>
         },
     ]
 ;
