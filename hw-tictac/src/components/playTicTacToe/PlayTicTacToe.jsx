@@ -66,7 +66,7 @@ export function PlayTicTacToe() {
                 borderTop={2}
                 borderColor={theme.palette.secondary.main}
                 padding={2.5}
-                gap={3}
+                gap={4}
             >
                 <Typography
                     variant="h5"

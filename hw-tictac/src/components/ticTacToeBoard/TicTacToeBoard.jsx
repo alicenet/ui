@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
+import { Board } from "components";
+
+
+const boardSize = 9;
 
 export function TicTacToeBoard() {
+    const [board] = useState(Array(boardSize).fill(null));
 
     return (
-        <Box display="flex" flexDirection="column" gap={2} alignItems="center">
-            <Box>Board is missing</Box>
+        <Box display="flex" flexDirection="column" gap={3} alignItems="center">
+            <Board squares={board} />
             <Grid container alignItems={"center"} justifyContent={"space-evenly"}>
                 <Grid item>
                     <Typography>

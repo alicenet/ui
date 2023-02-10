@@ -1,3 +1,4 @@
+export * from './board';
 export * from './copyTooltip';
 export * from './footer';
 export * from './groupDataStoreIndex';
