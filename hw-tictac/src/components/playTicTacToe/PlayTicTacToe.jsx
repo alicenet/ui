@@ -63,10 +63,12 @@ export function PlayTicTacToe() {
             <Box
                 display="flex"
                 flexDirection="column"
+                justifyContent="space-around"
                 borderTop={2}
                 borderColor={theme.palette.secondary.main}
                 padding={2.5}
                 gap={4}
+                height="100%"
             >
                 <Typography
                     variant="h5"
@@ -78,6 +80,7 @@ export function PlayTicTacToe() {
                 </Typography>
 
                 <Grid container>
+
                     <Grid item xs={6} flexDirection="column">
                         {instructions.map((instruction, index) =>
                             instruction.left ?
@@ -87,6 +90,7 @@ export function PlayTicTacToe() {
                                 }) : null
                         )}
                     </Grid>
+
                     <Grid item xs={6} flexDirection="column">
                         {instructions.map((instruction, index) =>
                             !instruction.left ?
@@ -96,6 +100,7 @@ export function PlayTicTacToe() {
                                 }) : null
                         )}
                     </Grid>
+
                 </Grid>
 
                 <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-around" gap={1}>
@@ -107,7 +112,7 @@ export function PlayTicTacToe() {
                     <Button color="primary" variant="contained" size="small" disabled>
                         <Typography fontSize="0.55rem" whiteSpace="nowrap">Generate Group Wallet</Typography>
                     </Button>
-                    
+
                     <Button color="primary" variant="contained" size="small" disabled>
                         <Typography fontSize="0.55rem" whiteSpace="nowrap">Fund Group Wallet</Typography>
                     </Button>
