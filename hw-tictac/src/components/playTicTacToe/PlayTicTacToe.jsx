@@ -58,7 +58,7 @@ export function PlayTicTacToe() {
     const theme = useTheme();
 
     return (
-        <Paper elevation={1} square>
+        <Paper elevation={1} square sx={{ height: "100%" }}>
 
             <Box
                 display="flex"
@@ -98,23 +98,21 @@ export function PlayTicTacToe() {
                     </Grid>
                 </Grid>
 
-                <Grid container alignItems="center" justifyContent="space-between" spacing={1}>
-                    <Grid item>
-                        <Button color="primary" variant="contained" size="small">
-                            <Typography fontSize="0.55rem" whiteSpace="nowrap">Generate Base Wallet 0/2</Typography>
-                        </Button>
-                    </Grid>
-                    <Grid item>
-                        <Button color="primary" variant="contained" size="small" disabled>
-                            <Typography fontSize="0.55rem" whiteSpace="nowrap">Generate Group Wallet</Typography>
-                        </Button>
-                    </Grid>
-                    <Grid item>
-                        <Button color="primary" variant="contained" size="small" disabled>
-                            <Typography fontSize="0.55rem" whiteSpace="nowrap">Fund Group Wallet</Typography>
-                        </Button>
-                    </Grid>
-                </Grid>
+                <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-around" gap={1}>
+
+                    <Button color="primary" variant="contained" size="small">
+                        <Typography fontSize="0.55rem" whiteSpace="nowrap">Generate Base Wallet 0/2</Typography>
+                    </Button>
+
+                    <Button color="primary" variant="contained" size="small" disabled>
+                        <Typography fontSize="0.55rem" whiteSpace="nowrap">Generate Group Wallet</Typography>
+                    </Button>
+                    
+                    <Button color="primary" variant="contained" size="small" disabled>
+                        <Typography fontSize="0.55rem" whiteSpace="nowrap">Fund Group Wallet</Typography>
+                    </Button>
+
+                </Box>
 
                 <TicTacToeBoard />
 
