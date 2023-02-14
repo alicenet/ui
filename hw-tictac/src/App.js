@@ -1,18 +1,20 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Home } from "pages";
 import { StatusOverlay } from "components";
 
 function App() {
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <Home />,
+        },
+    ]);
 
     return (
         <>
             <StatusOverlay />
-            <Router>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                </Switch>
-            </Router>
+            <RouterProvider router={router} />
         </>
     );
 }

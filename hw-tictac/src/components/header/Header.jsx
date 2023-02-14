@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppBar, Box, Button, Container, Drawer, IconButton, Link, Toolbar, useTheme } from "@mui/material";
-import { Menu as MenuIcon } from '@mui/icons-material';
+import { Menu as MenuIcon } from "@mui/icons-material";
 import { HeaderMobile } from "./HeaderMobile";
 import { Logo, MenuDivider } from "components";
 
@@ -11,7 +11,7 @@ const ALICENET_URL = process.env.REACT_APP_ALICENET_URL;
 const WHITE_PAPER_URL = process.env.REACT_APP_WHITE_PAPER_URL;
 
 const MenuLink = ({ location, label, blank = false }) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const theme = useTheme();
 
     return (
@@ -19,50 +19,46 @@ const MenuLink = ({ location, label, blank = false }) => {
             color="white"
             underline="none"
             sx={{ cursor: "pointer", "&:hover": { color: theme.palette.primary.main } }}
-            onClick={() => blank ? window.open(location, '_blank').focus() : history.push(location)}
+            onClick={() => (blank ? window.open(location, "_blank").focus() : navigate(location))}
         >
             {label}
         </Link>
     );
 };
 
-const sections =
-    [
-        {
-            label: "Block Explorer",
-            location: EXPLORER_URL,
-            displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />
-        },
-        {
-            label: "About",
-            location: ALICENET_URL,
-            displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />
-        },
-        {
-            label: "GitHub",
-            location: GITHUB_URL,
-            displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />
-        },
-        {
-            label: "White Paper",
-            location: WHITE_PAPER_URL,
-            displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />
-        },
-        {
-            displayCallback: () =>
-                <Button
-                    color="secondary"
-                    size="small"
-                    variant="contained"
-                >
-                    Get Involved!
-                </Button>
-        },
-    ];
+const sections = [
+    {
+        label: "Block Explorer",
+        location: EXPLORER_URL,
+        displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />,
+    },
+    {
+        label: "About",
+        location: ALICENET_URL,
+        displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />,
+    },
+    {
+        label: "GitHub",
+        location: GITHUB_URL,
+        displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />,
+    },
+    {
+        label: "White Paper",
+        location: WHITE_PAPER_URL,
+        displayCallback: ({ location, label }) => <MenuLink location={location} label={label} blank />,
+    },
+    {
+        displayCallback: () => (
+            <Button color="secondary" size="small" variant="contained">
+                Get Involved!
+            </Button>
+        ),
+    },
+];
 
 export function Header() {
     const theme = useTheme();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
@@ -71,32 +67,20 @@ export function Header() {
 
     return (
         <>
-
-            <AppBar
-                component="nav"
-                position="sticky"
-                sx={{ backgroundImage: "none", opacity: 0.9, boxShadow: "none" }}
-            >
-
+            <AppBar component="nav" position="sticky" sx={{ backgroundImage: "none", opacity: 0.9, boxShadow: "none" }}>
                 <Container disableGutters sx={{ paddingY: 1 }}>
-
                     <Toolbar disableGutters>
-
                         <Link
                             color="white"
                             underline="none"
                             sx={{ cursor: "pointer", "&:hover": { color: theme.palette.primary.main } }}
-                            onClick={() => history.push(`/`)}
+                            onClick={() => navigate(`/`)}
                         >
                             <Logo />
                         </Link>
 
                         <Box justifyContent="end" flexGrow={1} sx={{ display: { xs: "flex", md: "none" } }}>
-                            <IconButton
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleDrawerToggle}
-                            >
+                            <IconButton aria-controls="menu-appbar" aria-haspopup="true" onClick={handleDrawerToggle}>
                                 <MenuIcon fontSize="large" />
                             </IconButton>
                         </Box>
@@ -115,15 +99,11 @@ export function Header() {
                                 </React.Fragment>
                             ))}
                         </Box>
-
                     </Toolbar>
-
                 </Container>
-
             </AppBar>
 
             <Box component="nav">
-
                 <Drawer
                     variant="temporary"
                     open={mobileOpen}
@@ -131,14 +111,9 @@ export function Header() {
                     PaperProps={{ sx: { minWidth: "70%" } }}
                     sx={{ display: { sm: "block", md: "none" } }}
                 >
-
                     <HeaderMobile />
-
                 </Drawer>
-
             </Box>
-
         </>
     );
-
 }
