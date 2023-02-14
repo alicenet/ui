@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { Board } from "components";
 
-
 const boardSize = 9;
 
 export function TicTacToeBoard() {
+
     const [board] = useState(Array(boardSize).fill(null));
 
     return (
+
         <Box display="flex" flexDirection="column" gap={3} alignItems="center">
+
             <Board squares={board} />
-            <Grid container alignItems={"center"} justifyContent={"space-evenly"}>
+
+            <Grid container alignItems="center" justifyContent="space-evenly">
                 <Grid item>
                     <Typography>
                         Playing Next: X
@@ -24,7 +27,8 @@ export function TicTacToeBoard() {
                     </Typography>
                 </Grid>
             </Grid>
-            <Box display={"flex"} flexDirection={"row"} gap={2}>
+
+            <Box display="flex" flexDirection="row" gap={2}>
                 <Button variant="outlined" size="small" sx={{ paddingY: 0.75, paddingX: 3 }}>
                     Load Game
                 </Button>
@@ -35,7 +39,9 @@ export function TicTacToeBoard() {
                     Help
                 </Button>
             </Box>
+
         </Box>
+
     );
 
 }
