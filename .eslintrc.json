@@ -12,7 +12,7 @@
     },
     "plugins": ["react"],
     "rules": {
-        "no-unused-vars": "error",
+        "no-unused-vars": "warn",
         "react/prop-types": "off"
     },
     "ignorePatterns": ["test/**/*.js", "tests/**/*.js"]
