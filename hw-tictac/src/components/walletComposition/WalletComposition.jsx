@@ -52,19 +52,19 @@ const playerXCells =
             displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>
         },
         {
-            id: "empty",
+            id: "privateKey",
             label: "",
         },
         {
-            id: "empty",
+            id: "publicKey",
             label: "",
         },
         {
-            id: "empty",
+            id: "address",
             label: "",
         },
         {
-            id: "empty",
+            id: "signature",
             label: "Sign",
             displayCallback: ({ label }) =>
                 <Button disabled variant="outlined" size="small">{label}</Button>
@@ -80,19 +80,19 @@ const playerOCells =
             displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>
         },
         {
-            id: "empty",
+            id: "privateKey",
             label: "",
         },
         {
-            id: "empty",
+            id: "publicKey",
             label: "",
         },
         {
-            id: "empty",
+            id: "address",
             label: "",
         },
         {
-            id: "empty",
+            id: "signature",
             label: "Sign",
             displayCallback: ({ label }) =>
                 <Button disabled variant="outlined" size="small">{label}</Button>
@@ -108,19 +108,19 @@ const groupAddressCells =
             displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>
         },
         {
-            id: "empty",
+            id: "privateKey",
             label: "",
         },
         {
-            id: "empty",
+            id: "publicKey",
             label: "",
         },
         {
-            id: "empty",
+            id: "address",
             label: "",
         },
         {
-            id: "empty",
+            id: "signature",
             label: "X Sends",
             displayCallback: ({ label }) =>
                 <Button disabled variant="outlined" size="small">{label}</Button>
