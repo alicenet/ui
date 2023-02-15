@@ -32,10 +32,15 @@ const Square = ({ position, value, onClick }) => {
                 rightDivider &&
                 <Box
                     border={`3px solid ${theme.palette.secondary.light}`}
-                    borderRadius="5px"
                     width="1%"
                     height="32%"
-                    sx={{ float: "left", borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
+                    sx={{
+                        float: "left",
+                        borderTopLeftRadius: position < 3 ? "5px" : 0,
+                        borderTopRightRadius: position < 3 ? "5px" : 0,
+                        borderBottomLeftRadius: position > 5 ? "5px" : 0,
+                        borderBottomRightRadius: position > 5 ? "5px" : 0,
+                    }}
                 />
             }
             {
@@ -54,7 +59,7 @@ const Square = ({ position, value, onClick }) => {
 export function Board({ squares }) {
 
     return (
-        <Box minWidth="max-content" height="300px" paddingX={2}>
+        <Box width="max-content" height="300px" paddingX={2}>
 
             <Box width="100%" height="100%">
                 {
