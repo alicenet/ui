@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, useTheme } from "@mui/material";
+import { LetterO, LetterX } from "components";
 
 const Square = ({ position, value, onClick }) => {
 
@@ -16,22 +17,24 @@ const Square = ({ position, value, onClick }) => {
                 onClick={onClick}
                 width="32%"
                 height="32%"
-                padding={2}
                 sx={{
                     cursor: "pointer",
                     float: "left",
                     "&:hover": {
-                        backgroundColor: theme.palette.secondary.dark,
+                        backgroundColor: theme.palette.secondary.light,
                         opacity: 0.8
                     }
                 }}
             >
-                <Box display="flex" alignItems="center">{value}</Box>
+                <Box>
+                    {position % 2 ? <LetterX color="secondary" fontSize={"large"} /> :
+                        <LetterO fontSize="large" />}
+                </Box>
             </Box>
             {
                 rightDivider &&
                 <Box
-                    border={`3px solid ${theme.palette.secondary.light}`}
+                    border={`3px solid ${theme.palette.secondary.dark}`}
                     width="1%"
                     height="32%"
                     sx={{
@@ -46,7 +49,7 @@ const Square = ({ position, value, onClick }) => {
             {
                 bottomDivider &&
                 <Box
-                    border={`3px solid ${theme.palette.secondary.light}`}
+                    border={`3px solid ${theme.palette.secondary.dark}`}
                     borderRadius="5px"
                     width="100%"
                     sx={{ float: "left" }}
