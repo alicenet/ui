@@ -15,7 +15,7 @@ export const Page = ({ children }) => {
             paddingX="3rem"
         >
 
-            <Box>
+            <Box display="flex" flexDirection="column" gap={1.5}>
 
                 <Header />
 
