@@ -10,153 +10,149 @@ import {
     TableHead,
     TableRow,
     Typography,
-    useTheme
+    useTheme,
 } from "@mui/material";
-import { Wallet } from '@mui/icons-material';
+import { Wallet } from "@mui/icons-material";
 import { content, HelpTooltip } from "components";
+import { useSelector } from "react-redux";
+import { walletKeyByNumber } from "redux/reducers";
+import { ellipsesSplit } from "utils";
 
-const headerCells =
-    [
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "privateKey",
-            label: "Private Key",
-            displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />
-        },
-        {
-            id: "publicKey",
-            label: "Public Key",
-            displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />
-        },
-        {
-            id: "address",
-            label: "Address",
-            displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />
-        },
-        {
-            id: "signature",
-            label: "Signature",
-            displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />
-        },
-    ]
-;
+const headerCells = [
+    {
+        id: "empty",
+        label: "",
+    },
+    {
+        id: "privateKey",
+        label: "Private Key",
+        displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
+    },
+    {
+        id: "publicKey",
+        label: "Public Key",
+        displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
+    },
+    {
+        id: "address",
+        label: "Address",
+        displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
+    },
+    {
+        id: "signature",
+        label: "Signature",
+        displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
+    },
+];
+const playerXCells = (xWallet) => [
+    {
+        id: "playerX",
+        label: "Player X",
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
+    },
+    {
+        id: "empty",
+        label: ellipsesSplit(xWallet.pKey, 6),
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
+    },
+    {
+        id: "empty",
+        label: ellipsesSplit(xWallet.pubK, 6),
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
+    },
+    {
+        id: "empty",
+        label: ellipsesSplit(xWallet.address, 6),
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
+    },
+    {
+        id: "empty",
+        label: "Sign",
+        displayCallback: ({ label }) => (
+            <Button disabled variant="outlined" size="small">
+                {label}
+            </Button>
+        ),
+    },
+];
 
-const playerXCells =
-    [
-        {
-            id: "playerX",
-            label: "Player X",
-            displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>
-        },
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "empty",
-            label: "Sign",
-            displayCallback: ({ label }) =>
-                <Button disabled variant="outlined" size="small">{label}</Button>
-        },
-    ]
-;
-
-const playerOCells =
-    [
-        {
-            id: "playerO",
-            label: "Player O",
-            displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>
-        },
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "empty",
-            label: "Sign",
-            displayCallback: ({ label }) =>
-                <Button disabled variant="outlined" size="small">{label}</Button>
-        },
-    ]
-;
-
-const groupAddressCells =
-    [
-        {
-            id: "groupAddress",
-            label: "Group Address",
-            displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>
-        },
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "empty",
-            label: "",
-        },
-        {
-            id: "empty",
-            label: "X Sends",
-            displayCallback: ({ label }) =>
-                <Button disabled variant="outlined" size="small">{label}</Button>
-        },
-    ]
-;
-
-const HeaderCell = ({ id, label }) =>
+const playerOCells = [
+    {
+        id: "playerO",
+        label: "Player O",
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
+    },
+    {
+        id: "empty",
+        label: "",
+    },
+    {
+        id: "empty",
+        label: "",
+    },
+    {
+        id: "empty",
+        label: "",
+    },
+    {
+        id: "empty",
+        label: "Sign",
+        displayCallback: ({ label }) => (
+            <Button disabled variant="outlined" size="small">
+                {label}
+            </Button>
+        ),
+    },
+];
+const groupAddressCells = [
+    {
+        id: "groupAddress",
+        label: "Group Address",
+        displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>,
+    },
+    {
+        id: "empty",
+        label: "",
+    },
+    {
+        id: "empty",
+        label: "",
+    },
+    {
+        id: "empty",
+        label: "",
+    },
+    {
+        id: "empty",
+        label: "X Sends",
+        displayCallback: ({ label }) => (
+            <Button disabled variant="outlined" size="small">
+                {label}
+            </Button>
+        ),
+    },
+];
+const HeaderCell = ({ id, label }) => (
     <Box display="flex" flexDirection="row" alignItems="center" gap={0.5}>
-        <Typography variant="span">
-            {label}
-        </Typography>
+        <Typography variant="span">{label}</Typography>
         <HelpTooltip content={content[id]} />
     </Box>
-
+);
 
 export function WalletComposition() {
-
     const theme = useTheme();
+    const { xWallet, oWallet, groupWallet } = useSelector((state) => ({
+        xWallet: state.app.wallets[walletKeyByNumber[1]],
+        oWallet: state.app.wallets[walletKeyByNumber[2]],
+        groupWallet: state.app.wallets[walletKeyByNumber[3]],
+    }));
 
     return (
         <Table>
-
             <TableHead>
-
                 <TableRow>
-
-                    <TableCell
-                        sx={{ border: 0 }}
-                        key="table-header-main"
-                        padding="none"
-                        colSpan={headerCells.length}
-                    >
-
+                    <TableCell sx={{ border: 0 }} key="table-header-main" padding="none" colSpan={headerCells.length}>
                         <Paper elevation={2} sx={{ boxShadow: "unset" }} square>
-
                             <Box
                                 display="flex"
                                 alignItems="center"
@@ -173,20 +169,14 @@ export function WalletComposition() {
                                     <strong>Wallet Composition</strong>
                                 </Typography>
                             </Box>
-
                         </Paper>
-
                     </TableCell>
-
                 </TableRow>
-
             </TableHead>
 
             <TableBody>
-
                 <TableRow>
-
-                    {headerCells.map(headerCell => {
+                    {headerCells.map((headerCell) => {
                         return (
                             <TableCell
                                 key={`row-${headerCell.id}`}
@@ -196,24 +186,21 @@ export function WalletComposition() {
                                     fontSize: "small",
                                 }}
                             >
-
-                                {headerCell?.displayCallback ? headerCell.displayCallback(
-                                    {
+                                {headerCell?.displayCallback ? (
+                                    headerCell.displayCallback({
                                         id: headerCell.id,
-                                        label: headerCell.label
-                                    }
-                                ) : <></>}
-
+                                        label: headerCell.label,
+                                    })
+                                ) : (
+                                    <></>
+                                )}
                             </TableCell>
-
                         );
                     })}
-
                 </TableRow>
 
                 <TableRow>
-
-                    {playerXCells.map(playerXCell => {
+                    {playerXCells(xWallet).map((playerXCell) => {
                         return (
                             <TableCell
                                 key={`row-PX-${playerXCell.id}`}
@@ -223,24 +210,21 @@ export function WalletComposition() {
                                     fontSize: "small",
                                 }}
                             >
-
-                                {playerXCell?.displayCallback ? playerXCell.displayCallback(
-                                    {
+                                {playerXCell?.displayCallback ? (
+                                    playerXCell.displayCallback({
                                         id: playerXCell.id,
-                                        label: playerXCell.label
-                                    }
-                                ) : <></>}
-
+                                        label: playerXCell.label,
+                                    })
+                                ) : (
+                                    <></>
+                                )}
                             </TableCell>
-
                         );
                     })}
-
                 </TableRow>
 
                 <TableRow>
-
-                    {playerOCells.map(playerOCell => {
+                    {playerOCells.map((playerOCell) => {
                         return (
                             <TableCell
                                 key={`row-PO-${playerOCell.id}`}
@@ -250,24 +234,21 @@ export function WalletComposition() {
                                     fontSize: "small",
                                 }}
                             >
-
-                                {playerOCell?.displayCallback ? playerOCell.displayCallback(
-                                    {
+                                {playerOCell?.displayCallback ? (
+                                    playerOCell.displayCallback({
                                         id: playerOCell.id,
-                                        label: playerOCell.label
-                                    }
-                                ) : <></>}
-
+                                        label: playerOCell.label,
+                                    })
+                                ) : (
+                                    <></>
+                                )}
                             </TableCell>
-
                         );
                     })}
-
                 </TableRow>
 
                 <TableRow>
-
-                    {groupAddressCells.map(groupAddressCell => {
+                    {groupAddressCells.map((groupAddressCell) => {
                         return (
                             <TableCell
                                 key={`row-GA-${groupAddressCell.id}`}
@@ -277,25 +258,19 @@ export function WalletComposition() {
                                     fontSize: "small",
                                 }}
                             >
-
-                                {groupAddressCell?.displayCallback ? groupAddressCell.displayCallback(
-                                    {
+                                {groupAddressCell?.displayCallback ? (
+                                    groupAddressCell.displayCallback({
                                         id: groupAddressCell.id,
-                                        label: groupAddressCell.label
-                                    }
-                                ) : <></>}
-
+                                        label: groupAddressCell.label,
+                                    })
+                                ) : (
+                                    <></>
+                                )}
                             </TableCell>
-
                         );
                     })}
-
                 </TableRow>
-
             </TableBody>
-
         </Table>
-
     );
-
 }
