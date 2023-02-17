@@ -1,5 +1,15 @@
 import React from "react";
-import { Box, Dialog, DialogContent, DialogTitle, IconButton, Typography, useTheme } from "@mui/material";
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    Typography,
+    useTheme
+} from "@mui/material";
 import { Close } from "@mui/icons-material";
 
 export const HelpDialog = ({ open, handleClose }) => {
@@ -12,12 +22,22 @@ export const HelpDialog = ({ open, handleClose }) => {
             onClose={handleClose}
             aria-labelledby="help-dialog-title"
             aria-describedby="help-dialog-description"
+            PaperProps={{
+                sx: {
+                    paddingTop: 0.5,
+                    borderTop: 2,
+                    borderRadius: 0,
+                    borderColor: theme.palette.secondary.main,
+                    backgroundColor: theme.palette.background.default
+                }
+            }}
         >
 
             <DialogTitle
                 id="help-dialog-title"
                 display="flex"
                 justifyContent="space-between"
+                alignItems="center"
             >
 
                 <Typography variant="span" fontSize="larger">Are you ready to play?</Typography>
@@ -44,7 +64,7 @@ export const HelpDialog = ({ open, handleClose }) => {
                         with a forced draw assuming best play from both players.
                     </Typography>
 
-                    <Typography variant={"h6"} paddingTop={2} paddingBottom={1}>
+                    <Typography variant={"h6"} paddingTop={2} paddingBottom={1} sx={{ textDecoration: "underline" }}>
                         The Purpose
                     </Typography>
 
@@ -91,7 +111,7 @@ export const HelpDialog = ({ open, handleClose }) => {
                         as &#8220;0x3132313030303030303030&#8221;.
                     </Typography>
 
-                    <Typography variant={"h6"} paddingTop={2} paddingBottom={1}>
+                    <Typography variant={"h6"} paddingTop={2} paddingBottom={1} sx={{ textDecoration: "underline" }}>
                         Why?
                     </Typography>
 
@@ -115,6 +135,12 @@ export const HelpDialog = ({ open, handleClose }) => {
                     </Typography>
 
                 </Box>
+
+                <DialogActions sx={{ paddingTop: 2 }}>
+                    <Button variant="contained" color="secondary" onClick={handleClose} size="large">
+                        Close
+                    </Button>
+                </DialogActions>
 
             </DialogContent>
 
