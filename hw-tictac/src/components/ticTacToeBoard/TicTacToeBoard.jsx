@@ -4,6 +4,17 @@ import { Board } from "components";
 
 const boardSize = 9;
 
+const wins = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+];
+
 export function TicTacToeBoard() {
 
     const [board, setBoard] = useState(Array(boardSize).fill(null));
@@ -28,21 +39,10 @@ export function TicTacToeBoard() {
     }
 
     const checkWinner = currentBoard => {
-        let wins = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6],
-        ];
-
-        for (let i = 0; i < wins.length; i++) {
-            const isWin = [currentBoard[wins[i][0]], currentBoard[wins[i][1]], currentBoard[wins[i][2]]];
+        for (const win of wins) {
+            const isWin = [currentBoard[win[0]], currentBoard[win[1]], currentBoard[win[2]]];
             if (isWin[0] != null && isWin[0] === isWin[1] && isWin[0] === isWin[2]) {
-                setXIsWinner(currentBoard[wins[i][1]] === "X");
+                setXIsWinner(currentBoard[win[1]] === "X");
                 setGameOver(true);
                 break;
             }
