@@ -21,12 +21,14 @@ export function TicTacToeBoard() {
     const [board, setBoard] = useState(Array(boardSize).fill(null));
     const [xIsPlaying, setXIsPlaying] = useState(true);
     const [xIsWinner, setXIsWinner] = useState(false);
+    const [noWinner, setNoWinner] = useState(true);
     const [gameOver, setGameOver] = useState(false);
 
     const onReset = () => {
         setBoard(Array(boardSize).fill(null));
         setXIsPlaying(true);
         setGameOver(false);
+        setNoWinner(true);
     };
 
     const makeMove = (position) => {
@@ -45,8 +47,15 @@ export function TicTacToeBoard() {
             if (isWin[0] != null && isWin[0] === isWin[1] && isWin[0] === isWin[2]) {
                 setXIsWinner(currentBoard[win[1]] === "X");
                 setGameOver(true);
+                setNoWinner(false);
                 break;
             }
+        }
+        if (currentBoard.some(mark => mark === null) && gameOver) {
+            setNoWinner(true);
+        }
+        if (currentBoard.every(mark => mark !== null) && noWinner) {
+            setGameOver(true);
         }
     };
 
@@ -61,15 +70,20 @@ export function TicTacToeBoard() {
                 <Grid container alignItems="center" justifyContent="center" gap={2}>
                     <Grid item>
                         {
-                            gameOver ? (
+                            gameOver && noWinner ? (
                                 <Typography>
-                                    Winner: {xIsWinner ? "X" : "O"}
+                                    Game Over
                                 </Typography>
-
                             ) : (
-                                <Typography>
-                                    Playing Next: {xIsPlaying ? "X" : "O"}
-                                </Typography>
+                                gameOver ? (
+                                    <Typography>
+                                        Winner: {xIsWinner ? "X" : "O"}
+                                    </Typography>
+                                ) : (
+                                    <Typography>
+                                        Playing Next: {xIsPlaying ? "X" : "O"}
+                                    </Typography>
+                                )
                             )
                         }
                     </Grid>
