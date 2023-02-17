@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
-import { Board } from "components";
+import { Board, HelpDialog } from "components";
 
 const boardSize = 9;
 
@@ -17,6 +17,7 @@ const wins = [
 
 export function TicTacToeBoard() {
 
+    const [openHelp, setOpenHelp] = useState(false);
     const [board, setBoard] = useState(Array(boardSize).fill(null));
     const [xIsPlaying, setXIsPlaying] = useState(true);
     const [xIsWinner, setXIsWinner] = useState(false);
@@ -51,52 +52,62 @@ export function TicTacToeBoard() {
 
     return (
 
-        <Box display="flex" flexDirection="column" gap={3} alignItems="center">
+        <>
 
-            <Board board={board} makeMove={makeMove} />
+            <Box display="flex" flexDirection="column" gap={3} alignItems="center">
 
-            <Grid container alignItems="center" justifyContent="center" gap={2}>
-                <Grid item>
-                    {
-                        gameOver ? (
-                            <Typography>
-                                Winner: {xIsWinner ? "X" : "O"}
-                            </Typography>
+                <Board board={board} makeMove={makeMove} />
 
-                        ) : (
-                            <Typography>
-                                Playing Next: {xIsPlaying ? "X" : "O"}
-                            </Typography>
-                        )
-                    }
+                <Grid container alignItems="center" justifyContent="center" gap={2}>
+                    <Grid item>
+                        {
+                            gameOver ? (
+                                <Typography>
+                                    Winner: {xIsWinner ? "X" : "O"}
+                                </Typography>
+
+                            ) : (
+                                <Typography>
+                                    Playing Next: {xIsPlaying ? "X" : "O"}
+                                </Typography>
+                            )
+                        }
+                    </Grid>
+                    <Divider role="presentation" orientation="vertical" flexItem />
+                    <Grid item>
+                        <Typography>
+                            AliceNet Bytes: 0 ALCB
+                        </Typography>
+                    </Grid>
                 </Grid>
-                <Divider role="presentation" orientation="vertical" flexItem />
-                <Grid item>
-                    <Typography>
-                        AliceNet Bytes: 0 ALCB
-                    </Typography>
-                </Grid>
-            </Grid>
 
-            <Box display="flex" flexDirection="row" gap={2}>
-                <Button variant="outlined" size="small" sx={{ paddingY: 0.75, paddingX: 3 }}>
-                    Load Game
-                </Button>
-                <Button
-                    variant="outlined"
-                    size="small"
-                    sx={{ paddingY: 0.75, paddingX: 3 }}
-                    onClick={onReset}
-                >
-                    Reset
-                </Button>
-                <Button variant="outlined" size="small" sx={{ paddingY: 0.75, paddingX: 3 }}>
-                    Help
-                </Button>
+                <Box display="flex" flexDirection="row" gap={2}>
+                    <Button variant="outlined" size="small" sx={{ paddingY: 0.75, paddingX: 3 }}>
+                        Load Game
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        sx={{ paddingY: 0.75, paddingX: 3 }}
+                        onClick={onReset}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        sx={{ paddingY: 0.75, paddingX: 3 }}
+                        onClick={() => setOpenHelp(prevState => !prevState)}
+                    >
+                        Help
+                    </Button>
+                </Box>
+
             </Box>
 
-        </Box>
+            <HelpDialog open={openHelp} handleClose={() => setOpenHelp(prevState => !prevState)} />
 
+        </>
     );
 
 }

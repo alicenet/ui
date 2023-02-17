@@ -4,6 +4,7 @@ export * from './footer';
 export * from './groupDataStoreIndex';
 export * from './header';
 export * from './helpTooltip';
+export * from './helpDialog';
 export * from './logo';
 export * from './menuDivider';
 export * from './page';
