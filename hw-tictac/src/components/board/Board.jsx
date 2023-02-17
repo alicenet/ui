@@ -1,12 +1,23 @@
 import React from "react";
-import { Box, useTheme } from "@mui/material";
+import { Box, SvgIcon, useTheme } from "@mui/material";
 import { LetterO, LetterX } from "components";
 
-const Square = ({ position, value, onClick }) => {
+const Square = ({ position, mark, onClick }) => {
 
     const theme = useTheme();
     const rightDivider = position % 3 !== 2;
     const bottomDivider = position % 3 === 2 && position < 8;
+
+    const markToComponent = mark => {
+        switch (mark) {
+            case "X":
+                return <LetterX color="secondary" fontSize={"large"} />;
+            case "O":
+                return <LetterO fontSize="large" />;
+            default:
+                return <Box width="30px" height="30px" />;
+        }
+    }
 
     return (
         <>
@@ -27,8 +38,7 @@ const Square = ({ position, value, onClick }) => {
                 }}
             >
                 <Box>
-                    {position % 2 ? <LetterX color="secondary" fontSize={"large"} /> :
-                        <LetterO fontSize="large" />}
+                    {markToComponent(mark)}
                 </Box>
             </Box>
             {
@@ -59,19 +69,19 @@ const Square = ({ position, value, onClick }) => {
     );
 };
 
-export function Board({ squares }) {
+export function Board({ board, makeMove }) {
 
     return (
         <Box width="max-content" height="300px" paddingX={2}>
 
             <Box width="100%" height="100%">
                 {
-                    squares.map((position, index) =>
+                    board.map((mark, index) =>
                         <Square
                             key={index}
                             position={index}
-                            value={position}
-                            onClick={() => console.log({ position })}
+                            mark={mark}
+                            onClick={() => makeMove(index)}
                         />
                     )
                 }
