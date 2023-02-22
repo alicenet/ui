@@ -11,7 +11,7 @@ export const PlayerTypeToNum = {
 };
 
 export const WinState = {
-    NONE: "NULL",
+    NONE: "NONE",
     X: "X",
     O: "O",
     TIE: "TIE",
@@ -26,9 +26,9 @@ export const initialTttGameState = {
     turn: PlayerType.X, // "x" || "o" -- 1 || 2
     winner: WinState.NONE, // null || "x" || "o" || "tie" -- 0 | 1 | 2 | 3
     board: [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
+        [1, 0, 0],
+        [0, 2, 0],
+        [0, 0, 1],
     ], // 000000000 -- Board starts at top left as x0,y0
 };
 
@@ -42,14 +42,21 @@ export function serializeTttGameState(unserializedTttGameState) {
     serializedState += uState.turn === PlayerType.X ? 1 : 2;
     serializedState +=
         uState.winner === WinState.TIE ? 3 : uState.winner === WinState.O ? 2 : uState.winner === WinState.X ? 1 : 0;
-    for (let i = 0; i < uState.board.length; i++) {
-        let xCol = uState.board[i];
+    let serializedBoard = serializeBoardState(uState.board);
+    serializedState += serializedBoard;
+    return serializedState;
+}
+
+export function serializeBoardState(boardState) {
+    let serializedBoard = "";
+    for (let i = 0; i < boardState.length; i++) {
+        let xCol = boardState[i];
         for (let j = 0; j < xCol.length; j++) {
             let xyPoint = xCol[j];
-            serializedState += xyPoint;
+            serializedBoard += xyPoint;
         }
     }
-    return serializedState;
+    return serializedBoard;
 }
 
 export function deserializeTttGameState(serializedTttGameState) {
@@ -65,25 +72,46 @@ export function deserializeTttGameState(serializedTttGameState) {
                 : String(sState[1]) === "1"
                 ? WinState.X
                 : WinState.NONE,
-        board: [],
+        board: unserializeBoardState(boardState),
     };
+    return unserializedState;
+}
+
+export function unserializeBoardState(boardState) {
+    const unserializedBoardState = [];
     const colLimit = 3;
     let colCount = 0;
     let colToPush = [];
     // +1 on length to push last column
     for (let i = 0; i < boardState.length + 1; i++) {
-        let point = boardState[i];
+        console.log(boardState[i]);
+        // Catch "X" || "O" states as well as 1|2
+        let point =
+            boardState[i] === null
+                ? 0
+                : String(boardState[i]).toUpperCase() === "X"
+                ? 1
+                : String(boardState[i]).toUpperCase() === "O"
+                ? 2
+                : Number(boardState[i]);
         // If at limit, add y-column to array and reset it
         if (colCount === colLimit) {
-            unserializedState.board.push(colToPush);
+            unserializedBoardState.push(colToPush);
             colToPush = [];
             colCount = 0;
         }
         colToPush.push(point);
         colCount += 1;
     }
-    return unserializedState;
+    return unserializedBoardState;
 }
+
+let gstate = { ...initialTttGameState };
+console.log(gstate);
+let serialized = serializeTttGameState(gstate);
+console.log(serialized);
+let unsrl = deserializeTttGameState(serialized);
+console.log(unsrl);
 
 /* Game State Modifiers used to modify gameState -- these DO NOT affect redux state */
 
