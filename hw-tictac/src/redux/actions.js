@@ -3,14 +3,19 @@ import { aliceNetAdapter } from "adapter/alicenetadapter";
 import { ethers } from "ethers";
 import { walletKeyByNumber } from "./reducers";
 import axios from "axios";
+import { serializeTttGameState } from "./gameState";
 
-// For debugging etc.. Hopefully it is clear, but don't use these keys elsewhere.
+// For testing etc.. Hopefully it is clear, but don't use these keys elsewhere!
 const staticWallets = true;
 const staticTestKeys = {
     1: "0x6efa5e24b5e70456acac871cd35c52e362bb3faa5bcc2f012576a6763d01a776",
     2: "0x9e3830447f93e5b3bc855585260c1b1b35eebe42f6c5b990cb86912292dbc64b",
 };
 
+let lastSignedXSigs = "";
+let lastSignedOSigs = "";
+
+// Generate a wallet using ethers either by pKey, or random without
 function generateWallet(pKey) {
     return new Promise((res) => {
         let wallet = pKey ? new ethers.Wallet(pKey) : ethers.Wallet.createRandom();
@@ -23,6 +28,7 @@ function generateWallet(pKey) {
     });
 }
 
+// Gen multisig wallet from set of public keys
 function genMultisig([pubKeys]) {
     return new Promise((res) => {
         aliceNetAdapter.wallet.Account.addMultiSig([pubKeys]).then((multiSig) => {
@@ -33,10 +39,16 @@ function genMultisig([pubKeys]) {
     });
 }
 
-export const updateAccountBalance = createAsyncThunk(
-    "app/updateAccountBalance",
-    async ({ address, curve = 2 }, thunkAPI) => {
-        const [utxoids, aBalance] = await aliceNetAdapter.wallet.Rpc.getValueStoreUTXOIDs(address, curve);
+// Action to update the multisig account balance
+export const updateMultiSigAccountBalance = createAsyncThunk(
+    "app/updateMultiSigAccountBalance",
+    async (address, thunkAPI) => {
+        const appState = thunkAPI.getState().app;
+        const multiSigAddress = appState.wallets[walletKeyByNumber[3]].address;
+        const [utxoids, aBalance] = await aliceNetAdapter.wallet.Rpc.getValueStoreUTXOIDs(
+            address ? address : multiSigAddress, // Allow passing address if not available in state yet
+            2
+        );
         console.log("BalancePoll", { utxoids, aBalance });
         let balance = String(parseInt(aBalance, 16));
         return balance;
@@ -68,12 +80,7 @@ export const genBaseWalletByNumber = createAsyncThunk("app/genBaseWalletByNumber
                 const multiSigWallet = await genMultisig([w1Pubk, w2Pubk]);
                 console.log(multiSigWallet);
                 // Get Balance For MultiSig
-                await thunkAPI.dispatch(
-                    updateAccountBalance({
-                        address: aliceNetAdapter.wallet.Account.accounts[walletNumber - 1].address,
-                        curve: 2,
-                    })
-                );
+                await thunkAPI.dispatch(updateMultiSigAccountBalance(multiSigWallet.address));
                 return {
                     wallet: {
                         address: "0x" + aliceNetAdapter.wallet.Account.accounts[walletNumber - 1].address,
@@ -107,4 +114,138 @@ export const genBaseWalletByNumber = createAsyncThunk("app/genBaseWalletByNumber
     }
 });
 
-export const signForAndCommitState = createAsyncThunk("app/signForAndCommitState", async () => {});
+// Loads a game state from current redux index if viable
+export const loadGameStateFromIndex = createAsyncThunk("app/loadGameStateFromIndex", async (n, thunkAPI) => {
+    try {
+        const state = thunkAPI.getState().app;
+        const multiSigAddress = state.wallets[walletKeyByNumber[3]].address;
+        const gameIndex = state.gameIndex;
+        // get the data sore using the multisig address and the game index
+        console.log(multiSigAddress, gameIndex);
+        const dataStore = await aliceNetAdapter.wallet.Rpc.getDataStoreByIndex(multiSigAddress, 2, gameIndex);
+        console.log(dataStore);
+        if (dataStore) {
+            // extract the raw data from the data store
+            const rawData = dataStore["DSLinker"]["DSPreImage"]["RawData"];
+            // extract the tx hash from the data store
+            // const txHash = dataStore['DSLinker']['TxHash'];
+            // deserialize the data into a valid game board
+            console.log(rawData); // -- sHOULD BE SERIAL BOARD
+            // return { board: this.deserializeBoard(rawData.slice(1).split('')), txHash };
+        }
+    } catch (ex) {
+        console.log(ex);
+    }
+});
+
+/**
+ * For the sake of all that is holy, DO NOT call these more than needed -- it will morph the datastore state until it is FUBAR
+ * I repeat, do not call the below functions out of order, use the UI to restrict and disable function calls from the buttons.
+ *
+ * 0. Make sure gamestate is accurate
+ * board updates should happen in redux store before calling these with updateGameState()*
+ *
+ * *This happens already in the useEffect sync I created -- You should be good to go here
+ *
+ * 1. createGameStateTransaction - Creates the baseline transaction for signing
+ * 2. xSignsGameStateTransaction - X Must sign the txData
+ * 3. oSignsGameStateTransaction - O Must sign the txData
+ * 4. sendGameStateTransactions - Actually send the transaction
+ *
+ * Calling 1 will always RESET the transaction!
+ *
+ */
+
+export const createGameStateTransaction = createAsyncThunk("app/createGameStateTransaction", async (n, thunkAPI) => {
+    try {
+        const state = thunkAPI.getState().app;
+        const currentGameState = state.gameState;
+        const gameIndex = state.gameIndex;
+        const serializedTttState = serializeTttGameState(currentGameState); // Serialize for DataStore
+        const multiSigAddress = state.wallets[walletKeyByNumber[3]].address;
+
+        // Reset TxState && Create Base Data Store witrh Serialized State
+        await aliceNetAdapter.wallet.Transaction._reset();
+        await aliceNetAdapter.wallet.Transaction.createDataStore(
+            multiSigAddress,
+            `0x${gameIndex}`,
+            2,
+            serializedTttState
+        );
+        // Create the transaction fee
+        await aliceNetAdapter.wallet.Transaction.createTxFee(multiSigAddress, 2);
+        // Create the raw transaction object
+        await aliceNetAdapter.wallet.Transaction.createRawTransaction();
+        return;
+        // Next actions should be X sign, and O sign
+    } catch (ex) {
+        console.log(ex);
+    }
+});
+
+const signMove = async (player, txMsgs, multiSigPubK) => {
+    try {
+        // The multisignature public key for which the signer will be signing for is multiSigPubK
+        // Sign the transactions vin messages
+        let vin = await aliceNetAdapter.wallet.Account.accounts[parseInt(player - 1)].signer.multiSig.signMulti(
+            txMsgs["Vin"],
+            multiSigPubK
+        );
+        // Sign the transactions vout messages
+        let vout = await aliceNetAdapter.wallet.Account.accounts[parseInt(player - 1)].signer.multiSig.signMulti(
+            txMsgs["Vout"],
+            multiSigPubK
+        );
+        // Return the signed vin and vout messages
+        return [vin, vout];
+    } catch (ex) {
+        console.log(ex);
+    }
+};
+
+export const xSignsGameStateTransaction = createAsyncThunk("app/xSignsGameStateTransaction", async (n, thunkAPI) => {
+    try {
+        const multiSigPubKey = thunkAPI.getState().app.wallets[walletKeyByNumber[3]].pubK;
+        // get the transaction signature messages for X account to sign and cache in lastSignedXSigs
+        let sigMsgs = await aliceNetAdapter.wallet.Transaction.Tx.getSignatures();
+        let [sigsXVin, sigsXVout] = await signMove(1, sigMsgs, multiSigPubKey);
+        lastSignedXSigs = [sigsXVin, sigsXVout];
+        return;
+    } catch (ex) {
+        console.error(ex);
+    }
+});
+
+export const oSignsGameStateTransaction = createAsyncThunk("app/oSignsGameStateTransaction", async (n, thunkAPI) => {
+    const multiSigPubKey = thunkAPI.getState().app.wallets[walletKeyByNumber[3]].pubK;
+    // get the transaction signature messages for O account to sign and cache in lastSignedXSigs
+    let sigMsgs = await aliceNetAdapter.wallet.Transaction.Tx.getSignatures();
+    let [sigsOVin, sigsOVout] = await signMove(2, sigMsgs, multiSigPubKey);
+    lastSignedOSigs = [sigsOVin, sigsOVout];
+    // After O Signs -- Inject the TX Sigs back into the transaction
+    await aliceNetAdapter.wallet.Transaction.Tx.injectSignaturesAggregate(
+        [lastSignedXSigs[0], lastSignedOSigs[0]],
+        [lastSignedXSigs[1], lastSignedOSigs[1]]
+    );
+    return;
+});
+
+export const sendGameStateTransaction = createAsyncThunk("app/sendGameStateTransaction", async (n, thunkAPI) => {
+    try {
+        const multiSigAddress = thunkAPI.getState().app.wallets[walletKeyByNumber[3]].address;
+        // send the signed transaction to the network
+        let txHash = await aliceNetAdapter.wallet.Transaction.sendSignedTx(
+            aliceNetAdapter.wallet.Transaction.Tx.getTx()
+        );
+        // monitor and wait for the transaction to be mined
+        await aliceNetAdapter.wallet.Rpc.monitorPending(txHash);
+        // Fetch balance for the multisignature account
+        const [, aBalance] = await aliceNetAdapter.wallet.Rpc.getValueStoreUTXOIDs(multiSigAddress, 2);
+        return {
+            balance: String(parseInt(aBalance, 16)),
+            hash: txHash,
+        };
+    } catch (ex) {
+        console.log(ex);
+    }
+});

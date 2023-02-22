@@ -90,9 +90,7 @@ export function PlayTicTacToe() {
     };
 
     return (
-
         <Paper elevation={1} square sx={{ height: "100%" }}>
-
             <Box
                 display="flex"
                 flexDirection="column"
@@ -108,14 +106,13 @@ export function PlayTicTacToe() {
                 </Typography>
 
                 <Grid container>
-
                     <Grid item xs={6} flexDirection="column">
                         {instructions.map((instruction, index) =>
                             instruction.left
                                 ? instruction.displayCallback({
-                                    id: index + 1,
-                                    label: instruction.label,
-                                })
+                                      id: index + 1,
+                                      label: instruction.label,
+                                  })
                                 : null
                         )}
                     </Grid>
@@ -124,17 +121,15 @@ export function PlayTicTacToe() {
                         {instructions.map((instruction, index) =>
                             !instruction.left
                                 ? instruction.displayCallback({
-                                    id: index + 1,
-                                    label: instruction.label,
-                                })
+                                      id: index + 1,
+                                      label: instruction.label,
+                                  })
                                 : null
                         )}
                     </Grid>
-
                 </Grid>
 
                 <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-around" gap={1}>
-
                     <Button
                         color="primary"
                         variant="contained"
@@ -167,19 +162,16 @@ export function PlayTicTacToe() {
                         variant="contained"
                         size="small"
                         onClick={fundGrp}
-                        disabled={!multiSigWallet.address || parseInt(multiSigBalance) > 5000}
+                        disabled={!multiSigWallet.address || parseInt(multiSigBalance) > 50000}
                     >
                         <Typography fontSize="0.55rem" whiteSpace="nowrap">
                             Fund Group Wallet
                         </Typography>
                     </Button>
-
                 </Box>
 
                 <TicTacToeBoard />
-
             </Box>
-
         </Paper>
     );
 }

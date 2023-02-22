@@ -20,7 +20,7 @@ import { ellipsesSplit } from "utils";
 
 const headerCells = [
     {
-        id: "empty",
+        id: "h_empty",
         label: "",
     },
     {
@@ -52,22 +52,22 @@ const playerXCells = (xWallet) => [
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "x_empty0",
         label: ellipsesSplit(xWallet.pKey, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "x_empty1",
         label: ellipsesSplit(xWallet.pubK, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "x_empty2",
         label: ellipsesSplit(xWallet.address, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "x_empty3",
         label: "Sign",
         displayCallback: ({ label }) => (
             <Button disabled variant="outlined" size="small">
@@ -84,22 +84,22 @@ const playerOCells = (oWallet) => [
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "o_empty1",
         label: ellipsesSplit(oWallet.pKey, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "o_empty2",
         label: ellipsesSplit(oWallet.pubK, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "o_empty3",
         label: ellipsesSplit(oWallet.address, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "o_empty4",
         label: "Sign",
         displayCallback: ({ label }) => (
             <Button disabled variant="outlined" size="small">
@@ -116,22 +116,22 @@ const groupAddressCells = (groupWallet) => [
         displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>,
     },
     {
-        id: "empty",
+        id: "g_empty0",
         label: groupWallet.address ? "N/A" : "",
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "g_empty1",
         label: ellipsesSplit(groupWallet.pubK, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "g_empty2",
         label: ellipsesSplit(groupWallet.address, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "empty",
+        id: "g_empty3",
         label: "X Sends",
         displayCallback: ({ label }) => (
             <Button disabled variant="outlined" size="small">
