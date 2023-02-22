@@ -23,8 +23,8 @@ export function ConfirmUnstakeModal({ unstakePosition, onClose, handleUnstake })
     const ModalContent = () => (
         <Box sx={{ my: 2 }}>
             <Typography variant="p">
-                You are unstaking <b>{unstakePosition.amount} ALCA</b> with <b>rewards of {unstakePosition.rewards}</b>{" "}
-                Rewards will be sent automatically to your wallet.
+                You are unstaking <b>{unstakePosition.amount} ALCA</b> with{" "}
+                <b>rewards of {unstakePosition.rewards || "0"}.</b> Rewards will be sent automatically to your wallet.
             </Typography>
         </Box>
     );
