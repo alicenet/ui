@@ -1,17 +1,11 @@
 import React from "react";
 import { ListItemIcon, ListItemText, MenuItem as MUIMenuItem, MenuList, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faApple, faLinux, faWindows } from "@fortawesome/free-brands-svg-icons";
 
 const EXPLORER_URL = process.env.REACT_APP_EXPLORER_URL;
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
 const ALICENET_URL = process.env.REACT_APP_ALICENET_URL;
 const WHITE_PAPER_URL = process.env.REACT_APP_WHITE_PAPER_URL;
-
-const WALLET_MAC_URL = process.env.REACT_APP_WALLET_MAC_URL;
-const WALLET_LINUX_URL = process.env.REACT_APP_WALLET_LINUX_URL;
-const WALLET_WINDOWS_URL = process.env.REACT_APP_WALLET_WINDOWS_URL;
 
 const sections = [
     {

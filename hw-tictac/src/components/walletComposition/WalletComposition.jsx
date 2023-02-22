@@ -44,6 +44,7 @@ const headerCells = [
         displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
     },
 ];
+
 const playerXCells = (xWallet) => [
     {
         id: "playerX",

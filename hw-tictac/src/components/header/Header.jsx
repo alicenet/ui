@@ -71,6 +71,8 @@ export function Header() {
                 <Container disableGutters sx={{ paddingY: 1 }}>
                     <Toolbar disableGutters>
                         <Link
+                            display="flex"
+                            alignItems="center"
                             color="white"
                             underline="none"
                             sx={{ cursor: "pointer", "&:hover": { color: theme.palette.primary.main } }}

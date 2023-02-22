@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Button, CircularProgress, Grid, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid, Paper, Typography, useTheme } from "@mui/material";
 import { TicTacToeBoard } from "components";
 import { useDispatch, useSelector } from "react-redux";
-import { fundWallet, genBaseWalletByNumber, generateBaseWallet1 } from "redux/actions";
-import { globalStatus, setLoading } from "redux/reducers";
+import { fundWallet, genBaseWalletByNumber } from "redux/actions";
+import { globalStatus } from "redux/reducers";
 
 const instructions = [
     {
@@ -90,89 +90,96 @@ export function PlayTicTacToe() {
     };
 
     return (
-        <Paper elevation={1} square>
+
+        <Paper elevation={1} square sx={{ height: "100%" }}>
+
             <Box
                 display="flex"
                 flexDirection="column"
+                justifyContent="space-around"
                 borderTop={2}
                 borderColor={theme.palette.secondary.main}
                 padding={2.5}
                 gap={4}
+                height="100%"
             >
                 <Typography variant="h5" borderBottom={1} borderColor={theme.palette.clearGray.main} paddingBottom={1}>
                     Play Tictactoe ({status})
                 </Typography>
 
                 <Grid container>
+
                     <Grid item xs={6} flexDirection="column">
                         {instructions.map((instruction, index) =>
                             instruction.left
                                 ? instruction.displayCallback({
-                                      id: index + 1,
-                                      label: instruction.label,
-                                  })
+                                    id: index + 1,
+                                    label: instruction.label,
+                                })
                                 : null
                         )}
                     </Grid>
+
                     <Grid item xs={6} flexDirection="column">
                         {instructions.map((instruction, index) =>
                             !instruction.left
                                 ? instruction.displayCallback({
-                                      id: index + 1,
-                                      label: instruction.label,
-                                  })
+                                    id: index + 1,
+                                    label: instruction.label,
+                                })
                                 : null
                         )}
                     </Grid>
+
                 </Grid>
 
-                <Grid container alignItems="center" justifyContent="space-between" spacing={1}>
-                    <Grid item>
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            size="small"
-                            disabled={!!baseWallet2.address || status === globalStatus.LOADING}
-                            onClick={genBaseWallet}
-                        >
-                            <Typography fontSize="0.55rem" whiteSpace="nowrap">
-                                Generate Base Wallet {baseWallet2.address ? "2" : baseWallet1.address ? "1" : "0"}/2
-                            </Typography>
-                        </Button>
-                    </Grid>
-                    <Grid item>
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            size="small"
-                            onClick={genBaseWallet}
-                            disabled={
-                                !(!!baseWallet1.address && !!baseWallet2.address && !multiSigWallet.address) ||
-                                status === globalStatus.LOADING
-                            }
-                        >
-                            <Typography fontSize="0.55rem" whiteSpace="nowrap">
-                                Generate Group Wallet
-                            </Typography>
-                        </Button>
-                    </Grid>
-                    <Grid item>
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            size="small"
-                            onClick={fundGrp}
-                            disabled={!multiSigWallet.address || parseInt(multiSigBalance) > 5000}
-                        >
-                            <Typography fontSize="0.55rem" whiteSpace="nowrap">
-                                Fund Group Wallet
-                            </Typography>
-                        </Button>
-                    </Grid>
-                </Grid>
+                <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-around" gap={1}>
+
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        size="small"
+                        disabled={!!baseWallet2.address || status === globalStatus.LOADING}
+                        onClick={genBaseWallet}
+                    >
+                        <Typography fontSize="0.55rem" whiteSpace="nowrap">
+                            Generate Base Wallet {baseWallet2.address ? "2" : baseWallet1.address ? "1" : "0"}/2
+                        </Typography>
+                    </Button>
+
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        size="small"
+                        onClick={genBaseWallet}
+                        disabled={
+                            !(!!baseWallet1.address && !!baseWallet2.address && !multiSigWallet.address) ||
+                            status === globalStatus.LOADING
+                        }
+                    >
+                        <Typography fontSize="0.55rem" whiteSpace="nowrap">
+                            Generate Group Wallet
+                        </Typography>
+                    </Button>
+
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        size="small"
+                        onClick={fundGrp}
+                        disabled={!multiSigWallet.address || parseInt(multiSigBalance) > 5000}
+                    >
+                        <Typography fontSize="0.55rem" whiteSpace="nowrap">
+                            Fund Group Wallet
+                        </Typography>
+                    </Button>
+
+                </Box>
 
                 <TicTacToeBoard />
+
             </Box>
+
         </Paper>
     );
 }

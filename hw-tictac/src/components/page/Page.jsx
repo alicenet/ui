@@ -9,13 +9,13 @@ export const Page = ({ children }) => {
             display="flex"
             flexDirection="column"
             justifyContent={{ xs: "space-around", md: "space-between" }}
-            maxWidth="72rem"
+            maxWidth="76rem"
             marginX="auto"
             minHeight="100vh"
-            paddingX={2}
+            paddingX="3rem"
         >
 
-            <Box>
+            <Box display="flex" flexDirection="column" gap={1.5}>
 
                 <Header />
 
