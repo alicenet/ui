@@ -207,7 +207,7 @@ export const xSignsGameStateTransaction = createAsyncThunk("app/xSignsGameStateT
     try {
         const multiSigPubKey = thunkAPI.getState().app.wallets[walletKeyByNumber[3]].pubK;
         // get the transaction signature messages for X account to sign and cache in lastSignedXSigs
-        let sigMsgs = await this.aliceNet.Transaction.Tx.getSignatures();
+        let sigMsgs = await aliceNetAdapter.wallet.Transaction.Tx.getSignatures();
         let [sigsXVin, sigsXVout] = await signMove(1, sigMsgs, multiSigPubKey);
         lastSignedXSigs = [sigsXVin, sigsXVout];
         return;
