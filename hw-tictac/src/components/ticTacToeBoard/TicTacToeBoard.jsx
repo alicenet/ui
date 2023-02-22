@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { Board, HelpDialog } from "components";
+import { useSelector } from "react-redux";
 
 const boardSize = 9;
 
@@ -59,8 +60,11 @@ export function TicTacToeBoard() {
         }
     };
 
-    return (
+    const { multiSigBalance } = useSelector((state) => ({
+        multiSigBalance: state.app.multiSigBalance,
+    }));
 
+    return (
         <>
 
             <Box display="flex" flexDirection="column" gap={3} alignItems="center">
@@ -90,15 +94,17 @@ export function TicTacToeBoard() {
                     <Divider role="presentation" orientation="vertical" flexItem />
                     <Grid item>
                         <Typography>
-                            AliceNet Bytes: 0 ALCB
+                            AliceNet Bytes: {multiSigBalance} ALCB
                         </Typography>
                     </Grid>
                 </Grid>
 
                 <Box display="flex" flexDirection="row" gap={2}>
+
                     <Button variant="outlined" size="small" sx={{ paddingY: 0.75, paddingX: 3 }}>
                         Load Game
                     </Button>
+
                     <Button
                         variant="outlined"
                         size="small"
@@ -107,6 +113,7 @@ export function TicTacToeBoard() {
                     >
                         Reset
                     </Button>
+
                     <Button
                         variant="outlined"
                         size="small"
@@ -115,6 +122,7 @@ export function TicTacToeBoard() {
                     >
                         Help
                     </Button>
+
                 </Box>
 
             </Box>
@@ -123,5 +131,4 @@ export function TicTacToeBoard() {
 
         </>
     );
-
 }

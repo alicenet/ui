@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, SvgIcon, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { LetterO, LetterX } from "components";
 
 const Square = ({ position, mark, onClick }) => {
