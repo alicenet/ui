@@ -76,7 +76,7 @@ const playerXCells = (xWallet) => [
     },
 ];
 
-const playerOCells = [
+const playerOCells = (oWallet) => [
     {
         id: "playerO",
         label: "Player O",
@@ -84,15 +84,18 @@ const playerOCells = [
     },
     {
         id: "empty",
-        label: "",
+        label: ellipsesSplit(oWallet.pKey, 6),
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
         id: "empty",
-        label: "",
+        label: ellipsesSplit(oWallet.pubK, 6),
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
         id: "empty",
-        label: "",
+        label: ellipsesSplit(oWallet.address, 6),
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
         id: "empty",
@@ -104,7 +107,8 @@ const playerOCells = [
         ),
     },
 ];
-const groupAddressCells = [
+
+const groupAddressCells = (groupWallet) => [
     {
         id: "groupAddress",
         label: "Group Address",
@@ -112,15 +116,18 @@ const groupAddressCells = [
     },
     {
         id: "empty",
-        label: "",
+        label: groupWallet.address ? "N/A" : "",
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
         id: "empty",
-        label: "",
+        label: ellipsesSplit(groupWallet.pubK, 6),
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
         id: "empty",
-        label: "",
+        label: ellipsesSplit(groupWallet.address, 6),
+        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
         id: "empty",
@@ -132,6 +139,7 @@ const groupAddressCells = [
         ),
     },
 ];
+
 const HeaderCell = ({ id, label }) => (
     <Box display="flex" flexDirection="row" alignItems="center" gap={0.5}>
         <Typography variant="span">{label}</Typography>
@@ -146,6 +154,8 @@ export function WalletComposition() {
         oWallet: state.app.wallets[walletKeyByNumber[2]],
         groupWallet: state.app.wallets[walletKeyByNumber[3]],
     }));
+
+    console.log({ xWallet, oWallet, groupWallet });
 
     return (
         <Table>
@@ -224,7 +234,7 @@ export function WalletComposition() {
                 </TableRow>
 
                 <TableRow>
-                    {playerOCells.map((playerOCell) => {
+                    {playerOCells(oWallet).map((playerOCell) => {
                         return (
                             <TableCell
                                 key={`row-PO-${playerOCell.id}`}
@@ -248,7 +258,7 @@ export function WalletComposition() {
                 </TableRow>
 
                 <TableRow>
-                    {groupAddressCells.map((groupAddressCell) => {
+                    {groupAddressCells(groupWallet).map((groupAddressCell) => {
                         return (
                             <TableCell
                                 key={`row-GA-${groupAddressCell.id}`}

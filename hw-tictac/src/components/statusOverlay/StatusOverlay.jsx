@@ -11,28 +11,33 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Typography
+    Typography,
 } from "@mui/material";
 
 export const StatusOverlay = () => {
-
-    useSelector(s => s);
+    useSelector((s) => s);
 
     const busy = aliceNetAdapter.busy || ""; // Todo: Update to support all required busy states
     const error = aliceNetAdapter.error || ""; // Todo: Update to support all required errors
+
+    console.log({ busy, error });
 
     return (
         <>
             <Backdrop open={!!busy} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
-                    <Typography variant="span" fontSize="x-large">{busy}</Typography>
+                    <Typography variant="span" fontSize="x-large">
+                        {busy}
+                    </Typography>
                     <CircularProgress />
                 </Box>
             </Backdrop>
 
             <Dialog open={!!error}>
                 <DialogTitle>
-                    <Typography variant="span" fontSize="x-large">Error</Typography>
+                    <Typography variant="span" fontSize="x-large">
+                        Error
+                    </Typography>
                 </DialogTitle>
                 <DialogContent dividers>
                     <DialogContentText>
@@ -47,5 +52,4 @@ export const StatusOverlay = () => {
             </Dialog>
         </>
     );
-
-}
+};

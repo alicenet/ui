@@ -2,7 +2,8 @@ import { createSlice, current } from "@reduxjs/toolkit";
 import { classInstanceReducer } from "redux-class-watcher";
 import { aliceNetAdapter } from "adapter/alicenetadapter";
 import { aliceNetProvider } from "config/config";
-import { genBaseWalletByNumber } from "./actions";
+import { fundWallet, genBaseWalletByNumber, updateAccountBalance } from "./actions";
+import { initialTttGameState } from "./gameState";
 
 export const walletKeyByNumber = {
     1: "baseWallet1",
@@ -26,7 +27,9 @@ const appSlice = createSlice({
         },
         status: globalStatus.IDLE,
         statusMsg: "",
-        gameState: {},
+        gameState: {
+            ...initialTttGameState,
+        },
         count: 0,
         wallets: {
             baseWallet1: {
@@ -45,6 +48,7 @@ const appSlice = createSlice({
                 pubK: "",
             },
         },
+        multiSigBalance: 0,
     },
     reducers: {
         // setLoading: (state, action) => {},
@@ -53,8 +57,21 @@ const appSlice = createSlice({
         builder.addCase(genBaseWalletByNumber.pending, (state, action) => {
             state.status = globalStatus.LOADING;
         });
+        builder.addCase(updateAccountBalance.pending, (state, action) => {
+            state.status = globalStatus.LOADING;
+        });
+        builder.addCase(fundWallet.pending, (state, action) => {
+            state.status = globalStatus.LOADING;
+        });
         builder.addCase(genBaseWalletByNumber.fulfilled, (state, action) => {
             state.wallets[walletKeyByNumber[action.payload.walletNumber]] = action.payload.wallet;
+            state.status = globalStatus.IDLE;
+        });
+        builder.addCase(updateAccountBalance.fulfilled, (state, action) => {
+            state.status = globalStatus.IDLE;
+            state.multiSigBalance = action.payload;
+        });
+        builder.addCase(fundWallet.fulfilled, (state, action) => {
             state.status = globalStatus.IDLE;
         });
     },

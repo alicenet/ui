@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, CircularProgress, Grid, Paper, Typography, useTheme } from "@mui/material";
 import { TicTacToeBoard } from "components";
 import { useDispatch, useSelector } from "react-redux";
-import { genBaseWalletByNumber, generateBaseWallet1 } from "redux/actions";
+import { fundWallet, genBaseWalletByNumber, generateBaseWallet1 } from "redux/actions";
 import { globalStatus, setLoading } from "redux/reducers";
 
 const instructions = [
@@ -62,11 +62,12 @@ const InstructionItem = ({ id, label }) => (
 );
 
 export function PlayTicTacToe() {
-    const { baseWallet1, baseWallet2, multiSigWallet, status } = useSelector((state) => ({
+    const { baseWallet1, baseWallet2, multiSigWallet, status, multiSigBalance } = useSelector((state) => ({
         baseWallet1: state.app.wallets.baseWallet1,
         baseWallet2: state.app.wallets.baseWallet2,
         multiSigWallet: state.app.wallets.multiSigWallet,
         status: state.app.status,
+        multiSigBalance: state.app.multiSigBalance,
     }));
 
     const dispatch = useDispatch();
@@ -82,6 +83,10 @@ export function PlayTicTacToe() {
         } else {
             console.warn("All base wallets generated, don't allow this function call!");
         }
+    };
+
+    const fundGrp = () => {
+        dispatch(fundWallet({ address: multiSigWallet.address, curve: 2 }));
     };
 
     return (
@@ -152,7 +157,13 @@ export function PlayTicTacToe() {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <Button color="primary" variant="contained" size="small" disabled>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            size="small"
+                            onClick={fundGrp}
+                            disabled={!multiSigWallet.address || parseInt(multiSigBalance) > 5000}
+                        >
                             <Typography fontSize="0.55rem" whiteSpace="nowrap">
                                 Fund Group Wallet
                             </Typography>
