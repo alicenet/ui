@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { Board, HelpDialog } from "components";
 import { useDispatch, useSelector } from "react-redux";
@@ -81,7 +81,7 @@ export function TicTacToeBoard() {
 
     // Sync redux game state -- Adrian, this will balance your existing local logic to the redux state so you don't need to do much ( hopefully )
     // I did test this in redux stepping so should be good.
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(
             setGameState({
                 turn: xIsPlaying ? PlayerType.X : PlayerType.O,

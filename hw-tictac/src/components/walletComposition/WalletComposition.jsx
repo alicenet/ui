@@ -159,129 +159,132 @@ export function WalletComposition() {
     console.log({ xWallet, oWallet, groupWallet });
 
     return (
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell sx={{ border: 0 }} key="table-header-main" padding="none" colSpan={headerCells.length}>
-                        <Paper elevation={2} sx={{ boxShadow: "unset" }} square>
-                            <Box
-                                display="flex"
-                                alignItems="center"
-                                gap={2}
-                                padding={2}
-                                border={2}
-                                borderColor={theme.palette.primary.main}
-                                borderBottom={0}
-                                borderLeft={0}
-                                borderRight={0}
-                            >
-                                <Wallet opacity={0.75} />
-                                <Typography>
-                                    <strong>Wallet Composition</strong>
-                                </Typography>
-                            </Box>
-                        </Paper>
-                    </TableCell>
-                </TableRow>
-            </TableHead>
+        <Box sx={{ overflowX: "scroll" }}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell sx={{ border: 0 }} key="table-header-main" padding="none"
+                                   colSpan={headerCells.length}>
+                            <Paper elevation={2} sx={{ boxShadow: "unset" }} square>
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    gap={2}
+                                    padding={2}
+                                    border={2}
+                                    borderColor={theme.palette.primary.main}
+                                    borderBottom={0}
+                                    borderLeft={0}
+                                    borderRight={0}
+                                >
+                                    <Wallet opacity={0.75} />
+                                    <Typography>
+                                        <strong>Wallet Composition</strong>
+                                    </Typography>
+                                </Box>
+                            </Paper>
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
 
-            <TableBody>
-                <TableRow>
-                    {headerCells.map((headerCell) => {
-                        return (
-                            <TableCell
-                                key={`row-${headerCell.id}`}
-                                sx={{
-                                    background: lighten(theme.palette.background.paper, 3 * 0.045),
-                                    padding: 2,
-                                    fontSize: "small",
-                                }}
-                            >
-                                {headerCell?.displayCallback ? (
-                                    headerCell.displayCallback({
-                                        id: headerCell.id,
-                                        label: headerCell.label,
-                                    })
-                                ) : (
-                                    <></>
-                                )}
-                            </TableCell>
-                        );
-                    })}
-                </TableRow>
+                <TableBody>
+                    <TableRow>
+                        {headerCells.map((headerCell) => {
+                            return (
+                                <TableCell
+                                    key={`row-${headerCell.id}`}
+                                    sx={{
+                                        background: lighten(theme.palette.background.paper, 3 * 0.045),
+                                        padding: 2,
+                                        fontSize: "small",
+                                    }}
+                                >
+                                    {headerCell?.displayCallback ? (
+                                        headerCell.displayCallback({
+                                            id: headerCell.id,
+                                            label: headerCell.label,
+                                        })
+                                    ) : (
+                                        <></>
+                                    )}
+                                </TableCell>
+                            );
+                        })}
+                    </TableRow>
 
-                <TableRow>
-                    {playerXCells(xWallet).map((playerXCell) => {
-                        return (
-                            <TableCell
-                                key={`row-PX-${playerXCell.id}`}
-                                sx={{
-                                    background: lighten(theme.palette.background.paper, 3 * 0.045),
-                                    padding: 2,
-                                    fontSize: "small",
-                                }}
-                            >
-                                {playerXCell?.displayCallback ? (
-                                    playerXCell.displayCallback({
-                                        id: playerXCell.id,
-                                        label: playerXCell.label,
-                                    })
-                                ) : (
-                                    <></>
-                                )}
-                            </TableCell>
-                        );
-                    })}
-                </TableRow>
+                    <TableRow>
+                        {playerXCells(xWallet).map((playerXCell) => {
+                            return (
+                                <TableCell
+                                    key={`row-PX-${playerXCell.id}`}
+                                    sx={{
+                                        background: lighten(theme.palette.background.paper, 3 * 0.045),
+                                        padding: 2,
+                                        fontSize: "small",
+                                    }}
+                                >
+                                    {playerXCell?.displayCallback ? (
+                                        playerXCell.displayCallback({
+                                            id: playerXCell.id,
+                                            label: playerXCell.label,
+                                        })
+                                    ) : (
+                                        <></>
+                                    )}
+                                </TableCell>
+                            );
+                        })}
+                    </TableRow>
 
-                <TableRow>
-                    {playerOCells(oWallet).map((playerOCell) => {
-                        return (
-                            <TableCell
-                                key={`row-PO-${playerOCell.id}`}
-                                sx={{
-                                    background: lighten(theme.palette.background.paper, 3 * 0.045),
-                                    padding: 2,
-                                    fontSize: "small",
-                                }}
-                            >
-                                {playerOCell?.displayCallback ? (
-                                    playerOCell.displayCallback({
-                                        id: playerOCell.id,
-                                        label: playerOCell.label,
-                                    })
-                                ) : (
-                                    <></>
-                                )}
-                            </TableCell>
-                        );
-                    })}
-                </TableRow>
+                    <TableRow>
+                        {playerOCells(oWallet).map((playerOCell) => {
+                            return (
+                                <TableCell
+                                    key={`row-PO-${playerOCell.id}`}
+                                    sx={{
+                                        background: lighten(theme.palette.background.paper, 3 * 0.045),
+                                        padding: 2,
+                                        fontSize: "small",
+                                    }}
+                                >
+                                    {playerOCell?.displayCallback ? (
+                                        playerOCell.displayCallback({
+                                            id: playerOCell.id,
+                                            label: playerOCell.label,
+                                        })
+                                    ) : (
+                                        <></>
+                                    )}
+                                </TableCell>
+                            );
+                        })}
+                    </TableRow>
 
-                <TableRow>
-                    {groupAddressCells(groupWallet).map((groupAddressCell) => {
-                        return (
-                            <TableCell
-                                key={`row-GA-${groupAddressCell.id}`}
-                                sx={{
-                                    background: lighten(theme.palette.background.paper, 3 * 0.045),
-                                    padding: 2,
-                                    fontSize: "small",
-                                }}
-                            >
-                                {groupAddressCell?.displayCallback ? (
-                                    groupAddressCell.displayCallback({
-                                        id: groupAddressCell.id,
-                                        label: groupAddressCell.label,
-                                    })
-                                ) : (
-                                    <></>
-                                )}
-                            </TableCell>
-                        );
-                    })}
-                </TableRow>
-            </TableBody>
-        </Table>
+                    <TableRow>
+                        {groupAddressCells(groupWallet).map((groupAddressCell) => {
+                            return (
+                                <TableCell
+                                    key={`row-GA-${groupAddressCell.id}`}
+                                    sx={{
+                                        background: lighten(theme.palette.background.paper, 3 * 0.045),
+                                        padding: 2,
+                                        fontSize: "small",
+                                    }}
+                                >
+                                    {groupAddressCell?.displayCallback ? (
+                                        groupAddressCell.displayCallback({
+                                            id: groupAddressCell.id,
+                                            label: groupAddressCell.label,
+                                        })
+                                    ) : (
+                                        <></>
+                                    )}
+                                </TableCell>
+                            );
+                        })}
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </Box>
     );
 }
