@@ -9,7 +9,7 @@ export const Page = ({ children }) => {
             display="flex"
             flexDirection="column"
             justifyContent={{ xs: "space-around", md: "space-between" }}
-            maxWidth="76rem"
+            maxWidth="77rem"
             marginX="auto"
             minHeight="100vh"
             paddingX="3rem"
