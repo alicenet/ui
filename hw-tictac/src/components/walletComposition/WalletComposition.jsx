@@ -132,7 +132,7 @@ const groupAddressCells = (groupWallet) => [
     },
     {
         id: "g_empty3",
-        label: "X Sends",
+        label: "Send",
         displayCallback: ({ label }) => (
             <Button disabled variant="outlined" size="small">
                 {label}

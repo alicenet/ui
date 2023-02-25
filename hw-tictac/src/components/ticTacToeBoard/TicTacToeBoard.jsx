@@ -65,8 +65,7 @@ export function TicTacToeBoard() {
     const staticBoard = JSON.stringify(board);
     const dispatch = useDispatch();
 
-    const { currentStatus, txCreated, xSigned, oSigned } = useSelector((state) => ({
-        currentStatus: state.app.status,
+    const { txCreated, xSigned, oSigned } = useSelector((state) => ({
         txCreated: state.app.txCreated,
         xSigned: state.app.xSigned,
         oSigned: state.app.oSigned,

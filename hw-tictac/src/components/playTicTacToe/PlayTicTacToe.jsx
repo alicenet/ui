@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Grid, Paper, Typography, useTheme } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, Grid, Paper, Typography, useTheme } from "@mui/material";
 import { TicTacToeBoard } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import { fundWallet, genBaseWalletByNumber } from "redux/actions";
@@ -73,7 +73,7 @@ export function PlayTicTacToe() {
     const dispatch = useDispatch();
     const theme = useTheme();
 
-    const genBaseWallet = () => {
+    const generateBaseWallet = () => {
         if (!baseWallet1.address) {
             return dispatch(genBaseWalletByNumber(1));
         } else if (!baseWallet2.address) {
@@ -81,16 +81,16 @@ export function PlayTicTacToe() {
         } else if (!multiSigWallet.address) {
             return dispatch(genBaseWalletByNumber(3));
         } else {
-            console.warn("All base wallets generated, don't allow this function call!");
+            console.warn("All base wallets are already generated");
         }
     };
 
-    const fundGrp = () => {
+    const fundGroupWallet = () => {
         dispatch(fundWallet({ address: multiSigWallet.address, curve: 2 }));
     };
 
     return (
-        <Paper elevation={1} square sx={{ height: "100%" }}>
+        <Paper elevation={1} square sx={{ height: "100%", position: "relative" }}>
             <Box
                 display="flex"
                 flexDirection="column"
@@ -102,7 +102,7 @@ export function PlayTicTacToe() {
                 height="100%"
             >
                 <Typography variant="h5" borderBottom={1} borderColor={theme.palette.clearGray.main} paddingBottom={1}>
-                    Play Tictactoe ({status})
+                    Play Tictactoe
                 </Typography>
 
                 <Grid container>
@@ -110,9 +110,9 @@ export function PlayTicTacToe() {
                         {instructions.map((instruction, index) =>
                             instruction.left
                                 ? instruction.displayCallback({
-                                      id: index + 1,
-                                      label: instruction.label,
-                                  })
+                                    id: index + 1,
+                                    label: instruction.label,
+                                })
                                 : null
                         )}
                     </Grid>
@@ -121,9 +121,9 @@ export function PlayTicTacToe() {
                         {instructions.map((instruction, index) =>
                             !instruction.left
                                 ? instruction.displayCallback({
-                                      id: index + 1,
-                                      label: instruction.label,
-                                  })
+                                    id: index + 1,
+                                    label: instruction.label,
+                                })
                                 : null
                         )}
                     </Grid>
@@ -135,7 +135,7 @@ export function PlayTicTacToe() {
                         variant="contained"
                         size="small"
                         disabled={!!baseWallet2.address || status === globalStatus.LOADING}
-                        onClick={genBaseWallet}
+                        onClick={generateBaseWallet}
                     >
                         <Typography fontSize="0.55rem" whiteSpace="nowrap">
                             Generate Base Wallet {baseWallet2.address ? "2" : baseWallet1.address ? "1" : "0"}/2
@@ -146,7 +146,7 @@ export function PlayTicTacToe() {
                         color="primary"
                         variant="contained"
                         size="small"
-                        onClick={genBaseWallet}
+                        onClick={generateBaseWallet}
                         disabled={
                             !(!!baseWallet1.address && !!baseWallet2.address && !multiSigWallet.address) ||
                             status === globalStatus.LOADING
@@ -161,7 +161,7 @@ export function PlayTicTacToe() {
                         color="primary"
                         variant="contained"
                         size="small"
-                        onClick={fundGrp}
+                        onClick={fundGroupWallet}
                         disabled={!multiSigWallet.address || parseInt(multiSigBalance) > 50000}
                     >
                         <Typography fontSize="0.55rem" whiteSpace="nowrap">
@@ -171,7 +171,13 @@ export function PlayTicTacToe() {
                 </Box>
 
                 <TicTacToeBoard />
+
             </Box>
+
+            <Backdrop open={status !== globalStatus.IDLE} sx={{ position: "absolute" }}>
+                <CircularProgress />
+            </Backdrop>
+
         </Paper>
     );
 }
