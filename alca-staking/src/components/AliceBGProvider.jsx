@@ -7,8 +7,6 @@ export function AliceBGProvider({ children }) {
     const theme = useTheme();
     const matches = useMediaQuery("(min-width:600px)");
 
-    console.log(theme.palette.primary);
-
     const AccentCircle = () => {
         return (
             <Box
