@@ -157,7 +157,7 @@ export function TicTacToeBoard() {
                         variant="outlined"
                         size="small"
                         sx={{ paddingY: 0.75, paddingX: 3 }}
-                        disabled={!multiSigAddress}
+                        disabled
                         onClick={loadGame}
                     >
                         Load Game
