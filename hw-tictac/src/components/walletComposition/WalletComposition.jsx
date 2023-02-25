@@ -159,7 +159,7 @@ export function WalletComposition() {
     console.log({ xWallet, oWallet, groupWallet });
 
     return (
-        <Box sx={{ overflowX: "scroll" }}>
+        <Box sx={{ overflowX: "auto" }}>
             <Table>
                 <TableHead>
                     <TableRow>
