@@ -84,7 +84,6 @@ export function unserializeBoardState(boardState) {
     let colToPush = [];
     // +1 on length to push last column
     for (let i = 0; i < boardState.length + 1; i++) {
-        console.log(boardState[i]);
         // Catch "X" || "O" states as well as 1|2
         let point =
             boardState[i] === null
@@ -107,11 +106,11 @@ export function unserializeBoardState(boardState) {
 }
 
 let gstate = { ...initialTttGameState };
-console.log(gstate);
+console.log({ gstate });
 let serialized = serializeTttGameState(gstate);
-console.log(serialized);
+console.log({ serialized });
 let unsrl = deserializeTttGameState(serialized);
-console.log(unsrl);
+console.log({ unsrl });
 
 /* Game State Modifiers used to modify gameState -- these DO NOT affect redux state */
 

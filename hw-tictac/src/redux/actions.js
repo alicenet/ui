@@ -19,12 +19,10 @@ let lastSignedOSigs = "";
 function generateWallet(pKey) {
     return new Promise((res) => {
         let wallet = pKey ? new ethers.Wallet(pKey) : ethers.Wallet.createRandom();
-        console.log(wallet);
         // Force re-render on status change by allowing time for node to update
         setTimeout(() => {
             res(wallet);
         }, 100);
-        return;
     });
 }
 
@@ -78,7 +76,7 @@ export const genBaseWalletByNumber = createAsyncThunk("app/genBaseWalletByNumber
                 w2Pubk = w2Pubk.slice(2, w2Pubk.length); // Remove 0x
                 console.log("Generating Group Wallet From PubKeys: ", { w1Pubk, w2Pubk });
                 const multiSigWallet = await genMultisig([w1Pubk, w2Pubk]);
-                console.log(multiSigWallet);
+                console.log({ multiSigWallet });
                 // Get Balance For MultiSig
                 await thunkAPI.dispatch(updateMultiSigAccountBalance(multiSigWallet.address));
                 return {
@@ -121,16 +119,14 @@ export const loadGameStateFromIndex = createAsyncThunk("app/loadGameStateFromInd
         const multiSigAddress = state.wallets[walletKeyByNumber[3]].address;
         const gameIndex = state.gameIndex;
         // get the data sore using the multisig address and the game index
-        console.log(multiSigAddress, gameIndex);
+        console.log({ multiSigAddress, gameIndex });
         const dataStore = await aliceNetAdapter.wallet.Rpc.getDataStoreByIndex(multiSigAddress, 2, gameIndex);
-        console.log(dataStore);
         if (dataStore) {
             // extract the raw data from the data store
             const rawData = dataStore["DSLinker"]["DSPreImage"]["RawData"];
             // extract the tx hash from the data store
             // const txHash = dataStore['DSLinker']['TxHash'];
             // deserialize the data into a valid game board
-            console.log(rawData); // -- sHOULD BE SERIAL BOARD
             // return { board: this.deserializeBoard(rawData.slice(1).split('')), txHash };
         }
     } catch (ex) {
