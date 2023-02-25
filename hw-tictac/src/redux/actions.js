@@ -199,6 +199,7 @@ const signMove = async (player, txMsgs, multiSigPubK) => {
 
 export const xSignsGameStateTransaction = createAsyncThunk("app/xSignsGameStateTransaction", async (n, thunkAPI) => {
     try {
+        console.log("X Signing Transaction");
         const multiSigPubKey = thunkAPI.getState().app.wallets[walletKeyByNumber[3]].pubK;
         // get the transaction signature messages for X account to sign and cache in lastSignedXSigs
         let sigMsgs = await aliceNetAdapter.wallet.Transaction.Tx.getSignatures();
@@ -211,17 +212,22 @@ export const xSignsGameStateTransaction = createAsyncThunk("app/xSignsGameStateT
 });
 
 export const oSignsGameStateTransaction = createAsyncThunk("app/oSignsGameStateTransaction", async (n, thunkAPI) => {
-    const multiSigPubKey = thunkAPI.getState().app.wallets[walletKeyByNumber[3]].pubK;
-    // get the transaction signature messages for O account to sign and cache in lastSignedXSigs
-    let sigMsgs = await aliceNetAdapter.wallet.Transaction.Tx.getSignatures();
-    let [sigsOVin, sigsOVout] = await signMove(2, sigMsgs, multiSigPubKey);
-    lastSignedOSigs = [sigsOVin, sigsOVout];
-    // After O Signs -- Inject the TX Sigs back into the transaction
-    await aliceNetAdapter.wallet.Transaction.Tx.injectSignaturesAggregate(
-        [lastSignedXSigs[0], lastSignedOSigs[0]],
-        [lastSignedXSigs[1], lastSignedOSigs[1]]
-    );
-    return;
+    try {
+        console.log("O Signing Transaction");
+        const multiSigPubKey = thunkAPI.getState().app.wallets[walletKeyByNumber[3]].pubK;
+        // get the transaction signature messages for O account to sign and cache in lastSignedXSigs
+        let sigMsgs = await aliceNetAdapter.wallet.Transaction.Tx.getSignatures();
+        let [sigsOVin, sigsOVout] = await signMove(2, sigMsgs, multiSigPubKey);
+        lastSignedOSigs = [sigsOVin, sigsOVout];
+        // After O Signs -- Inject the TX Sigs back into the transaction
+        await aliceNetAdapter.wallet.Transaction.Tx.injectSignaturesAggregate(
+            [lastSignedXSigs[0], lastSignedOSigs[0]],
+            [lastSignedXSigs[1], lastSignedOSigs[1]]
+        );
+        return;
+    } catch (ex) {
+        console.error(ex);
+    }
 });
 
 export const sendGameStateTransaction = createAsyncThunk("app/sendGameStateTransaction", async (n, thunkAPI) => {

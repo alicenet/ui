@@ -3,7 +3,7 @@ import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { Board, HelpDialog } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import { loadGameStateFromIndex } from "redux/actions";
-import { setGameState, walletKeyByNumber } from "redux/reducers";
+import { setGameState } from "redux/reducers";
 import { PlayerType, unserializeBoardState, WinState } from "redux/gameState";
 
 const boardSize = 9;
@@ -65,12 +65,8 @@ export function TicTacToeBoard() {
     const staticBoard = JSON.stringify(board);
     const dispatch = useDispatch();
 
-    const { multiSigBalance, multiSigAddress, txCreated, xSigned, oSigned } = useSelector((state) => ({
+    const { multiSigBalance } = useSelector((state) => ({
         multiSigBalance: state.app.multiSigBalance,
-        multiSigAddress: state.app.wallets[walletKeyByNumber[3]].address,
-        txCreated: state.app.txCreated,
-        xSigned: state.app.xSigned,
-        oSigned: state.app.oSigned,
     }));
 
     const onReset = () => {

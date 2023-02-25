@@ -14,9 +14,10 @@ import {
 } from "@mui/material";
 import { Wallet } from "@mui/icons-material";
 import { content, HelpTooltip } from "components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { walletKeyByNumber } from "redux/reducers";
 import { ellipsesSplit } from "utils";
+import { oSignsGameStateTransaction, sendGameStateTransaction, xSignsGameStateTransaction } from "redux/actions";
 
 const headerCells = [
     {
@@ -69,8 +70,8 @@ const playerXCells = (xWallet) => [
     {
         id: "x_empty3",
         label: "Sign",
-        displayCallback: ({ label }) => (
-            <Button disabled variant="outlined" size="small">
+        displayCallback: ({ label, disabled, dispatch }) => (
+            <Button variant="outlined" size="small" disabled={disabled} onClick={dispatch}>
                 {label}
             </Button>
         ),
@@ -101,8 +102,8 @@ const playerOCells = (oWallet) => [
     {
         id: "o_empty4",
         label: "Sign",
-        displayCallback: ({ label }) => (
-            <Button disabled variant="outlined" size="small">
+        displayCallback: ({ label, disabled, dispatch }) => (
+            <Button variant="outlined" size="small" disabled={disabled} onClick={dispatch}>
                 {label}
             </Button>
         ),
@@ -133,8 +134,8 @@ const groupAddressCells = (groupWallet) => [
     {
         id: "g_empty3",
         label: "Send",
-        displayCallback: ({ label }) => (
-            <Button disabled variant="outlined" size="small">
+        displayCallback: ({ label, disabled, dispatch }) => (
+            <Button variant="outlined" size="small" disabled={disabled} onClick={dispatch}>
                 {label}
             </Button>
         ),
@@ -150,13 +151,15 @@ const HeaderCell = ({ id, label }) => (
 
 export function WalletComposition() {
     const theme = useTheme();
-    const { xWallet, oWallet, groupWallet } = useSelector((state) => ({
+    const dispatch = useDispatch();
+
+    const { xSigned, xWallet, oSigned, oWallet, groupWallet } = useSelector((state) => ({
         xWallet: state.app.wallets[walletKeyByNumber[1]],
         oWallet: state.app.wallets[walletKeyByNumber[2]],
         groupWallet: state.app.wallets[walletKeyByNumber[3]],
+        xSigned: state.app.xSigned,
+        oSigned: state.app.oSigned,
     }));
-
-    console.log({ xWallet, oWallet, groupWallet });
 
     return (
         <Box sx={{ overflowX: "auto" }}>
@@ -227,6 +230,8 @@ export function WalletComposition() {
                                         playerXCell.displayCallback({
                                             id: playerXCell.id,
                                             label: playerXCell.label,
+                                            disabled: !(groupWallet.address && !xSigned),
+                                            dispatch: () => dispatch(xSignsGameStateTransaction()),
                                         })
                                     ) : (
                                         <></>
@@ -251,6 +256,8 @@ export function WalletComposition() {
                                         playerOCell.displayCallback({
                                             id: playerOCell.id,
                                             label: playerOCell.label,
+                                            disabled: !(groupWallet.address && !oSigned),
+                                            dispatch: () => dispatch(oSignsGameStateTransaction()),
                                         })
                                     ) : (
                                         <></>
@@ -275,6 +282,8 @@ export function WalletComposition() {
                                         groupAddressCell.displayCallback({
                                             id: groupAddressCell.id,
                                             label: groupAddressCell.label,
+                                            disabled: !(xSigned && oSigned),
+                                            dispatch: () => dispatch(sendGameStateTransaction()),
                                         })
                                     ) : (
                                         <></>
