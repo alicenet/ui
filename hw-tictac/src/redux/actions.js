@@ -53,10 +53,8 @@ export const updateMultiSigAccountBalance = createAsyncThunk(
     }
 );
 
-// const wait = (amt) => new Promise((res) => setTimeout(res, amt));
-
 export const fundWallet = createAsyncThunk("app/fundWallet", async ({ address, curve }, thunkAPI) => {
-    console.log("FUND", address, curve);
+    console.log("Funding", address, curve);
     await axios.post("http://34.28.51.52:7850/faucet/", {
         address: address,
         curve: curve,

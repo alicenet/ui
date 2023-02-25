@@ -91,6 +91,7 @@ export function PlayTicTacToe() {
 
     return (
         <Paper elevation={1} square sx={{ height: "100%", position: "relative" }}>
+
             <Box
                 display="flex"
                 flexDirection="column"
@@ -101,6 +102,7 @@ export function PlayTicTacToe() {
                 gap={4}
                 height="100%"
             >
+
                 <Typography variant="h5" borderBottom={1} borderColor={theme.palette.clearGray.main} paddingBottom={1}>
                     Play Tictactoe
                 </Typography>

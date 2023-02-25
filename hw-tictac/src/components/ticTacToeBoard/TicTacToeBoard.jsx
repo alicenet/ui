@@ -65,7 +65,9 @@ export function TicTacToeBoard() {
     const staticBoard = JSON.stringify(board);
     const dispatch = useDispatch();
 
-    const { txCreated, xSigned, oSigned } = useSelector((state) => ({
+    const { multiSigBalance, multiSigAddress, txCreated, xSigned, oSigned } = useSelector((state) => ({
+        multiSigBalance: state.app.multiSigBalance,
+        multiSigAddress: state.app.wallets[walletKeyByNumber[3]].address,
         txCreated: state.app.txCreated,
         xSigned: state.app.xSigned,
         oSigned: state.app.oSigned,
@@ -88,17 +90,17 @@ export function TicTacToeBoard() {
                     xIsWinner && gameOver
                         ? WinState.X
                         : !xIsWinner && gameOver
-                        ? WinState.O
-                        : gameOver && noWinner
-                        ? WinState.TIE
-                        : WinState.NONE,
+                            ? WinState.O
+                            : gameOver && noWinner
+                                ? WinState.TIE
+                                : WinState.NONE,
                 board: unserializeBoardState(board),
             })
         );
     }, [board, staticBoard, xIsPlaying, xIsWinner, dispatch, gameOver, noWinner]);
 
     const makeMove = (position) => {
-        if (!board[position] && !gameOver) {
+        if (!board[position] && !gameOver && parseInt(multiSigBalance) > 50000) {
             const auxBoard = board;
             auxBoard[position] = xIsPlaying ? "X" : "O";
             setBoard(auxBoard);
@@ -124,11 +126,6 @@ export function TicTacToeBoard() {
             setGameOver(true);
         }
     };
-
-    const { multiSigBalance, multiSigAddress } = useSelector((state) => ({
-        multiSigBalance: state.app.multiSigBalance,
-        multiSigAddress: state.app.wallets[walletKeyByNumber[3]].address,
-    }));
 
     const loadGame = async () => {
         dispatch(loadGameStateFromIndex());
