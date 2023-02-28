@@ -12,7 +12,7 @@ import {
     useTheme
 } from "@mui/material";
 
-export function GroupDataStoreIndex() {
+export const GroupDataStoreIndex = () => {
 
     const theme = useTheme();
 
@@ -25,10 +25,7 @@ export function GroupDataStoreIndex() {
 
                     <TableRow>
 
-                        <TableCell
-                            key="table-header-main"
-                            padding="none"
-                        >
+                        <TableCell key="table-header-main" padding="none">
 
                             <Box
                                 display="flex"

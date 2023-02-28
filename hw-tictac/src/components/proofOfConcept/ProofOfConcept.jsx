@@ -7,7 +7,7 @@ export const ProofOfConcept = () =>
 
         <Typography variant="h5">AliceNet Tictactoe (POC)</Typography>
 
-        <Box display="flex" gap={2} sx={{ flexDirection: { xs: "column", md: "row" }, }}>
+        <Box display="flex" gap={2} sx={{ flexDirection: { xs: "column", md: "row" } }}>
 
             <Typography variant="span" fontFamily="Roboto" textAlign="justify">
                 This application is to demonstrate the use of multi-signature wallets where two wallets are coming
@@ -15,6 +15,7 @@ export const ProofOfConcept = () =>
                 this are quite powerful as it demands two entities both agree on the data prior to authorizing the
                 signature of it.
             </Typography>
+
             <Typography variant="span" fontFamily="Roboto" textAlign="justify">
                 In the context of this application two players (wallets) are agreeing synchronously on a move before
                 signing a multi-signature transaction, however the signatures can also happen on different machines

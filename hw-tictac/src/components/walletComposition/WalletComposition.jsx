@@ -1,7 +1,6 @@
 import React from "react";
 import {
     Box,
-    Button,
     lighten,
     Paper,
     Table,
@@ -13,143 +12,12 @@ import {
     useTheme,
 } from "@mui/material";
 import { Wallet } from "@mui/icons-material";
-import { content, HelpTooltip } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import { walletKeyByNumber } from "redux/reducers";
-import { ellipsesSplit } from "utils";
 import { oSignsGameStateTransaction, sendGameStateTransaction, xSignsGameStateTransaction } from "redux/actions";
+import { groupAddressCells, headerCells, playerOCells, playerXCells } from "./TableCells";
 
-const headerCells = [
-    {
-        id: "h_empty",
-        label: "",
-    },
-    {
-        id: "privateKey",
-        label: "Private Key",
-        displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
-    },
-    {
-        id: "publicKey",
-        label: "Public Key",
-        displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
-    },
-    {
-        id: "address",
-        label: "Address",
-        displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
-    },
-    {
-        id: "signature",
-        label: "Signature",
-        displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
-    },
-];
-
-const playerXCells = (xWallet) => [
-    {
-        id: "playerX",
-        label: "Player X",
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "x_empty0",
-        label: ellipsesSplit(xWallet.pKey, 6),
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "x_empty1",
-        label: ellipsesSplit(xWallet.pubK, 6),
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "x_empty2",
-        label: ellipsesSplit(xWallet.address, 6),
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "x_empty3",
-        label: "Sign",
-        displayCallback: ({ label, disabled, dispatch }) => (
-            <Button variant="outlined" size="small" disabled={disabled} onClick={dispatch}>
-                {label}
-            </Button>
-        ),
-    },
-];
-
-const playerOCells = (oWallet) => [
-    {
-        id: "playerO",
-        label: "Player O",
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "o_empty1",
-        label: ellipsesSplit(oWallet.pKey, 6),
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "o_empty2",
-        label: ellipsesSplit(oWallet.pubK, 6),
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "o_empty3",
-        label: ellipsesSplit(oWallet.address, 6),
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "o_empty4",
-        label: "Sign",
-        displayCallback: ({ label, disabled, dispatch }) => (
-            <Button variant="outlined" size="small" disabled={disabled} onClick={dispatch}>
-                {label}
-            </Button>
-        ),
-    },
-];
-
-const groupAddressCells = (groupWallet) => [
-    {
-        id: "groupAddress",
-        label: "Group Address",
-        displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>,
-    },
-    {
-        id: "g_empty0",
-        label: groupWallet.address ? "N/A" : "",
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "g_empty1",
-        label: ellipsesSplit(groupWallet.pubK, 6),
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "g_empty2",
-        label: ellipsesSplit(groupWallet.address, 6),
-        displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
-    },
-    {
-        id: "g_empty3",
-        label: "Send",
-        displayCallback: ({ label, disabled, dispatch }) => (
-            <Button variant="outlined" size="small" disabled={disabled} onClick={dispatch}>
-                {label}
-            </Button>
-        ),
-    },
-];
-
-const HeaderCell = ({ id, label }) => (
-    <Box display="flex" flexDirection="row" alignItems="center" gap={0.5}>
-        <Typography variant="span">{label}</Typography>
-        <HelpTooltip content={content[id]} />
-    </Box>
-);
-
-export function WalletComposition() {
+export const WalletComposition = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
 
@@ -166,8 +34,12 @@ export function WalletComposition() {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={{ border: 0 }} key="table-header-main" padding="none"
-                                   colSpan={headerCells.length}>
+                        <TableCell
+                            sx={{ border: 0 }}
+                            key="table-header-main"
+                            padding="none"
+                            colSpan={headerCells.length}
+                        >
                             <Paper elevation={2} sx={{ boxShadow: "unset" }} square>
                                 <Box
                                     display="flex"
@@ -191,6 +63,7 @@ export function WalletComposition() {
                 </TableHead>
 
                 <TableBody>
+
                     <TableRow>
                         {headerCells.map((headerCell) => {
                             return (
@@ -292,6 +165,7 @@ export function WalletComposition() {
                             );
                         })}
                     </TableRow>
+
                 </TableBody>
             </Table>
         </Box>

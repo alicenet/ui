@@ -4,64 +4,9 @@ import { TicTacToeBoard } from "components";
 import { useDispatch, useSelector } from "react-redux";
 import { fundWallet, genBaseWalletByNumber } from "redux/actions";
 import { globalStatus } from "redux/reducers";
+import { instructions } from "./Instructions";
 
-const instructions = [
-    {
-        label: "Generate wallet 1",
-        left: true,
-        displayCallback: ({ id, label }) => (
-            <React.Fragment key={`grid-item-instruction-${id}`}>
-                <InstructionItem id={id} label={label} />
-            </React.Fragment>
-        ),
-    },
-    {
-        label: "Generate wallet 2",
-        left: true,
-        displayCallback: ({ id, label }) => (
-            <React.Fragment key={`grid-item-instruction-${id}`}>
-                <InstructionItem id={id} label={label} />
-            </React.Fragment>
-        ),
-    },
-    {
-        label: "Generate multisig wallet",
-        left: true,
-        displayCallback: ({ id, label }) => (
-            <React.Fragment key={`grid-item-instruction-${id}`}>
-                <InstructionItem id={id} label={label} />
-            </React.Fragment>
-        ),
-    },
-    {
-        label: "Fund wallet",
-        left: false,
-        displayCallback: ({ id, label }) => (
-            <React.Fragment key={`grid-item-instruction-${id}`}>
-                <InstructionItem id={id} label={label} />
-            </React.Fragment>
-        ),
-    },
-    {
-        label: "Play",
-        left: false,
-        displayCallback: ({ id, label }) => (
-            <React.Fragment key={`grid-item-instruction-${id}`}>
-                <InstructionItem id={id} label={label} />
-            </React.Fragment>
-        ),
-    },
-];
-
-const InstructionItem = ({ id, label }) => (
-    <Grid item paddingY={0.25}>
-        <Typography variant="span" fontFamily="Roboto">
-            <strong>{id}.</strong> {label}
-        </Typography>
-    </Grid>
-);
-
-export function PlayTicTacToe() {
+export const PlayTicTacToe = () => {
     const { baseWallet1, baseWallet2, multiSigWallet, status, multiSigBalance } = useSelector((state) => ({
         baseWallet1: state.app.wallets.baseWallet1,
         baseWallet2: state.app.wallets.baseWallet2,
