@@ -28,11 +28,11 @@ const wins = [
  * Order of Action:
  *
  * 1. createGameStateTransaction - Creates the baseline transaction for signing
- * ( After a move this must happen. Prevent the player from moving until signed & sent, you can use signed/sent statuses loaded in below at sueSelector)
+ * (After a move this must happen. Prevent the player from moving until signed & sent, you can use signed/sent statuses loaded in below at sueSelector)
  *
- * 2. xSignsGameStateTransaction - X Must sign the txData ( Use X Sign Button )
- * 3. oSignsGameStateTransaction - O Must sign the txData ( Use O Sign Button )
- * 4. sendGameStateTransactions - Actually send the transaction ( Use X Sends button -- Can be renamed to send )
+ * 2. xSignsGameStateTransaction - X Must sign the txData (Use X Sign Button)
+ * 3. oSignsGameStateTransaction - O Must sign the txData (Use O Sign Button)
+ * 4. sendGameStateTransactions - Actually send the transaction (Use Send button)
  *
  * OTHER NOTES:
  *
@@ -51,7 +51,6 @@ const wins = [
  * on this testnet: http://34.28.51.52:4348/v1/ which is hardcoded in the provider. If you wish to switch it off and fund a wallet, you may but it will take awhile.
  *
  * If I missed something just ping me. I put it in code so it wouldn't get lost on discord
- *
  */
 
 export function TicTacToeBoard() {
@@ -76,8 +75,6 @@ export function TicTacToeBoard() {
         setNoWinner(true);
     };
 
-    // Sync redux game state -- Adrian, this will balance your existing local logic to the redux state so you don't need to do much ( hopefully )
-    // I did test this in redux stepping so should be good.
     useEffect(() => {
         dispatch(
             setGameState({

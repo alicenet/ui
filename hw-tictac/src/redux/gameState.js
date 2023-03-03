@@ -36,13 +36,12 @@ export const initialTttGameState = {
 /** Serialization */
 ////////////////////
 
-export function serializeTttGameState(unserializedTttGameState) {
-    const uState = unserializedTttGameState;
+export function serializeTttGameState(unserializedState) {
     let serializedState = "";
-    serializedState += uState.turn === PlayerType.X ? 1 : 2;
+    serializedState += unserializedState.turn === PlayerType.X ? 1 : 2;
     serializedState +=
-        uState.winner === WinState.TIE ? 3 : uState.winner === WinState.O ? 2 : uState.winner === WinState.X ? 1 : 0;
-    let serializedBoard = serializeBoardState(uState.board);
+        unserializedState.winner === WinState.TIE ? 3 : unserializedState.winner === WinState.O ? 2 : unserializedState.winner === WinState.X ? 1 : 0;
+    let serializedBoard = serializeBoardState(unserializedState.board);
     serializedState += serializedBoard;
     return serializedState;
 }
@@ -59,8 +58,8 @@ export function serializeBoardState(boardState) {
     return serializedBoard;
 }
 
-export function deserializeTttGameState(serializedTttGameState) {
-    let sState = serializedTttGameState;
+export function deserializeTttGameState(serializedState) {
+    let sState = serializedState;
     let boardState = sState.slice(2, sState.length);
     let unserializedState = {
         turn: String(sState[0]) === "1" ? PlayerType.X : PlayerType.O,
@@ -111,20 +110,3 @@ let serialized = serializeTttGameState(gstate);
 console.log({ serialized });
 let unsrl = deserializeTttGameState(serialized);
 console.log({ unsrl });
-
-/* Game State Modifiers used to modify gameState -- these DO NOT affect redux state */
-
-/**
- *
- * @param {String} playerType - playerType from const PlayerType
- * @param {Array[Array]} location - XY location as point on two-dimensional array
- */
-export function placeMark(gameState, playerType, location) {
-    if (playerType !== PlayerType.X && playerType !== PlayerType.O) {
-        console.warn("Invalid parameters for placeMark regarding game state update");
-        return gameState;
-    }
-    let newGameState = { ...gameState };
-    newGameState.board[location[0]][location[1]] = PlayerTypeToNum[playerType];
-    return newGameState;
-}
