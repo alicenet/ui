@@ -131,5 +131,3 @@ const HeaderCell = ({ id, label }) =>
         <Typography variant="span">{label}</Typography>
         <HelpTooltip content={content[id]} />
     </Box>
-
-

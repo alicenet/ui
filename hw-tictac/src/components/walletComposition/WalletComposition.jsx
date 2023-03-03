@@ -31,7 +31,9 @@ export const WalletComposition = () => {
 
     return (
         <Box sx={{ overflowX: "auto" }}>
+
             <Table>
+
                 <TableHead>
                     <TableRow>
                         <TableCell
@@ -129,7 +131,7 @@ export const WalletComposition = () => {
                                         playerOCell.displayCallback({
                                             id: playerOCell.id,
                                             label: playerOCell.label,
-                                            disabled: !(groupWallet.address && !oSigned),
+                                            disabled: !(groupWallet.address && !oSigned && xSigned),
                                             dispatch: () => dispatch(oSignsGameStateTransaction()),
                                         })
                                     ) : (
@@ -167,7 +169,9 @@ export const WalletComposition = () => {
                     </TableRow>
 
                 </TableBody>
+
             </Table>
+
         </Box>
     );
 }
