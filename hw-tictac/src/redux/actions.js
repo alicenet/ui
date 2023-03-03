@@ -59,7 +59,6 @@ export const fundWallet = createAsyncThunk("app/fundWallet", async ({ address, c
         address: address,
         curve: curve,
     });
-    return;
 });
 
 export const genBaseWalletByNumber = createAsyncThunk("app/genBaseWalletByNumber", async (walletNumber, thunkAPI) => {
@@ -136,10 +135,9 @@ export const loadGameStateFromIndex = createAsyncThunk("app/loadGameStateFromInd
  * For the sake of all that is holy, DO NOT call these more than needed -- it will morph the datastore state until it is FUBAR
  * I repeat, do not call the below functions out of order, use the UI to restrict and disable function calls from the buttons.
  *
- * 0. Make sure gamestate is accurate
- * board updates should happen in redux store before calling these with updateGameState()*
+ * 0. Make sure game state is accurate, board updates should happen in redux store before calling these with updateGameState()
  *
- * *This happens already in the useEffect sync I created -- You should be good to go here
+ * This happens already in the useEffect sync I created -- You should be good to go here
  *
  * 1. createGameStateTransaction - Creates the baseline transaction for signing
  * 2. xSignsGameStateTransaction - X Must sign the txData
@@ -158,7 +156,7 @@ export const createGameStateTransaction = createAsyncThunk("app/createGameStateT
         const serializedTttState = serializeTttGameState(currentGameState); // Serialize for DataStore
         const multiSigAddress = state.wallets[walletKeyByNumber[3]].address;
 
-        // Reset TxState && Create Base Data Store witrh Serialized State
+        // Reset TxState && Create Base Data Store with Serialized State
         await aliceNetAdapter.wallet.Transaction._reset();
         await aliceNetAdapter.wallet.Transaction.createDataStore(
             multiSigAddress,
@@ -170,7 +168,6 @@ export const createGameStateTransaction = createAsyncThunk("app/createGameStateT
         await aliceNetAdapter.wallet.Transaction.createTxFee(multiSigAddress, 2);
         // Create the raw transaction object
         await aliceNetAdapter.wallet.Transaction.createRawTransaction();
-        return;
         // Next actions should be X sign, and O sign
     } catch (ex) {
         console.log(ex);
@@ -205,7 +202,6 @@ export const xSignsGameStateTransaction = createAsyncThunk("app/xSignsGameStateT
         let sigMsgs = await aliceNetAdapter.wallet.Transaction.Tx.getSignatures();
         let [sigsXVin, sigsXVout] = await signMove(1, sigMsgs, multiSigPubKey);
         lastSignedXSigs = [sigsXVin, sigsXVout];
-        return;
     } catch (ex) {
         console.error(ex);
     }
@@ -224,7 +220,6 @@ export const oSignsGameStateTransaction = createAsyncThunk("app/oSignsGameStateT
             [lastSignedXSigs[0], lastSignedOSigs[0]],
             [lastSignedXSigs[1], lastSignedOSigs[1]]
         );
-        return;
     } catch (ex) {
         console.error(ex);
     }
