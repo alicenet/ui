@@ -9,12 +9,12 @@ export const headerCells = [
         label: "",
     },
     {
-        id: "privateKey",
+        id: "private_key",
         label: "Private Key",
         displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
     },
     {
-        id: "publicKey",
+        id: "public_key",
         label: "Public Key",
         displayCallback: ({ id, label }) => <HeaderCell id={id} label={label} />,
     },
@@ -32,27 +32,27 @@ export const headerCells = [
 
 export const playerXCells = (xWallet) => [
     {
-        id: "playerX",
+        id: "x_player",
         label: "Player X",
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "x_empty0",
+        id: "x_empty_0",
         label: ellipsesSplit(xWallet.pKey, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "x_empty1",
+        id: "x_empty_1",
         label: ellipsesSplit(xWallet.pubK, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "x_empty2",
+        id: "x_empty_2",
         label: ellipsesSplit(xWallet.address, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "x_empty3",
+        id: "x_empty_3",
         label: "Sign",
         displayCallback: ({ label, disabled, dispatch }) => (
             <Button variant="outlined" size="small" disabled={disabled} onClick={dispatch}>
@@ -64,27 +64,27 @@ export const playerXCells = (xWallet) => [
 
 export const playerOCells = (oWallet) => [
     {
-        id: "playerO",
+        id: "o_player",
         label: "Player O",
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "o_empty1",
+        id: "o_empty_1",
         label: ellipsesSplit(oWallet.pKey, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "o_empty2",
+        id: "o_empty_2",
         label: ellipsesSplit(oWallet.pubK, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "o_empty3",
+        id: "o_empty_3",
         label: ellipsesSplit(oWallet.address, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "o_empty4",
+        id: "o_empty_4",
         label: "Sign",
         displayCallback: ({ label, disabled, dispatch }) => (
             <Button variant="outlined" size="small" disabled={disabled} onClick={dispatch}>
@@ -96,27 +96,27 @@ export const playerOCells = (oWallet) => [
 
 export const groupAddressCells = (groupWallet) => [
     {
-        id: "groupAddress",
+        id: "group_address",
         label: "Group Address",
         displayCallback: ({ label }) => <Typography variant="span"> {label} </Typography>,
     },
     {
-        id: "g_empty0",
+        id: "g_empty_0",
         label: groupWallet.address ? "N/A" : "",
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "g_empty1",
+        id: "g_empty_1",
         label: ellipsesSplit(groupWallet.pubK, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "g_empty2",
+        id: "g_empty_2",
         label: ellipsesSplit(groupWallet.address, 6),
         displayCallback: ({ label }) => <Typography variant="span">{label}</Typography>,
     },
     {
-        id: "g_empty3",
+        id: "g_empty_3",
         label: "Send",
         displayCallback: ({ label, disabled, dispatch }) => (
             <Button variant="outlined" size="small" disabled={disabled} onClick={dispatch}>
