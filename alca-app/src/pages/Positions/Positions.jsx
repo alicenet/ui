@@ -248,7 +248,7 @@ export function Positions() {
                             onClick={() => {
                                 handleShowUnstakeModal(params.row);
                             }}
-                            disabled={!canUnstake()}
+                            disabled={!canUnstake(params)}
                         >
                             Unstake
                         </Button>
