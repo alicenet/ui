@@ -229,7 +229,11 @@ export function Positions() {
                             onClick={() => {
                                 handleClaim(params.row.id);
                             }}
-                            disabled={transacting || !hasRewards}
+                            disabled={
+                                transacting ||
+                                !hasRewards ||
+                                Number(currentBlock) <= Number(params.row.claimRewardsAfter)
+                            }
                         >
                             Claim Rewards
                         </Button>
@@ -241,7 +245,7 @@ export function Positions() {
                             onClick={() => {
                                 handleShowUnstakeModal(params.row);
                             }}
-                            disabled={transacting}
+                            disabled={transacting || Number(currentBlock) <= Number(params.row.unstakePositionAfter)}
                         >
                             Unstake
                         </Button>
