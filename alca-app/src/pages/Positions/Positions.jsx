@@ -175,6 +175,15 @@ export function Positions() {
         setCurrentTab(newValue);
     };
 
+    function canClaimRewards(params) {
+        const hasRewards = parseFloat(params.row.alcaRewards) > 0 || parseFloat(params.row.ethRewards) > 0;
+        return !transacting && hasRewards && Number(currentBlock) > Number(params.row.claimRewardsAfter);
+    }
+
+    function canUnstake(params) {
+        return !transacting && Number(currentBlock) > Number(params.row.unstakePositionAfter);
+    }
+
     const stakedPositionsColumns = [
         {
             field: "amount",
@@ -217,8 +226,6 @@ export function Positions() {
             showColumnRightBorder: false,
             headerClassName: "headerClass",
             renderCell: (params) => {
-                const hasRewards = parseFloat(params.row.alcaRewards) > 0 || parseFloat(params.row.ethRewards) > 0;
-
                 return (
                     <Box display="flex">
                         <Button
@@ -229,11 +236,7 @@ export function Positions() {
                             onClick={() => {
                                 handleClaim(params.row.id);
                             }}
-                            disabled={
-                                transacting ||
-                                !hasRewards ||
-                                Number(currentBlock) <= Number(params.row.claimRewardsAfter)
-                            }
+                            disabled={!canClaimRewards(params)}
                         >
                             Claim Rewards
                         </Button>
@@ -245,7 +248,7 @@ export function Positions() {
                             onClick={() => {
                                 handleShowUnstakeModal(params.row);
                             }}
-                            disabled={transacting || Number(currentBlock) <= Number(params.row.unstakePositionAfter)}
+                            disabled={!canUnstake()}
                         >
                             Unstake
                         </Button>
