@@ -61,17 +61,17 @@
     "scripts": {
         "prepare": "husky install",
         "postinstall": "semantic-ui-css-patch",
-        "start-migrate": "yarn --cwd alca-migrate start",
-        "build-migrate": "yarn --cwd alca-migrate netlify-build",
-        "start-stake": "yarn --cwd alca-staking start",
-        "build-stake": "yarn --cwd alca-staking netlify-build",
-        "start-lock": "yarn --cwd alca-lockup start",
-        "build-lock": "yarn --cwd alca-lockup netlify-build",
+        "start-stake": "npx ethpst; cd alca-staking; yarn start",
+        "build-stake": "npx ethpst; cd alca-staking; yarn build",
+        "build-stake-netlify": "yarn; npx ethpst; yarn --cwd alca-staking build",
         "start-boiler": "yarn --cwd ui-boilerplate start",
         "build-boiler": "yarn --cwd ui-boilerplate build",
         "start-alca": "npx ethpst; cd alca-app; yarn start",
         "build-alca": "npx ethpst; cd alca-app; yarn build",
-        "build-alca-netlify": "yarn; npx ethpst; yarn --cwd alca-app build"
+        "build-alca-netlify": "yarn; npx ethpst; yarn --cwd alca-app build",
+        "start-tictac": "cd hw-tictac; yarn start",
+        "build-tictac": "cd hw-tictac; yarn build",
+        "build-tictac-netlify": "yarn; yarn --cwd alca-app build"
     },
     "description": "Common alicenet/ui dependencies",
     "repository": {
