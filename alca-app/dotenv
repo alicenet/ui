@@ -1,5 +1,5 @@
 ## ENVIRONMENT TYPE
-REACT_APP__ENVIRONMENT="STAGING"
+REACT_APP__ALCA_ENVIRONMENT="LOCAL"
 REACT_APP__ALCA_LIVE="FALSE"
 ## Ethereum Endpoints for JSON RPC requests if desired ( Allows Pre Wallet Connect Reads )
 REACT_APP__ETHEREUM_ENDPOINT_LOCAL="https://localhost:8545"
