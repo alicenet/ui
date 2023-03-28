@@ -109,7 +109,7 @@ export function NavigationBar() {
                     }}
                 >
                     <Box mr={3}>
-                        <AliceNetLogo />
+                        <AliceNetLogo style={{ height: "65px" }} />
                     </Box>
 
                     <Link
