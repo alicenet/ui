@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
-import { Button, Container, LinearProgress, Snackbar, Tab, Typography } from "@mui/material";
+import { Button, Chip, Container, LinearProgress, Snackbar, Tab, Typography } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Page, SubNavigation } from "components";
 import { BalanceContext, commonEthRequests } from "alice-ui-common";
@@ -184,6 +184,11 @@ export function Positions() {
         return !transacting && Number(currentBlock) > Number(params.row.unstakePositionAfter);
     }
 
+    function getBlocksTilUnstake(params) {
+        let remaining = params.row.unstakePositionAfter - currentBlock;
+        return remaining <= 0 ? "0" : remaining.toString();
+    }
+
     const stakedPositionsColumns = [
         {
             field: "amount",
@@ -250,8 +255,15 @@ export function Positions() {
                             }}
                             disabled={!canUnstake(params)}
                         >
-                            Unstake
+                            {canUnstake(params) ? "Unstake" : "Locked"}
                         </Button>
+                        {!canUnstake(params) && (
+                            <Chip
+                                color={"warning"}
+                                style={{ fontWeight: 900 }}
+                                label={<>Locked For {getBlocksTilUnstake(params)} Blocks</>}
+                            />
+                        )}
                     </Box>
                 );
             },
