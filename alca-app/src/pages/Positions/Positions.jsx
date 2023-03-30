@@ -5,7 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
 import { Button, Container, LinearProgress, Snackbar, Tab, Typography } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { NavigationBar, SubNavigation } from "components";
+import { Page, SubNavigation } from "components";
 import { BalanceContext, commonEthRequests } from "alice-ui-common";
 import { formatNumberToLocale } from "utils/number";
 import { symbols } from "config";
@@ -486,15 +486,10 @@ export function Positions() {
     }
 
     return (
-        <>
-            <ConfirmUnstakeModal
-                unstakePosition={unstakePosition}
-                onClose={() => setUnstakePosition(null)}
-                handleUnstake={handleUnstake}
-            />
-            <NavigationBar />
+        <Page>
 
             <Container maxWidth="lg">
+
                 <SubNavigation />
 
                 <TabContext value={currentTab}>
@@ -579,6 +574,13 @@ export function Positions() {
                     <SnackbarMessage status={snackbarMessage.status} message={snackbarMessage.message} />
                 </Box>
             </Snackbar>
-        </>
+
+            <ConfirmUnstakeModal
+                unstakePosition={unstakePosition}
+                onClose={() => setUnstakePosition(null)}
+                handleUnstake={handleUnstake}
+            />
+
+        </Page>
     );
 }

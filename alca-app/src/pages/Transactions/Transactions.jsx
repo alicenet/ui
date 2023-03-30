@@ -28,7 +28,7 @@ import {
     Fade,
 } from "@mui/material";
 import { ChevronRight, InfoOutlined, LooksOne, LooksTwo } from "@mui/icons-material";
-import { ConnectWeb3Button, NavigationBar, SubNavigation } from "components";
+import { ConnectWeb3Button, Page, SubNavigation } from "components";
 import ethAdapter from "eth-adapter";
 import { formatNumberToLocale } from "utils/number";
 import { checkValidAmountCharacters } from "utils/string";
@@ -807,8 +807,7 @@ export function Transactions() {
     };
 
     return (
-        <>
-            <NavigationBar />
+        <Page>
 
             <Container maxWidth="lg">
                 {ethAdapter.connected ? (
@@ -853,6 +852,7 @@ export function Transactions() {
             >
                 <SnackbarMessage status={snackbarMessage.status} message={snackbarMessage.message} />
             </Snackbar>
-        </>
+
+        </Page>
     );
 }

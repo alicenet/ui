@@ -6,7 +6,7 @@ import { Debug } from "components";
 
 import { ThemeProvider } from "@mui/system";
 import { CssBaseline, Box } from "@mui/material";
-import { theme } from "alice-mui-provider";
+import { theme } from "theme/MUITheme";
 import { BalanceContextProvider } from "alice-ui-common";
 
 import ethAdapter from "eth-adapter";

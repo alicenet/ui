@@ -1,23 +1,9 @@
-import { createTheme } from "@mui/material";
-import { theme as aliceTheme } from "alice-mui-provider";
+import {createTheme} from "@mui/material";
+import {theme as aliceTheme} from "alice-mui-provider";
 import bgAlicenetLogo from "assets/bg-alicenet-logo.svg";
-
-const CustomPaletteColors = {
-    ...aliceTheme.palette,
-    custom: {
-        startGradient: "#FFABD4",
-        endGradient: "#CE6D99",
-        elevation1: "rgba(165, 198, 255, 0.05)",
-        elevation3: "rgba(165, 198, 255, 0.08)",
-        elevation4: "rgba(165, 198, 255, 0.09)",
-        elevation12: "rgba(165, 198, 255, 0.14)",
-        elevation24: "rgba(165, 198, 255, 0.16)",
-    },
-};
 
 const CustomTypography = {
     ...aliceTheme.typography,
-    // TODO Move this to mui-provider
     subtitle1: {
         fontFamily: "Inter",
     },
@@ -36,7 +22,7 @@ const CustomTypography = {
 
 export const theme = createTheme({
     ...aliceTheme,
-    palette: CustomPaletteColors,
+    palette: aliceTheme.palette,
     typography: CustomTypography,
     components: {
         MuiCssBaseline: {
