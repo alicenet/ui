@@ -833,7 +833,7 @@ export function Transactions() {
                     <Box sx={centerSx}>
                         <ConnectWeb3Button
                             overrideText="Connect Web3 Wallet"
-                            sx={{ width: 320, fontSize: 16, padding: 4 }}
+                            sx={{ width: 320, fontSize: 16, paddingY: 3.5 }}
                         />
                     </Box>
                 )}

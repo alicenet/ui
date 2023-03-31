@@ -102,14 +102,14 @@ export function NavigationBar() {
                 </Box>
 
                 <Box
-                    gap={4}
+                    gap={5}
                     alignItems="center"
                     flexGrow={1}
                     sx={{ display: { xs: "none", md: "flex" } }}
                 >
                     <AliceNetLogo style={{ height: "65px" }} />
 
-                    <Box display="flex" gap={3} flexDirection="row">
+                    <Box display="flex" gap={4} flexDirection="row">
                         <Link
                             href={configuration.site.url_about}
                             {...configuration.site.href_props}
