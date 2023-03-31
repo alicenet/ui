@@ -32,7 +32,7 @@ const [environment, isLive] = (() => {
 })();
 
 const site_configuration = {
-    copyriteName: "AliceNetUI", // Copyrite business name title
+    copyrightName: "AliceNetUI", // Copywriter business name title
     webView: {
         headerLinkSpacing: 2, //sx.mx applied to header links in webView
         headerHeight: 1, // sx.my applied to header links in webView

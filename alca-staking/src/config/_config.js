@@ -2,7 +2,7 @@
 import AdbIcon from "@mui/icons-material/Adb";
 
 const site_configuration = {
-    copyriteName: "Web3BoilerCOPY", // Copyrite business name title
+    copyrightName: "Web3BoilerCOPY", // Copyrite business name title
     webView: {
         headerLinkSpacing: 2, //sx.mx applied to header links in webView
         headerHeight: 1, // sx.my applied to header links in webView
