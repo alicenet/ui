@@ -11,7 +11,6 @@ export const Page = ({children}) => {
             justifyContent="space-between"
             marginX="auto"
             minHeight="100vh"
-            paddingX={2}
         >
 
             <Box>

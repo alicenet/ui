@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Toolbar, IconButton, Link, Menu, MenuItem, Container } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme } from "@emotion/react";
@@ -11,7 +11,7 @@ import { ReactComponent as AliceNetLogo } from "assets/alicenet-logo.svg";
 export function NavigationBar() {
     const theme = useTheme();
 
-    const [mobileMenuAnchor, setMobileMenuAnchor] = React.useState(null);
+    const [mobileMenuAnchor, setMobileMenuAnchor] = useState(null);
 
     // Hook into reducer updates so equalize works properly against ethAdapter
     useSelector((s) => s.ethAdapter);
@@ -102,42 +102,37 @@ export function NavigationBar() {
                 </Box>
 
                 <Box
-                    sx={{
-                        flexGrow: 1,
-                        display: { xs: "none", md: "flex" },
-                        alignItems: "center",
-                    }}
+                    gap={4}
+                    alignItems="center"
+                    flexGrow={1}
+                    sx={{ display: { xs: "none", md: "flex" } }}
                 >
-                    <Box mr={3}>
-                        <AliceNetLogo style={{ height: "65px" }} />
-                    </Box>
+                    <AliceNetLogo style={{ height: "65px" }} />
 
-                    <Link
-                        href={configuration.site.url_about}
-                        {...configuration.site.href_props}
-                        sx={{
-                            color: "text.secondary",
-                            mx: configuration.site.webView.headerLinkSpacing,
-                            my: configuration.site.webView.headerHeight,
-                            display: "block",
-                            textDecoration: 0,
-                        }}
-                    >
-                        About AliceNet
-                    </Link>
-                    <Link
-                        href={configuration.site.url_blockExplorer}
-                        {...configuration.site.href_props}
-                        sx={{
-                            color: "text.secondary",
-                            mx: configuration.site.webView.headerLinkSpacing,
-                            my: configuration.site.webView.headerHeight,
-                            display: "block",
-                            textDecoration: 0,
-                        }}
-                    >
-                        Block Explorer
-                    </Link>
+                    <Box display="flex" gap={3} flexDirection="row">
+                        <Link
+                            href={configuration.site.url_about}
+                            {...configuration.site.href_props}
+                            sx={{
+                                color: "text.secondary",
+                                textDecoration: 0,
+                                fontSize: "12px"
+                            }}
+                        >
+                            About AliceNet
+                        </Link>
+                        <Link
+                            href={configuration.site.url_blockExplorer}
+                            {...configuration.site.href_props}
+                            sx={{
+                                color: "text.secondary",
+                                textDecoration: 0,
+                                fontSize: "12px"
+                            }}
+                        >
+                            Block Explorer
+                        </Link>
+                    </Box>
                 </Box>
 
                 <Box sx={{ display: "flex" }}>
