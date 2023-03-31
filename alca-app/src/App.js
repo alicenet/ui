@@ -35,7 +35,7 @@ export default function App() {
     );
 
     const HoldOff = () => (
-        <Box sx={{ display: "flex", width: "100%", height: "100%", justifyContent: "center", mt: 4 }}>
+        <Box display="flex" width="100%" height="100%" justifyContent="center" mt={4}>
             <a href="https://alice.net" rel="no-opener no-referrer">
                 https://alice.net
             </a>
@@ -43,9 +43,8 @@ export default function App() {
     );
 
     // Production, require isLive
-    if (configuration.site.environment.isProduction) {
-        return configuration.site.isLive ? <AppEntry /> : <HoldOff />;
-    } else {
-        return <AppEntry />;
+    if (configuration.site.environment.isProduction && !configuration.site.isLive) {
+        return <HoldOff/>;
     }
+    return <AppEntry/>;
 }
