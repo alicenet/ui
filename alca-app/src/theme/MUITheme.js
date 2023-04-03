@@ -38,7 +38,6 @@ export const theme = createTheme({
                 }
             `,
         },
-        // TODO Move this to mui-provider
         MuiDataGrid: {
             styleOverrides: {
                 root: {
@@ -61,13 +60,6 @@ export const theme = createTheme({
                 },
                 withBorder: {
                     border: "none",
-                },
-            },
-        },
-        MuiTableCell: {
-            styleOverrides: {
-                root: {
-                    border: 0,
                 },
             },
         },

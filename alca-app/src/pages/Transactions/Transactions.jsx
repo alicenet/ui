@@ -26,6 +26,7 @@ import {
     Snackbar,
     CircularProgress,
     Fade,
+    tableCellClasses,
 } from "@mui/material";
 import { ChevronRight, InfoOutlined, LooksOne, LooksTwo } from "@mui/icons-material";
 import { ConnectWeb3Button, Page, SubNavigation } from "components";
@@ -405,8 +406,16 @@ export function Transactions() {
                         Operation {operationNumber}: {operationName}
                     </Typography>
 
-                    <Table sx={{ minWidth: 650 }}>
-                        <TableHead sx={{ "& .MuiTableCell-root": { fontFamily: theme.typography.fontFamily } }}>
+                    <Table
+                        sx={{
+                            minWidth: 650,
+                            [`& .${tableCellClasses.root}`]: {
+                                border: 0,
+                                fontFamily: theme.typography.fontFamily,
+                            },
+                        }}
+                    >
+                        <TableHead>
                             <TableRow>
                                 <TableCell>Type</TableCell>
                                 <TableCell>Transaction</TableCell>
@@ -808,7 +817,6 @@ export function Transactions() {
 
     return (
         <Page>
-
             <Container maxWidth="lg">
                 {ethAdapter.connected ? (
                     <>
@@ -852,7 +860,6 @@ export function Transactions() {
             >
                 <SnackbarMessage status={snackbarMessage.status} message={snackbarMessage.message} />
             </Snackbar>
-
         </Page>
     );
 }
