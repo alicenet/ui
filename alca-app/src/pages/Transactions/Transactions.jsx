@@ -26,9 +26,10 @@ import {
     Snackbar,
     CircularProgress,
     Fade,
+    tableCellClasses,
 } from "@mui/material";
 import { ChevronRight, InfoOutlined, LooksOne, LooksTwo } from "@mui/icons-material";
-import { ConnectWeb3Button, NavigationBar, SubNavigation } from "components";
+import { ConnectWeb3Button, Page, SubNavigation } from "components";
 import ethAdapter from "eth-adapter";
 import { formatNumberToLocale } from "utils/number";
 import { checkValidAmountCharacters } from "utils/string";
@@ -405,8 +406,16 @@ export function Transactions() {
                         Operation {operationNumber}: {operationName}
                     </Typography>
 
-                    <Table sx={{ minWidth: 650 }}>
-                        <TableHead sx={{ "& .MuiTableCell-root": { fontFamily: theme.typography.fontFamily } }}>
+                    <Table
+                        sx={{
+                            minWidth: 650,
+                            [`& .${tableCellClasses.root}`]: {
+                                border: 0,
+                                fontFamily: theme.typography.fontFamily,
+                            },
+                        }}
+                    >
+                        <TableHead>
                             <TableRow>
                                 <TableCell>Type</TableCell>
                                 <TableCell>Transaction</TableCell>
@@ -493,7 +502,7 @@ export function Transactions() {
                                 operationName: "Stake",
                                 operationExplanation: (
                                     <>
-                                        Stake {stakeAlcaAmount} {symbols.ALCA} in new position
+                                        Stake {formatNumberToLocale(stakeAlcaAmount)} {symbols.ALCA} in new position
                                     </>
                                 ),
                                 balanceChange: {
@@ -807,9 +816,7 @@ export function Transactions() {
     };
 
     return (
-        <>
-            <NavigationBar />
-
+        <Page>
             <Container maxWidth="lg">
                 {ethAdapter.connected ? (
                     <>
@@ -834,7 +841,7 @@ export function Transactions() {
                     <Box sx={centerSx}>
                         <ConnectWeb3Button
                             overrideText="Connect Web3 Wallet"
-                            sx={{ height: "6rem", width: 320, fontSize: 16 }}
+                            sx={{ width: 320, fontSize: 16, paddingY: 3.5 }}
                         />
                     </Box>
                 )}
@@ -853,6 +860,6 @@ export function Transactions() {
             >
                 <SnackbarMessage status={snackbarMessage.status} message={snackbarMessage.message} />
             </Snackbar>
-        </>
+        </Page>
     );
 }
