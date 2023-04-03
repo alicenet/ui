@@ -502,7 +502,7 @@ export function Transactions() {
                                 operationName: "Stake",
                                 operationExplanation: (
                                     <>
-                                        Stake {stakeAlcaAmount} {symbols.ALCA} in new position
+                                        Stake {formatNumberToLocale(stakeAlcaAmount)} {symbols.ALCA} in new position
                                     </>
                                 ),
                                 balanceChange: {
