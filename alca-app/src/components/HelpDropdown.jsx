@@ -16,6 +16,7 @@ export function HelpDropdown({ menuButtonSx }) {
 
     return (
         <Box>
+
             <Button
                 disableRipple
                 sx={{ ...menuButtonSx, mr: 2, display: "flex", justifyContent: "space-between" }}
@@ -41,6 +42,7 @@ export function HelpDropdown({ menuButtonSx }) {
                 }}
             >
                 <MenuItem
+                    sx={{ fontSize: "12px" }}
                     onClick={() => {
                         dispatch(setLanderModalOpenState(true));
                     }}
@@ -48,6 +50,7 @@ export function HelpDropdown({ menuButtonSx }) {
                     Help Modal
                 </MenuItem>
                 <MenuItem
+                    sx={{ fontSize: "12px" }}
                     onClick={() => {
                         window.open(configuration.site.url_documentation, "_blank");
                     }}
@@ -55,13 +58,16 @@ export function HelpDropdown({ menuButtonSx }) {
                     Documentation
                 </MenuItem>
                 <MenuItem
+                    sx={{ fontSize: "12px" }}
                     onClick={() => {
                         window.open(configuration.site.url_termsOfService, "_blank");
                     }}
                 >
                     Terms Of Service
                 </MenuItem>
+
             </Menu>
+
         </Box>
     );
 }

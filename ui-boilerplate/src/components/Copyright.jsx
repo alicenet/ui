@@ -7,7 +7,7 @@ export function Copyright() {
         <Typography variant="body2" color="text.secondary" align="center">
             {"Copyright © "}
             <Link color="inherit" href="https://mui.com/">
-                {configuration.site.copyriteName}
+                {configuration.site.copyrightName}
             </Link>{" "}
             {new Date().getFullYear()}
             {"."}

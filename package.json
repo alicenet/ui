@@ -19,7 +19,6 @@
         "@types/react-dom": "^18.0.8",
         "@types/react": "^18.0.25",
         "alice-mui-provider": "git+https://github.com/alicenet/alice-mui-provider.git",
-        "alice-semantic-css": "git+https://github.com/alicenet/alice-semantic-css.git",
         "alice-ui-common": "https://github.com/alicenet/ui-common",
         "autoprefixer": "10.4.2",
         "better-docs": "2.7.1",

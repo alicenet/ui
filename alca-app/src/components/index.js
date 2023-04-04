@@ -5,6 +5,7 @@ export * from "./CountBubble";
 export * from "./Debug";
 export * from "./HelpDropdown";
 export * from "./NavigationBar";
+export * from "./Page";
 export * from "./SnackbarMessage";
 export * from "./SubNavigation";
 export * from "./Web3NetworkMenu";
