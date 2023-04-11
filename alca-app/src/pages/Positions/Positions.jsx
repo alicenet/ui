@@ -505,7 +505,9 @@ export function Positions() {
                 <SubNavigation />
 
                 <TabContext value={currentTab}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }} pb={0.5}>
+
+                    <Box borderBottom={1} borderColor="divider" pb={0.5}>
+
                         <TabList
                             onChange={handleTabChange}
                             textColor={theme.palette.background.default}
@@ -514,9 +516,13 @@ export function Positions() {
                             <Tab label={<StakedPositionLabel />} value="1" sx={stakingTabClasses} />
                             {hasLockedPosition && <Tab label="Locked Position" value="2" sx={positionTabClasses} />}
                         </TabList>
+
                     </Box>
+
                     <TabPanel value="1" sx={{ padding: 0 }}>
+
                         <Box sx={boxStyles}>
+
                             <Box mb={1} pb={1.5} borderBottom={"1px solid #555"}>
                                 <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
                                     Current ALCA Balance
@@ -541,10 +547,14 @@ export function Positions() {
                                 sx={{ fontSize: 14 }}
                             />
                         </Box>
+
                     </TabPanel>
+
                     <TabPanel value="2" sx={{ padding: 0 }}>
+
                         <Box sx={boxStyles}>
-                            <Box sx={{ marginBottom: 1, paddingBottom: 1.5, borderBottom: "1px solid #555" }}>
+
+                            <Box mb={1} pb={1.5} borderBottom={"1px solid #555"}>
                                 <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
                                     Current ALCA Balance
                                 </Typography>
@@ -568,9 +578,13 @@ export function Positions() {
                                 }}
                                 sx={{ fontSize: 14 }}
                             />
+
                         </Box>
+
                     </TabPanel>
+
                 </TabContext>
+
             </Container>
 
             <Snackbar
