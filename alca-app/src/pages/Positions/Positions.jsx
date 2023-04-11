@@ -437,7 +437,6 @@ export function Positions() {
         positionTabClasses = { ...currentClasses, ...positionTabClasses };
     }
 
-    const fadeOutTextStyle = { fontSize: "14px" };
     const boxStyles = {
         background: `linear-gradient(
             180deg,
@@ -524,7 +523,7 @@ export function Positions() {
                         <Box sx={boxStyles}>
 
                             <Box mb={1} pb={1.5} borderBottom={"1px solid #555"}>
-                                <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
+                                <Typography variant="subtitle2">
                                     Current ALCA Balance
                                 </Typography>
                                 <Typography variant="h5">{formattedAlcaBalance()} ALCA</Typography>
@@ -555,7 +554,7 @@ export function Positions() {
                         <Box sx={boxStyles}>
 
                             <Box mb={1} pb={1.5} borderBottom={"1px solid #555"}>
-                                <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
+                                <Typography variant="subtitle2">
                                     Current ALCA Balance
                                 </Typography>
                                 <Typography variant="h5">{formattedAlcaBalance()} ALCA</Typography>
