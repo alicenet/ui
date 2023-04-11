@@ -533,6 +533,7 @@ export function Positions() {
                                 rows={stakedPositionsRows}
                                 columns={stakedPositionsColumns}
                                 rowHeight={72}
+                                hideFooterPagination={stakedPositionsRows && stakedPositionsRows.length === 0}
                                 getRowClassName={(params) =>
                                     params.indexRelativeToCurrentPage % 2 === 0  ? "customRow even" : "customRow odd"
                                 }
