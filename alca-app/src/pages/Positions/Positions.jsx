@@ -2,19 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box } from "@mui/system";
-import { Button, Chip, Container, LinearProgress, Snackbar, Tab, Typography } from "@mui/material";
+import { Box, Button, Chip, Container, LinearProgress, Snackbar, Tab, Typography } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Page, SubNavigation } from "components";
 import { BalanceContext, commonEthRequests } from "alice-ui-common";
 import { formatNumberToLocale } from "utils/number";
 import { symbols } from "config";
 import ethAdapter from "eth-adapter";
-import {
-    claimLockedRewards,
-    unlockLockedPosition,
-    unlockLockedPositionEarly,
-} from "pages/Transactions/transactionFunctions";
+import { claimLockedRewards, unlockLockedPosition, unlockLockedPositionEarly } from "pages/Transactions/transactionFunctions";
 import { ConfirmUnstakeModal, CountBubble, SnackbarMessage } from "components";
 
 export function Positions() {
@@ -311,14 +306,13 @@ export function Positions() {
                     (Number(currentBlock) * 100) / (Number(lockedPosition.blockUntilUnlock) + Number(currentBlock));
 
                 return (
-                    <Box sx={{ width: "100%" }}>
+                    <Box width="100%">
                         <LinearProgress
                             variant="determinate"
                             color="secondary"
                             value={lockedPosition.blockUntilUnlock > 0 ? progress : 100}
                         />
-
-                        <Box sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily, marginTop: 0.7 }}>
+                        <Box mt={0.7} sx={{ fontSize: 10, fontFamily: theme.typography.fontFamily }}>
                             {lockedPosition.blockUntilUnlock > 0
                                 ? progress.toLocaleString(false, { maximumFractionDigits: 2 })
                                 : 100}
@@ -370,7 +364,7 @@ export function Positions() {
                         variant="contained"
                         size="small"
                         color={lockedPosition.blockUntilUnlock > 0 ? "warning" : "primary"}
-                        sx={{ ...actionButtonStyles }}
+                        sx={actionButtonStyles}
                         onClick={
                             lockedPosition.blockUntilUnlock > 0
                                 ? () => unlockLockedPositionEarly({ ...txFxParams })
@@ -478,14 +472,15 @@ export function Positions() {
     };
 
     function formattedAlcaBalance() {
-        if (balances.alca.error || balances.alca.value === "n/a") return "n/a";
+        if (balances.alca.error || balances.alca.value === "n/a")
+            return "n/a";
 
         return formatNumberToLocale(balances.alca.value);
     }
 
     function StakedPositionLabel() {
         return (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box display="flex" alignItems="center">
                 <Box>Staked Positions</Box>
                 <CountBubble count={positions.staked.value.length} />
             </Box>
@@ -538,11 +533,9 @@ export function Positions() {
                                 rows={stakedPositionsRows}
                                 columns={stakedPositionsColumns}
                                 rowHeight={72}
-                                getRowClassName={(params) => {
-                                    return params.indexRelativeToCurrentPage % 2 === 0
-                                        ? "customRow even"
-                                        : "customRow odd";
-                                }}
+                                getRowClassName={(params) =>
+                                    params.indexRelativeToCurrentPage % 2 === 0  ? "customRow even" : "customRow odd"
+                                }
                                 sx={{ fontSize: 14 }}
                             />
                         </Box>
@@ -553,7 +546,7 @@ export function Positions() {
 
                         <Box sx={boxStyles}>
 
-                            <Box mb={1} pb={1.5} borderBottom={"1px solid #555"}>
+                            <Box mb={1} pb={1.5} borderBottom="1px solid #555">
                                 <Typography variant="subtitle2">
                                     Current ALCA Balance
                                 </Typography>
@@ -570,11 +563,9 @@ export function Positions() {
                                 columns={lockedPositionsColumns}
                                 hideFooterPagination={true}
                                 rowHeight={72}
-                                getRowClassName={(params) => {
-                                    return params.indexRelativeToCurrentPage % 2 === 0
-                                        ? "customRow even"
-                                        : "customRow odd";
-                                }}
+                                getRowClassName={(params) =>
+                                    params.indexRelativeToCurrentPage % 2 === 0  ? "customRow even" : "customRow odd"
+                                }
                                 sx={{ fontSize: 14 }}
                             />
 
