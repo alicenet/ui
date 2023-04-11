@@ -517,7 +517,7 @@ export function Positions() {
                     </Box>
                     <TabPanel value="1" sx={{ padding: 0 }}>
                         <Box sx={boxStyles}>
-                            <Box sx={{ marginBottom: 1, paddingBottom: 1.5, borderBottom: "1px solid #555" }}>
+                            <Box mb={1} pb={1.5} borderBottom={"1px solid #555"}>
                                 <Typography variant="subtitle2" sx={[fadeOutTextStyle]}>
                                     Current ALCA Balance
                                 </Typography>
