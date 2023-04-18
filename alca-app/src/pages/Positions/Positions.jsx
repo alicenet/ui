@@ -1,7 +1,16 @@
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
+<<<<<<< HEAD
 import { Box, Container, Snackbar } from "@mui/material";
 import { Page, PositionsTabs, SubNavigation } from "components";
+=======
+import { useTheme } from "@emotion/react";
+import { DataGrid } from "@mui/x-data-grid";
+import { Box } from "@mui/system";
+import { Button, Chip, Container, LinearProgress, Snackbar, Tab, Typography } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Page, SubNavigation } from "components";
+>>>>>>> main
 import { BalanceContext, commonEthRequests } from "alice-ui-common";
 import ethAdapter from "eth-adapter";
 import { ConfirmUnstakeModal, SnackbarMessage } from "components";
