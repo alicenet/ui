@@ -11,8 +11,7 @@ import {
     unlockLockedPosition,
     unlockLockedPositionEarly,
 } from "pages/Transactions/transactionFunctions";
-import { CountBubble } from "components";
-import { PositionsTabPanel } from "./PositionsTabPanel";
+import { CountBubble, PositionsTabPanel } from "components";
 
 export function PositionsTabs({
     transacting,
