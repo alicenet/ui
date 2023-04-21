@@ -11,46 +11,6 @@ export function PositionsTabPanel({ value, rows, columns, hideFooterPagination }
 
     const theme = useTheme();
 
-    const boxStyles = {
-        background: `linear-gradient(
-            180deg,
-            ${theme.palette.custom.elevation12} 0%,
-            ${theme.palette.custom.elevation12} 100%
-        ), ${theme.palette.background.default}`,
-        padding: 2,
-        borderRadius: 1,
-        "& .even": {
-            background: `linear-gradient(
-                180deg, ${theme.palette.custom.elevation3} 0%,
-                ${theme.palette.action.hover} 100%,
-                ${theme.palette.custom.elevation1} 100%
-            ), ${theme.palette.background.default}`,
-        },
-        "& .customRow": {
-            fontFamily: theme.typography.subtitle1.fontFamily,
-            borderRadius: 1,
-        },
-        "& .headerClass": {
-            fontFamily: "JetBrains Mono",
-        },
-        "& .MuiDataGrid-cell:focus-within": {
-            outline: "none",
-        },
-        "& .odd.MuiDataGrid-row:hover": {
-            background: `linear-gradient(
-                180deg, ${theme.palette.custom.elevation12} 0%,
-                ${theme.palette.custom.elevation12} 100%
-            ), ${theme.palette.background.default}`,
-        },
-        "& .even.MuiDataGrid-row:hover": {
-            background: `linear-gradient(
-                180deg, ${theme.palette.custom.elevation3} 0%,
-                ${theme.palette.action.hover} 100%,
-                ${theme.palette.custom.elevation1} 100%
-            ), ${theme.palette.background.default}`,
-        },
-    };
-
     function formattedAlcaBalance() {
         if (balances.alca.error || balances.alca.value === "n/a") return "n/a";
 
@@ -59,7 +19,32 @@ export function PositionsTabPanel({ value, rows, columns, hideFooterPagination }
 
     return (
         <TabPanel value={value} sx={{ padding: 0 }}>
-            <Box sx={boxStyles}>
+            <Box
+                padding={2}
+                borderRadius={1}
+                sx={{
+                    background: `linear-gradient(180deg, ${theme.palette.custom.elevation12} 0%, ${theme.palette.custom.elevation12} 100%), ${theme.palette.background.default}`,
+                    "& .even": {
+                        background: `linear-gradient(180deg, ${theme.palette.custom.elevation3} 0%, ${theme.palette.action.hover} 100%, ${theme.palette.custom.elevation1} 100%), ${theme.palette.background.default}`,
+                    },
+                    "& .customRow": {
+                        fontFamily: theme.typography.subtitle1.fontFamily,
+                        borderRadius: 1,
+                    },
+                    "& .headerClass": {
+                        fontFamily: "JetBrains Mono",
+                    },
+                    "& .MuiDataGrid-cell:focus-within": {
+                        outline: "none",
+                    },
+                    "& .odd.MuiDataGrid-row:hover": {
+                        background: `linear-gradient(180deg, ${theme.palette.custom.elevation12} 0%, ${theme.palette.custom.elevation12} 100%), ${theme.palette.background.default}`,
+                    },
+                    "& .even.MuiDataGrid-row:hover": {
+                        background: `linear-gradient(180deg, ${theme.palette.custom.elevation3} 0%, ${theme.palette.action.hover} 100%, ${theme.palette.custom.elevation1} 100%), ${theme.palette.background.default}`,
+                    },
+                }}
+            >
                 <Box mb={1} pb={1.5} borderBottom="1px solid #555">
                     <Typography variant="subtitle2">Current ALCA Balance</Typography>
                     <Typography variant="h5">{formattedAlcaBalance()} ALCA</Typography>
