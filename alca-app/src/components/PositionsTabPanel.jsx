@@ -17,15 +17,20 @@ export function PositionsTabPanel({ value, rows, columns, hideFooterPagination }
         return formatNumberToLocale(balances.alca.value);
     }
 
+    const linearGradient = (colorStops, overlaying) => {
+        const colorStopParams = colorStops.reduce((previous, current) => [...previous, `${current.name} ${current.percentage}%`], []).join(', ');
+        return `linear-gradient(180deg, ${colorStopParams}), ${overlaying}`;
+    };
+
     return (
         <TabPanel value={value} sx={{ padding: 0 }}>
             <Box
                 padding={2}
                 borderRadius={1}
                 sx={{
-                    background: `linear-gradient(180deg, ${theme.palette.custom.elevation12} 0%, ${theme.palette.custom.elevation12} 100%), ${theme.palette.background.default}`,
+                    background: linearGradient([{name: theme.palette.custom.elevation12, percentage: 0}, {name: theme.palette.custom.elevation12, percentage: 100}], theme.palette.background.default),
                     "& .even": {
-                        background: `linear-gradient(180deg, ${theme.palette.custom.elevation3} 0%, ${theme.palette.action.hover} 100%, ${theme.palette.custom.elevation1} 100%), ${theme.palette.background.default}`,
+                        background: linearGradient([{name: theme.palette.custom.elevation3, percentage: 0}, {name: theme.palette.action.hover, percentage: 100}, {name: theme.palette.custom.elevation1, percentage: 100}], theme.palette.background.default)
                     },
                     "& .customRow": {
                         fontFamily: theme.typography.subtitle1.fontFamily,
@@ -38,10 +43,10 @@ export function PositionsTabPanel({ value, rows, columns, hideFooterPagination }
                         outline: "none",
                     },
                     "& .odd.MuiDataGrid-row:hover": {
-                        background: `linear-gradient(180deg, ${theme.palette.custom.elevation12} 0%, ${theme.palette.custom.elevation12} 100%), ${theme.palette.background.default}`,
+                        background: linearGradient([{name: theme.palette.custom.elevation12, percentage: 0}, {name: theme.palette.custom.elevation12, percentage: 100}], theme.palette.background.default),
                     },
                     "& .even.MuiDataGrid-row:hover": {
-                        background: `linear-gradient(180deg, ${theme.palette.custom.elevation3} 0%, ${theme.palette.action.hover} 100%, ${theme.palette.custom.elevation1} 100%), ${theme.palette.background.default}`,
+                        background: linearGradient([{name: theme.palette.custom.elevation3, percentage: 0}, {name: theme.palette.action.hover, percentage: 100}, {name: theme.palette.custom.elevation1, percentage: 100}], theme.palette.background.default)
                     },
                 }}
             >
