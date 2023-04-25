@@ -394,7 +394,7 @@ export function PositionsTabs({
             <Box borderBottom={1} borderColor="divider" pb={0.5}>
                 <TabList
                     onChange={handleTabChange}
-                    textColor={theme.palette.background.default}
+                    textColor="inherit"
                     indicatorColor={theme.palette.background.default}
                 >
                     <Tab label={<StakedPositionLabel />} value="1" sx={stakingTabClasses} />
