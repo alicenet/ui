@@ -1,17 +1,27 @@
 import { useContext, useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
-import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Chip, LinearProgress, Tab, Typography } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { TabContext, TabList } from "@mui/lab";
 import { BalanceContext, commonEthRequests } from "alice-ui-common";
 import { formatNumberToLocale } from "utils/number";
 import { symbols } from "config";
 import ethAdapter from "eth-adapter";
-import { claimLockedRewards, unlockLockedPosition, unlockLockedPositionEarly } from "pages/Transactions/transactionFunctions";
-import { CountBubble } from "components";
+import {
+    claimLockedRewards,
+    unlockLockedPosition,
+    unlockLockedPositionEarly,
+} from "pages/Transactions/transactionFunctions";
+import { CountBubble, PositionsTabPanel } from "components";
 
-export function PositionsTabs({transacting, setTransacting, setUnstakePosition, setSnackbarOpen, setSnackbarMessage, setSnackbarAutoHideDuration}) {
-    const { balances, positions = {}, updateBalances } = useContext(BalanceContext);
+export function PositionsTabs({
+    transacting,
+    setTransacting,
+    setUnstakePosition,
+    setSnackbarOpen,
+    setSnackbarMessage,
+    setSnackbarAutoHideDuration,
+}) {
+    const { positions = {}, updateBalances } = useContext(BalanceContext);
     const hasLockedPosition = positions?.lockedPosition?.value?.tokenId !== "0";
     const lockedPosition = hasLockedPosition ? positions?.lockedPosition?.value : {};
 
@@ -283,7 +293,7 @@ export function PositionsTabs({transacting, setTransacting, setUnstakePosition, 
             sortable: false,
             showColumnRightBorder: false,
             headerClassName: "headerClass",
-            renderCell: (params) => (
+            renderCell: () => (
                 <Box sx={{ display: "flex" }}>
                     <Button
                         variant="contained"
@@ -366,53 +376,6 @@ export function PositionsTabs({transacting, setTransacting, setUnstakePosition, 
         positionTabClasses = { ...currentClasses, ...positionTabClasses };
     }
 
-    const boxStyles = {
-        background: `linear-gradient(
-            180deg,
-            ${theme.palette.custom.elevation12} 0%,
-            ${theme.palette.custom.elevation12} 100%
-        ), ${theme.palette.background.default}`,
-        padding: 2,
-        borderRadius: 1,
-        "& .even": {
-            background: `linear-gradient(
-                180deg, ${theme.palette.custom.elevation3} 0%,
-                ${theme.palette.action.hover} 100%,
-                ${theme.palette.custom.elevation1} 100%
-            ), ${theme.palette.background.default}`,
-        },
-        "& .customRow": {
-            fontFamily: theme.typography.subtitle1.fontFamily,
-            borderRadius: 1,
-        },
-        "& .headerClass": {
-            fontFamily: "JetBrains Mono",
-        },
-        "& .MuiDataGrid-cell:focus-within": {
-            outline: "none",
-        },
-        "& .odd.MuiDataGrid-row:hover": {
-            background: `linear-gradient(
-                180deg, ${theme.palette.custom.elevation12} 0%,
-                ${theme.palette.custom.elevation12} 100%
-            ), ${theme.palette.background.default}`,
-        },
-        "& .even.MuiDataGrid-row:hover": {
-            background: `linear-gradient(
-                180deg, ${theme.palette.custom.elevation3} 0%,
-                ${theme.palette.action.hover} 100%,
-                ${theme.palette.custom.elevation1} 100%
-            ), ${theme.palette.background.default}`,
-        },
-    };
-
-    function formattedAlcaBalance() {
-        if (balances.alca.error || balances.alca.value === "n/a")
-            return "n/a";
-
-        return formatNumberToLocale(balances.alca.value);
-    }
-
     function StakedPositionLabel() {
         return (
             <Box display="flex" alignItems="center">
@@ -428,81 +391,30 @@ export function PositionsTabs({transacting, setTransacting, setUnstakePosition, 
 
     return (
         <TabContext value={currentTab}>
-
             <Box borderBottom={1} borderColor="divider" pb={0.5}>
-
                 <TabList
                     onChange={handleTabChange}
-                    textColor={theme.palette.background.default}
+                    textColor="inherit"
                     indicatorColor={theme.palette.background.default}
                 >
                     <Tab label={<StakedPositionLabel />} value="1" sx={stakingTabClasses} />
                     {hasLockedPosition && <Tab label="Locked Position" value="2" sx={positionTabClasses} />}
                 </TabList>
-
             </Box>
 
-            <TabPanel value="1" sx={{ padding: 0 }}>
+            <PositionsTabPanel
+                value="1"
+                rows={stakedPositionsRows}
+                columns={stakedPositionsColumns}
+                hideFooterPagination={stakedPositionsRows && stakedPositionsRows.length === 0}
+            />
 
-                <Box sx={boxStyles}>
-
-                    <Box mb={1} pb={1.5} borderBottom={"1px solid #555"}>
-                        <Typography variant="subtitle2">
-                            Current ALCA Balance
-                        </Typography>
-                        <Typography variant="h5">{formattedAlcaBalance()} ALCA</Typography>
-                    </Box>
-
-                    <DataGrid
-                        autoPageSize
-                        autoHeight
-                        disableSelectionOnClick
-                        disableColumnMenu
-                        pageSize={10}
-                        rows={stakedPositionsRows}
-                        columns={stakedPositionsColumns}
-                        rowHeight={72}
-                        hideFooterPagination={stakedPositionsRows && stakedPositionsRows.length === 0}
-                        getRowClassName={(params) =>
-                            params.indexRelativeToCurrentPage % 2 === 0  ? "customRow even" : "customRow odd"
-                        }
-                        sx={{ fontSize: 14 }}
-                    />
-                </Box>
-
-            </TabPanel>
-
-            <TabPanel value="2" sx={{ padding: 0 }}>
-
-                <Box sx={boxStyles}>
-
-                    <Box mb={1} pb={1.5} borderBottom="1px solid #555">
-                        <Typography variant="subtitle2">
-                            Current ALCA Balance
-                        </Typography>
-                        <Typography variant="h5">{formattedAlcaBalance()} ALCA</Typography>
-                    </Box>
-
-                    <DataGrid
-                        autoPageSize
-                        autoHeight
-                        disableSelectionOnClick
-                        disableColumnMenu
-                        pageSize={10}
-                        rows={lockedPositionsRows}
-                        columns={lockedPositionsColumns}
-                        hideFooterPagination={true}
-                        rowHeight={72}
-                        getRowClassName={(params) =>
-                            params.indexRelativeToCurrentPage % 2 === 0  ? "customRow even" : "customRow odd"
-                        }
-                        sx={{ fontSize: 14 }}
-                    />
-
-                </Box>
-
-            </TabPanel>
-
+            <PositionsTabPanel
+                value="2"
+                rows={lockedPositionsRows}
+                columns={lockedPositionsColumns}
+                hideFooterPagination={true}
+            />
         </TabContext>
     );
 }
