@@ -656,6 +656,21 @@ export function Transactions() {
                 </Grid>
             )}
 
+            <Box
+                width="100%"
+                px={2}
+                py={1.5}
+                sx={columnTwoTitleBoxSx}
+                onClick={() => {
+                    setActiveColumn(2);
+                }}
+            >
+                <Typography display="flex" sx={onlyStakingHeaderStyles}>
+                    {renderColumnNumber()}
+                    Staking {isLockupPeriod && "& Lockup"} {symbols.ALCA}
+                </Typography>
+            </Box>
+
             <Grid
                 item
                 xs={hideMigrationPanel ? 12 : 8}
@@ -664,19 +679,6 @@ export function Transactions() {
                 flexDirection="column"
                 sx={columnTwoContainer}
             >
-                <Box
-                    px={2}
-                    py={1.5}
-                    sx={columnTwoTitleBoxSx}
-                    onClick={() => {
-                        setActiveColumn(2);
-                    }}
-                >
-                    <Typography display="flex" sx={onlyStakingHeaderStyles}>
-                        {renderColumnNumber()}
-                        Staking {isLockupPeriod && "& Lockup"} {symbols.ALCA}
-                    </Typography>
-                </Box>
 
                 <Box p={2} flex={1} sx={columnTwoBoxSx}>
                     <Typography variant="subtitle2">

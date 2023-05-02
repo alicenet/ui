@@ -6,6 +6,8 @@ export * from "./Debug";
 export * from "./HelpDropdown";
 export * from "./NavigationBar";
 export * from "./Page";
+export * from "./PositionsTabPanel";
+export * from "./PositionsTabs";
 export * from "./SnackbarMessage";
 export * from "./SubNavigation";
 export * from "./Web3NetworkMenu";

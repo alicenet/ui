@@ -8,10 +8,7 @@ export function ConfirmUnstakeModal({ unstakePosition, onClose, handleUnstake })
 
     const ModalHeader = () => (
         <>
-            <Box
-                sx={{ display: "flex", justifyContent: "end", fontWeight: "bold", cursor: "pointer" }}
-                onClick={onClose}
-            >
+            <Box display="flex" justifyContent="end" fontWeight="bold" cursor="pointer" onClick={onClose}>
                 X
             </Box>
             <Typography id="modal-title" variant="h5" component="h2">
@@ -21,7 +18,7 @@ export function ConfirmUnstakeModal({ unstakePosition, onClose, handleUnstake })
     );
 
     const ModalContent = () => (
-        <Box sx={{ my: 2 }}>
+        <Box my={2}>
             <Typography variant="p">
                 You are unstaking <b>{unstakePosition.amount} ALCA</b> with{" "}
                 <b>rewards of {unstakePosition.rewards || "0"}.</b> Rewards will be sent automatically to your wallet.
@@ -31,25 +28,27 @@ export function ConfirmUnstakeModal({ unstakePosition, onClose, handleUnstake })
 
     const ModalActions = () => {
         return (
-            <Box sx={{ display: "flex", mt: 2, justifyContent: "end", width: "100%", gap: 2 }}>
-                <Button size="large" color="primary" disableRipple onClick={onClose}>
-                    Close
-                </Button>
-                <Button
-                    size="large"
-                    variant="contained"
-                    color="primary"
-                    disableRipple
-                    onClick={() => handleUnstake(unstakePosition.id)}
-                >
-                    Unstake Position
-                </Button>
+            <Box position="absolute" bottom={0} width="100%">
+                <Box display="flex" justifyContent="end" mt={2} width="100%" gap={2}>
+                    <Button size="large" color="primary" disableRipple onClick={onClose}>
+                        Close
+                    </Button>
+                    <Button
+                        size="large"
+                        variant="contained"
+                        color="primary"
+                        disableRipple
+                        onClick={() => handleUnstake(unstakePosition.id)}
+                    >
+                        Unstake Position
+                    </Button>
+                </Box>
             </Box>
         );
     };
 
     return (
-        <Modal open={isModalOpen} onClose={onClose} aria-labelledby="modal-title" aria-describedby="modal-description">
+        <Modal open={isModalOpen} onClose={onClose}>
             <Paper
                 sx={{
                     position: "absolute",
@@ -67,12 +66,10 @@ export function ConfirmUnstakeModal({ unstakePosition, onClose, handleUnstake })
                     borderColor: theme.palette.primary.main,
                 }}
             >
-                <Box sx={{ position: "relative", display: "flex", height: "100%", flexFlow: "column" }}>
+                <Box display="flex" position="relative" height="100%" flexDirection="column">
                     <ModalHeader />
                     <ModalContent />
-                    <Box sx={{ position: "absolute", bottom: 0, width: "100%" }}>
-                        <ModalActions />
-                    </Box>
+                    <ModalActions />
                 </Box>
             </Paper>
         </Modal>
