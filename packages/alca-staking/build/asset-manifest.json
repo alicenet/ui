@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.48725f33.css",
+    "main.js": "/static/js/main.7a1117f6.js",
+    "static/media/JetBrainsMono-BoldItalic.ttf": "/static/media/JetBrainsMono-BoldItalic.de93209f4ba076735662.ttf",
+    "static/media/JetBrainsMono-Bold.ttf": "/static/media/JetBrainsMono-Bold.06bb09be120e8b604064.ttf",
+    "static/media/JetBrainsMono-Italic.ttf": "/static/media/JetBrainsMono-Italic.be0a379519de53f8f626.ttf",
+    "static/media/JetBrainsMono-Regular.ttf": "/static/media/JetBrainsMono-Regular.93b40005892466035ab0.ttf",
+    "static/media/JetBrainsMono-BoldItalic.woff2": "/static/media/JetBrainsMono-BoldItalic.c8aab241a20a44900acc.woff2",
+    "static/media/JetBrainsMono-Italic.woff2": "/static/media/JetBrainsMono-Italic.6fd32a4a78fbf9eb0d3a.woff2",
+    "static/media/JetBrainsMono-Bold.woff2": "/static/media/JetBrainsMono-Bold.75885bf04057d4697ae5.woff2",
+    "static/media/JetBrainsMono-Regular.woff2": "/static/media/JetBrainsMono-Regular.1d9e47ce7f6576ce7bae.woff2",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.48725f33.css",
+    "static/js/main.7a1117f6.js"
+  ]
+}

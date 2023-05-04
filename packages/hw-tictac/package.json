@@ -1,0 +1,16 @@
+{
+    "name": "hw-tictac",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "pnpm exec react-scripts start",
+        "build": "pnpm exec react-scripts build",
+        "test": "pnpm exec react-scripts test",
+        "eject": "pnpm exec react-scripts eject"
+    },
+    "browserslist": [
+        ">0.2%",
+       "not dead",
+       "not op_mini all"
+     ]
+}

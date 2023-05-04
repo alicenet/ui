@@ -1,0 +1,39 @@
+@font-face {
+    font-family: "JetBrains";
+    src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2"), url("../fonts/JetBrainsMono-Regular.ttf") format("ttf");
+}
+
+@font-face {
+    font-family: "JetBrains";
+    src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2"), url("../fonts/JetBrainsMono-Bold.ttf") format("ttf");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "JetBrains";
+    src: url("../fonts/JetBrainsMono-Italic.woff2") format("woff2"), url("../fonts/JetBrainsMono-Italic.ttf") format("ttf");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "JetBrains";
+    src: url("../fonts/JetBrainsMono-BoldItalic.woff2") format("woff2"), url("../fonts/JetBrainsMono-BoldItalic.ttf") format("ttf");
+    font-weight: 700;
+    font-style: italic;
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "JetBrains", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+        "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: auto;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
