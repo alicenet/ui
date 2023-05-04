@@ -65,4 +65,4 @@ __All commits to staging are considered staging ready__ and automatically deploy
 
 ### Current Application Endpoints :scroll:
 
-TBD on Netlify migration to monorepop
+TBD on Netlify migration to monorepop\nbuildtest
