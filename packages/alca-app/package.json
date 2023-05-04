@@ -1,0 +1,26 @@
+{
+    "name": "alca-app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "GENERATE_SOURCEMAP=false pnpm exec react-scripts start",
+        "build": "GENERATE_SOURCEMAP=false pnpm exec react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "dependencies": {
+        "react-router-dom": "^6.4.3"
+    }
+}
