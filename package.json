@@ -64,7 +64,7 @@
         "build-boiler": "yarn --cwd ui-boilerplate build",
         "start-alca": "pnpm exec ethpst; pnpm exec lerna run start --scope=alca-app",
         "build-alca": "npx ethpst; cd alca-app; yarn build",
-        "build-alca-netlify": "pnpm i; pnpm exec ethpst; pnpm exec lerna run build --scope=alca-app",
+        "build-alca-netlify": "pnpm i; pnpm exec ethpst; pnpm exec lerna run build --scope=alca-app --verbose",
         "start-tictac": "cd hw-tictac; yarn start",
         "build-tictac": "cd hw-tictac; yarn build",
         "build-tictac-netlify": "yarn; yarn --cwd alca-app build"
