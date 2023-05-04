@@ -61,7 +61,7 @@
         "build-stake": "pnpm exec ethpst; pnpm exec lerna run build --scope=alca-staking",
         "build-stake-netlify": "pnpm i; pnpm exec ethpst; pnpm exec lerna run build --scope=alca-staking",
         "start-boiler": "pnpm exec lerna run start --scope=ui-boilerblater",
-        "build-boiler": "pnpm exec lerna run build --scp[e=ui-boilerplate",
+        "build-boiler": "pnpm exec lerna run build --scope=ui-boilerplate",
         "start-alca": "pnpm exec ethpst; pnpm exec lerna run start --scope=alca-app",
         "build-alca": "pnpm exec ethpst; pnpm exec lerna run start --scope=alca-app",
         "build-alca-netlify": "pnpm i; pnpm exec ethpst; pnpm exec lerna run build --scope=alca-app --verbose",

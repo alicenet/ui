@@ -14,7 +14,10 @@ export function ConnectWeb3Button() {
 
     return (
         <Box>
-            <Typography sx={{ fontWeight: 800, color: theme.palette.secondary.secondary }} onClick={() => ethAdapter.connectToWeb3Wallet()}>
+            <Typography
+                sx={{ fontWeight: 800, color: theme.palette.secondary.secondary }}
+                onClick={() => ethAdapter.connectToWeb3Wallet()}
+            >
                 {web3Connected ? <>{splitStringWithEllipses(web3Accounts[0], 5)}</> : <>Connect</>}
             </Typography>
         </Box>
