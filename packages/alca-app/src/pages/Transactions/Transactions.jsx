@@ -3,7 +3,6 @@ import { symbols } from "config";
 import { BalanceContext } from "alice-ui-common";
 import { sx } from "utils/sx";
 import { ethers } from "ethers";
-import { useTheme } from "@emotion/react";
 import {
     Box,
     Grid,
@@ -27,6 +26,7 @@ import {
     CircularProgress,
     Fade,
     tableCellClasses,
+    useTheme
 } from "@mui/material";
 import { ChevronRight, InfoOutlined, LooksOne, LooksTwo } from "@mui/icons-material";
 import { ConnectWeb3Button, Page, SubNavigation } from "components";

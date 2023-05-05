@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { useTheme } from "@emotion/react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { TabPanel } from "@mui/lab";
 import { BalanceContext } from "alice-ui-common";
 import { formatNumberToLocale } from "utils/number";

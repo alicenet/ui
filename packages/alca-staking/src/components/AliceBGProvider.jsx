@@ -1,5 +1,4 @@
-import { useTheme } from "@emotion/react";
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { Container } from "@mui/system";
 import { AliceBlocksBasilFix } from "logo_svg/AliceBlocksBasilFix";
 

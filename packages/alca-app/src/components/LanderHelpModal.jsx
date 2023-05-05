@@ -14,11 +14,11 @@ import {
     Link,
     Checkbox,
     FormControlLabel,
+    useTheme
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanderModalOpenState } from "redux/actions/application";
 import { ChevronLeft, ChevronRight, Circle } from "@mui/icons-material";
-import { useTheme } from "@emotion/react";
 import { configuration } from "config";
 import { useModalCookie } from "hooks/useModalCookie";
 import { useTosCookie } from "hooks/useTosCookie";

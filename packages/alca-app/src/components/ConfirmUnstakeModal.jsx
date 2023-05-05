@@ -1,6 +1,5 @@
 import React from "react";
-import { Modal, Box, Typography, Paper, Button } from "@mui/material";
-import { useTheme } from "@emotion/react";
+import { Modal, Box, Typography, Paper, Button, useTheme } from "@mui/material";
 
 export function ConfirmUnstakeModal({ unstakePosition, onClose, handleUnstake }) {
     const isModalOpen = Boolean(unstakePosition);
