@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Link } from "@mui/material";
-import { useTheme } from "@emotion/react";
+import { Box, Link, useTheme } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
 import { PAGES } from "pages/routes";
 import { BalanceContext } from "alice-ui-common";

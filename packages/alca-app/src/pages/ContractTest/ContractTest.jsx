@@ -1,7 +1,6 @@
 import React from "react";
-import { useTheme } from "@emotion/react";
 import ethAdapter from "eth-adapter";
-import { Button, CircularProgress, TextField, Typography } from "@mui/material";
+import { Button, CircularProgress, TextField, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import Grid2 from "@mui/material/Unstable_Grid2"; // Grid version 2
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Box, Toolbar, IconButton, Link, Menu, MenuItem, Container } from "@mui/material";
+import { Box, Toolbar, IconButton, Link, Menu, MenuItem, Container, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useTheme } from "@emotion/react";
 import { configuration } from "config";
 import { useSelector } from "react-redux";
 import ethAdapter from "eth-adapter";

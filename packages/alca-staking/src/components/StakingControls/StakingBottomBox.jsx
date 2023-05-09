@@ -1,5 +1,4 @@
-import { useTheme } from "@emotion/react";
-import { Box, TextField, Typography, Slider, Button, InputAdornment } from "@mui/material";
+import { Box, TextField, Typography, Slider, Button, InputAdornment, useTheme } from "@mui/material";
 
 export function StakingBottomBox({ stakeAmt, setStakeAmt, alcaBalance, setMax, style }) {
     const theme = useTheme();

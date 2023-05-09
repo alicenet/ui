@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useTheme } from "@emotion/react";
-import { Box, Button, Chip, LinearProgress, Tab, Typography } from "@mui/material";
+import { Box, Button, Chip, LinearProgress, Tab, Typography, useTheme } from "@mui/material";
 import { TabContext, TabList } from "@mui/lab";
 import { BalanceContext, commonEthRequests } from "alice-ui-common";
 import { formatNumberToLocale } from "utils/number";

@@ -1,5 +1,4 @@
-import { useTheme } from "@emotion/react";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, useTheme } from "@mui/material";
 import ethAdapter from "eth-adapter";
 import { useSelector } from "react-redux";
 import { splitStringWithEllipses } from "utils/string";

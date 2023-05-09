@@ -1,8 +1,7 @@
 import React from "react";
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem } from "@mui/material";
+import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useSelector } from "react-redux";
-import { useTheme } from "@emotion/react";
 import { ConnectWeb3Button } from "./ConnectWeb3Button";
 import { configuration } from "config";
 import ethAdapter from "eth-adapter";
