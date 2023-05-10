@@ -295,7 +295,7 @@ export function Transactions() {
         // Lock ~== an op, always append as 2nd or 3rd operation
         const twoOps = !!Number(stakeAlcaAmount) && !!Number(madToAlca);
         const threeOps = twoOps && lockupStakePosition;
-        const operationOneIsStake = twoOps ? false : Number(stakeAlcaAmount) > 0 ? true : false;
+        const operationOneIsStake = !twoOps && Number(stakeAlcaAmount) > 0;
 
         const determineFunction = () => {
             const functionParams = {
@@ -656,21 +656,6 @@ export function Transactions() {
                 </Grid>
             )}
 
-            <Box
-                width="100%"
-                px={2}
-                py={1.5}
-                sx={columnTwoTitleBoxSx}
-                onClick={() => {
-                    setActiveColumn(2);
-                }}
-            >
-                <Typography display="flex" sx={onlyStakingHeaderStyles}>
-                    {renderColumnNumber()}
-                    Staking {isLockupPeriod && "& Lockup"} {symbols.ALCA}
-                </Typography>
-            </Box>
-
             <Grid
                 item
                 xs={hideMigrationPanel ? 12 : 8}
@@ -679,6 +664,19 @@ export function Transactions() {
                 flexDirection="column"
                 sx={columnTwoContainer}
             >
+                <Box
+                    px={2}
+                    py={1.5}
+                    sx={columnTwoTitleBoxSx}
+                    onClick={() => {
+                        setActiveColumn(2);
+                    }}
+                >
+                    <Typography display="flex" sx={onlyStakingHeaderStyles}>
+                        {renderColumnNumber()}
+                        Staking {isLockupPeriod && "& Lockup"} {symbols.ALCA}
+                    </Typography>
+                </Box>
                 <Box p={2} flex={1} sx={columnTwoBoxSx}>
                     <Typography variant="subtitle2">
                         {madToAlca && madToAlca > 0 ? "Future" : "Current"} {symbols.ALCA} balance
