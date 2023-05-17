@@ -1,0 +1,19 @@
+{
+    "name": "alca-staking",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "GENERATE_SOURCEMAP=false pnpm exec react-scripts start",
+        "build": "GENERATE_SOURCEMAP=false pnpm exec react-scripts build",
+        "test": "pnpm exec react-scripts test",
+        "eject": "pnpm exec react-scripts eject"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+    ],
+    "dependencies": {
+        "react-transition-group": "^4.4.5"
+    }
+}
