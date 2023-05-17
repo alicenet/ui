@@ -11,8 +11,8 @@
         "@mui/icons-material": "5.10.9",
         "@mui/lab": "^5.0.0-alpha.107",
         "@mui/material": "^5.10.13",
+        "@mui/system": "^5.12.3",
         "@mui/x-data-grid": "^5.17.11",
-        "@semantic-ui-react/css-patch": "1.0.0",
         "@testing-library/jest-dom": "5.16.1",
         "@testing-library/react": "12.1.2",
         "@testing-library/user-event": "13.5.0",
@@ -26,8 +26,9 @@
         "eslint-plugin-react": "^7.31.10",
         "eslint": "^8.26.0",
         "eth-adapter": "0.0.13",
-        "ethers": "5.5.3",
+        "ethers": "^5.7.2",
         "husky": "^8.0.0",
+        "lerna": "^6.6.1",
         "lint-staged": "^13.0.3",
         "prettier": "^2.7.1",
         "react-app-rewired": "^2.2.1",
@@ -41,15 +42,12 @@
         "redux-class-watcher": "github:ACatThatPrograms/redux-class-watcher",
         "redux-devtools-extension": "2.13.9",
         "redux-thunk": "2.4.1",
+        "redux": "^4.2.1",
         "sass": "1.54.5",
-        "semantic-ui-css": "2.4.1",
-        "semantic-ui-react": "2.0.4",
-        "tailwindcss": "3.0.15",
         "web-vitals": "2.1.3"
     },
     "resolutions": {
-        "nth-check": "2.0.1",
-        "postcss": "8.4.5"
+        "nth-check": "2.0.1"
     },
     "eslintConfig": {
         "extends": [
@@ -59,18 +57,17 @@
     },
     "scripts": {
         "prepare": "husky install",
-        "postinstall": "semantic-ui-css-patch",
-        "start-stake": "npx ethpst; cd alca-staking; yarn start",
-        "build-stake": "npx ethpst; cd alca-staking; yarn build",
-        "build-stake-netlify": "yarn; npx ethpst; yarn --cwd alca-staking build",
-        "start-boiler": "yarn --cwd ui-boilerplate start",
-        "build-boiler": "yarn --cwd ui-boilerplate build",
-        "start-alca": "npx ethpst; cd alca-app; yarn start",
-        "build-alca": "npx ethpst; cd alca-app; yarn build",
-        "build-alca-netlify": "yarn; npx ethpst; yarn --cwd alca-app build",
-        "start-tictac": "cd hw-tictac; yarn start",
-        "build-tictac": "cd hw-tictac; yarn build",
-        "build-tictac-netlify": "yarn; yarn --cwd alca-app build"
+        "start-stake": "pnpm exec ethpst; pnpm exec lerna run start --scope=alca-staking",
+        "build-stake": "pnpm exec ethpst; pnpm exec lerna run build --scope=alca-staking",
+        "build-stake-netlify": "pnpm i; pnpm exec ethpst; pnpm exec lerna run build --scope=alca-staking",
+        "start-boiler": "pnpm exec lerna run start --scope=ui-boilerblater",
+        "build-boiler": "pnpm exec lerna run build --scope=ui-boilerplate",
+        "start-alca": "pnpm exec ethpst; pnpm exec lerna run start --scope=alca-app",
+        "build-alca": "pnpm exec ethpst; pnpm exec lerna run start --scope=alca-app",
+        "build-alca-netlify": "pnpm i; pnpm exec ethpst; pnpm exec lerna run build --scope=alca-app --verbose",
+        "start-tictac": "pnpm exec lerna run start --scope=hq-tictac",
+        "build-tictac": "pnpm exec lerna run start --scope=hw-tictac",
+        "build-tictac-netlify": "pnpm i; pnpm exec lerna run build --scope=hw-tictac"
     },
     "description": "Common alicenet/ui dependencies",
     "repository": {
@@ -82,11 +79,5 @@
     "bugs": {
         "url": "https://github.com/alicenet/ui/issues"
     },
-    "workspaces": [
-        "alca-migrate-ui",
-        "alca-staking-ui",
-        "alca-lockup-ui",
-        "ui-boilerplate"
-    ],
     "homepage": "https://github.com/alicenet/ui#readme"
 }

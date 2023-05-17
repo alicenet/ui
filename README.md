@@ -65,13 +65,4 @@ __All commits to staging are considered staging ready__ and automatically deploy
 
 ### Current Application Endpoints :scroll:
 
-TBD on Netlify migration to monorepop
-
-## Development Notes 
-
-### Ethereum Methods not updating after transpile 
-
-This occurs due to stale code in the webpack bundle and can be resolved as follows to force a re-bundle:
-
-Remove node_modules and wipe package-lock files and reinstall dependencies -- Next run should have updated methods.
-Alternatively you may need to clear npm cache's webpack/.cache files depending on your environment
+TBD on Netlify migration to monorepop\nbuildtest
