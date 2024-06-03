@@ -215,14 +215,11 @@ export function LanderHelpModal() {
         const MigrationContent = () => (
             <Box>
                 <Typography>
-                    Migration will be available to users who have existing{" "}
+                    Migration is available to users who have existing{" "}
                     <Link href={configuration.site.url_madTokenEtherScan} {...configuration.site.href_props}>
                         MADToken
                     </Link>{" "}
-                    in their wallet and can be staked right away, or held without staking.
-                    <br />
-                    <br />
-                    ALCA can be converted from MADToken at an exchange rate of 1.55555555556 ALCA per MAD.
+                    in their wallet and can be exchanges to ALCA at a 1:1 ratio.
                     <br />
                     <br />
                 </Typography>
