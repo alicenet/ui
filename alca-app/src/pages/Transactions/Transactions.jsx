@@ -618,7 +618,7 @@ export function Transactions() {
                         </Typography>
 
                         <Typography variant="body2" sx={{ fontSize: 16 }}>
-                            1 {symbols.MAD} Token ≈ 1.5556 {symbols.ALCA} Token
+                            1 {symbols.MAD} Token ≈ 1 {symbols.ALCA} Token
                         </Typography>
 
                         <Box columnGap={1} mt={3} mb={1}>
