@@ -58,7 +58,6 @@
         ]
     },
     "scripts": {
-        "prepare": "husky install",
         "postinstall": "semantic-ui-css-patch",
         "start-stake": "npx ethpst; cd alca-staking; yarn start",
         "build-stake": "npx ethpst; cd alca-staking; yarn build",
