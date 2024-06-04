@@ -647,7 +647,7 @@ export function Transactions() {
                         </Box>
 
                         <Typography variant="body2">
-                            you will recieve{" "}
+                            you will receive{" "}
                             <strong>
                                 {formatNumberToLocale(madToAlca)} {symbols.ALCA}
                             </strong>
