@@ -5,6 +5,10 @@ export const PAGES = [
     },
     {
         to: "/positions",
-        display: "Positions & Rewards",
+        display: "Positions",
+    },
+    {
+        to: "/alcb",
+        display: "ALCB",
     },
 ];

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
-import { Transactions, Positions } from "pages";
+import { Transactions, Positions, ALCB } from "pages";
 import { Debug } from "components";
 
 import { ThemeProvider } from "@mui/system";
@@ -19,6 +19,7 @@ export default function App() {
             <>
                 <Route path="/" element={<Transactions />} />
                 <Route path="positions" element={<Positions />} />
+                <Route path="/alcb" element={<ALCB />} />
             </>
         )
     );
@@ -44,7 +45,7 @@ export default function App() {
 
     // Production, require isLive
     if (configuration.site.environment.isProduction && !configuration.site.isLive) {
-        return <HoldOff/>;
+        return <HoldOff />;
     }
-    return <AppEntry/>;
+    return <AppEntry />;
 }

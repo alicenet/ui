@@ -1,4 +1,5 @@
 ## Contracts Below are for the eth-adapter transpiler - 0x0's will be populated using lookup() by the BalanceContext in alice-ui-common
+## These env variables still needs copied to the respective running application, they are just needed in all apps
 REACT_APP__FACTORY_CONTRACT_ADDRESS="0x77D7c620E3d913AA78a71acffA006fc1Ae178b66"
 REACT_APP__ALCA_CONTRACT_ADDRESS="0x0"
 REACT_APP__ALCB_CONTRACT_ADDRESS="0x0"

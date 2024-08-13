@@ -4,6 +4,16 @@
 
 It is a fairly straight-forward monorepo, however additional details are noted below for ease of use and configuration.
 
+## Quick Start - Running Alca App ( Main Application )
+
+1. Run `yarn init-app` to do the following:
+    - Copy dotenv => .env inside `alca-app`
+    - Copy dotenv => .env in root folder ( These are for shared environmets across multiple alicenet uis)
+    - Run `yarn` install at root
+2. Run `yarn start-alca`
+
+Warnings can be ignored -- If errors re-run `yarn install` at root folder and try `yarn start-alca` again.
+
 ## Repository Layout :broom:
 
 ### __General Files__

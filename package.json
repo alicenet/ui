@@ -58,6 +58,7 @@
         ]
     },
     "scripts": {
+        "init-app": "cp ./dotenv .env && cp ./alca-app/dotenv ./alca-app/.env && yarn",
         "prepare": "husky install",
         "postinstall": "semantic-ui-css-patch",
         "start-stake": "npx ethpst; cd alca-staking; yarn start",
@@ -83,9 +84,8 @@
         "url": "https://github.com/alicenet/ui/issues"
     },
     "workspaces": [
-        "alca-migrate-ui",
-        "alca-staking-ui",
-        "alca-lockup-ui",
+        "alca-app",
+        "alca-staking",
         "ui-boilerplate"
     ],
     "homepage": "https://github.com/alicenet/ui#readme"
