@@ -1,87 +1,144 @@
-# alice - ui
+## Base Web3 Application Boilerplate
 
-/ui is a collection of all alicenet user interfaces and is one of the primary repositories that will be worked on consistently
+This is a boilerplate for fleshing out web3 applications with the following goals in mind:
 
-It is a fairly straight-forward monorepo, however additional details are noted below for ease of use and configuration.
+-   Security through locking package files to known versions that pass known npm audit issues
 
-## Quick Start - Running Alca App ( Main Application )
+-   Reducing vulnerability in the dependency layer of 'web3' library by utilizing 'ethers.js'
 
-1. Run `yarn init-app` to do the following:
-    - Copy dotenv => .env inside `alca-app`
-    - Copy dotenv => .env in root folder ( These are for shared environmets across multiple alicenet uis)
-    - Run `yarn` install at root
-2. Run `yarn start-alca`
+-   Provide a quick to build with UI framework by using semantic-ui-react and tailwindcss
 
-Warnings can be ignored -- If errors re-run `yarn install` at root folder and try `yarn start-alca` again.
+-   Provide an ethAdapter class in eth/ for easily setting up smart contract interaction
 
-## Repository Layout :broom:
+## Quick Start ( NO CREATE2 deterministic address generation support )
 
-### __General Files__
-`/package.json` -- contains all shared dependencies  
-`/<project>/package.json` -- contains all unique dependencies (if applicable)  
-`/netlify.toml` -- contains all necessary CI/CD .env parameters*  
-`/ui-boilerblate` -- A UI boilerplate that should be used for all React/MUI web applications
+1. Add all contract artifacts to `/artifacts`
 
-##### * __Additional notes on the `netlify.toml` configuration__
-Currenty we are using a single netlify.toml, which means given sitegroup [x,y,z] any .env parameter for site x, will be available for sites y and z.  
+2. Add `REACT_APP__<CONTRACT_NAME>_CONTRACT_ADDRESS:<CONTRACT_ADDRESS>` for each contract to be used
 
-In the current state this is not posing as an issue as most env keys are not uniquely needed they are currently: company specific/application ambiguous contract addresses and RPC endpoints, and staging vs production deploy state.
+3. Run `npm start`
 
-If this poses an issue in the future we should investigate breaking this up, but it may pose as a problem due to the base install directory, to unify dependencies, is the `/` directory, not the `/ui/<project>` directory, in the latter case sublevel configurations are available. [See this conversation for more details](https://answers.netlify.com/t/multiple-netlify-toml-files-in-monorepo/6178/9)
+All necessary files will be generated on npm start for ES6 Exports
 
-### __Tidiness Configuration__ (Primarily self-explanatory)
-`/.lintstagedrc.json` -- Contains all pre-commit checks & configuration  
-`/.commitlint.config.js` -- Commit lint configuration  
-`/.prettierrc` -- Global project prettier config
+##### You can then call Contract Methods as follows:
 
-## Submitting Code :incoming_envelope:	
+`import ethAdapter, { CONTRACT_NAMES } from 'eth/ethAdapter'`
 
-The following segments contains guidelines and requirements for creating additional projects within this /ui monorepo as well as links to coding guidelines
+Once the ethAdapter instance is available use:
 
-### General Coding Guidelines/Expectations :warning:
+###### Read Only:
 
-Please follow the coding guidelines outlined [here](https://github.com/alicenet/ui/wiki/CodingGuidelines)
+`let res = await ethAdapter.tryCall(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )`
 
-### Creating new applications :new:
+###### Write Capable:
 
-New applications should clone the existing `/ui-boilerplate` folder unless an application requires something particularly custom in nature, to which it should be discussed with the team prior to creation.
+`let res = await ethAdapter.trySend(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )`
 
-### PRs :mag:	
+# TBD => Clean up detailed docs
 
-- All PRs for should be first made against `staging` in lieu of ongoing fires :fire:
+## Running
 
-- Only `staging` may merge to `main`
+##### It's as easy as 3 steps:
 
-#### __Standard review process__ :eyes:
+-   Configure contracts as defined in Configuring Contracts Below
 
-After inittial repoitory function has been established it is assumed the following requirements should take place for all forthcoming code requests:
+-   `npm i`
 
-- All PRs to `staging` must be reviewed by at least: 
-  - 1 [@lead](https://github.com/orgs/alicenet/teams/lead) or 2 [@core](https://github.com/orgs/alicenet/teams/core) engineers   
-- All PRs to `main` must be reviewed by at least: 
-  - 1 [@lead](https://github.com/orgs/alicenet/teams/lead) engineer
+-   `npm start`
 
-#### __Emergency PRs/Commits__ :fire_engine:
+## Configuring Contracts
 
-Mistakes happen and will generally be handled in tandem by 1 or more [@lead](https://github.com/orgs/alicenet/teams/lead) engineers and an accompanying [@core](https://github.com/orgs/alicenet/teams/core) engineer
+### Overview
 
-## CI / CD Pipeline :arrows_clockwise:	
+config/contracts.js has all code related to gathering contract name, address, and ABI information. The goal is to only require changes to one file and add ABI files as needed.
 
-We utilize https://netlify.com for all continuous deployment as follows:
+Once .env is updated and artifacts are placed in `artifacts/` you are good to go.
 
-__All commits to main are considered production ready__ and automatically deployed
+Optionally, you can also place the bytecode object into `bytecode/` if you wish to utilize no-call CREATE2 deterministic address generation as noted below.
 
-__All commits to staging are considered staging ready__ and automatically deployed
+#### The ".env" file.
 
-### Current Application Endpoints :scroll:
+In the project root exists a .env file, this is the one that needs edited.
 
-TBD on Netlify migration to monorepop
+At minimum it should contain the following environment variables per contract named as described below where your contract name and address fill <CONTRACT_NAME> and <CONTRACT_ADDRESS> respectively.
 
-## Development Notes 
+`REACT_APP__<CONTRACT_NAME>_CONTRACT_ADDRESS:<CONTRACT_ADDRESS>`
 
-### Ethereum Methods not updating after transpile 
+###### <OPTIONAL> if using CREATE2 and nocall deterministic address feature ( See "Adding bytecode" below ):
 
-This occurs due to stale code in the webpack bundle and can be resolved as follows to force a re-bundle:
+Also include:
 
-Remove node_modules and wipe package-lock files and reinstall dependencies -- Next run should have updated methods.
-Alternatively you may need to clear npm cache's webpack/.cache files depending on your environment
+`REACT_APP__FACTORY_CONTRACT_ADDRESS:<FACTORY_CONTRACT_ADDRESS>`
+
+And for each contract salt to be used respectively:
+
+`REACT_APP__<CREATE2_CONTRACT_NAME>_SALT: <CREATE2_CONTRACT_SALT>`
+
+#### Adding Artifacts ( ABI Extraction )
+
+The Artifacts should be added to the project root folder\* 'artifacts' as follows:
+
+`./artifacts/<CONTRACT_NAME>.json`
+
+###### \*Note this is the project root not src/
+
+These can be direct imports from the artifacts output of your compiler they just need to have _abi_ as an Object key somewhere in the object\*.
+
+\*_DO NOT_ supply an object with multiple ABI keys anywhere in the object, the transpile will most likely fail.
+
+###### See the example STORAGE files in `./artifacts` for an idea.
+
+Once Artifacts have been added, the following script needs to be run to compile the contract ABIs into parsed .js file code.
+This is done due to restrictions on ES6 File Imports, as we cannot import multiple files without 'fs' which is not available in React runtime/build sequence.
+
+Run: `npm run transpile-abi run`
+
+This transpiles the ABIs from the added artifact files into parseable ES6 syntax code in config/abis.js
+
+**This script is also ran automatically on npm run start**
+
+Though it can be beneficial to run it manually if you are making adjustments to the ABI on the fly.
+
+#### OPTIONAL: Adding Bytecode ( Supporting CREATE2 Deterministic Addresses )
+
+\_create2 deterministic addresses are also supported, however the factory address,, and both the bytecode, and salt _per contract_ must be noted for contracts to determine the addresses.
+
+The benefit of this method is that no polling needs to be done to obtain information about complex contract sets, and can be determined before an ethereum wallet is even connected.
+
+The Bytecode should be added to the project root folder\* 'bytecode' as follows:
+
+`./bytecode/<CONTRACT_NAME>.json` where the bytecode is within the 'object' key of the json data.
+
+###### \*Note this is the project root not src/
+
+** Please note that if both an address and bytecode are added, an error will throw if the deterministic address does not match the supplied address. **
+
+The bytecode can be easily obtained from remix.ethereum.org's compiler panel where Bytecode can be copied and pasted directly into a json file at the location noted.
+
+Once Bytecode has been added the following script must be run:
+
+Run: `npm run transpile-bytecode run`
+
+To transpile the ABIs from the added artifact files into parseable ES6 syntax code in config/bytecodes.js
+
+**This script is also ran automatically on npm run start**
+
+Though it can be beneficial to run it manually if you are making adjustments to on the fly.
+
+#### Calling methods on your contract
+
+After contracts have been added through the above methods, you're ready to call a contract method:
+
+A contract method can be called by importing ethAdapter via:
+
+`import ethAdapter, { CONTRACT_NAMES } from 'eth/ethAdapter'`
+
+Once the ethAdapter instance is available use:
+
+###### Read Only:
+
+`let res = await ethAdapter.tryCall(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )`
+
+###### Write Capable:
+
+`let res = await ethAdapter.trySend(CONTRACT_NAMES.<YOUR_CONTRACT>, <METHOD_NAME>, [<PARAMS>] )`
