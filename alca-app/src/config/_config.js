@@ -55,7 +55,7 @@ const site_configuration = {
     url_alcaTokenBlog: "https://medium.com/alicenet/announcing-alicenet-c904e99d4179",
     href_props: { target: "_blank", rel: "noopener noreferrer" },
     url_about: "https://medium.com/alicenet/introducing-alicenet-40b54474d2f2", // Link for about page
-    url_blockExplorer: "https://explorer.alice.net", // Link for the block explorer
+    url_blockExplorer: "https://block-explorer.prod.alice.net", // Link for the block explorer
     smartContracts: {
         //TODO verify smart contracts addresses
         ALCA: "Bb556b0eE2CBd89ed95DdEA881477723A3Aa8F8b",
